@@ -1,0 +1,29 @@
+name: Sync GitHub Labels
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/labels.yml'
+  workflow_dispatch:
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    
+    # This is the fix that grants the necessary permissions
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync labels
+        uses: micnncim/action-label-syncer@v1
+        with:
+          manifest: .github/labels.yml
+          prune: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

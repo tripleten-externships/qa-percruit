@@ -1,0 +1,10 @@
+# General
+.DS_Store
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# Root level build/deps
+/node_modules
