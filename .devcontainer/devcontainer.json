@@ -4,7 +4,8 @@
   "features": {
     "ghcr.io/devcontainers/features/python:1": {
       "version": "3.11"
-    }
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "customizations": {
     "vscode": {
@@ -13,7 +14,10 @@
         "ms-python.python",
         "esbenp.prettier-vscode",
         "alexkrechik.cucumberautocomplete",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker",
+        "MS-vsliveshare.vsliveshare"
       ]
     }
   },
