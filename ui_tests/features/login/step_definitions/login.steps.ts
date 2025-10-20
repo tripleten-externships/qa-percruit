@@ -8,7 +8,7 @@ import { StudentDashboardPage } from '../../../src/pages/student/StudentDashboar
 let page: Page;
 let browser: Browser;
 let loginPage: LoginPage;
-let studentDashboardPage: StudentDashboardPage
+let studentDashboardPage: StudentDashboardPage;
 
 Before(async () => {
   browser = await chromium.launch();
@@ -22,13 +22,19 @@ After(async () => {
 Given('I am on the Percruit homepage', async () => {
   await page.goto(env.getBaseUrl());
   loginPage = new LoginPage(page);
-  studentDashboardPage =  new StudentDashboardPage(page);
+  studentDashboardPage = new StudentDashboardPage(page);
 });
 
 When(
-  'I enter correct Student email and password and click on sign in button',
-  async () => {
-    await loginPage.loginAsStudent();
+  /I enter correct (.+) (?:email and password|credentials) and (?:click on sign in button|sign in|login)/,
+  async (userType) => {
+    if (userType === 'Student') {
+      await loginPage.loginAsStudent();
+    } else if (userType === 'Admin') {
+      await loginPage.loginAsAdmin();
+    } else if (userType === 'Mentor') {
+      await loginPage.loginAsMentor();
+    }
   }
 );
 

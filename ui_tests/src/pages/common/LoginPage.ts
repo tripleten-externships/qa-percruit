@@ -39,14 +39,10 @@ export class LoginPage {
   }
 
   async loginAsAdmin() {
-    const adminEmail = '';
-    const adminPassword = '';
-    await this.login(adminEmail, adminPassword);
+    await this.login(env.getAdminEmail(), env.getAdminPassword());
   }
   
   async loginAsMentor() {
-    const mentorEmail = '';
-    const mentorPassword = '';
-    await this.login(mentorEmail, mentorPassword);
+    await this.login(env.getMentorEmail(), env.getMentorPassword());
   }
 }
