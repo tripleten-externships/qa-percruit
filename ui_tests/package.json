@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
+    "test:stage": "ENV=stage cucumber-js",
+    "test:prod": "ENV=prod cucumber-js",
     "format": "prettier --write .",
     "prepare": "husky"
   },
@@ -14,12 +16,13 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@cucumber/cucumber": "^10.8.0",
+    "@cucumber/cucumber": "^12.2.0",
     "@playwright/test": "^1.45.0",
     "@types/node": "^20.14.9",
     "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "dotenv": "^16.3.1"
   }
 }
