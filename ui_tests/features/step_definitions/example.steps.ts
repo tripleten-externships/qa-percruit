@@ -27,7 +27,7 @@ When('I click the "Get started" link', async () => {
   const password = process.env.LOGIN_PASSWORD;
 
   // You can print them to check (remove this later)
-  console.log(`Using username: ${username}`);
+  //console.log(`Using username: ${username}`);
   
   // Example of using them (uncomment when you have a login test)
   // await page.getByLabel('Username').fill(username);
