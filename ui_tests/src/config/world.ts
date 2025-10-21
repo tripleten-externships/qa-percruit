@@ -12,11 +12,19 @@ export const ENV = getConfig(envName);
 // Using getters avoids issues where values are captured too early (before dotenv runs),
 // since these read process.env at call time.
 export function getStudentEmail(): string {
-	return process.env.STUDENT_EMAIL || '';
+	  const email = process.env.STUDENT_EMAIL;
+    if (!email) {
+        throw new Error('STUDENT_EMAIL environment variable is not set.');
+    }
+    return email;
 }
 
 export function getStudentPassword(): string {
-	return process.env.STUDENT_PASSWORD || '';
+  const password = process.env.STUDENT_PASSWORD;
+    if (!password) {
+        throw new Error('STUDENT_PASSWORD environment variable is not set.');
+    }
+	return password;
 }
 
 export function getMentorEmail(): string {

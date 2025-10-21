@@ -28,12 +28,21 @@ Given('I am on the Percruit homepage', async () => {
 When(
   /I enter correct (.+) (?:email and password|credentials) and (?:click on sign in button|sign in|login)/,
   async (userType) => {
-    if (userType === 'Student') {
-      await loginPage.loginAsStudent();
-    } else if (userType === 'Admin') {
-      await loginPage.loginAsAdmin();
-    } else if (userType === 'Mentor') {
-      await loginPage.loginAsMentor();
+    switch (userType) {
+      case 'Student':
+      case 'student':
+        await loginPage.loginAsStudent();
+        break;
+      case 'Admin':
+      case 'admin':
+        await loginPage.loginAsAdmin();
+        break;
+      case 'Mentor':
+      case 'mentor':
+        await loginPage.loginAsMentor();
+        break;
+      default:
+        throw new Error(`Unknown user type: ${userType}`);
     }
   }
 );
