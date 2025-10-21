@@ -29,14 +29,15 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
-    env:
-      STUDENT_EMAIL: ${{ secrets.STUDENT_EMAIL }}
-      STUDENT_PASSWORD: ${{ secrets.STUDENT_PASSWORD }}
-      ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      MENTOR_EMAIL: ${{ secrets.MENTOR_EMAIL }}
-      MENTOR_PASSWORD: ${{ secrets.MENTOR_PASSWORD }}
-      BASE_URL: ${{ secrets.BASE_URL }}
+      env:
+        STUDENT_EMAIL: ${{ secrets.STUDENT_EMAIL }}
+        STUDENT_PASSWORD: ${{ secrets.STUDENT_PASSWORD }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        MENTOR_EMAIL: ${{ secrets.MENTOR_EMAIL }}
+        MENTOR_PASSWORD: ${{ secrets.MENTOR_PASSWORD }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+    
       run: npm test
 
   api-tests:
