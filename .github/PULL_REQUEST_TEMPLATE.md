@@ -1,4 +1,6 @@
 ### Description
+
+
 ### Related Issue(s)
 * Closes #
 
@@ -11,8 +13,13 @@
 
 
 ### Risk Assessment
-* **Risk Level:** Low / Medium / High
+* **Risk Level:**
+- [ ] Low
+- [ ] Medium
+- [ ] High
+
 * **Potential Impact:** ### Testing Strategy & Evidence
+
 #### Manual Test Steps (if applicable)
 1. Go to page X.
 2. Click on button Y.
@@ -23,13 +30,21 @@
 - [ ] New automated test(s) have been added to cover this change.
 
 #### Test Environment
-* **Browser(s):** Chrome / Firefox / Safari
-* **OS:** macOS / Windows / Linux
-* **Device(s):** Desktop / Mobile (please specify)
+* **Browser(s):
+- [ ] Chrome / Chromium
+- [ ] Firefox 
+- [ ] Safari / Webkit
+
+
+
+* **OS:** macOS / Windows
+
 
 #### Screenshots or Videos
+
 ### Checklist
 - [ ] I have performed a self-review of my own code.
 - [ ] My changes are small, focused, and address a single issue.
 - [ ] I have tested my changes on the specified environments.
 - [ ] My tests cover both "happy path" and relevant edge cases.
+- [ ] I have updated the choices above where applicable.
