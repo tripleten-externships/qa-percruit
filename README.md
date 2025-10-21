@@ -14,7 +14,7 @@ This is the fastest and most reliable way to get started.
 2.  **Wait for Setup:** The container will build automatically. This might take a few minutes the first time.
 3.  **Run the Tests!** Once the VS Code editor loads, open a new terminal (`Ctrl` + `~`) and run the sample tests to confirm everything works:
 * The dev container automatically installs everything you need.
-    * Copy .env.template to .env and change the secret values(email/password) as required
+    * Copy `.env.example` to `.env` and change the secret values (email/password) as required. `.env` is ignored by git.
     * Open a new terminal in VS Code (`Ctrl` + `~`).
     * **To run UI tests:**
         ```bash
