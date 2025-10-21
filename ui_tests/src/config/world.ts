@@ -16,6 +16,7 @@ export function getStudentEmail(): string {
     if (!email) {
         throw new Error('STUDENT_EMAIL environment variable is not set.');
     }
+    console.log('Using Student for testing:' + email);
     return email;
 }
 

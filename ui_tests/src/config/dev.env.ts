@@ -1,6 +1,6 @@
 export const CONFIG = {
   envName: 'development',
-  baseUrl: 'https://dev.percruit.com/',
+  baseUrl: 'https://stage.tripleten.percruit.com/',
   headless: false,
   defaultTimeout: 30000
 };
