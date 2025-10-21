@@ -4,7 +4,7 @@
   "description": "UI tests using Playwright, TypeScript, and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js",
+    "test": "cucumber-js --require-module dotenv/config",
     "format": "prettier --write .",
     "prepare": "husky"
   },
