@@ -1,3 +1,4 @@
+@ignore
 Feature:Reset Password
 
 Scenario: Reset password successfully

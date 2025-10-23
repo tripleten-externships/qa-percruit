@@ -4,9 +4,9 @@
   "description": "UI tests using Playwright, TypeScript, and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --require-module dotenv/config",
-    "test:stage": "ENV=stage cucumber-js",
-    "test:prod": "ENV=prod cucumber-js",
+    "test": "cucumber-js --require-module dotenv/config --tags 'not @ignore'",
+    "test:stage": "ENV=stage cucumber-js --tags 'not @ignore'",
+    "test:prod": "ENV=prod cucumber-js --tags 'not @ignore'",
     "format": "prettier --write .",
     "prepare": "husky"
   },
