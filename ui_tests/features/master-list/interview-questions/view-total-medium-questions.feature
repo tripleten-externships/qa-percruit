@@ -5,7 +5,6 @@ Feature: View total medium questions stat card
 
   Background:
     Given I am logged in as an admin
-    And I am on the Interview Questions Manager page
 
   @smoke
   Scenario: Medium stat card displays correct count
