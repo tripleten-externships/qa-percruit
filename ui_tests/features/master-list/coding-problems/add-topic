@@ -8,6 +8,6 @@ Background:
   And I am on the "Coding Problems" page
 
   @smoke
-  Scenario: The "Admin" is successfuly able to create a new topic
+  Scenario: The "Admin" is successfully able to create a new topic
     When I add a new topic with valid information
-    Then I should see a new topic added successfuly
+    Then I should see a new topic added successfully
