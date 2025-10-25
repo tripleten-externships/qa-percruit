@@ -10,3 +10,11 @@ Feature: View total easy questions stat card
   Scenario: Easy stat card displays correct count
     When I navigate to the Interview Questions Manager page
     Then I should see the Easy stat card showing the correct count of easy questions
+
+  Scenario: Easy stat card updates when a question is added
+    When I add a new easy difficulty question
+    Then the Easy stat card should show the updated count
+
+  Scenario: Easy stat card updates when a question is removed
+    When I remove a easy difficulty question
+    Then the Easy stat card should show the updated count

@@ -10,3 +10,11 @@ Feature: View total questions stat card
   Scenario: Total Questions stat card displays correct count
     When I navigate to the Interview Questions Manager page
     Then I should see the Total Questions stat card showing the correct total count of questions
+
+  Scenario: Total Questions stat card updates when a question is added
+    When I add a new question
+    Then the Total Questions stat card should show the updated count
+
+  Scenario: Total Questions stat card updates when a question is removed
+    When I remove a question
+    Then the Total Questions stat card should show the updated count
