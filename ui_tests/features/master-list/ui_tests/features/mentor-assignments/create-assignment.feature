@@ -1,26 +1,24 @@
-Feature: Mentor-student asignment
+Feature: Mentor-Student Assignment
 
-    Feature Description
-    As an admin user I want to create a mentor-student assignment
-  
-  Background:
-    Given the admin is logged into the system
-    And the admin is on the Mentor Assignment page
+  As an admin user
+  I want to create a mentor-student assignment
+  So that each student is properly linked to a mentor
 
-  Scenario: Successfully create a mentor-student assignment
-    When the admin clicks on the "Create Assignment" button
-    And selects a student from the available student list
-    And selects a mentor from the available mentor list
-    And clicks the "Create Assignment" button
-    Then the system should display a success message "Assignment created successfully"
-    And the new assignment should appear in the assignments list
-    And the assignment should show the correct mentor and student names
+  Scenario: Successful creation of a mentor-student assignment
+    Given “Admin” is logged into the system
+    And “Admin” is on the Mentor Assignment page
+    And “Admin” selects “Student” from the student list
+    And “Admin” selects “Mentor” from the mentor list
+    When “Admin” clicks the “Create Assignment” button
+    Then the system displays a “Assignment created successfully” message
+    And the new assignment appears in the list showing “Mentor” and “Student”
 
-
-    Scenario: Attempt to create an assignment without selecting a mentor
-    When the admin clicks on the "Create Assignment" button
+  Scenario: Failed creation due to missing mentor selection
+    Given “Admin Jane” is logged into the system
+    And “Admin Jane” is on the Mentor Assignment page
+    And “Admin Jane” selects “Student Alex” from the student list
     And leaves the mentor field blank
-    And selects a student
-    And clicks the "Create Assignment" button
-    Then the system should not allow assignment
+    When “Admin Jane” clicks the “Create Assignment” button
+    Then the system prevents the creation of the assignment
+    And displays a “Mentor selection required” message
 
