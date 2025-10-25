@@ -15,7 +15,7 @@ Feature: Mentor-Student Assignment
   Scenario: Failed creation due to missing mentor selection
     Given “Admin” is logged into the system
     And “Admin” is on the Mentor Assignment page
-    And “Admin” selects “Student Alex” from the student list
+    And “Admin” selects “Student” from the student list
     And leaves the mentor field blank
     When “Admin” clicks the “Create Assignment” button
     Then the system prevents the creation of the assignment
