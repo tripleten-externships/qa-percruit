@@ -5,6 +5,7 @@ Feature: Real-time Activity Tab
 
   @ui @realtime
   Scenario: Verify Real-time Activity tab loads correctly
-    Given I am on the Dashboard page
-    When I click on the "Real-time Activity" tab
+    Given I am on the Admin Dashboard page
+    When I click on the "Usage Metrics" option
+    And I click on the "Real-time Activity" tab
     Then I should see the Real-time Activity tab content loaded successfully
