@@ -1,0 +1,13 @@
+@wip
+Feature: Adding new coding category
+  As an "Admin"
+  I want to create a new code category
+
+Background:
+  Given I am logged in as "Admin" using valid cedintials
+  And I am on the "Coding Problems" page
+
+  @smoke
+  Scenario: The "Admin" is successfuly able to create a new category
+    When I add a new category with valid information
+    Then I should see a new category added successfuly
