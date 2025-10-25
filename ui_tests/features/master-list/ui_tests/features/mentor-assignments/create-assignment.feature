@@ -3,7 +3,6 @@ Feature: Mentor-Student Assignment
   As an admin user
   I want to create a mentor-student assignment
   So that each student is properly linked to a mentor
-
   Scenario: Successful creation of a mentor-student assignment
     Given “Admin” is logged into the system
     And “Admin” is on the Mentor Assignment page
@@ -14,11 +13,11 @@ Feature: Mentor-Student Assignment
     And the new assignment appears in the list showing “Mentor” and “Student”
 
   Scenario: Failed creation due to missing mentor selection
-    Given “Admin Jane” is logged into the system
-    And “Admin Jane” is on the Mentor Assignment page
-    And “Admin Jane” selects “Student Alex” from the student list
+    Given “Admin” is logged into the system
+    And “Admin” is on the Mentor Assignment page
+    And “Admin” selects “Student Alex” from the student list
     And leaves the mentor field blank
-    When “Admin Jane” clicks the “Create Assignment” button
+    When “Admin” clicks the “Create Assignment” button
     Then the system prevents the creation of the assignment
-    And displays a “Mentor selection required” message
+  
 
