@@ -11,7 +11,7 @@ Feature: View total hard questions stat card
     When I navigate to the Interview Questions Manager page
     Then I should see the Hard stat card showing the correct count of hard difficulty level questions
 
-      Scenario: Hard stat card updates when a question is added
+  Scenario: Hard stat card updates when a question is added
     When I add a new hard difficulty question
     Then the Hard stat card should show the updated count
 

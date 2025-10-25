@@ -9,6 +9,7 @@ Feature: View total medium questions stat card
 
   @smoke
   Scenario: Medium stat card displays correct count
+    When I navigate to the Interview Questions Manager page
     Then I should see the Medium stat card showing the correct count of medium difficulty questions
 
   Scenario: Medium stat card updates when a question is added
