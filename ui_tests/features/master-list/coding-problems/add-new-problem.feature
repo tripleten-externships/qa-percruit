@@ -1,5 +1,5 @@
 @wip
-Feature: Adding new topic
+Feature: Adding new problem
   As an "Admin"
   The "Admin" wants to add a new problem
 
