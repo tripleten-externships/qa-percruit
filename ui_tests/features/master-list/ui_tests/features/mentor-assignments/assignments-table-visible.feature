@@ -2,8 +2,8 @@
 Feature: Assignment Table Loads Correctly
 
   As a Admin
-  I want the assignment table to load correctly
-  So that I can view all mentor-student assignments accurately
+  Check if the assignment table loads correctly
+  So that Admin can view all mentor-student assignments accurately
 
   Scenario: Assignment table loads successfully with data
     Given “Admin” is logged into the system

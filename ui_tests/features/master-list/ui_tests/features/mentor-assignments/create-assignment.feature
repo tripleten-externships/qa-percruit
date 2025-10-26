@@ -2,7 +2,7 @@
 Feature: Mentor-Student Assignment
 
   As an admin user
-  I want to create a mentor-student assignment
+  Create a mentor-student assignment
   So that each student is properly linked to a mentor
   Scenario: Successful creation of a mentor-student assignment
     Given “Admin” is logged into the system
