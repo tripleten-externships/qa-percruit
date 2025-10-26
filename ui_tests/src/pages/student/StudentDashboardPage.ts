@@ -1,16 +1,48 @@
 import { Page } from '@playwright/test';
-import * as env from '../../config/world';
+import { BasePage } from '../common/BasePage';
 
-export class StudentDashboardPage {
-  readonly page: Page;
-  readonly CAREER_DIARY_WIDGET_LOCATOR = 'h6:has-text("Career Diary")';
+// <span class="ant-menu-title-content">Interview Study</span>
+// <span class="ant-menu-title-content">Job Board</span>
 
+export class StudentDashboardPage extends BasePage {
+  readonly sideBar = {
+    JOB_BOARD: 'Job Board',
+    JOB_TRACKER: 'Job Tracker',
+    RESUME_MANAGER: 'Resume Manager',
+    STUDY: 'Study',
+    INTERVIEWS: 'Interviews',
+    CODING_PRACTICE: 'Coding Practice',
+    MESSAGES: 'Messages',
+    TASKS_GOALS: 'Tasks & Goals',
+    FORUMS: 'Forums',
+    CAREER_PATH: 'Career Path',
+    CAREER_INSIGTHS: 'Career Insights',
+    INDUSTRY_NEWS: 'Industry News',
+  };
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
 
-  async isCareerDiaryWidgetVisible(): Promise<boolean> {
-    return this.page.isVisible(this.CAREER_DIARY_WIDGET_LOCATOR);
+  async isOnDashboardPage(): Promise<boolean> {
+    let isTrue = false;
+
+    // Check if required headings are visible to confirm we're on the dashboard
+    isTrue = await this.isHeadingVisible('Career Diary');
+    if (!isTrue) {
+      return false;
+    }
+
+    // Check if required Sidebar items are visible to confirm we're on the dashboard
+    return await this.areSpansVisible([
+      this.sideBar.JOB_BOARD,
+      this.sideBar.JOB_TRACKER,
+      this.sideBar.RESUME_MANAGER,
+      this.sideBar.STUDY,
+      this.sideBar.INTERVIEWS,
+      this.sideBar.CODING_PRACTICE,
+      this.sideBar.MESSAGES,
+      this.sideBar.TASKS_GOALS,
+    ]);
   }
 }
