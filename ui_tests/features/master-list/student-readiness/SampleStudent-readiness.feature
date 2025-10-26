@@ -19,9 +19,10 @@ Scenario: Student Readiness tab loads correctly under Usage Metrics
   And the "Refresh Data" button should be visible at the top right
   And the "Student Readiness" tab should appear active
 
-Scenario: Quick Insights displays readiness score under Usage Metrics
-  When the Admin opens the "Usage Metrics" page
-  And the "Quick Insights" section is visible at the top of the page
+Scenario: Quick Insights displays readiness score under Usage Metrics in Student readiness tab
+  When the Admin navigates to the "Usage Metrics" section from the sidebar
+  And the Admin selects the "Student Readiness" tab
+  Then the page should display the "Student Readiness Analysis" table
   Then the Quick Insights section should display a "Readiness Score" metric
   And the Readiness Score should show a numerical value (e.g., 61/100)
   And the Readiness Score value should match the average readiness data shown in the Student Readiness Analysis table
