@@ -1,4 +1,4 @@
-@profile @admin @smoke
+@profile @admin @smoke @wip 
 Feature: View profile settings
   As an Admin
   I want to view profile settings

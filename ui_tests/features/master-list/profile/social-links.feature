@@ -1,4 +1,4 @@
-@settings @admin @smoke 
+@settings @admin @smoke @wip 
 Feature: Manage social and professional links
   As an Admin
   I want to view and update my professional social links

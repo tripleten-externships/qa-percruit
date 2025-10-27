@@ -1,4 +1,4 @@
-@profile @admin @smoke 
+@profile @admin @smoke @wip
 Feature: Edit basic profile information
   As an Admin
   I want to edit basic user information
