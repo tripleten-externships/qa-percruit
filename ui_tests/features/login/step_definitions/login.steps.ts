@@ -39,7 +39,7 @@ Given('I am on the Percruit homepage', async () => {
 When(
   /I enter correct (.+) (?:email and password|credentials) and (?:click on sign in button|sign in|login)/,
   async (userType) => {
-    loginPage.loginAsUserType(userType);
+    await loginPage.loginAsUserType(userType);
   }
 );
 
