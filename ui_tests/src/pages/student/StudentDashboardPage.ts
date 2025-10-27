@@ -16,7 +16,7 @@ export class StudentDashboardPage extends BasePage {
     TASKS_GOALS: 'Tasks & Goals',
     FORUMS: 'Forums',
     CAREER_PATH: 'Career Path',
-    CAREER_INSIGTHS: 'Career Insights',
+    CAREER_INSIGHTS: 'Career Insights',
     INDUSTRY_NEWS: 'Industry News',
   };
 
