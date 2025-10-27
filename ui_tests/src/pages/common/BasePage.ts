@@ -32,7 +32,7 @@ export class BasePage {
   async areSpansVisible(spans: string[]): Promise<boolean> {
     const results = await Promise.all(
       spans.map(span =>
-        this.page.locator(`span:has-text("${span}")`).isVisible()
+        this.page.getByText(span, { exact: true }).isVisible()
       )
     );
     return results.every(result => result);
