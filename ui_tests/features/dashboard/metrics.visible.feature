@@ -10,7 +10,7 @@ Scenario: Admin is able to view "Total Users" in dashboard
      And redirected to "Admin Usage Metrics" page
      And scrolls down to "Quick Insights" status card
      Then system should display number of total users on platform
-     And the status card should show the correct number of "Total Users" 
+     And the status card will show the current total number of "Total Users" 
 
 Scenario: Admin is able to view "Active Mentors" in dashboard
     When admin clicks on "View Details" button
