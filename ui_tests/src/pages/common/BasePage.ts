@@ -29,15 +29,12 @@ export class BasePage {
   }
 
   async areSpansVisible(spans: string[]): Promise<boolean> {
-    for (const span of spans) {
-      const isVisible = await this.page
-        .locator(`span:has-text("${span}")`)
-        .isVisible();
-      if (!isVisible) {
-        return false;
-      }
-    }
-    return true;
+    const results = await Promise.all(
+      spans.map(span =>
+        this.page.locator(`span:has-text("${span}")`).isVisible()
+      )
+    );
+    return results.every(result => result);
   }
 
   async clickButtonByText(buttonText: string): Promise<void> {
