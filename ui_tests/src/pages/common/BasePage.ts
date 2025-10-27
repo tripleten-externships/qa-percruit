@@ -12,10 +12,15 @@ export class BasePage {
   }
 
   async isHeadingVisible(heading: string): Promise<boolean> {
-    return this.page.isVisible(
-      `h1:has-text("${heading}"),h2:has-text("${heading}"),h3:has-text("${heading}"),
-      h4:has-text("${heading}"),h5:has-text("${heading}"),h6:has-text("${heading}")`
-    );
+    const selector = [
+      `h1:has-text("${heading}")`,
+      `h2:has-text("${heading}")`,
+      `h3:has-text("${heading}")`,
+      `h4:has-text("${heading}")`,
+      `h5:has-text("${heading}")`,
+      `h6:has-text("${heading}")`
+    ].join(',');
+    return this.page.isVisible(selector);
   }
 
   async areHeadingsVisible(headings: string[]): Promise<boolean> {
