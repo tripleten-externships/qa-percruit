@@ -12,7 +12,6 @@ Background:
     When the "Admin" uses the search bar with valid information 
     Then the "Admin" should see results that show matching topics
     
-@wip
 Feature: Difficulty dropdown
   As an "Admin"
   The "Admin" wants to choose a specific "difficulty" level
@@ -33,7 +32,6 @@ Background:
         | Medium |
         | Hard |
 
-@wip
 Feature: Category Dropdown
   As an "Admin"
   The "Admin" wants to choose a specific "category"
@@ -54,7 +52,6 @@ Background:
         | Database Basics |
         | BDD Test |
 
-@wip
 Feature: Topic Dropdown
   As an "Admin"
   The "Admin" wants to choose a specific "topic"
@@ -76,7 +73,6 @@ Background:
         | Variables, Data Types & I/O |
         | BDD |      
 
-@wip
 Feature: Adding an edit to a topic
   As an "Admin"
   The "Admin" want to update a topics details
@@ -92,7 +88,6 @@ Background:
     Then the topics details should be updated 
     And the system should confirm the update was successful
 
-@wip
 Feature: Deleting a topic
   As an "Admin"
   The "Admin" wants to remove a topic
