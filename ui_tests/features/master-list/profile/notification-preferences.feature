@@ -1,4 +1,4 @@
-@settings @admin @smoke @wip
+@wip
 Feature: Email notification preferences
   As an Admin
   I want to manage email notification preferences
@@ -8,6 +8,7 @@ Feature: Email notification preferences
     Given the Admin is authenticated in the system
     And the Admin is on the "Notifications" tab in Profile Settings
 
+  @smoke
   Scenario: Notification controls and guidance are visible
     Then the "Email Notifications" section is visible
     And the preferences "Message Notifications", "Task & Goal Notifications", and "Resume Review Notifications" are available
@@ -20,6 +21,7 @@ Feature: Email notification preferences
     And the "Notifications Disabled" status panel for "<preference>" is not shown
     And the enabled state remains after switching to another tab and returning
     And the enabled state remains after a page refresh
+    
     Examples:
       | preference                  |
       | Message Notifications       |
@@ -33,6 +35,7 @@ Feature: Email notification preferences
     And a "Notifications Disabled" status panel for "<preference>" is displayed with explanatory text
     And the disabled state remains after switching to another tab and returning
     And the disabled state remains after a page refresh
+   
     Examples:
       | preference                  |
       | Message Notifications       |

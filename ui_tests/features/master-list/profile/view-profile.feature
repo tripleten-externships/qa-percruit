@@ -1,4 +1,4 @@
-@profile @admin @smoke @wip 
+@wip 
 Feature: View profile settings
   As an Admin
   I want to view profile settings
@@ -8,6 +8,7 @@ Feature: View profile settings
     Given the Admin is authenticated in the system
     And the Admin is on the Profile Settings page
 
+  @smoke
   Scenario: Profile tab is the default view with key sections
     Then the "Profile" tab is active
     And the tabs "Professional", "Social Links", "Notifications", and "Privacy & AI" are available
