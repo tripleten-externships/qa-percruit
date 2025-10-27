@@ -1,4 +1,4 @@
-@settings @admin @smoke @wip 
+@wip 
 Feature: Manage social and professional links
   As an Admin
   I want to view and update my professional social links
@@ -7,7 +7,8 @@ Feature: Manage social and professional links
   Background:
     Given the Admin is authenticated in the system
     And the Admin is on the "Social Links" tab in Profile Settings
-
+  
+  @smoke
   Scenario: Social links section and fields are visible
     Then the "Social & Professional Links" section is visible
     And the fields "LinkedIn Profile", "GitHub Profile", and "Portfolio / Personal Website" are displayed

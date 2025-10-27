@@ -1,4 +1,4 @@
-@settings @admin @smoke @wip
+ @wip
 Feature: Manage professional profile information
   As an Admin
   I want to view and update my professional details
@@ -8,6 +8,7 @@ Feature: Manage professional profile information
     Given the Admin is authenticated in the system
     And the Admin is on the "Professional" tab in Profile Settings
 
+  @smoke
   Scenario: Professional section and fields are visible
     Then the "Professional Information" section is visible
     And the fields "Field of Interest", "Skills", "Experience", and "Education" are displayed
