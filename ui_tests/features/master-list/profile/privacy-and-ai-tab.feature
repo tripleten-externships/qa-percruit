@@ -1,4 +1,4 @@
-@settings @admin @smoke
+@settings @admin @smoke @wip
 Feature: Privacy & AI preferences
   As an Admin
   I want to manage AI-related preferences

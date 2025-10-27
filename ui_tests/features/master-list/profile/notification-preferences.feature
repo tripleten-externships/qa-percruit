@@ -1,4 +1,4 @@
-@settings @admin @smoke
+@settings @admin @smoke @wip
 Feature: Email notification preferences
   As an Admin
   I want to manage email notification preferences

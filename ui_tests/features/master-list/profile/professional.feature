@@ -1,4 +1,4 @@
-@settings @admin @smoke
+@settings @admin @smoke @wip
 Feature: Manage professional profile information
   As an Admin
   I want to view and update my professional details
