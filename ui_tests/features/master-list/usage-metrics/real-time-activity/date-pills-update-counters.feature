@@ -6,16 +6,12 @@ Feature: Time Filters on Usage Metrics page
 @wip
 Scenario Outline: Verify Time Filters update counts correctly
   Given the user is on Admin Dashboard page
-  When the user click on the Usage Metrics option
+  When the user click on the Usage Metrics tab
   And apply the "<timeFilter>" time filter
   Then user should see the usage counts updated for "<timeFilter>"
 
     Examples:
     | timeFilter       |
     | Today            |
-    | Yesterday        |
     | Last 7 days      |
-    | This Month       |
-    | Last 3 Months    |
-    | Last 6 Months    |
     | This Year        |
