@@ -1,17 +1,24 @@
 @wip
-Feature: Search questions by keyword in Search bar
+Feature: Search questions in Interview Questions Manager
   As an Admin
-  the user wants to search interview questions by keyword
+  I want to search interview questions by keywords
   So that relevant questions can be quickly located and reviewed
 
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
+    And no keyword is entered in the search bar
+    And no job title is selected from the job title filter
+    And no difficulty level is selected from the difficulty filter
+
+
+  Scenario: View all questions when no filters are applied
+    When the Admin views the list of interview questions
+    Then the Admin should see all available interview questions
+
 
   Scenario Outline: Search questions by keyword only
     When the Admin searches for "<keyword>"
-    And no "<job_title>" is selected from the job title filter
-    And no "<difficulty_level>" is selected from the difficulty filter
     Then the Admin should see all questions containing "<keyword>"
 
     Examples:
@@ -24,12 +31,9 @@ Feature: Search questions by keyword in Search bar
       | Array        |
       | Linear       |
 
-
-
   Scenario Outline: Search questions by keyword and difficulty
     When the Admin searches for "<keyword>"
     And selects "<difficulty_level>" from the difficulty filter
-    And no "<job_title>" is selected from the job title filter
     Then the Admin should see all questions containing "<keyword>" 
     And with relevant "<difficulty_level>"
 
@@ -43,12 +47,9 @@ Feature: Search questions by keyword in Search bar
       | Array        | Easy             |
       | Linear       | Medium           |
 
-
-
   Scenario Outline: Search questions by keyword and job title
     When the Admin searches for "<keyword>"
     And selects "<job_title>" from the job title filter
-    And no "<difficulty_level>" is selected from the difficulty filter
     Then the Admin should see all questions containing "<keyword>" 
     And filtered by "<job_title>"
 
@@ -81,3 +82,16 @@ Feature: Search questions by keyword in Search bar
       | String       | Hard             | Systems Architect         |
       | Array        | Easy             | Product Manager           |
       | Linear       | Medium           | Behavioral                |
+
+
+  
+  Scenario Outline: No questions match the selected filters or keyword
+    When the Admin selects "<job_title>" from the job title filter
+    And the Admin searches for "<keyword>"
+    And the Admin selects "<difficulty_level>" from the difficulty filter
+    Then the Admin should see a message indicating no questions were found matching the selected filters
+
+    Examples:
+      | job_title         | keyword | difficulty_level |
+      | Software Engineer | XYZ     | Hard             |
+      | Data Scientist    | ABC     | Easy             |

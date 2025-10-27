@@ -7,11 +7,16 @@ Feature: View questions filtered by job title
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
+    And no job title filter is selected
+    And no difficulty filter is selected
+    And no keywords are searched
+
+  Scenario: View all questions when no filters are applied
+    When the Admin views the list of interview questions
+    Then the Admin should see all available interview questions
 
   Scenario Outline: View questions filtered by job title only
     When the Admin selects "<job_title>" from the job title filter
-    And no "<keyword>" is searched
-    And no "<difficulty_level>" is selected
     Then the Admin should see a list of all questions filtered by "<job_title>"
 
     Examples:
@@ -23,12 +28,10 @@ Feature: View questions filtered by job title
       | Systems Architect         |
       | Product Manager           |
       | Behavioral                |
-        
 
   Scenario Outline: View questions filtered by job title and search bar
     When the Admin selects "<job_title>" from the job title filter
     And the Admin searches for "<keyword>"
-    And no "<difficulty_level>" is selected
     Then the Admin should see a list of all relevant questions filtered by "<job_title>"
     And by the searched "<keyword>"
 
@@ -42,11 +45,9 @@ Feature: View questions filtered by job title
       | Product Manager           | Array           |
       | Behavioral                | Linear          |
 
-
-   Scenario Outline: View questions filtered by job title and difficulty level
+  Scenario Outline: View questions filtered by job title and difficulty level
     When the Admin selects "<job_title>" from the job title filter
-    And no "<keyword>" is searched
-    And the Admin selects "<difficulty_level>"
+    And the Admin selects "<difficulty_level>" from the difficulty filter
     Then the Admin should see a list of all relevant questions filtered by "<job_title>"
     And by the selected "<difficulty_level>"
 
@@ -60,11 +61,10 @@ Feature: View questions filtered by job title
       | Product Manager           | Easy            |
       | Behavioral                | Hard            |
 
-
   Scenario Outline: View questions filtered by job title, search bar, and difficulty level
     When the Admin selects "<job_title>" from the job title filter
     And the Admin searches for "<keyword>"
-    And the Admin selects "<difficulty_level>"
+    And the Admin selects "<difficulty_level>" from the difficulty filter
     Then the Admin should see a list of all relevant questions filtered by "<job_title>"
     And by the searched "<keyword>"
     And by the selected "<difficulty_level>"
@@ -78,3 +78,14 @@ Feature: View questions filtered by job title
       | Systems Architect         | String          | Hard             |
       | Product Manager           | Array           | Easy             |
       | Behavioral                | Linear          | Medium           |
+
+  Scenario Outline: No questions match the selected filters or keyword
+    When the Admin selects "<job_title>" from the job title filter
+    And the Admin searches for "<keyword>"
+    And the Admin selects "<difficulty_level>" from the difficulty filter
+    Then the Admin should see a message indicating no questions were found matching the selected filters
+
+    Examples:
+      | job_title         | keyword | difficulty_level |
+      | Software Engineer | XYZ     | Hard             |
+      | Data Scientist    | ABC     | Easy             |
