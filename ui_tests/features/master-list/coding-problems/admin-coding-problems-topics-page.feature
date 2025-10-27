@@ -12,7 +12,6 @@ Background:
     When the "Admin" edits a topic with valid information 
     Then the "Admin" will see the edit change added successfully
 
-@wip
 Feature: Deleting a topic 
   As an "Admin"
   The "Admin" wants to delete a topic
