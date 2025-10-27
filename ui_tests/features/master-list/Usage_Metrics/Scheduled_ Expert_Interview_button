@@ -1,0 +1,9 @@
+Feature: Testing Scheduled button on Usage metrics
+As an “Admin”
+
+@smoke 
+Scenario: Scheduled Expert Interview button
+Given the admin is on Usage Metrics Page
+When admin clicks scheduled button
+Then admin will view all scheduled Expert Interviews
+

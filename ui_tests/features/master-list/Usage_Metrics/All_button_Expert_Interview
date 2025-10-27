@@ -1,0 +1,18 @@
+Feature: Testing buttons on Usage metrics
+As an “Admin”
+
+@smoke 
+Scenario: All Expert Interview button
+Given the admin is on Usage Metrics Page
+When admin clicks All button
+Then admin will view all scheduled Expert Interviews
+
+
+
+
+
+
+
+
+
+	
