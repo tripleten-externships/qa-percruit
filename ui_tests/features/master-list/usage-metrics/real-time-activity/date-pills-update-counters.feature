@@ -1,14 +1,14 @@
 Feature: Time Filters on Usage Metrics page
   As an Admin user
-  I want to verify that the time filters update the counts correctly
-  So that I can view accurate metrics based on the selected time range
+  Verify that the time filters update the counts correctly
+  So that admin can view accurate metrics based on the selected time range
 
   
 Scenario Outline: Verify Time Filters update counts correctly
-  Given I am on the Admin Dashboard page
-  When I click on the Usage Metrics option
-  And I apply the "<timeFilter>" time filter
-  Then I should see the usage counts updated for "<timeFilter>"
+  Given the user is on Admin Dashboard page
+  When the user click on the Usage Metrics option
+  And apply the "<timeFilter>" time filter
+  Then user should see the usage counts updated for "<timeFilter>"
 
     Examples:
     | timeFilter       |
