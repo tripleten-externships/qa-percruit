@@ -12,7 +12,7 @@ Background:
     When the "Admin" add a new category with valid information
     Then The "Admin" should see a new category added successfully
     
-    @wip
+@wip
 Feature: Adding new topic
   As an "Admin"
   The "Admin" wants to add a new topic
@@ -26,7 +26,7 @@ Background:
     When the "Admin" adds a new topic with valid information 
     Then the "Admin" will see a new topic added successfully
 
-    @wip
+@wip
 Feature: Adding new problem
   As an "Admin"
   The "Admin" wants to add a new problem
@@ -40,7 +40,7 @@ Background:
     When the "Admin" adds a new problem with valid information 
     Then the "Admin" will see a new problem added successfully
 
-    @wip
+@wip
 Feature: Adding an edit to a category topic
   As an "Admin"
   The "Admin" wants to add a edit
@@ -54,7 +54,7 @@ Background:
     When the "Admin" edits a topic with valid information 
     Then the "Admin" will see edit change added successfully
 
-    @wip
+@wip
 Feature: Deleting a category topic
   As an "Admin"
   The "Admin" wants to delete a topic
