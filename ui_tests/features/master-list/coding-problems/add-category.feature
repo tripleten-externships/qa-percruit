@@ -4,7 +4,7 @@ Feature: Adding new coding category
   The "Admin" wants to create a new code category
 
 Background:
-  Given The "Admin" is logged in using valid cedintials
+  Given The "Admin" is logged in using valid credintials
   And The "Admin" is on the "Coding Problems" page
 
   @smoke
