@@ -24,13 +24,9 @@ export class BasePage {
   }
 
   async areHeadingsVisible(headings: string[]): Promise<boolean> {
-    for (const heading of headings) {
-      const isVisible = await this.isHeadingVisible(heading);
-      if (!isVisible) {
-        return false;
-      }
-    }
-    return true;
+    const visibilityChecks = headings.map(heading => this.isHeadingVisible(heading));
+    const results = await Promise.all(visibilityChecks);
+    return results.every(isVisible => isVisible);
   }
 
   async areSpansVisible(spans: string[]): Promise<boolean> {
