@@ -4,7 +4,7 @@ Feature: Adding new problem
   The "Admin" wants to add a new problem
 
 Background:
-  Given The "Admin" is logged in using valid cedintials
+  Given The "Admin" is logged in using valid credintials
   And The "Admin" is on the "Coding Problems" page
 
   @smoke
