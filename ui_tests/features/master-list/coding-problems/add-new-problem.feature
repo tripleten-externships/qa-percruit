@@ -9,6 +9,6 @@ Background:
 
   @smoke
   Scenario: The "Admin" is successfully able to add a new problem
-    When When the "Admin" adds a new problem with valid information 
+    When the "Admin" adds a new problem with valid information 
     Then the "Admin" will see a new problem added successfully
     

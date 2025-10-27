@@ -9,6 +9,6 @@ Background:
 
   @smoke
   Scenario: The "Admin" is successfully able to add a new topic
-    When When the "Admin" adds a new topic with valid information 
+    When the "Admin" adds a new topic with valid information 
     Then the "Admin" will see a new topic added successfully
     
