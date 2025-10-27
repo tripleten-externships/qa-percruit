@@ -18,7 +18,7 @@ Feature: Adding new topic
   The "Admin" wants to add a new topic
 
 Background:
-  Given The "Admin" is logged in using valid credintials
+  Given The "Admin" is logged in using valid credentials
   And The "Admin" is on the "Coding Problems" page
 
   @smoke
@@ -32,7 +32,7 @@ Feature: Adding new problem
   The "Admin" wants to add a new problem
 
 Background:
-  Given The "Admin" is logged in using valid credintials
+  Given The "Admin" is logged in using valid credentials
   And The "Admin" is on the "Coding Problems" page
 
   @smoke
@@ -46,7 +46,7 @@ Feature: Adding an edit to a category topic
   The "Admin" wants to add a edit
 
 Background:
-  Given The "Admin" is logged in using valid credintials
+  Given The "Admin" is logged in using valid credentials
   And The "Admin" is on the "Coding Problems" page
 
   @smoke
