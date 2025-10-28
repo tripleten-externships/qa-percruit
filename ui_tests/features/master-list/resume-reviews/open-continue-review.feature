@@ -1,3 +1,4 @@
+@wip
 Feature: Open Continue Review Page
   As an admin
   View the Continue Review page
@@ -6,7 +7,7 @@ Feature: Open Continue Review Page
 
   @smoke
   Scenario: Continue Review Page opens successfully
-    Given an admin user is logged into the system
-    When an admin navigates to the Resume Reviews section
-    And clicks on the "Continue Review" button
-    Then the system opens the Continue Review page for that resume 
+    Given the admin user is logged into the system
+    When the admin views the Resume Reviews section
+    And conitnues reviewing a previously claimed resume using the "Continue Review" button
+    Then the system displays the Continue Review page for that resume 
