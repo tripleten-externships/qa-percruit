@@ -15,7 +15,8 @@ Background:
     
   Scenario: Deletion of existing coding problems
     When the Admin deletes a coding problem from a specific category
-    Then the coding problem should no longer exist on the Coding Problems categories dashboard
+    Then the Admin should receive a message asking if they are sure they want to delete a specific category 
+    And the coding problem should no longer exist on the Coding Problems categories dashboard
 
   Scenario: Making edits to existing coding problems
     When the Admin edits a coding problem in a category with valid information
