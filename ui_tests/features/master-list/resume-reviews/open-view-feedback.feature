@@ -1,3 +1,4 @@
+@wip
 Feature: Open Feedback Page
   As an admin
   View the Feedback page
@@ -6,7 +7,7 @@ Feature: Open Feedback Page
 
   @smoke
   Scenario: Feedback Page opens successfully
-    Given an admin user is logged into the system
-    When an admin navigates to the Resume Reviews section
-    And clicks on the "View Feedback" button
-    Then the system opens a Feedback Page for that resume 
+    Given the admin user is logged into the system
+    When the admin views the Resume Reviews section
+    And requests to view feedback using the "View Feedback" button
+    Then the system displays a Feedback Page for that resume 

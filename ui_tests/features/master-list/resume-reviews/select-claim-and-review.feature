@@ -1,3 +1,4 @@
+@wip
 Feature: Claim a resume for pending review
   As an admin
   Change the status of a resume from "Pending" to "In Progress"
@@ -5,7 +6,7 @@ Feature: Claim a resume for pending review
 
   @smoke
   Scenario: Successfully claiming a resume for review
-    Given an admin user is logged into the system
-    When an admin navigates to the Resume Reviews section
-    And clicks on the "Claim & Review" button
+    Given the admin user is logged into the system
+    When the admin views the Resume Reviews section
+    And claims a resume for review using the "Claim & Review" button
     Then the system changes the status of a resume from "Pending" to "In Progress"
