@@ -25,7 +25,7 @@ Background:
   And the system should confirm that these changes were made
 
   Scenario: Selecting a topic category
-  When the Admin filters a topic using the dropdown
+  When the Admin filters a topic using the "Select Category" dropdown
   Then the Admin should only see topics which are available to add 
 
   Examples:
@@ -42,4 +42,3 @@ Background:
   When the Admin opens the "Topics" tab
   Then the Admin should see a blank page with none existing topics
   And the Admin will have the option of adding a new topic
-  
