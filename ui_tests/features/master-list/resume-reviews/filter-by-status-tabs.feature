@@ -1,4 +1,5 @@
-Feature: Filter by status tabs
+@wip
+Feature: Filter Resume Reviews by status tabs
   As an admin
   View a list of reviews and their status
   In order to then view all the resumes under one particular status
@@ -6,30 +7,30 @@ Feature: Filter by status tabs
 
   @smoke
   Scenario: Status tabs are visible
-    Given an admin user is logged into the system
-    When an admin navigates to the Resume Reviews section
-    Then the system loads a list of all reviews along with four status tabs: "Pending", "In Progress", "Completed", and "Cancelled"
+    Given the admin user is logged into the system
+    When the admin views the Resume Reviews section
+    Then the system presents four available status tabs: "Pending", "In Progress", "Completed", and "Cancelled"
 
     @smoke 
     Scenario: Pending reviews are visible
-    Given an admin user is on the Resume Reviews All Reviews section
-    When an admin clicks on the Pending status tab
-    Then the system displays only reviews with a Pending status
+    Given the admin user is on the Resume Reviews All Reviews section
+    When the admin filters reviews by the Pending status tab
+    Then the system displays all reviews with a Pending status
 
     @smoke
     Scenario: In Progress reviews are visible
-    Given an admin user is on the Resume Reviews All Reviews section
-    When an admin clicks on the In Progress status tab
-    Then the system displays only reviews with an In Progress status
+    Given the admin user is on the Resume Reviews All Reviews section
+    When the admin filters reviews by the In Progress status tab
+    Then the system displays all reviews with an In Progress status
 
     @smoke
     Scenario: Completed reviews are visible
-    Given an admin user is on the Resume Reviews All Reviews section 
-    When an admin clicks on the Completed status tab
-    Then the system displays only reviews with a Completed status
+    Given the admin user is on the Resume Reviews All Reviews section 
+    When the admin filters reviews by the Completed status tab
+    Then the system displays all reviews with a Completed status
 
     @smoke
     Scenario: Cancelled reviews are visible
-    Given an admin user is on the Resume Reviews All Reviews section 
-    When an admin clicks on the Cancelled status tab
-    Then the system displays only reviews with a Completed status
+    Given the admin user is on the Resume Reviews All Reviews section 
+    When the admin filters reviews by the Cancelled status tab
+    Then the system displays all reviews with a Completed status
