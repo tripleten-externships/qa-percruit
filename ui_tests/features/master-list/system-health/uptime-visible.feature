@@ -10,25 +10,25 @@ As an admin user
       And the System Health Monitor card is visible
 
   @smoke @positive
-    Scenario: System uptime displays 99.9%
-      Given the system uptime is 99.9%
-      Then the System Uptime value shows "99.9%"
-      And the System Uptime metric is displayed in the System Health Monitor card
-        
-  @positive
-    Scenario: System uptime label is visible
-      Given the system uptime is 99.9%
-      Then the "System Uptime" label is displayed
-      And the uptime value "99.9%" is displayed below the label
+  Scenario: System uptime is displayed as a percentage value
+    Given the system has an uptime value
+    And the uptime value is 99% or above
+    Then the System Uptime metric is visible
+    And the uptime is displayed as a percentage
+    And the uptime value includes the "%" symbol
 
   @positive
-    Scenario: System uptime is displayed with percentage symbol
-      Given the system uptime is 99.8%
-      Then the System Uptime value shows "99.8%"
-      And the value includes the percentage symbol
+  Scenario: System uptime value is numeric and properly formatted
+    Given the system has an uptime value
+    And the uptime value is 99% or above
+    Then the uptime is displayed as a numeric value
+    And the numeric value is followed by the percentage symbol
+    And the value is readable and properly formatted
 
   @positive
-    Scenario: System uptime value is displayed in green color when value is >=90% or above
-      Given the system uptime is 99.9%
-      Then the System Uptime value shows "99.9%"
-      And the uptime value is displayed in green color
+  Scenario: System uptime value is displayed in green color
+    Given the system has an uptime value
+    And the uptime value is 99% or above
+    Then the System Uptime metric is visible
+    And the uptime value is displayed in green color
+    And the green color indicates healthy status

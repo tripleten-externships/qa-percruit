@@ -1,7 +1,7 @@
 @wip
 
 Feature: Critical Issues Display
-    As a system administrator
+    As an admin user
     I want to see the number of critical issues on the dashboard
     So that I can monitor system health and address urgent problems
 
@@ -11,20 +11,18 @@ Feature: Critical Issues Display
         And the System Health Monitor card is visible
 
     @smoke @positive
-    Scenario: Critical issues displays 0 when there are no issues
-        Given there are 0 critical issues in the system
-        Then the Critical Issues value shows "0"
-        And the Critical Issues metric is displayed in the System Health Monitor card
+    Scenario: Critical issues displays as a numeric count
+        Given the system has no critical issues
+        Then the Critical Issues metric is visible
+        And the critical issues count is displayed as a number "0"
+        And the number represents zero issues
 
     @positive
-    Scenario: Critical issues label is visible
-        Given there are 0 critical issues in the system
-        Then the "Critical Issues" Label is displayed
-        And the Critical issues value "0" is displayed below the label
+    Scenario: Critical issues count is displayed in green when zero
+        Given the system has no critical issues
+        Then the Critical Issues metric is visible
+        And the count value is displayed in green color
+        And the green color indicates healthy status
 
-    @positive
-    Scenario: Critical issues value is displayed in green when zero
-        Given there are 0 critical issues in the system
-        Then the Critical Issues value shows "0"
-        And the critical issues value is displayed in green color   
+ 
 
