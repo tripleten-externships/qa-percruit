@@ -9,14 +9,14 @@ Feature: View total questions count by difficulty (Easy, Medium, Hard)
     And the Admin views the Interview Questions Manager page
 
   Scenario Outline: Total questions count displays correctly
-    Then the Admin should see the Total Questions stat card showing count "<total_count>"
-    And the Admin should see Easy stat card showing count "<easy_count>"
-    And the Admin should see Medium stat card showing count "<medium_count>"
-    And the Admin should see Hard stat card showing count "<hard_count>"
+    When the Admin views the total questions count stat cards by difficulty
+    Then the Admin should see the following question counts:
+    |     Total     |     Easy     |     Medium     |    Hard      |
+    | <total_count> | <easy_count> | <medium_count> | <hard_count> |
 
     Examples:
-      | total_count | easy_count | medium_count | hard_count |
-      | 30          | 10         | 12           | 8          |
+      | Total       |   Easy       |    Medium     |     Hard.     |
+      | 30          |   10         |      12       |      8        |
 
       
 
@@ -26,7 +26,7 @@ Feature: View total questions count by difficulty (Easy, Medium, Hard)
     And the Total Questions stat card should show count "<total_after>"
 
     Examples:
-      | difficulty_level | count_before | count_after | total_before | total_after |
+      | difficulty_level | count_before | count_after | Total        | total_after |
       | Easy             | 10           | 11          | 30           | 31          |
       | Medium           | 12           | 13          | 30           | 31          |
       | Hard             | 8            | 9           | 30           | 31          |
@@ -39,7 +39,7 @@ Feature: View total questions count by difficulty (Easy, Medium, Hard)
     And the Total Questions stat card should show count "<total_after>"
 
     Examples:
-      | difficulty_level | count_before | count_after | total_before | total_after |
+      | difficulty_level | count_before | count_after | Total        | total_after |
       | Easy             | 11           | 10          | 31           | 30          |
       | Medium           | 13           | 12          | 31           | 30          |
       | Hard             | 9            | 8           | 31           | 30          |

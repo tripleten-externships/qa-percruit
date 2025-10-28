@@ -7,9 +7,7 @@ Feature: Filter questions by difficulty level
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
-    And no difficulty filter is selected
-    And no job title filter is selected
-    And no keywords are searched
+    And no filters or keywords are currently applied
 
   Scenario: View all questions when no filters are applied
     When the Admin views the list of interview questions
@@ -61,19 +59,19 @@ Feature: Filter questions by difficulty level
     When the Admin selects "<difficulty_level>" from the difficulty filter
     And searches for "<keyword>"
     And selects "<job_title>" from the job title filter
-    Then the Admin should see all questions with relevant "<difficulty_level>"
-    And containing "<keyword>"
-    And filtered by "<job_title>"
+    Then the Admin should see all questions matching the filter criteria:
+    |  difficulty_level  |  keyword  |  job_title       |
+    | <difficulty_level> | <keyword> | <job_title>      |
 
-    Examples:
-      | difficulty_level | keyword      | job_title                 |
-      | Easy             | PCA          | Software Engineer         |
-      | Medium           | F1           | Data Scientist            |
-      | Hard             | overfitting  | Machine Learning Engineer |
-      | Medium           | ETL          | Data Engineer             |
-      | Hard             | String       | Systems Architect         |
-      | Easy             | Array        | Product Manager           |
-      | Medium           | Linear       | Behavioral                |
+  Examples:
+    | difficulty_level | keyword      | job_title                 |
+    | Easy             | PCA          | Software Engineer         |
+    | Medium           | F1           | Data Scientist            |
+    | Hard             | overfitting  | Machine Learning Engineer |
+    | Medium           | ETL          | Data Engineer             |
+    | Hard             | String       | Systems Architect         |
+    | Easy             | Array        | Product Manager           |
+    | Medium           | Linear       | Behavioral                |
 
   Scenario Outline: No questions match the selected filters
     When the Admin selects "<difficulty_level>" from the difficulty filter
@@ -81,7 +79,7 @@ Feature: Filter questions by difficulty level
     And selects "<job_title>" from the job title filter
     Then the Admin should see a message indicating no questions found matching your filter
 
-    Examples:
-      | difficulty_level | keyword     | job_title         |
-      | Hard             | XYZ         | Software Engineer |
-      | Easy             | ABC         | Data Scientist    |
+  Examples:
+    | difficulty_level | keyword     | job_title         |
+    | Hard             | XYZ         | Software Engineer |
+    | Easy             | ABC         | Data Scientist    |

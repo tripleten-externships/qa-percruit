@@ -7,9 +7,7 @@ Feature: View questions filtered by job title
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
-    And no job title filter is selected
-    And no difficulty filter is selected
-    And no keywords are searched
+    And no filters or keywords are currently applied
 
   Scenario: View all questions when no filters are applied
     When the Admin views the list of interview questions
@@ -65,10 +63,10 @@ Feature: View questions filtered by job title
     When the Admin selects "<job_title>" from the job title filter
     And the Admin searches for "<keyword>"
     And the Admin selects "<difficulty_level>" from the difficulty filter
-    Then the Admin should see a list of all relevant questions filtered by "<job_title>"
-    And by the searched "<keyword>"
-    And by the selected "<difficulty_level>"
-
+    Then the Admin should see a list of all relevant questions filtered by:
+    |   job_title          |   keyword         |    difficulty_level   |
+    | "<job_title>"        | "<keyword>"       | "<difficulty_level>"  |  
+     
     Examples:
       | job_title                 | keyword         | difficulty_level |
       | Software Engineer         | PCA             | Easy             |

@@ -7,72 +7,54 @@ Feature: Interview questions preview on the Interview Questions Manager page
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
-    And no keyword is searched
-    And no filters are selected
+    And no filters or keywords are currently applied
 
 
-  Scenario Outline: Questions with all properties and actions are displayed correctly
-    Then the Admin should see the question title "<title>"
-    And the Admin should see the question preview for "<title>"
-    And the Admin should see the corresponding job title(s) "<job_titles>"
-    And the Admin should see the difficulty level "<difficulty_level>"
-    And the Admin should see the tags "<tags>"
-    And the Admin should see the creation date "<created>"
-    And the Admin should see the actions "<edit_action>" and "<delete_action>"
+  Scenario Outline: Existing Questions are displayed correctly
+    When the Admin views the existing interview questions
+    Then the Admin should see the all the Questions with the following properties:
+    |  Title     |  Preview  |  Job title(s) |  Difficulty level  |  Tags  | Created date   |            Actions             |
+    | <title>    | <preview> | <job_titles>  | <difficulty_level> | <tags> |   <created>    | <edit_action>, <delete_action> |
 
     Examples:
-      | title             | job_titles                   | difficulty_level | tags      | created    | edit_action | delete_action |
-      | Model Overfitting | Data Scientist, ML Engineer  | Easy             | Tech      | 08/08/2025 | Edit icon   | Delete icon   |
-      | Binary Search     | Software Engineer            | Medium           | Algorithm | 08/10/2025 | Edit icon   | Delete icon   |
+      | title             | preview                                                               | job_titles                  | difficulty_level | tags      | created    | edit_action | delete_action |
+      | Model Overfitting | What is overfitting in machine learning, and how can it be prevented? | Data Scientist, ML Engineer | Easy             | Tech      | 08/08/2025 | Edit icon   | Delete icon   |
+      | Binary Search     | Explain binary search and provide an example                          | Software Engineer           | Medium           | Algorithm | 08/10/2025 | Edit icon   | Delete icon   |
 
 
 
   Scenario Outline: New questions are displayed correctly when added
     When a new question is added
-    Then the Admin should see the new question title "<title>"
-    And the Admin should see the preview of the new question "<title>"
-    And the Admin should see the new question’s job title(s) "<job_titles>"
-    And the Admin should see the difficulty level "<difficulty_level>"
-    And the Admin should see the new question tags "<tags>"
-    And the Admin should see the new question creation date "<created>"
-    And the Admin should see the actions "<edit_action>" and "<delete_action>"
+    Then the Admin should see the newly added question with the following properties:
+    |  Title     |  Preview  |  Job title(s) |  Difficulty level  |  Tags  | Created date   |            Actions             |
+    | <title>    | <preview> | <job_titles>  | <difficulty_level> | <tags> |   <created>    | <edit_action>, <delete_action> |
 
     Examples:
-      | title             | job_titles                   | difficulty_level | tags      | created    | edit_action | delete_action |
-      | Model Overfitting | Data Scientist, ML Engineer  | Easy             | Tech      | 08/08/2025 | Edit icon   | Delete icon   |
+      | title             | preview                                                       | job_titles                   | difficulty_level | tags            | created    | edit_action | delete_action |
+      | Linked List Cycle | How do you detect a cycle in a linked list?                   | Software Engineer            | Medium           | Data Structures | 08/10/2025 | Edit icon   | Delete icon   |
 
 
 
   Scenario Outline: Existing questions are displayed correctly after editing
     When an existing question is edited
-    Then the Admin should see the updated question title "<title>"
-    And the Admin should see the updated preview for "<title>"
-    And the Admin should see the updated job title(s) "<job_titles>"
-    And the Admin should see the updated difficulty level "<difficulty_level>"
-    And the Admin should see the updated tags "<tags>"
-    And the Admin should see creation date "<created>"
-    And the Admin should see the actions "<edit_action>" and "<delete_action>"
+    Then the Admin should see the updated question with the following properties:
+    |  Title     |  Preview  |  Job title(s) |  Difficulty level  |  Tags  | Created date   |            Actions             |
+    | <title>    | <preview> | <job_titles>  | <difficulty_level> | <tags> |   <created>    | <edit_action>, <delete_action> |
 
     Examples:
-      | title             | job_titles                           | difficulty_level | tags      | created    | edit_action | delete_action |
-      | Model Overfitting | Software Engineer, Data Scientist    | Hard             | Tech, IT  | 08/08/2025 | Edit icon   | Delete icon   |
-
+      | title             | preview                                                               | job_titles                           | difficulty_level | tags      | created    | edit_action | delete_action |
+      | Model Overfitting | What is overfitting in machine learning, and how can it be prevented? | Software Engineer, Data Scientist    | Hard             | Tech, IT  | 08/08/2025 | Edit icon   | Delete icon   |
 
 
   Scenario Outline: Questions are removed correctly
     When a question is removed
-    Then the Admin should not see the question title "<title>"
-    And the Admin should not see the preview for "<title>"
-    And the Admin should not see the job title(s) "<job_titles>"
-    And the Admin should not see the difficulty level "<difficulty_level>"
-    And the Admin should not see the tags "<tags>"
-    And the Admin should not see the creation date "<created>"
-    And the Admin should not see the actions "<edit_action>" or "<delete_action>"
+    Then the Admin should see the following properties for the removed question:
+    |  Title     |  Preview  |  Job title(s) |  Difficulty level  |  Tags  | Created date   |            Actions             |
+    | <title>    | <preview> | <job_titles>  | <difficulty_level> | <tags> |   <created>    | <edit_action>, <delete_action> |
 
     Examples:
-      | title             | job_titles                  | difficulty_level | tags  | created   | edit_action | delete_action |
-      | Model Overfitting | Data Scientist, ML Engineer | Easy            | Tech  | 08/08/2025 | Edit icon   | Delete icon   |
-
+      | title             | preview                         | job_titles                  | difficulty_level | tags  | created    | edit_action | delete_action |
+      | Model Overfitting | What is overfitting in ML?      | Data Scientist, ML Engineer | Easy             | Tech  | 08/08/2025 | Edit icon   | Delete icon   |
 
 
   Scenario: When no questions exist, an empty state message is displayed

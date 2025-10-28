@@ -7,9 +7,7 @@ Feature: Search questions in Interview Questions Manager
   Background:
     Given the Admin is logged in
     And the Admin views the Interview Questions Manager page
-    And no keyword is entered in the search bar
-    And no job title is selected from the job title filter
-    And no difficulty level is selected from the difficulty filter
+    And no filters or keywords are currently applied
 
 
   Scenario: View all questions when no filters are applied
@@ -70,8 +68,8 @@ Feature: Search questions in Interview Questions Manager
     And selects "<difficulty_level>" from the difficulty filter
     And selects "<job_title>" from the job title filter
     Then the Admin should see all questions containing "<keyword>" 
-    And with relevant "<difficulty_level>"
-    And filtered by "<job_title>"
+    |   keyword     |    difficulty_level    |   job_title    |
+    |  "<keyword>"  |  "<difficulty_level>"  |  "<job_title>" |
 
     Examples:
       | keyword      | difficulty_level | job_title                 |
