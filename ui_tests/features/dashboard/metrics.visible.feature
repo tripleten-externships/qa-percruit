@@ -1,27 +1,22 @@
 Feature: Admin Dashboard metrics visibility
-Admin wants to verify dashboard has correct metrics including: total users, active mentors, and new this week stats
+As an admin I want to verify dashboard has correct metrics displayed
 
 Background:
-    Given the admin is logged into the system
-    And the admin is on the dashboard
+    Given admin is logged into the system
 
-Scenario: Admin is able to view "Total Users" in dashboard
-     When admin clicks on "View Details" button
-     And redirected to "Admin Usage Metrics" page
-     And scrolls down to "Quick Insights" status card
-     Then system should display number of total users on platform
-     And the status card will show the current total number of "Total Users" 
+Scenario: Admin views total users in the dashboard metrics 
+     Given the admin is on the Admin Usage Metrics page
+     When they check the Quick insights status card
+     Then the system should display the total number of users on the platform 
 
-Scenario: Admin is able to view "Active Mentors" in dashboard
-    When admin clicks on "View Details" button
-    And redirected to "Admin Usage Metrics" page
-    And scrolls down to "Platform Summary" status card
-    Then system should display number of active mentors on platform
-    And status card show should the correct number of "Active Mentors"
+Scenario: Admin is able to view total active mentors in the dashboard metrics 
+    Given the admin is on the Admin Usage Metrics page
+    When they view the Platform Summary section
+    Then the system should display the total number of active mentors in the status card
+    And the displayed number should match the current count of active mentors
 
-Scenario: Admin is able to view "New This Week" in dashboard
-   When admin clicks on "View Details" button
-   And redirected to "Admin Usage Metrics" page
-   And scrolls down to "Activity Metrics"
-   Then admin can filter based on activity over last 7 days
-   And user will be able to view the total over last 7 days in "Total Actions"
+Scenario: Admin views weekly activity metrics in the dashboard metrics 
+   Given the admin is on the Admin Usage Metrics page
+   When they view the Activity Metrics section
+   Then the system should allow filtering activity data for the last 7 days
+   And display the total number of actions for that 7-day period in the Total Actions section
