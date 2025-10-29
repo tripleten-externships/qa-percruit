@@ -1,0 +1,28 @@
+{
+  "name": "ui_tests",
+  "version": "1.0.0",
+  "description": "UI tests using Playwright, TypeScript, and Cucumber",
+  "main": "index.js",
+  "scripts": {
+"test": "cucumber-js --require-module dotenv/config --tags 'not @wip'",
+    "test:stage": "ENV=stage cucumber-js",
+    "test:prod": "ENV=prod cucumber-js",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@cucumber/cucumber": "^12.2.0",
+    "@playwright/test": "^1.45.0",
+    "@types/node": "^20.14.9",
+    "dotenv": "^17.2.3",
+    "husky": "^9.1.7",
+    "prettier": "^3.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  }
+}

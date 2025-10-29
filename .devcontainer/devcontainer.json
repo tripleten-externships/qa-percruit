@@ -1,0 +1,29 @@
+{
+  "name": "QA Externship Environment",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "nodeGypDependencies": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-playwright.playwright",
+        "ms-python.python",
+        "esbenp.prettier-vscode",
+        "alexkrechik.cucumberautocomplete",
+        "ms-vscode.makefile-tools",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker",
+        "MS-vsliveshare.vsliveshare"
+      ]
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
+}
