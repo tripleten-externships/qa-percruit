@@ -1,4 +1,4 @@
-@settings @admin @smoke @wip
+@wip
 Feature: Privacy & AI preferences
   As an Admin
   I want to manage AI-related preferences
@@ -6,10 +6,11 @@ Feature: Privacy & AI preferences
 
   Background:
     Given the Admin is authenticated in the system
-    And the Admin is on the "Privacy & AI" tab in Profile Settings
+    And the Admin is on the Privacy & AI tab in Profile Settings
 
+  @smoke
   Scenario: Opt-out control and guidance are visible
-    Then the "Opt Out of AI Features" control is visible
+    Then the Opt Out of AI Features control is visible
     And explanatory guidance is displayed describing which AI features are affected
     And the current opt-out state is clearly indicated
 
