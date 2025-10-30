@@ -4,7 +4,6 @@ Feature: Real-time Activity Tab
   I want to verify that the Real-time Activity tab load correctly
   So that I can see live user activity data
 
-  @wip
   Scenario: Verify Real-time Activity tab loads correctly
     Given the user on the Admin Dashboard page
     When the user click on the "Usage Metrics" tab

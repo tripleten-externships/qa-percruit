@@ -4,7 +4,6 @@ Feature: Time Filters on Usage Metrics page
   I want to verify that the time filters update the counts correctly
   So that I can view accurate metrics based on the selected time range
 
-@wip
 Scenario Outline: Verify Time Filters update counts correctly
   Given the user is on Admin Dashboard page
   When the user click on the Usage Metrics tab
