@@ -1,9 +1,0 @@
-Feature: Testing Completed button on Usage metrics
-As an “Admin”
-
-@smoke 
-Scenario: Completed Expert Interview button
-Given the admin is on Usage Metrics Page
-When admin clicks completed button
-Then admin will view all completed Expert Interviews
-

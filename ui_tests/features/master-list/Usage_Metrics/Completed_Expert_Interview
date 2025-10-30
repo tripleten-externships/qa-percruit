@@ -1,8 +1,0 @@
-Feature: Expert Interview viewed from Admin
-
-@smoke
-Scenario: Completed Expert Interview
-Given the student has been assigned mentor
-When Student schedules expert interview
-Then Mentor will receive schedule under Expert interviews
-And that scheduled Expert Interview will appear in Admin Usage Metrics
