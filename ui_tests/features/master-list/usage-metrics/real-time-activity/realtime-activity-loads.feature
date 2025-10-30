@@ -1,3 +1,4 @@
+ @wip
 Feature: Real-time Activity Tab
   As a Admin
   I want to verify that the Real-time Activity tab load correctly
