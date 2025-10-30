@@ -6,18 +6,18 @@ so that topics can be tracked or managed accurately
 
 Background:
   Given The Admin is logged in using valid credentials
-  And the Admin is on the "Topics" tab in Coding Problems
+  And the Admin is on the Topics tab in Coding Problems
 
   @smoke
   Scenario: View existing topics
   When the Admin opens the Coding Problems page
-  And accesses the "Topics" tab
+  And accesses the Topics tab
   Then the Admin should see all existing topics
 
   Scenario: Deletion of all existing topics
   When the Admin deletes a specific topic
   Then the Admin should receive a message asking if they are sure they want to delete a specific topic 
-  And the topic should no longer exist on the "Topics" dashboard
+  And the topic should no longer exist on the Topics dashboard
 
   Scenario: Making edits to existing topics
   When the Admin makes an edit to an existing topic with valid information
@@ -25,7 +25,7 @@ Background:
   And the system should confirm that these changes were made
 
   Scenario: Selecting a topic category
-  When the Admin filters a topic using the "Select Category" dropdown
+  When the Admin filters a topic using the Select Category dropdown
   Then the Admin should only see topics which are available to add 
 
   Examples:
@@ -35,10 +35,10 @@ Background:
 
   Scenario: Adding a topic
   When the Admin selects a topic
-  Then the Admin will enable the new topic by selecting the "+ Add Topic" button
+  Then the Admin will enable the new topic by selecting the + Add Topic button
   And the topic should be visible to the Admin
 
   Scenario: No topics present
-  When the Admin opens the "Topics" tab
+  When the Admin opens the Topics tab
   Then the Admin should see a blank page with none existing topics
   And the Admin will have the option of adding a new topic
