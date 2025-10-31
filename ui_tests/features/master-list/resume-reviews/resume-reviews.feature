@@ -4,8 +4,8 @@ Feature: View all Resume Reviews
   In order to track progress of reviews and provide feedback
 
   Background: 
-  Given the admin user is logged into the system
-  And the admin views the Resume Reviews section
+    Given the admin user is logged into the system
+    And the admin views the Resume Reviews section
 
   @smoke
   Scenario Outline: Reviews are visible for each status tab
@@ -14,13 +14,13 @@ Feature: View all Resume Reviews
     Then only "<status>" reviews are displayed
 
     Examples:
-        | status      |
-        | Pending     |
-        | In Progress |
-        | Completed   |
-        | Cancelled   |
-@wip
- @smoke
+      | status      |
+      | Pending     |
+      | In Progress |
+      | Completed   |
+      | Cancelled   |
+
+  @smoke
   Scenario: Continue Review Page opens successfully
     And continues reviewing a previously claimed resume using the "Continue Review" button
     Then the system displays the Continue Review page for that resume
