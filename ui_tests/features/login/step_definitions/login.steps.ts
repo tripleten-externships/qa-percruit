@@ -8,7 +8,6 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
 import * as env from '../../../src/config/world';
-import { CustomWorld } from '../../../src/config/world';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { StudentDashboardPage } from '../../../src/pages/student/StudentDashboardPage';
 
