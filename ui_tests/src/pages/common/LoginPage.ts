@@ -1,10 +1,9 @@
 import { Page } from '@playwright/test';
 import * as env from '../../config/world';
+import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
-export class LoginPage {
-  // Declare Playwright Page instance to perform browser actions
-  readonly page: Page;
+export class LoginPage extends BasePage {
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
@@ -13,7 +12,7 @@ export class LoginPage {
 
   // Constructor to initialize the page object
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
   // Method to enter email into the email field
   async enterEmail(email: string) {
@@ -49,5 +48,24 @@ export class LoginPage {
   // Predefined login method for Mentor user type using crcedentials from environment config
   async loginAsMentor() {
     await this.login(env.getMentorEmail(), env.getMentorPassword());
+  }
+
+  async loginAsUserType(userType: string) {
+    switch (userType) {
+      case 'Student':
+      case 'student':
+        await this.loginAsStudent();
+        break;
+      case 'Admin':
+      case 'admin':
+        await this.loginAsAdmin();
+        break;
+      case 'Mentor':
+      case 'mentor':
+        await this.loginAsMentor();
+        break;
+      default:
+        throw new Error(`Unknown user type: ${userType}`);
+    }
   }
 }
