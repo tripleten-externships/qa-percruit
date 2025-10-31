@@ -226,11 +226,11 @@ ui_tests/
 Feature: View mentor list
   As an admin
   I want to see all mentors and their assigned students
-  So that I can track mentor engagement
+  So that mentor engagement can be tracked
 
   @smoke
   Scenario: Mentor list loads successfully
-    Given I am logged in as an admin
-    When I navigate to the Mentors section
-    Then I should see a list of mentors with emails and student counts
+    Given the admin is logged into the system
+    When the admin navigates to the Mentors section
+    Then the system displays a list of mentors including emails and assigned student counts
 ```
