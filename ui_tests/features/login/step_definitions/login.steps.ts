@@ -33,6 +33,7 @@ After(async () => {
 // Step: Navigate to the Percruit homepage
 Given('I am on the Percruit homepage', async () => {
   await page.goto(env.getBaseUrl());
+  await expect(page).toHaveURL(/percruit.com/);
 });
 
 // Step: Log in as a specific user type (Student, Admin, Mentor)
@@ -46,6 +47,7 @@ When(
 // Step: Login as a specific user type (Student, Admin, Mentor)
 When(/the (.+) is authenticated in the system/, async (userType) => {
   await page.goto(env.getBaseUrl());
+  await expect(page).toHaveURL(/percruit.com/);
   await loginPage.loginAsUserType(userType);
 });
 
