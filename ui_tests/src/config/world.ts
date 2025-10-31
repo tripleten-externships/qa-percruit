@@ -133,8 +133,8 @@ Before(async function () {
       slowMo: slowMo
     });
     this.page = await this.browser.newPage();
-    await this.page.setDefaultTimeout(getConfig(envName).defaultTimeout);
-    await this.page.setDefaultNavigationTimeout(getConfig(envName).navigationTimeout);
+    await this.page.setDefaultTimeout(ENV.defaultTimeout);
+    await this.page.setDefaultNavigationTimeout(ENV.navigationTimeout);
   }
 });
 
