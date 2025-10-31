@@ -3,6 +3,8 @@
 
 // Load environment variables from .env file
 import * as dotenv from 'dotenv';
+import { setWorldConstructor, World, IWorldOptions, Before, After, setDefaultTimeout } from '@cucumber/cucumber';
+import { Browser, Page, chromium } from 'playwright';
 import { CONFIG as DEV } from './dev.env';
 import { CONFIG as STAGE } from './stage.env';
 import { CONFIG as PROD } from './prod.env';
@@ -13,6 +15,10 @@ dotenv.config();
 // Determine which environment config to use (default: 'dev')
 const envName = process.env.ENV || 'dev';
 export const ENV = getConfig(envName);
+
+// Browser configuration from environment variables
+const isHeadless = process.env.PLAYWRIGHT_HEADLESS !== 'false';
+const slowMo = parseInt(process.env.PLAYWRIGHT_SLOWMO || '0', 10);
 
 // Get the student email from environment variables
 // Throws an error if not set, logs the email for debugging
@@ -61,6 +67,16 @@ export function getBaseUrl(): string {
   return process.env.BASE_URL || ENV.baseUrl;
 }
 
+// Get the teardown delay (wait time before closing browser/page)
+// Uses TEARDOWN_DELAY env variable if set, otherwise falls back to config
+export function getTeardownDelay(): number {
+  const envDelay = process.env.TEARDOWN_DELAY;
+  if (envDelay) {
+    return parseInt(envDelay, 10);
+  }
+  return ENV.teardownDelay;
+}
+
 // Select the appropriate environment configuration object
 // Accepts 'dev', 'stage', or 'prod' (case-insensitive)
 export function getConfig(envName?: string) {
@@ -75,3 +91,66 @@ export function getConfig(envName?: string) {
       return DEV;
   }
 }
+
+// ============================================================================
+// PLAYWRIGHT WORLD SETUP
+// ============================================================================
+
+export interface CustomWorld extends World {
+  browser: Browser;
+  page: Page;
+}
+
+class PlaywrightWorld extends World implements CustomWorld {
+  browser!: Browser;
+  page!: Page;
+
+  constructor(options: IWorldOptions) {
+    super(options);
+  }
+
+  async close() {
+    await this.page?.close();
+    await this.browser?.close();
+  }
+}
+
+setWorldConstructor(PlaywrightWorld);
+
+// Set Cucumber default timeout to match Playwright timeouts
+setDefaultTimeout(ENV.defaultTimeout);
+
+// ============================================================================
+// CUCUMBER HOOKS
+// ============================================================================
+
+// Before hook: Initialize browser and page before each scenario
+Before(async function () {
+  // If page is not initialized, create it (for direct use or fallback)
+  if (!this.page) {
+    this.browser = await chromium.launch({
+      headless: isHeadless,
+      slowMo: slowMo
+    });
+    this.page = await this.browser.newPage();
+    await this.page.setDefaultTimeout(ENV.defaultTimeout);
+    await this.page.setDefaultNavigationTimeout(ENV.navigationTimeout);
+  }
+});
+
+// After hook: Clean up browser and page after each scenario
+After(async function () {
+  // Wait before closing to allow for visual inspection or debugging
+  const teardownDelay = getTeardownDelay();
+  if (teardownDelay > 0) {
+    console.log(`Waiting ${teardownDelay}ms before closing browser...`);
+    await new Promise(resolve => setTimeout(resolve, teardownDelay));
+  }
+
+  if (this.page) {
+    await this.page.close();
+  }
+  if (this.browser) {
+    await this.browser.close();
+  }
+});
