@@ -6,11 +6,12 @@ Feature: View all Resume Reviews
 
   Background: 
   Given the admin user is logged into the system
-  And the admin views the Resume Reviews section
+  When the admin views the Resume Reviews section
 
   @smoke
   Scenario Outline: Reviews are visible for each status tab
-    And the system presents four available status tabs: "Pending", "In Progress", "Completed", "Cancelled"
+    Then the system presents four available status tabs: "Pending", "In Progress", "Completed", "Cancelled"
+
     When the admin clicks on the "<status>" tab
     Then only "<status>" reviews are displayed
 
@@ -20,6 +21,7 @@ Feature: View all Resume Reviews
         | In Progress |
         | Completed   |
         | Cancelled   |
+
 
  @smoke
   Scenario: Continue Review Page opens successfully
