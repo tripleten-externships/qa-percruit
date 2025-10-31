@@ -11,6 +11,10 @@ export class BasePage {
     this.page = page;
   }
 
+  async waitForPageLoad(): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
+  }
+
   async isHeadingVisible(heading: string): Promise<boolean> {
     const selector = [
       `h1:has-text("${heading}")`,
