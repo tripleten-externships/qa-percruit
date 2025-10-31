@@ -16,3 +16,15 @@ Scenario: View Readiness Score in Student Readiness metrics
   And the Readiness Score should display a numerical value (e.g., 61/100)
   And the Readiness Score value should match the average readiness data shown in the Student Readiness Analysis table
   And the Readiness Score should update when the data is refreshed
+
+Scenario: Sort students by Readiness Score in ascending order 
+  Given the Student Readiness Analysis table is displayed
+  When the Admin sorts the table by Readiness Score in ascending order
+  Then the students should be listed from the lowest to highest readiness score
+  And the sorted order should be reflected accurately across all displayed rows
+
+Scenario: Sort students by Readiness Score in descending order
+  Given the Student Readiness Analysis table is displayed
+  When the Admin sorts the table by Readiness Score in descending order
+  Then the students should be listed from the highest to lowest readiness score
+  And the sorted order should be reflected accurately across all displayed rows  
