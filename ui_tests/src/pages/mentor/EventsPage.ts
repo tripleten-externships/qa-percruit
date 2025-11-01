@@ -1,5 +1,4 @@
 import { Page, expect } from '@playwright/test';
-import * as env from '../../config/world';
 import { BasePage } from '../common/BasePage';
 
 // Page Object Model (POM) class for the Events page
