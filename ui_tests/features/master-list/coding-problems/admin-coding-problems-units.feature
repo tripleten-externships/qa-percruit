@@ -9,7 +9,7 @@ Background:
   And the Admin is on the Units tab in Coding Problems
 
   @smoke
-  Scenario: View existing topics
+  Scenario: View existing units
   When the Admin opens the Coding Problems page
   And accesses the Units tab
   Then the Admin should see all existing units
