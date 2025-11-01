@@ -4,7 +4,6 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../../src/config/world';
 import { EventsPage } from '../../../../src/pages/mentor/EventsPage';
 import { getDateTimePlusMinutes } from '../../../../src/utils/dateUtils';
 
