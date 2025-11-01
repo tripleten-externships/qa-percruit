@@ -11,7 +11,7 @@ Scenario: Admin views system uptime in the System Health Monitor
      When the admin checks the System Health Monitor section
      Then the system should indicate that all systems are operational
      And the dashboard should displau the current uptime percentage in green text
-     And the uptime value should accurately reflect the system's actual uptime.
+     And the uptime value should accurately reflect the system's actual uptime
 
 Scenario: Admin views the average response time in the System Health Monitor
     When the admin checks the System Health Monitor system
