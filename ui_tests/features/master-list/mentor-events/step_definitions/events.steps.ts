@@ -1,4 +1,4 @@
-import { Given, When, Then, Before, After } from '@cucumber/cucumber';
+import { Given, Then, Before } from '@cucumber/cucumber';
 
 // Import Playwright classes and assertion utilities
 import { expect } from '@playwright/test';
