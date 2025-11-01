@@ -19,7 +19,7 @@ export function getDateTimePlusMinutes(minutesToAdd = 1): string {
   let hours12 = hours24 % 12;
   if (hours12 === 0) hours12 = 12;
 
-  return `${month}/${day}/${year} ${hours12}:${minutes} ${ampm}`;
+  return `${month}/${day}/${year} ${String(hours12).padStart(2, '0')}:${minutes} ${ampm}`;
 }
 
 // Backwards-compatible alias for callers that used the original function name.
