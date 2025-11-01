@@ -1,4 +1,3 @@
-@wip
 Feature: Admin Dashboard Load 
 As an admin, I want to login successfully to my account
 So I can verify the dashboard loads correctly
