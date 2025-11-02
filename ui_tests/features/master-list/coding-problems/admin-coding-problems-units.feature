@@ -10,43 +10,48 @@ Background:
 
   @smoke
   Scenario: View existing units
-  When the Admin opens the Coding Problems page
-  And accesses the Units tab
+  When the Admin views the Units tab in Coding Problems
   Then the Admin should see all existing units
 
-  Scenario: Deletion of all existing units
-  When the Admin deletes a specific unit
-  Then the Admin should receive a message asking if they are sure they want to delete a specific unit
-  And the topic should no longer exist on the Units dashboard
-
-  Scenario: Making edits to existing units
-  When the Admin makes an edit to an existing unit with valid information
-  Then the details for the specific unit will be changed successfully
-  And the system should confirm that these changes were made
-
-  Scenario: Selecting a unit category
-  When the Admin filters a unit using the Category dropdown
-  Then the Admin should only see topics which are available to add 
+  Scenario: Selecting a Category on unit page
+  When the Admin filters a category using the Category dropdown
+  Then the Admin should be able to select a category from the existing Category dropdown list
 
   Examples:
-      |java scripting |
-      | Python Basics |
-      | Database Basics |
+      | BDD |
 
-  Scenario: Selecting a unit topic
-  When the Admin filters a topic using the Topic dropdown
-  Then the Admin should only see topics which are available to add
+  Scenario: Selecting a Topic on unit page
+  When the Admin wants to select a new topic from the existing Topic dropdown list
+  And a Category is already selected 
+  Then the Admin should be able to select a topic from the Topic dropdown list 
 
   Example:
-      | sql |
+      | playwright |
+      | BDD |
+      | gherkin |
 
   Scenario: Adding a Unit
-  When the Admin selects a unit
-  Then the Admin will enable the new topic by selecting the + Add Unit button
-  And the unit should be visible to the Admin
+  When the Admin wants to add a new unit
+  And the Admin selects a category from the existing Category dropdown list
+  And the Admin selects a topic from the existing corresponding Topic dropdown list
+  Then the Admin should be able to add a unit with the valid information
+  And the added unit should be visible to the Admin on the Units page
+
+  Scenario: Updating an existing unit
+  When the Admin makes an edit to an existing unit with valid information
+  Then the Admin should be able to save the changes in the existing unit
+  And the updated unit should be correctly displayed on the Units page
+
+  Scenario: Deletion of an existing unit
+  When the Admin wants to delete a specific unit
+  And the Admin selects a category from the existing Category dropdown list
+  And the Admin selects a topic from the existing corresponding Topic dropdown list
+  Then the Admin should be able to delete an existing unit after the deletion confirmation message
+  And the topic should no longer exist on the Units page
 
   Scenario: No units present
-  When the Admin opens the Units tab
-  Then the Admin should see a blank page with none existing units
-  And the Admin will have the option of adding a new unit
+  When the Admin views the Units tab
+  And there are no existing units
+  Then the Admin should not see any units displayed on the Units page
+
   
