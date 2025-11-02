@@ -17,27 +17,15 @@ Scenario: Selecting a Category on activites page
   When the Admin filters a category using the Category dropdown
   Then the Admin should be able to select a category from the existing Category dropdown list
 
-Examples:
-    | BDD |
-
 Scenario: Selecting a Topic on activities page
   When the Admin wants to select a new topic from the existing Topic dropdown list
   And a Category is already selected 
   Then the Admin should be able to select a topic from the Topic dropdown list 
 
-Examples:
-    | playwright 1 |
-    | BDD |
-    | gherkin |
-    | java |
-
 Scenario: Selecting a Unit on activities page
   When the Amin wants to  select a new unit from the existing Unit dropdown list
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
-
-Examples:
-    | 1 |
 
 Scenario: Adding an Activity
   When the Admin wants to add a new activity
