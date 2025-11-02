@@ -6,7 +6,7 @@ Feature: Critical Issues Display
     So that I can monitor system health and address urgent problems
 
     Background:
-        Given the user is logged in as an administrator
+        Given the user is logged in as an admin
         And the Admin Dashboard is displayed
         And the System Health Monitor card is visible
 
