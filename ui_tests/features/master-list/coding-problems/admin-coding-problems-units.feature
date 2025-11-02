@@ -17,18 +17,10 @@ Scenario: Selecting a Category on unit page
   When the Admin filters a category using the Category dropdown
   Then the Admin should be able to select a category from the existing Category dropdown list
 
-Examples:
-    | BDD |
-
 Scenario: Selecting a Topic on unit page
   When the Admin wants to select a new topic from the existing Topic dropdown list
   And a Category is already selected 
   Then the Admin should be able to select a topic from the Topic dropdown list 
-
-Examples:
-    | playwright |
-    | BDD |
-    | gherkin |
 
 Scenario: Adding a Unit
   When the Admin wants to add a new unit
