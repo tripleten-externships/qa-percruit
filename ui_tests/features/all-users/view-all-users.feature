@@ -1,15 +1,15 @@
+@wip @smoke
 Feature: View all users
-    As an Admin user
-    Admin User signed in 
-    So Admin user can access the All Users
-
+    As an Admin
+    I want to view all users
+    So I access the registered users 
 
     Background: 
-        Given user is on the All Users page
+        Given the Admin is authenticated
+        and the user is viewing all users under the user management page
 
     @smoke
-    Scenario: all users list is showed
-        When user signed in as Admin
-        And Admin user clicks the "All Users" button
-        Then Admin user can see the list of All Users registered at the platform
+    Scenario: Admin successfully view all users
+        When Admin view all users list
+        Then the list of users is displayed at the screen
         
