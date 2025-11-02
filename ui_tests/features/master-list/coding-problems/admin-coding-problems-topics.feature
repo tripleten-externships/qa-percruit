@@ -22,11 +22,6 @@ Scenario: Selecting a category
   When the Admin filters a topic using the Select Category dropdown
   Then the Admin should be able to select a category from the existing Select Category dropdown list
   
-  Examples:
-      | java scripting |
-      | Python Basics |
-      | Database Basics |
-
 Scenario: Adding a topic
   When the Admin selects a topic
   Then the Admin will enable the new topic by selecting the + Add Topic button
