@@ -36,7 +36,7 @@ Scenario: Selecting a Unit on activities page
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
 
-Example:
+Examples:
     | 1 |
 
 Scenario: Adding an Activity
@@ -65,4 +65,3 @@ Scenario: No units present
   And there are no existing activities
   Then the Admin should not see any activites displayed on the Activities page
 
-  
