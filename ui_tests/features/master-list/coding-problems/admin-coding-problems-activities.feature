@@ -17,7 +17,7 @@ Scenario: Selecting a Category on activites page
   When the Admin filters a category using the Category dropdown
   Then the Admin should be able to select a category from the existing Category dropdown list
 
-Example:
+Examples:
     | BDD |
 
 Scenario: Selecting a Topic on activities page
