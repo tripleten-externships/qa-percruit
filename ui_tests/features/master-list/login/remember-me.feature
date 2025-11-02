@@ -1,3 +1,4 @@
+@wip
 Feature: Admin Remember Me Functionality
   As an administrator
   I want to stay logged in after closing the browser

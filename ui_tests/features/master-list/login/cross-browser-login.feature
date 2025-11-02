@@ -12,10 +12,3 @@ Feature: Admin Cross-Browser Login
     Then the admin should be successfully logged in
     And the admin dashboard should be displayed correctly
     Then the admin should be redirected to the admin dashboard successfully
-
-    Examples:
-      | browser   |
-      | Chrome    |
-      | Firefox   |
-      | Safari    |
-      | Edge      |

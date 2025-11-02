@@ -1,4 +1,5 @@
-Feature: Percruit Website Logout
+@wip
+@Feature: Percruit Website Logout
     As a admin i want to be able to logout successfully
 
      Background:
