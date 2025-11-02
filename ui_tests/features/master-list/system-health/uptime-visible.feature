@@ -10,7 +10,7 @@ As an admin user
       And the System Health Monitor card is visible
 
   @smoke @positive
-  Scenario: System uptime is displayed as a percentage value
+  Scenario Outline: System uptime is displayed as a percentage value
     Given the system has an uptime value
     And the uptime value is 99% or above
     Then the System Uptime metric is visible
