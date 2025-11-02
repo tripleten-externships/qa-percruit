@@ -13,7 +13,7 @@ Scenario: View existing activities
   When the Admin views the Activities tab in Coding Problems
   Then the Admin should see all existing activities
 
-Scenario: Selecting a Category on activites page
+Scenario: Selecting a Category on activities page
   When the Admin filters a category using the Category dropdown
   Then the Admin should be able to select a category from the existing Category dropdown list
 
@@ -23,7 +23,7 @@ Scenario: Selecting a Topic on activities page
   Then the Admin should be able to select a topic from the Topic dropdown list 
 
 Scenario: Selecting a Unit on activities page
-  When the Amin wants to  select a new unit from the existing Unit dropdown list
+  When the Admin wants to select a new unit from the existing Unit dropdown list
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
 
@@ -51,5 +51,5 @@ Scenario: Deletion of an existing Activity
 Scenario: No units present
   When the Admin views the Activities tab
   And there are no existing activities
-  Then the Admin should not see any activites displayed on the Activities page
+  Then the Admin should not see any activities displayed on the Activities page
 
