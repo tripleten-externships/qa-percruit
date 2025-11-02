@@ -1,17 +1,16 @@
+@wip @smoke
 Feature: Open user details
-    As an Admin user
-    Admin User signed in 
-    So Admin user can access Usage Metrics
-    Admin user open users details
-
+    As an Admin
+    I want to open a user 
+    So I can see the users
+    Admin user open user's details
 
     Background: 
-        Given Admin user is on Usage Metrics
-        Given Admin user clicks in "View detailed analysis"
+        Given the Admin is authenticated 
+        and the Admin is viewing all users under the user management page
 
     @smoke
-    Scenario: the Admin user is able to see the user details
+    Scenario: the Admin user is able to open user details
         When user signed in as Admin
-        And Admin user clicks the "Usage metrics" button
-        Then Admin user clicks on "Student Readiness" button
-        And Admin user clicks "View detailed analysis" icon
+        And the Admin opens a user's details
+        Then user's details are displayed successfully
