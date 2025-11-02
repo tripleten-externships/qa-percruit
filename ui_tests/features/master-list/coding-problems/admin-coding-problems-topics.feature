@@ -18,7 +18,7 @@ Scenario: No topics present
   Then the Admin should see a blank page with none existing topics
   And the Admin will have the option of adding a new topic
 
-Scenario: Selecting a topic category
+Scenario: Selecting a category
   When the Admin filters a topic using the Select Category dropdown
   Then the Admin should be able to select a category from the existing Select Category dropdown list
   
