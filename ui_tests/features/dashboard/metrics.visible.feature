@@ -1,4 +1,3 @@
-@wip
 Feature: Admin Dashboard Metrics Visibility
 As an admin I want to verify dashboard has correct metrics displayed
 
