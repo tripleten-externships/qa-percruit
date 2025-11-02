@@ -65,3 +65,4 @@ Scenario: No units present
   And there are no existing activities
   Then the Admin should not see any activites displayed on the Activities page
 
+  
