@@ -45,4 +45,8 @@ export class BasePage {
   async clickButtonByText(buttonText: string): Promise<void> {
     await this.page.click(`button:has-text("${buttonText}")`);
   }
+  async clickByButtonRoleByText(buttonText: string): Promise<void> {
+    await this.page.getByRole('button', { name: buttonText }).click();
+  }
+  
 }
