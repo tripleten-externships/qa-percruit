@@ -1,8 +1,7 @@
 @wip @smoke
 Feature: Search users by email
-    As an Admin
-    I want to search for users via their email address
-    So I can locate specific user accounts
+    In order to locate specific user accounts
+    The Admin user needs to be able to search for users by their email address
 
     Background: 
         Given Admin user is authenticated
@@ -11,6 +10,7 @@ Feature: Search users by email
     @smoke
     
     Scenario: Admin sucessfully searches for a user by email
-        When the Admin searches for a user with the email countaining "remya"
-        Then matches that include "remya" are displayed successfully
-        And each results shows the users full email address
+        When the user list is filtered by a valid email substring
+        Then only users whose email includes the specified substring should be displayed
+        And each result shows the user's full email address'
+
