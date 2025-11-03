@@ -57,7 +57,7 @@ export class EventsPage extends BasePage {
   }
 
   async isEventVisible(eventTitle: string): Promise<boolean> {
-    const eventLocator = this.page.getByText(eventTitle, { exact: true });
+    const eventLocator = this.page.getByText(eventTitle, { exact: true }).first();
     await expect(eventLocator).toBeVisible();
     return await eventLocator.isVisible();
   }

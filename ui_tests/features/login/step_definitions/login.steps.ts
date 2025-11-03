@@ -41,6 +41,7 @@ When(/the (.+) is authenticated in the system/, async function (userType) {
   await this.page.goto(env.getBaseUrl());
   await loginPage.waitForPageLoad();
   await loginPage.loginAsUserType(userType);
+  await loginPage.waitForPageLoad();
 });
 
 // Step: Verify that the Student is on the Student Dashboard
