@@ -7,7 +7,7 @@ Feature: Admin Cross-Browser Login
 
     @smoke
   Scenario: Successful login across supported browsers
-    Given the admin opens the system in a supported browser <browser>
+    Given the admin opens the system <browser>
     When valid credentials are provided
     Then the admin should be successfully logged in
     And the admin dashboard should be displayed correctly
