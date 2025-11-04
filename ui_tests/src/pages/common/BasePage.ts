@@ -11,6 +11,10 @@ export class BasePage {
     this.page = page;
   }
 
+  async waitForPageLoad(): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
+  }
+
   async isHeadingVisible(heading: string): Promise<boolean> {
     const selector = [
       `h1:has-text("${heading}")`,
@@ -41,4 +45,8 @@ export class BasePage {
   async clickButtonByText(buttonText: string): Promise<void> {
     await this.page.click(`button:has-text("${buttonText}")`);
   }
+  async clickByButtonRoleByText(buttonText: string): Promise<void> {
+    await this.page.getByRole('button', { name: buttonText }).click();
+  }
+  
 }
