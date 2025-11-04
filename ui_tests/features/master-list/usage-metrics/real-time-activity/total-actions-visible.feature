@@ -1,8 +1,8 @@
  @wip
 Feature: Total Actions count
   As an Admin user
-  I want to verify that the peak activity count at the bottom updates correctly
-  So that I can see accurate activity data for the selected time range
+  Verify that the peak activity count at the bottom updates correctly
+  So that Admin can see accurate activity data for the selected time range
 
   Scenario Outline: Verify Total Actions count updates correctly for each Time Filter
     Given the user is on Admin Dashboard page
