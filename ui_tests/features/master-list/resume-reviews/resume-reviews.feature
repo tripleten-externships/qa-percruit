@@ -3,7 +3,7 @@ Feature: View all Resume Reviews
   View a list of all reviews and their corresponding status labels 
   In order to track progress of reviews and provide feedback
 
-  Background: 
+  Background:
     Given the admin user is logged into the system
     And the admin views the Resume Reviews section
 
