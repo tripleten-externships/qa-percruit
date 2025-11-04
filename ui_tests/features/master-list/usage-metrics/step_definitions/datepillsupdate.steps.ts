@@ -9,7 +9,6 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import { StudentDashboardPage } from '../../../../src/pages/student/StudentDashboardPage';
  
         Given('the user is on Admin Dashboard page', function () {
            // Write code here that turns the phrase above into concrete actions
