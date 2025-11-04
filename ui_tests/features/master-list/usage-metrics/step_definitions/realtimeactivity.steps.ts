@@ -4,8 +4,8 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '/workspaces/qa-percruit/ui_tests/src/config/world';
-import { LoginPage } from '/workspaces/qa-percruit/ui_tests/src/pages/common/LoginPage';
+import * as env from '../../../../src/config/world';
+import { LoginPage } from '../../../../src/pages/common/LoginPage';
 
 
 Given('the user is on the Admin Dashboard page', async function () {
