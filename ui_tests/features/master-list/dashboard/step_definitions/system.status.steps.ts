@@ -6,28 +6,32 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
-         
-Given('The admin is on the login page', async function () {
+       
+Given('is on the dashboard', async function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-Given('a registered admin', function () {
+
+When('the admin checks the System Health Monitor system', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-When('they log in with valid credentials', function () {
+       
+Then('the system should indicate that all systems are operational', function () {
+// Write code here that turns the phrase above into concrete actions
+return 'pending';
+});
+   
+       
+Then('the dashboard should display the average response time in blue text with {string} units', function (string) {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-Then('they should be redirected to their dashboard', function () {
-// Write code here that turns the phrase above into concrete actions
-return 'pending';
-});
-       
-Then('see the dashboard loads correctly', function () {
+
+Then('the displayed response time should accurately reflect the system\'s actual average response time', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });

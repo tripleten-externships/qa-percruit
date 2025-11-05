@@ -6,28 +6,32 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
-         
-Given('The admin is on the login page', async function () {
+
+Given('admin is logged into the system', async function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-Given('a registered admin', function () {
+       
+Given('the admin is on the Admin Usage Metrics page', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-When('they log in with valid credentials', function () {
+       
+When('they view the Platform Summary section', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-Then('they should be redirected to their dashboard', function () {
+
+Then('the system should display the total number of active mentors in the status card', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
        
-Then('see the dashboard loads correctly', function () {
+       
+Then('the displayed number should match the current count of active mentors', function () {
 // Write code here that turns the phrase above into concrete actions
 return 'pending';
 });
