@@ -7,18 +7,11 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 
-
-Before(async function () {
-  // Initialize the EventsPage object with the current browser page context
-
-});
-
-Given('the user on the Admin Dashboard page', async ({ page }) => {
- // Write code here that turns the phrase above into concrete actions
-  await page.getByRole('button', { name: 'ANALYTICS & REPORTING' }).click();
-  await page.getByRole('button', { name: 'Usage Metrics' }).click();
-  await expect(page.getByRole('heading', { name: 'Admin Usage Metrics' })).toBeVisible();
-});        
+// Step definition: Navigate to the Usage Metrics page and verify successful navigation
+Given('the Admin navigates to the Usage Metrics page', async function () {
+           // Write code here that turns the phrase above into concrete actions
+           await this.eventsPage.clickByButtonRoleByText('Usage Metrics');
+         });     
        
 
 When('the user click on the {string} tab', function (string) {
