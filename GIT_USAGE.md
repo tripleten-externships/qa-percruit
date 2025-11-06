@@ -64,7 +64,7 @@ Write a clear, short commit message describing what you did.
 git commit -m "chris/login-auth-tests: added login success and logout scenarios"
 ```
 
-You can verify the commit worked with:
+You can verify the commit worked by doing this:
 
 ```bash
 git log --oneline -1
