@@ -19,6 +19,9 @@ Given('the mentor navigates to the Events page', async function () {
   // Click on the "Events" button to navigate to the Events page
   await this.eventsPage.clickByButtonRoleByText('Events');
 
+  // Wait for navigation to complete before verifying page load
+  await this.page.waitForLoadState('networkidle', { timeout: 30000 });
+
   // Verify that the mentor has successfully navigated to the Events Management page
   const isOnEventsPage = await this.eventsPage.isOnEventsManagementPage();
   expect(isOnEventsPage).toBeTruthy();
