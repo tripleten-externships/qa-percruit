@@ -1,7 +1,8 @@
 @wip
 Feature: Weekly job applications status check
 
-Background: User is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
+Background: 
+Given user is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
 
 @smoke
 Scenario: As a job seeker user wants to see all of the jobs that they submitted their job application to. So that they can keep track of their application progress and follow up if needed
@@ -11,7 +12,8 @@ Then user seea a list featuring all the jobs they applied for and the status Sof
 @wip
 Feature: Viewing job application details
 
-Background: User is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
+Background: 
+Given user is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
 
 @smoke
 Scenario: As a job seeker user wants to see all of the jobs that they submitted their job application to. So that they can keep track of their application progress and follow up if needed
@@ -22,9 +24,9 @@ Then user sees date saved 10/16/25 and job description
 
 @wip
 Feature: Viewing applied jobs when there are no applications
-
-Background: User is logged into the application and has previously applied for 
-the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
+Background:
+Given user is logged into the application 
+And  previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
 
 @smoke
 Scenario: As a job seeker user wants to see all of the jobs that they submitted their job application to. So that they can keep track of their application progress and follow up if needed

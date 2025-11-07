@@ -4,25 +4,27 @@
   "description": "UI tests using Playwright, TypeScript, and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --require-module dotenv/config",
-    "test:stage": "ENV=stage cucumber-js",
-    "test:prod": "ENV=prod cucumber-js",
+    "test": "cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test:debug": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"not @wip\"",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "npx playwright install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
     "@cucumber/cucumber": "^12.2.0",
-    "@playwright/test": "^1.45.0",
+    "@playwright/test": "^1.56.1",
     "@types/node": "^20.14.9",
+    "cross-env": "^7.0.3",
     "dotenv": "^17.2.3",
     "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "playwright": "^1.56.1"
   }
 }

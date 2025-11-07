@@ -12,62 +12,41 @@ import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { StudentDashboardPage } from '../../../src/pages/student/StudentDashboardPage';
 
 // Declare variables to hold browser, page, and page object instances
-let page: Page;
-let browser: Browser;
 let loginPage: LoginPage;
 let studentDashboardPage: StudentDashboardPage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
-Before(async () => {
-  browser = await chromium.launch();
-  page = await browser.newPage();
-  loginPage = new LoginPage(page);
-  studentDashboardPage = new StudentDashboardPage(page);
+Before(async function() {
+  loginPage = new LoginPage(this.page);
+  studentDashboardPage = new StudentDashboardPage(this.page);
 });
 
-// After hook: Close the browser after each scenario
-After(async () => {
-  await browser.close();
-});
 
 // Step: Navigate to the Percruit homepage
-Given('I am on the Percruit homepage', async () => {
-  await page.goto(env.getBaseUrl());
+Given('I am on the Percruit homepage', async function() {
+  await this.page.goto(env.getBaseUrl());
+  await expect(this.page).toHaveURL(/percruit.com/);
 });
 
 // Step: Log in as a specific user type (Student, Admin, Mentor)
 When(
   /I enter correct (.+) (?:email and password|credentials) and (?:click on sign in button|sign in|login)/,
   async (userType) => {
-    // Choose login method based on user type
-    switch (userType) {
-      case 'Student':
-      case 'student':
-        await loginPage.loginAsStudent();
-        break;
-      case 'Admin':
-      case 'admin':
-        await loginPage.loginAsAdmin();
-        break;
-      case 'Mentor':
-      case 'mentor':
-        await loginPage.loginAsMentor();
-        break;
-      default:
-        throw new Error(`Unknown user type: ${userType}`);
-    }
+    await loginPage.loginAsUserType(userType);
   }
 );
 
-// Step: Verify that the user is on the dashboard page with a "Hello," heading
-Then('I should be on the page that says Hello', async () => {
-  await expect(page.getByRole('heading', { name: 'Hello,' })).toBeVisible();
-  // Verify that the current URL contains 'dashboard' indicating dashboard page is being viewed
-  await expect(page).toHaveURL(/dashboard/);
+// Step: Login as a specific user type (Student, Admin, Mentor)
+When(/the (.+) is authenticated in the system/, async function (userType) {
+  await this.page.goto(env.getBaseUrl());
+  await loginPage.waitForPageLoad();
+  await loginPage.loginAsUserType(userType);
 });
 
-// Step: Verify that the Career Diary widget is visible on the student dashboard
-Then('I should be able to see the Career Diary', async () => {
-  const isVisible = await studentDashboardPage.isCareerDiaryWidgetVisible();
+// Step: Verify that the Student is on the Student Dashboard
+Then('the Student should be able to see the Student Dashboard', async function() {
+  await studentDashboardPage.waitForPageLoad();
+  await expect(this.page).toHaveURL(/dashboard/);
+  const isVisible = await studentDashboardPage.isOnDashboardPage();
   expect(isVisible).toBeTruthy();
 });

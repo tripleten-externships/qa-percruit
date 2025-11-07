@@ -1,7 +1,16 @@
 Feature: Percruit Website Login
 
+  
   Scenario: Student successfully logs in to the Percruit website
-    Given I am on the Percruit homepage
-    When I enter correct Student email and password and click on sign in button
-    Then I should be on the page that says Hello
-    Then I should be able to see the Career Diary
+    Given the Student is authenticated in the system
+    Then the Student should be able to see the Student Dashboard
+
+  @wip
+  Scenario: Mentor successfully logs in to the Percruit website
+    Given the Mentor is authenticated in the system
+    Then the Mentor should be able to see the Mentor Dashboard
+
+  @wip
+  Scenario: Admin successfully logs in to the Percruit website
+    Given the Admin is authenticated in the system
+    Then the Admin should be able to see the Admin Dashboard
