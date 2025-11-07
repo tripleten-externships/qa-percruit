@@ -9,8 +9,8 @@ Feature: Search users by email
 
     @smoke
     
-    Scenario: Admin sucessfully searches for a user by email
+    Scenario: Admin successfully searches for a user by email
         When the user list is filtered by a valid email substring
         Then only users whose email includes the specified substring should be displayed
-        And each result shows the user's full email address'
+        And each result shows the user's full email address
 

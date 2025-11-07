@@ -7,8 +7,8 @@ Feature: Admin Sign In
         Given user is on the login page
 
     @smoke
-    Scenario: Sucessful login with valid credentials
+    Scenario: Successful login with valid credentials
         When user enters "qa+100119@qaexternship.testinator.com" and password "1Passw0rd!"
-        And user click the "Sign In" button
+        And user clicks the "Sign In" button
         Then user should be redirected to the Admin Dashboard
         And user should see a welcome message with Admin name
