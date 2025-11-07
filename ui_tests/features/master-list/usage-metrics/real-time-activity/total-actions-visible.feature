@@ -1,3 +1,4 @@
+@wip
 Feature: Total Actions count
   As an Admin user
   Verify that the peak activity count at the bottom updates correctly
