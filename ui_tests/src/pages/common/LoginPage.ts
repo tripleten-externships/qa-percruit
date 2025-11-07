@@ -36,11 +36,15 @@ export class LoginPage extends BasePage {
 
     // Wait for navigation after login (sign-in button click triggers navigation)
     try {
-      await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+      // Wait for either URL change OR dashboard elements to appear
+      await Promise.race([
+        this.page.waitForURL(url => !url.toString().endsWith('percruit.com/'), { timeout: 60000 }),
+        this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
+      ]);
     } catch (error) {
       const currentUrl = this.page.url();
       throw new Error(
-        `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}`
+        `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}. Error: ${error}`
       );
     }
   }
