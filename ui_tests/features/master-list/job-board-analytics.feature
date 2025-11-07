@@ -10,7 +10,7 @@ When user accesses Weekly application - view all applications
 Then user seea a list featuring all the jobs they applied for and the status Software engineer visa interviewing, Software Developer oracle applied, Entry level software engineer developer negotiating
 
 @wip
-Feature: Viewing job application details
+Scenario: Viewing job application details
 
 Background: 
 Given user is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
@@ -23,7 +23,7 @@ And user clicks on Software engineer visa to check submission date
 Then user sees date saved 10/16/25 and job description
 
 @wip
-Feature: Viewing applied jobs when there are no applications
+Scenario: Viewing applied jobs when there are no applications
 Background:
 Given user is logged into the application 
 And  previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
