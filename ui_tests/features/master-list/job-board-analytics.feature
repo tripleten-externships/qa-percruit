@@ -12,9 +12,6 @@ Then user sees a list featuring all the jobs they applied for and the status Sof
 @wip
 Scenario: Viewing job application details
 
-Background: 
-Given user is logged into the application and has previously applied for the following jobs: Software engineer visa, Software Developer oracle, Entry level software engineer developer 
-
 @smoke
 Scenario: As a job seeker user wants to see all of the jobs that they submitted their job application to. So that they can keep track of their application progress and follow up if needed
 When user accesses Weekly application - view all applications
