@@ -5,28 +5,31 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
+import { UsageMetricsPage } from '../../../../src/pages/admin/UsageMetricsPage';
+import { TIMEOUT } from 'dns';
+
+Before(async function(){
+  this.usagemetricsPage = new UsageMetricsPage(this.page);
+});
 
 // Step definition: Navigate to the Usage Metrics page and verify successful navigation
 Given('the Admin navigates to the Usage Metrics page', async function () {
-           // Write code here that turns the phrase above into concrete actions
-           await this.eventsPage.clickByButtonRoleByText('Usage Metrics');
-         });     
-       
 
-When('the user click on the {string} tab', function (string) {
- // Write code here that turns the phrase above into concrete actions
- return 'pending';
+  await this.page.getByRole('button', { name: 'ANALYTICS & REPORTING' }).click();
+  await this.page.getByRole('button',{name:'Usage Metrics'},{timeout:10000});
+  await this.eventsPage.clickByButtonRoleByText('Usage Metrics')
+  const isOnUsageMetricsPage = await this.usagemetricsPage.isOnUsageMetricsPage();
+  expect (isOnUsageMetricsPage).toBeTruthy();
+});  
+
+When('the user click on the {string} tab', async function (tabName) {
+  await this.page.getByRole('tab', { name: tabName },{timeout:30000});
 });
-       
 
- When('the user click on the {string} tab', function (string) {
- // Write code here that turns the phrase above into concrete actions
- return 'pending';
-});
-       
 
-Then('the user should see the Real-time Activity tab content loaded successfully', function () {
- // Write code here that turns the phrase above into concrete actions
- return 'pending';
+Then('the user should see the Real-time Activity tab content loaded successfully', async function () {
+  // Wait for a tab to appear
+    const realTimeActivityTab = this.page.getByRole('tab', { name: 'Real-time Activity' }).first();
+    await expect(realTimeActivityTab).toBeVisible();
+          
 });
