@@ -1,4 +1,3 @@
-@wip
 Feature: Time Filters on Usage Metrics page
   As an Admin user
   Verify that the time filters update the counts correctly
