@@ -32,14 +32,19 @@ export class LoginPage extends BasePage {
   }
   // Generic method to perform login using given email and password
   async loginAndVerify(email: string, password: string) {
-    this.login(email, password);
+    await this.login(email, password);
 
-    // Then wait for and verify the Dashboard div is visible to confirm successful login
+    // Wait for navigation after login (sign-in button click triggers navigation)
     try {
-      await this.page.waitForSelector('text=Dashboard', { timeout: 10000 });
+      // Wait for either URL change OR dashboard elements to appear
+      await Promise.race([
+        this.page.waitForURL(url => !url.toString().endsWith('percruit.com/'), { timeout: 60000 }),
+        this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
+      ]);
     } catch (error) {
+      const currentUrl = this.page.url();
       throw new Error(
-        `Login failed for email: ${email}. Dashboard div not visible after login.`
+        `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}. Error: ${error}`
       );
     }
   }

@@ -25,11 +25,16 @@ export class StudentDashboardPage extends BasePage {
   }
 
   async isOnDashboardPage(): Promise<boolean> {
-    let isTrue = false;
+    // Wait for the Career Diary heading to appear (gives page time to fully load)
+    try {
+      await this.page.waitForSelector('text=Career Diary', { timeout: 10000 });
+    } catch {
+      return false;
+    }
 
     // Check if required headings are visible to confirm we're on the dashboard
-    isTrue = await this.isHeadingVisible('Career Diary');
-    if (!isTrue) {
+    const hasHeading = await this.isHeadingVisible('Career Diary');
+    if (!hasHeading) {
       return false;
     }
 
