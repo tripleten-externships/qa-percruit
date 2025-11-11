@@ -8,7 +8,6 @@ Background:
   Given The Admin is logged in using valid credentials
   And the Admin is on the Activities tab in Coding Problems
 
-@smoke
 Scenario: View existing activities
   When the Admin views the Activities tab in Coding Problems
   Then the Admin should see all existing activities

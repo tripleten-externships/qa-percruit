@@ -8,10 +8,10 @@ Background:
   Given The Admin is logged in using valid credentials
   And the Admin is on the Topics tab in Coding Problems
 
-@smoke
 Scenario: View existing topics
   When the Admin views the Topics page in Coding Problems
   Then the all existing topics should be viewable to the Admin
+
 
 Scenario: No topics present
   When the Admin opens the Topics tab
@@ -21,16 +21,18 @@ Scenario: No topics present
 Scenario: Selecting a category
   When the Admin filters a topic using the Select Category dropdown
   Then the Admin should be able to select a category from the existing Select Category dropdown list
-  
+
 Scenario: Adding a topic
   When the Admin selects a topic
   Then the Admin will enable the new topic by selecting the + Add Topic button
   And the existing topic will be visible to the Admin
 
+
 Scenario: Updating an existing topic
   When the Admin makes an edit to an existing topic with valid information
   Then the Admin should be able to save the changes in the existing topic
   And the updated topic should be correctly displayed on the Topics page
+
 
 Scenario: Deletion of an existing topic
   When the Admin deletes a specific topic
