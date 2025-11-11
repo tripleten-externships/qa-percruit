@@ -1,4 +1,4 @@
-@wip
+# @wip
 Feature: Average Response Time Display
   As an admin user
   I want to see the average response time on the dashboard
