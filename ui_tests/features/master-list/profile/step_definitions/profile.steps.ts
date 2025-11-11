@@ -14,25 +14,14 @@ let browser: Browser;
 let loginPage: LoginPage;
 let adminDashboardPage: AdminDashboardPage;
 
-// Before hook: Launch a new browser and page before each scenario and initialize page objects
-Before(async () => {
-  browser = await chromium.launch();
-  page = await browser.newPage();
-  loginPage = new LoginPage(page);
-  adminDashboardPage = new AdminDashboardPage(page);
-});
 
-// After hook: Close the browser after each scenario
-After(async () => {
-  await browser.close();
-});
 
 // Declare variables to hold browser, page, and page object instances
 Given('the Admin is on the Profile Settings page', async function () {
-await this.page.getByAltText('Admin').click();
-await this.page.getBy('menuitem', { name: 'View Profile' }).click();
-await expect(this.page.getByRole('heading', { name: 'Profile Settings' })).toBeVisible();
+const admin = new AdminDashboardPage(this.page);
+  await admin.navigateToProfileSettings();
 });
+
 
 
 
