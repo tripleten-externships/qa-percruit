@@ -1,4 +1,3 @@
-@wip
 Feature: View all Resume Reviews
   As an admin
   View a list of all reviews and their corresponding status labels 
@@ -20,21 +19,20 @@ Feature: View all Resume Reviews
         | In Progress |
         | Completed   |
         | Cancelled   |
-
-
+@wip
  @smoke
   Scenario: Continue Review Page opens successfully
     And continues reviewing a previously claimed resume using the "Continue Review" button
     Then the system displays the Continue Review page for that resume
     And the intended resume details are correctly displayed
-
+@wip
   @smoke
   Scenario: View Feedback Page opens successfully
     And a completed resume review is available
     And requests to view feedback using the "View Feedback" button
     Then the system displays a Feedback Page for that resume 
     And the displayed feedback corresponds to the selected resume
-
+@wip
   @smoke
   Scenario: Claim and Review changes resume status
     And a resume with a "Pending" status is available
