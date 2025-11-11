@@ -7,6 +7,7 @@ Background:
     Given the Admin is authenticated in the system
     And the Admin navigates to the Usage Metrics page
 
+@ready
 Scenario Outline: Verify Time Filters update counts correctly
   When the user is on Real Time Activity tab
   And apply the "<timeFilter>" time filter
