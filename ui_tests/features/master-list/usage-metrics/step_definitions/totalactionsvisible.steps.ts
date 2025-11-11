@@ -6,7 +6,4 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 
 Then('the user should see the peak activity count updated for {string}', async function (string) {
     await this.page.getByText('Peak Activity').nth(1);
-    //await this. page.getByText('Total Last Hour');
-    //await this.page.getByRole('heading', { name: 'Total Last Hour'});
-    //console.log("Peak Activity of the total last hour");
     });
