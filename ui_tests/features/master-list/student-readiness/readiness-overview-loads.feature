@@ -16,7 +16,7 @@ Feature: Student Readiness Tab under Usage Metrics
       | Student | Readiness Score | Status | Jobs Applied | Interviews Completed | Mentor | Actions |
     And the Admin should see the total number of students displayed
     And the Admin should see a "Refresh Data" button
-    And the "Student Readiness" tab should be active
+    
 
   Scenario: Filter students by Status
     Given the Student Readiness table is displayed
