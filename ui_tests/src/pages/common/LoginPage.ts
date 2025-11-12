@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import * as env from '../../config/world';
 import { BasePage } from './BasePage';
 
@@ -31,6 +31,25 @@ export class LoginPage extends BasePage {
     await this.page.click(this.FORGOT_PASSWORD_LOCATOR);
   }
   // Generic method to perform login using given email and password
+  async loginAndVerify(email: string, password: string) {
+    await this.login(email, password);
+
+    // Wait for navigation after login (sign-in button click triggers navigation)
+    try {
+      // Wait for either URL change OR dashboard elements to appear
+      await Promise.race([
+        this.page.waitForURL(url => !url.toString().endsWith('percruit.com/'), { timeout: 60000 }),
+        this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
+      ]);
+    } catch (error) {
+      const currentUrl = this.page.url();
+      throw new Error(
+        `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}. Error: ${error}`
+      );
+    }
+  }
+
+  // Generic method to perform login using given email and password
   async login(email: string, password: string) {
     await this.enterEmail(email);
     await this.enterPassword(password);
@@ -39,15 +58,15 @@ export class LoginPage extends BasePage {
 
   // Predefined login method for Student user type using credentials from environment config
   async loginAsStudent() {
-    await this.login(env.getStudentEmail(), env.getStudentPassword());
+    await this.loginAndVerify(env.getStudentEmail(), env.getStudentPassword());
   }
   // Predefined login method for Admin user type using credentials from environment config
   async loginAsAdmin() {
-    await this.login(env.getAdminEmail(), env.getAdminPassword());
+    await this.loginAndVerify(env.getAdminEmail(), env.getAdminPassword());
   }
-  // Predefined login method for Mentor user type using crcedentials from environment config
+  // Predefined login method for Mentor user type using credentials from environment config
   async loginAsMentor() {
-    await this.login(env.getMentorEmail(), env.getMentorPassword());
+    await this.loginAndVerify(env.getMentorEmail(), env.getMentorPassword());
   }
 
   async loginAsUserType(userType: string) {
