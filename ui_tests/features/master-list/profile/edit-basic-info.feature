@@ -9,7 +9,7 @@ Feature: Edit basic profile information
     And the Admin is on the Profile Settings page
     And the Admin is viewing the Basic Information section
 
-  @smoke
+  @smoke @wip
   Scenario: Editable fields are visible and correctly labeled
     Then the fields Full Name, Phone Number, Location, and Timezone should be editable
     And the Email field should be read-only
