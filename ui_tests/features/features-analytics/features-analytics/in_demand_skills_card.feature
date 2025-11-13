@@ -1,16 +1,12 @@
 @wip
 Feature: Skill Summary Card Percentage Display
 
-As a user reviewing my profile user wants to see the total percentage achieved for each
-skill displayed on summary card
-
-@smoke
-Scenario: Summary Card Displays total percentage for single skill
-Given the user is viewing Career Insights Most-in-demand-skills (2025) card and
-the user clicked on programming icon
-When the summary card loads
-Then the section for programming should be visible and the displayed percentage for 
-python should be 95% and the displayed percentage for r programming should be 45%
+Background:
+The user is logged into the platform and is viewing the Career Insights Most-in-demand-skills.
+The system presents the total percentage achieved for each skill on the summary card for a profile under review.
 
 @wip
-Feature: 
+Scenario: Summary Card Displays total percentage for single skill
+The Career Insights Most-in-demand-skills (2025) card is displayed and the programming icon is selected.
+Upon loading the summary card,
+the section for programming becomes visible, and the displayed percentage for Python is 95% while the displayed percentage for " R Programming" is 45%.

@@ -1,18 +1,17 @@
 
-@wip @smoke
+@wip 
 Feature: View platform analytics
 
-Background: 
+Background:
 Given the user is logged into the platform
-In order to research jobs that match my skills
-As a student
-I want to see platform job analytics and career insights
 
-Scenario: Platform Analytics tab loads sucessfully 
-When the user accesses the career insights tab 
-Then user should see a page of job analytics
+@wip
+Scenario: Platform Analytics tab loads successfully
+When the career insights tab is accessed
+Then a page of job analytics is displayed
 
-Scenario: Platform Analytics tab does not load sucessfully    
-When the user accesses the career insights tab
-Then user notice error message "Please try again later" 
-And the analytics page does not load sucessfully
+@wip
+Scenario: Platform Analytics tab does not load successfully
+When the career insights tab is accessed
+Then the error message "Please try again later" is displayed
+And the analytics page fails to load
