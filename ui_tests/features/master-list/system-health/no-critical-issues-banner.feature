@@ -24,6 +24,7 @@ Feature: Critical Issues Display
         And the count value is displayed in green color
         And the green color indicates healthy status
 
+<<<<<<< HEAD
     @negative
     Scenario: Critical issues displays critical color when 1 or multiple issues exist
         Given the system has 1 or multiple critical issues
@@ -45,5 +46,7 @@ Feature: Critical Issues Display
         Then the Critical Issues metric is visible
         And the count shows zero or a valid non-negative value Or an error message is displayed
 
+=======
+>>>>>>> b1e4b2ed3854aa0662f8f37f487a4f226f64c8fb
  
 
