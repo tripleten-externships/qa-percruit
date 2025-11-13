@@ -5,8 +5,8 @@ Feature: Search questions in Interview Questions Manager
   So that relevant questions can be quickly located and reviewed
 
   Background:
-    Given the Admin is logged in
-    And the Admin views the Interview Questions Manager page
+    Given the Admin is authenticated in the system
+    And the Admin views the Interview Questions page
     And no filters or keywords are currently applied
 
 
