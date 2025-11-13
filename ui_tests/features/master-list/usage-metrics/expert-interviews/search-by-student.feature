@@ -1,5 +1,6 @@
 @wip
 Feature: Search by Student
+The system allows admin  to search for a student by email in order to view that students expert interview usage metrics.
 
 
 
@@ -15,5 +16,5 @@ And Admin is on the Expert Interviews page within Usage Metrics
 Scenario: Search for Student email
 Given the Admin selects search bar
 When Admin types in student email
-Then Admin’s search for student email becomes visible
+Then Admin search for student email becomes visible
 
