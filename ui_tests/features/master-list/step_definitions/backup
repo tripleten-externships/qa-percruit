@@ -1,0 +1,75 @@
+ // Step definitions for login feature using Cucumber and Playwright
+
+// Import Cucumber hooks and step definition decorators
+import { Given, When, Then, Before, After } from '@cucumber/cucumber';
+
+// Import Playwright classes and assertion utilities
+import { chromium, Browser, Page, expect } from '@playwright/test';
+
+// Import environment configuration and Page Object Models
+import * as env from '../../../src/config/world';
+import { LoginPage } from '../../../src/pages/common/LoginPage';
+import { MentorDashboardPage } from '../../../src/pages/mentor/MentorDashboardPage';
+
+
+let browser: Browser;
+let page: Page;
+let loginPage: LoginPage;
+let MentorsPage: MentorDashboardPage;
+
+         Given('the admin user is logged into the Percruit website', async function () {
+           // browser = await chromium.launch({ headless: false }); // change to true for CI
+        ;
+         });
+
+          loginPage = new LoginPage(page);
+            mentorsPage = new MentorsPage(page);
+            await loginPage.goto();
+            await loginPage.login("yellowgemstudiollc+admin1@gmail.com", "Lala1234!"); //});
+
+       
+         When('the admin user views the mentors list', async function () {
+           await getByRole ('button',{ name:'Mentors'});
+           await getByRole ('heading', { name: 'Mentors (38)' });
+           return 'pending';
+         });
+       
+         Then('the mentor list should be displayed', async function () {
+           await getByRole ('heading', { name: 'Mentors (38)' });
+           return 'pending';
+         });
+       
+         Then('each mentor should have their name', async function () {
+           await getByRole('textbox', { name: 'Search mentors by name, email' })
+           return 'pending';
+         });
+       
+         Then('mentor email visible', async function () {
+           
+           return 'pending';
+         });
+       
+         Then('number of assigned students visible', async function () {
+           // Write code here that turns the phrase above into concrete actions
+           return 'pending';
+         });
+       
+         Then('their students email visible', async function () {
+           // Write code here that turns the phrase above into concrete actions
+           return 'pending';
+         });
+       
+         Then('mentor joined date visible', async function () {
+           // Write code here that turns the phrase above into concrete actions
+           return 'pending';
+         });
+       
+         Then('the total count of mentors should be displayed at the top of the list visible', async function () {
+           // Write code here that turns the phrase above into concrete actions
+           return 'pending';
+         });
+
+
+         After(async () => {
+          await browser.close();
+});

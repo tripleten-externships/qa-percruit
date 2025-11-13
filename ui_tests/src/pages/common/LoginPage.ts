@@ -34,7 +34,20 @@ export class LoginPage extends BasePage {
   async login(email: string, password: string) {
     await this.enterEmail(email);
     await this.enterPassword(password);
-    await this.clickSignIn();
+    // click and wait for navigation or a post-login element to be visible
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+      this.clickSignIn(),
+    ]);
+    // Wait for a dashboard heading or other stable post-login selector
+    await this.page.waitForSelector('h1, [data-testid="dashboard-heading"]', { timeout: 8000 }).catch(() => {});
+  }
+
+  // Navigate to the login page (uses env.getBaseUrl)
+  async goto() {
+    const base = env.getBaseUrl();
+    await this.page.goto(`${base}/login`);
+    await this.page.waitForLoadState('networkidle');
   }
 
   // Predefined login method for Student user type using credentials from environment config
