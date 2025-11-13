@@ -24,5 +24,26 @@ Feature: Critical Issues Display
         And the count value is displayed in green color
         And the green color indicates healthy status
 
+    @negative
+    Scenario: Critical issues displays critical color when 1 or multiple issues exist
+        Given the system has 1 or multiple critical issues
+        Then the Critical Issues metric is visible
+        And the critical issues count is equal or greater than 1
+        And the count value is displayed in critical color
+        And the "All Systems Operational" status is not displayed
+
+    @negative
+    Scenario: Critical issues handles missing data gracefully
+        Given the critical issues data is unavailable
+        Then the Critical Issues metric is visible
+        And an appropriate placeholder or error message is displayed
+        And the "Critical Issues" label remains visible
+
+    @negative
+    Scenario: Critical issues does not display negative values
+        Given the system has invalid negative critical issues count
+        Then the Critical Issues metric is visible
+        And the count shows zero or a valid non-negative value Or an error message is displayed
+
  
 

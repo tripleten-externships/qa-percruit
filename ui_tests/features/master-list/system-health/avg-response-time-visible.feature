@@ -22,3 +22,16 @@ Feature: Average Response Time Display
       Then the Avg Response Time metric is visible
       And the response time is displayed as a numeric value
       And the numeric value is followed by "ms" unit
+
+    @negative
+    Scenario: Average response time does not display negative values
+      Given the system has an invalid negative response time
+      Then the Avg Response Time metric is visible
+      And the response time shows a valid non-negative value Or an error message is displayed
+
+    @negative
+    Scenario: Average response time handles missing data gracefully
+      Given the system response time data is unavailable
+      Then the Avg Response Time metric is visible
+      And an appropriate placeholder or error message is displayed
+      And the "Avg Response Time" label remains visible
