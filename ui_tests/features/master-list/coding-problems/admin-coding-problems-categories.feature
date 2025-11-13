@@ -1,6 +1,6 @@
 Feature: Categories in the Coding Problems page
   As an Admin
-  The Admin wants to view and update categories in Coding Problems page
+  the Admin wants to view and update categories in Coding Problems page
   so that categories can be tracked or managed accurately
   
   Background:
@@ -25,7 +25,8 @@ Scenario: Updating an existing Category
 @wip
 Scenario: Deletion of an existing Category
    When the Admin deletes a specific category
-   Then the category will no longer exist and will not be viewable to the Admin 
+   Then the Admin should receive a message asking if they are sure they want to delete the specific category 
+   And the category should no longer exist on the Categories page after confirmation
 
 @wip
 Scenario: No Categories present
