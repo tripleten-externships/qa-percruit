@@ -20,9 +20,8 @@ And user clicks on Software engineer visa to check submission date
 Then user sees date saved 10/16/25 and job description
 
 @wip
- Scenario: User views job application and page does not load
-    Given the job analytics page is unable to load 
-    When user accesses Weekly application - view all applications
+Scenario: User views job application and page does not load Given the job analytics page is unable to load 
+When user accesses Weekly application - view all applications
 Then user should notice an error message
 And user should not see any job listings or application status submitted
 

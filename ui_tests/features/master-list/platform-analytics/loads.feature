@@ -1,24 +1,18 @@
 
-@wip
+@wip @smoke
 Feature: View platform analytics
-Scenario: Initial student research requirements
-  Given As a student, I want to see all job analytics 
-  And I can research jobs that align with their skills
-  
- Background:  user is logged into the platform
 
-  @smoke
+Background: 
+Given the user is logged into the platform
+In order to research jobs that match my skills
+As a student
+I want to see platform job analytics and career insights
+
 Scenario: Platform Analytics tab loads sucessfully 
-  
-    When the user accesses the career insights tab 
-    Then user should see a page of job analytics
+When the user accesses the career insights tab 
+Then user should see a page of job analytics
 
-    
-     Scenario: View platform analytics
-          Given As a student, I want to see all job analytics
-          And I can research jobs that align with their skills
-    
-    Scenario: Platform Analytics tab does not load sucessfully
-    When the user accesses the career insights tab
-    Then user notice error message "try back later" 
-    And page does not load sucessfully
+Scenario: Platform Analytics tab does not load sucessfully    
+When the user accesses the career insights tab
+Then user notice error message "Please try again later" 
+And the analytics page does not load sucessfully
