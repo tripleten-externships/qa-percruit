@@ -1,16 +1,21 @@
-// Import Cucumber hooks and step definition decorators
+// ===============================
+// Imports
+// ===============================
 import { Given, When, Then, Before, After } from '@cucumber/cucumber';
-
-// Import Playwright classes and assertion utilities
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
-// Import environment configuration and Page Object Models
+// Environment config and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 
+// Define a custom world type for Cucumber context
 interface CustomWorld {
   page: Page;
 }
+
+// ===============================
+// GIVEN STEPS
+// ===============================
 
 Given('the Admin user navigates to usage-metrics page', async function (this: CustomWorld) {
   const { page } = this;
@@ -46,9 +51,10 @@ Given('the Student Readiness table is displayed', async function (this: CustomWo
   await expect(tableLocator).toBeVisible();
 });
 
-// ------------------------------
-// WHEN STEP
-// ------------------------------
+// ===============================
+// WHEN STEPS
+// ===============================
+
 When('the Admin filters students by a specific status {string}', async function (this: CustomWorld, status: string) {
   const { page } = this;
 
@@ -64,6 +70,18 @@ When('the Admin filters students by a specific status {string}', async function 
   // Verify that at least one visible row shows the chosen status
   await expect(page.getByText(status, { exact: true }).first()).toBeVisible({ timeout: 5000 });
 });
+
+// When the Admin views the "Student Readiness" metrics
+When('the Admin views the {string} metrics', async function (this: CustomWorld, tabName: string) {
+  const { page } = this;
+  const tab = page.getByRole('tab', { name: tabName });
+  await tab.click();
+  await expect(tab).toHaveClass(/active|selected/);
+});
+
+// ===============================
+// THEN STEPS
+// ===============================
 
 Then('only students matching the selected status should be displayed', async function (this: CustomWorld) {
   const { page } = this;
@@ -88,4 +106,29 @@ Then('only students matching the selected status should be displayed', async fun
   expect(activeCount).toBe(statuses.length);  // ensure all are Active
 
   console.log('✅ Verified: all students displayed have status "Active".');
+});
+
+// Then the Admin should see the "Student Readiness Analysis" table
+Then('the Admin should see the {string} table', async function (this: CustomWorld, tableTitle: string) {
+  const { page } = this;
+  const tableHeader = page.getByText(tableTitle, { exact: true });
+  await expect(tableHeader).toBeVisible();
+});
+
+// Then the table should include the following columns:
+Then('the table should include the following columns:', async function (this: CustomWorld, dataTable) {
+  const { page } = this;
+  const expectedColumns = dataTable.raw().flat();
+  
+  for (const column of expectedColumns) {
+    const header = page.getByRole('columnheader', { name: column });
+    await expect(header, `Column "${column}" not found`).toBeVisible();
+  }
+});
+
+// Then the Admin should see a "Refresh Data" button
+Then('the Admin should see a {string} button', async function (this: CustomWorld, buttonName: string) {
+  const { page } = this;
+  const button = page.getByRole('button', { name: buttonName });
+  await expect(button).toBeVisible();
 });

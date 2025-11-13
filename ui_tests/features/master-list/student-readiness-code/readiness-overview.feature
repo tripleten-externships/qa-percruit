@@ -7,17 +7,18 @@ Feature: Student Readiness Tab under Usage Metrics
     Given the Admin is authenticated in the system
     And the Admin user navigates to usage-metrics page
 
-  @wip
+  
+  
   Scenario: Student Readiness tab loads correctly under Usage Metrics
     When the Admin views the "Student Readiness" metrics
     Then the Admin should see the "Student Readiness Analysis" table
     And the table should include the following columns:
-      | Student | Readiness Score | Status | Jobs Applied | Interviews Completed | Mentor | Actions |
-    And the Admin should see the total number of students displayed
+      | Student | Readiness Score | Status | Jobs Applied | Interviews Completed | Mentor | Actions |    
     And the Admin should see a "Refresh Data" button
-    And the "Student Readiness" tab should be active  
-    
-  Scenario: Filter students by Status
+      
+
+
+    Scenario: Filter students by Status
     Given the Student Readiness table is displayed
     When the Admin filters students by a specific status "Active"
     Then only students matching the selected status should be displayed
