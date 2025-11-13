@@ -18,7 +18,7 @@ Feature: Student Readiness Tab under Usage Metrics
       
 
 
-    Scenario: Filter students by Status
+  Scenario: Filter students by Status
     Given the Student Readiness table is displayed
     When the Admin filters students by a specific status "Active"
     Then only students matching the selected status should be displayed
