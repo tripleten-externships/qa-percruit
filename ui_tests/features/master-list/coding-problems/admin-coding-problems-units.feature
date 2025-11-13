@@ -1,11 +1,11 @@
 @wip
 Feature: Units in the Coding Problem page
 As an Admin
-The Admin wants to view and update units in the coding problems page
+the Admin wants to view and update units in the coding problems page
 so that units can be tracked or managed accurately
 
 Background:
-  Given The Admin is logged in using valid credentials
+  Given the Admin is logged in using valid credentials
   And the Admin is on the Units tab in Coding Problems
 
 Scenario: View existing units
@@ -35,14 +35,10 @@ Scenario: Updating an existing unit
 
 Scenario: Deletion of an existing unit
   When the Admin wants to delete a specific unit
-  And the Admin selects a category from the existing Category dropdown list
-  And the Admin selects a topic from the existing corresponding Topic dropdown list
-  Then the Admin should be able to delete an existing unit after the deletion confirmation message
-  And the topic should no longer exist on the Units page
+  Then the Admin should receive a message asking if they are sure they want to delete the specific unit 
+  And the unit should no longer exist on the Units page
 
 Scenario: No units present
   When the Admin views the Units tab
   And there are no existing units
   Then the Admin should not see any units displayed on the Units page
-
-  
