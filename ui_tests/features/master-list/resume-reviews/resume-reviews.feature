@@ -39,7 +39,7 @@ Feature: View all Resume Reviews
     And a resume with a "Pending" status is available
     And the admin claims a resume for review using the "Claim & Review" button
     Then the system changes the status of a resume from "Pending" to "In Progress"
-
+@ready
   @smoke
   Scenario: All reviews are listed under respective statuses
     Then the system displays all reviews grouped by their current status
