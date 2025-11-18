@@ -790,6 +790,7 @@ git config --system core.longpaths true
 ```
 
 **Problem: All Tests Fail**
+
 If you run `npm test` on your Windows device and all tests fail--the browser launches but never navigates
 to the home page--the test is not finding `.env` file in the `ui_tests` folder.
 
@@ -809,9 +810,11 @@ npm test
 ```
 
 **Solution:**
+
 Copy your `.env` file to the `ui_tests` folder.
 
 **Tests do not run with `You're calling functions (e.g. "setWorldConstructor") on an instance of Cucumber that isn't running` error**
+
 If you run `npm test` and see this error:
 
 ```
@@ -843,6 +846,7 @@ Error:
 You are probably running the test suite from the Windows command line (CMD application) instead of PowerShell.
 
 **Solution:**
+
 Run the test suite using PowerShell.  This is available in the terminal in VS Code or by pressing Windows+R and then typing PowerShell.
 
 ---
