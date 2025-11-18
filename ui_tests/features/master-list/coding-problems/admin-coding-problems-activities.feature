@@ -1,17 +1,15 @@
 @wip
 Feature: Activities in the Coding Problems page
 As an Admin 
-The Admin wants to view and update activities in the coding problems page
+the Admin wants to view and update activities in the coding problems page
 so that activities can be tracked or managed accurately
 
 Background:
-  Given The Admin is logged in using valid credentials
-  And the Admin is on the Activities tab in Coding Problems
+  Given the Admin is authenticated in the system
 
-@smoke
 Scenario: View existing activities
-  When the Admin views the Activities tab in Coding Problems
-  Then the Admin should see all existing activities
+  When the Admin navigates to the Activities tab in Coding Problems
+  Then the Admin will view all existing activities
 
 Scenario: Selecting a Category on activities page
   When the Admin filters a category using the Category dropdown
