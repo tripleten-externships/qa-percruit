@@ -5,8 +5,8 @@ Feature: View total questions count by difficulty (Easy, Medium, Hard)
   So that the question counts by difficulty can be tracked
 
   Background:
-    Given the Admin is logged in
-    And the Admin views the Interview Questions Manager page
+    Given the Admin is authenticated in the system
+    And the Admin views the Interview Questions page
 
   Scenario Outline: Total questions count displays correctly
     When the Admin views the total questions count stat cards by difficulty
