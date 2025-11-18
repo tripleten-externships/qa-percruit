@@ -5,12 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js --require-module dotenv/config --tags \"not @wip\"",
-<<<<<<< HEAD
-    "test:stage": "ENV=stage cucumber-js",
-    "test:prod": "ENV=prod cucumber-js",
-=======
     "test:debug": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"not @wip\"",
->>>>>>> b1e4b2ed3854aa0662f8f37f487a4f226f64c8fb
     "format": "prettier --write .",
     "prepare": "husky",
     "postinstall": "npx playwright install"
