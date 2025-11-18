@@ -789,6 +789,62 @@ git reset --hard
 git config --system core.longpaths true
 ```
 
+**Problem: All Tests Fail**
+If you run `npm test` on your Windows device and all tests fail--the browser launches but never navigates
+to the home page--the test is not finding `.env` file in the `ui_tests` folder.
+
+```
+npm test
+
+> ui_tests@1.0.0 test
+> cucumber-js --require-module dotenv/config --tags "not @wip"
+
+[dotenv@17.2.3] injecting env (0) from .env -- tip: :gear:  suppress all logs with { quiet: true }
+....F-Waiting 1000ms before closing browser...
+.....F------Waiting 1000ms before closing browser...
+.....F----Waiting 1000ms before closing browser...
+.....F----Waiting 1000ms before closing browser...
+.....F----Waiting 1000ms before closing browser...
+.....F----Waiting 1000ms before closing browser...
+```
+
+**Solution:**
+Copy your `.env` file to the `ui_tests` folder.
+
+**Tests do not run with `You're calling functions (e.g. "setWorldConstructor") on an instance of Cucumber that isn't running` error**
+If you run `npm test` and see this error:
+
+```
+npm test
+
+> ui_tests@1.0.0 test
+> cucumber-js --require-module dotenv/config --tags "not @wip"
+
+[dotenv@17.2.3] injecting env (0) from .env -- tip: :hammer_and_wrench:  run anywhere with `dotenvx run -- yourcommand`
+Error:
+          You're calling functions (e.g. "setWorldConstructor") on an instance of Cucumber that isn't running (status: PENDING).
+          This means you may have an invalid installation, potentially due to:
+          - Cucumber being installed globally
+          - A project structure where your support code is depending on a different instance of Cucumber
+          Either way, you'll need to address this in order for Cucumber to work.
+          See https://github.com/cucumber/cucumber-js/blob/main/docs/installation.md#invalid-installations
+
+    at checkInstall (C:\TripleTen\qa-percruit\ui_tests\node_modules\@cucumber\cucumber\src\support_code_library_builder\index.ts:129:15)
+    at C:\TripleTen\qa-percruit\ui_tests\node_modules\@cucumber\cucumber\src\support_code_library_builder\index.ts:147:11
+    at Object.<anonymous> (C:\TripleTen\qa-percruit\ui_tests\src\config\world.ts:118:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Module.m._compile (c:\TripleTen\qa-percruit\ui_tests\node_modules\ts-node\src\index.ts:1618:23)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (c:\TripleTen\qa-percruit\ui_tests\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+```
+You are probably running the test suite from the Windows command line (CMD application) instead of PowerShell.
+
+**Solution:**
+Run the test suite using PowerShell.  This is available in the terminal in VS Code or by pressing Windows+R and then typing PowerShell.
+
 ---
 
 ### Codespaces-Specific Problems ☁️

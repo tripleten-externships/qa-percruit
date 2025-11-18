@@ -277,6 +277,9 @@ ENV=stage                   # Options: dev, stage, prod
 > - Keep this file at the repository root so both test suites can read it
 > - Never share your `.env` file or commit it to version control
 
+Note for Windows users: You will also need to copy this .env file into your ui_tests folder--
+On Windows, it must be in both places.
+
 #### **Step 5: Verify Your Setup**
 
 Test that everything is working correctly:
@@ -298,6 +301,9 @@ poetry --version  # Should show 1.5+
 cd ui_tests
 npm test
 ```
+
+Note for Windows users: You must run **npm test** in PowerShell or the VS Code terminal using PowerShell.
+It will not work if you run it from the Command line (CMD).
 
 **Run a quick API test:**
 ```bash
