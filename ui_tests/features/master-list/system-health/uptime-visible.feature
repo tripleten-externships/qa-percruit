@@ -32,3 +32,24 @@ As an admin user
     Then the System Uptime metric is visible
     And the uptime value is displayed in green color
     And the green color indicates healthy status
+
+    @negative
+    Scenario: System uptime handles missing data gracefully
+      Given the system uptime data is unavailable
+      Then the System Uptime metric is visible
+      And an appropriate placeholder or error message is displayed
+      And the "System Uptime" label remains visible
+
+    @negative
+    Scenario: System uptime does not display values over 100%
+      Given the system has an invalid uptime value over 100%
+      Then the System Uptime metric is visible
+      And the uptime value is capped at "100%" Or an error message is displayed
+
+    @negative
+    Scenario: System uptime displays correctly when at 0%
+      Given the system has an uptime value
+      And the uptime value is 0%
+      Then the System Uptime metric is visible
+      And the uptime value shows "0%"
+      And the uptime is displayed in critical color
