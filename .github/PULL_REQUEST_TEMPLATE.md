@@ -1,50 +1,32 @@
-### Description
+## Summary
+<!--
+Provide a clear, concise summary of your changes.
+What is the goal of this PR? For example:
+- "This PR fixes a flaky test in the search functionality by improving element selectors."
+-->
 
+## Ticket
+Closes #
 
-### Related Issue(s)
-* Closes #
+## Change Type
+- [ ] New test
+- [ ] Test fix
+- [ ] Framework/config update
+- [ ] Docs update
 
+## Risk & Impact
+<!-- Risk level (Low/Med/High) + short note on affected areas -->
 
-### Type of Change
-- [ ] Bug Fix (a change that fixes a defect in the application)
-- [ ] New Test (a change that adds a new automated test case)
-- [ ] Test Framework Improvement (a change to the test code, configuration, or CI/CD pipeline)
-- [ ] Documentation Update
+## Verification
+<!-- List suites or evidence. Attach logs/screenshots if useful. -->
+- [ ] Playwright/UI run
+- [ ] API/Integration run
+- [ ] Manual check
+- [ ] Other: ___
 
-
-### Risk Assessment
-* **Risk Level:**
-- [ ] Low
-- [ ] Medium
-- [ ] High
-
-* **Potential Impact:** ### Testing Strategy & Evidence
-
-#### Manual Test Steps (if applicable)
-1. Go to page X.
-2. Click on button Y.
-3. Verify that Z happens as expected.
-
-#### Automated Tests
-- [ ] All existing automated tests pass successfully.
-- [ ] New automated test(s) have been added to cover this change.
-
-#### Test Environment
-* **Browser(s):
-- [ ] Chrome / Chromium
-- [ ] Firefox 
-- [ ] Safari / Webkit
-
-
-
-* **OS:** macOS / Windows
-
-
-#### Screenshots or Videos
-
-### Checklist
-- [ ] I have performed a self-review of my own code.
-- [ ] My changes are small, focused, and address a single issue.
-- [ ] I have tested my changes on the specified environments.
-- [ ] My tests cover both "happy path" and relevant edge cases.
-- [ ] I have updated the choices above where applicable.
+## Checklist
+- [ ] I have merged the latest changes from `main` into my branch.
+- [ ] My code follows the project's style guidelines and branching conventions.
+- [ ] I have added comments to my code where necessary, particularly in hard-to-understand areas.
+- [ ] Self-review complete
+- [ ] All existing automated tests pass successfully with my changes locally.
