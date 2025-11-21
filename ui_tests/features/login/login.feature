@@ -14,3 +14,11 @@ Feature: Percruit Website Login
   Scenario: Admin successfully logs in to the Percruit website
     Given the Admin is authenticated in the system
     Then the Admin should be able to see the Admin Dashboard
+
+@wip
+  Scenario: Admin fails login to the Percruit website
+  Given the Admin is on the Login page
+  When the user enters an adminstrator email
+  And the user enters an invalid password
+  And the user clicks sign in
+  Then the admin should see an invalid login message
