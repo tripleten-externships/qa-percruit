@@ -9,7 +9,7 @@ Given the student is authenticated in the system
 And completed the Career Path assessment
 When the student submits assessment
 Then the student should see a personalized Roadmap
-And tabs "career Roadmap, "Learning Resources", "Industry Insights" and "Project Ideas" should display relevant information based on Target Role
+And tabs Career Roadmap, Learning Resources, Industry Insights and Project Ideas should display relevant information based on Target Role
 
 Scenario: Assessment Validation of Required Fields
 Given the student is authenticated in the system
