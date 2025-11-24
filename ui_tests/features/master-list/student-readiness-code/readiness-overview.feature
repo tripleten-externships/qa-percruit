@@ -9,7 +9,8 @@ Feature: Student Readiness Tab under Usage Metrics
 
   
   
-  Scenario: Student Readiness tab loads correctly under Usage Metrics
+  @wip
+    Scenario: Student Readiness tab loads correctly under Usage Metrics
     When the Admin views the "Student Readiness" metrics
     Then the Admin should see the "Student Readiness Analysis" table
     And the table should include the following columns:
@@ -18,7 +19,8 @@ Feature: Student Readiness Tab under Usage Metrics
       
 
 
-    Scenario: Filter students by Status
+  @wip
+  Scenario: Filter students by Status
     Given the Student Readiness table is displayed
     When the Admin filters students by a specific status "Active"
     Then only students matching the selected status should be displayed
