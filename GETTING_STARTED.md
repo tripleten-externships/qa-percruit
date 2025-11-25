@@ -54,7 +54,7 @@ Follow these steps if you prefer to work on your own computer.
         ```
     * **On Windows (in PowerShell):**
         ```powershell
-        (Invoke-WebRequest -Uri [https://install.python-poetry.org](https://install.python-poetry.org) -UseBasicParsing).Content | py -
+        (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
         ```
     * **Install dependencies:**
         ```bash
