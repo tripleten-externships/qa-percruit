@@ -7,6 +7,9 @@
     "test": "cucumber-js --require-module dotenv/config --tags \"not @wip\"",
     "test:indev": "cucumber-js --require-module dotenv/config --tags \"@indev\"",
     "test:debug": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test:ex20": "cross-env DOTENV_CONFIG_PATH=.env.ex20 cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test:ex21": "cross-env DOTENV_CONFIG_PATH=.env.ex21 cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test:ex22": "cross-env DOTENV_CONFIG_PATH=.env.ex22 cucumber-js --require-module dotenv/config --tags \"not @wip\"",
     "format": "prettier --write .",
     "prepare": "husky",
     "postinstall": "npx playwright install"
