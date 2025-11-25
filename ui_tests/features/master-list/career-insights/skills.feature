@@ -11,7 +11,7 @@ for a specific domain.
     And the skills list should not contain skills from other categories
 
   @wip
-  Scenario: ALl the skills are displayed when nothing is selected
+  Scenario: All the skills are displayed when nothing is selected
     Given The student is authenticated in the system
     And the domains contains multiple categories
     When the student does not select any category from the domain tabs
@@ -45,8 +45,8 @@ for a specific domain.
   Scenario: Filter the domains  by category "Analytics"
     Given The student is authenticated in the system
     And the domains contains multiple categories
-    When the student selects the category ""Analytics"" from the domain tabs
-    Then The student should see only skills from the "Analytics" category
+    When the student selects the category "Analytics" from the domain tabs
+    Then the student should see only skills from the "Analytics" category
     And the skills list should not contain skills from other categories
 
   @wip

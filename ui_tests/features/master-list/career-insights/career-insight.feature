@@ -3,7 +3,7 @@ Feature:Percruit Career-insights page
   @wip
   Scenario:Career Insights page opens up 
     Given the student is authenticated in the system 
-    when student clicks on the career insights from the side menu
+    When student clicks on the career insights from the side menu
     Then the career insights page is displayed
 
   @wip
@@ -36,14 +36,14 @@ Feature:Percruit Career-insights page
   Scenario: Verify user can scroll to view Industry distribution and work arrangements adjacently
     Given the student is authenticated in the system
     When the student selects the career insights from the side menu
-    And the student should be able to scroll to see a bar diagram displaying salary ranges for various roles and Experience
+    Then the student should be able to scroll to see a bar diagram displaying salary ranges for various roles and Experience
     And work arrangements adjacent to the Industry distribution
 
   @wip
   Scenario: Verify user can scroll to view Career Progression Path
     Given the student is authenticated in the system
     When the student selects the career insights from the side menu
-    And the student should be able to scroll to see Career Progression path 
+    Then the student should be able to scroll to see Career Progression path 
     And entry-level tile
     And Mid-level tile
     And Senior-level tile
@@ -53,7 +53,7 @@ Feature:Percruit Career-insights page
   Scenario: Verify user can scroll to view Top Companies Hiring Data Professionals
     Given the student is authenticated in the system
     When the student selects the career insights from the side menu
-    And the student should be able to scroll to see Companies Hiring Data Professionals
+    Then the student should be able to scroll to see Companies Hiring Data Professionals
     And view technology tile
     And view Finance tile
     And view Healthcare tile
@@ -64,7 +64,7 @@ Feature:Percruit Career-insights page
   Scenario: Verify user can scroll to view Key Insights & Recommendations
     Given the student is authenticated in the system
     When the student selects the career insights from the side menu
-    And the student should be able to scroll to see Key Insights & Recommendations
+    Then the student should be able to scroll to see Key Insights & Recommendations
     And view Market opportunities
     And view the bullet points below Market opportunities
     And view Success Strategies
@@ -73,8 +73,9 @@ Feature:Percruit Career-insights page
   @wip
   Scenario: Question appears at bottom of the page
     Given the student is authenticated in the system
-    And the question is not visible at the top of the page
     When the student scrolls to the bottom of the page
     Then the student should see the question text displayed at the bottom of the page
+    And the question is not visible at the top of the page 
+    
         
 
