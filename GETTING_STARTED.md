@@ -35,7 +35,7 @@ Follow these steps if you prefer to work on your own computer.
 #### **Setup Steps**
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/tripleten-externships/qa-percruit.git](https://github.com/tripleten-externships/qa-percruit.git)
+    git clone https://github.com/tripleten-externships/qa-percruit.git
     cd qa-percruit
     ```
 
