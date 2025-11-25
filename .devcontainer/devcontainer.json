@@ -6,10 +6,11 @@
       "version": "3.11"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "20",
-      "nodeGypDependencies": true
-    }
+    "ghcr.io/devcontainers/features/node:1": "none",
+    "ghcr.io/devcontainers/features/common-utils:2": {
+        "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/dbalatero/devcontainer-features/volta:1": {}
   },
   "customizations": {
     "vscode": {

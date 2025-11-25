@@ -27,5 +27,8 @@
   },
   "dependencies": {
     "playwright": "^1.56.1"
+  },
+  "volta": {
+    "node": "20.18.0"
   }
 }
