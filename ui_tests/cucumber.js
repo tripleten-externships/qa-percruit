@@ -2,7 +2,7 @@ module.exports = {
   default: {
     requireModule: ['ts-node/register'],
     require: [
-      'features/**/step_definitions/*.ts'
+      'src/step-definitions/**/*.ts'
     ],
     format: [
       'html:playwright-report/cucumber-report.html'

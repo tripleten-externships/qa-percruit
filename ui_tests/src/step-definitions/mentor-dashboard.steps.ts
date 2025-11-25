@@ -5,8 +5,8 @@ import { Given, Then, Before } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import { EventsPage } from '../../../../src/pages/mentor/EventsPage';
-import { getDateTimePlusMinutes } from '../../../../src/utils/dateUtils';
+import { EventsPage } from '../pages/mentor/EventsPage';
+import { getDateTimePlusMinutes } from '../utils/dateUtils';
 
 // Setup hook that runs before each scenario to initialize the EventsPage instance
 Before(async function () {
