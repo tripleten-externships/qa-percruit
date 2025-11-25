@@ -477,7 +477,7 @@ npx playwright install chromium
    - Remove `@wip` from your feature file
 
 2. **Verify feature file location:**
-   - Should be in `ui_tests/features/master-list/`
+   - Should be in the appropriate domain folder under `ui_tests/features/`
 
 3. **Check Cucumber configuration:**
    - Review `ui_tests/cucumber.js`

@@ -8,7 +8,7 @@ This document shows a filled-out example of our pull request template to help yo
 
 This PR adds automated tests for the student profile edit functionality. Previously, we only had manual test cases for profile updates. These new tests verify that students can successfully update their personal information, upload profile pictures, and save changes across different browsers.
 
-The tests use the Page Object Model pattern and follow our existing test structure in `ui_tests/features/master-list/profile/`.
+The tests use the Page Object Model pattern and follow our existing test structure in `ui_tests/features/shared/`.
 
 ## Ticket
 Closes #42

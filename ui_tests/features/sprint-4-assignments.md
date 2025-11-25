@@ -6,7 +6,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Derian — Login & Authentication
-**Folder:** `ui_tests/features/login/`
+**Folder:** `ui_tests/features/auth/`
 
 **Example Features:**
 - `login-success.feature` — Verify login works with valid credentials.
@@ -18,7 +18,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Ben — Admin Dashboard Overview
-**Folder:** `ui_tests/features/dashboard/`
+**Folder:** `ui_tests/features/admin-dashboard/`
 
 **Example Features:**
 - `dashboard-load.feature` — Verify dashboard loads correctly.
@@ -42,7 +42,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Lili — All Users
-**Folder:** `ui_tests/features/all-users/`
+**Folder:** `ui_tests/features/shared/`
 
 **Example Features:**
 - `view-all-users.feature` — Validate user list appears with status badges.
@@ -54,7 +54,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Chris — Coding Problems
-**Folder:** `ui_tests/features/coding-problems/`
+**Folder:** `ui_tests/features/interview-questions/`
 
 **Example Features:**
 - `view-problems.feature` — Displays coding problem list.
@@ -66,7 +66,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Nicole — Usage Metrics (Overview)
-**Folder:** `ui_tests/features/usage-metrics/overview/`
+**Folder:** `ui_tests/features/metrics/`
 
 **Example Features:**
 - `overview-loads.feature` — Overview tab loads correctly.
@@ -90,7 +90,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Latoya — Mentors
-**Folder:** `ui_tests/features/mentors/`
+**Folder:** `ui_tests/features/mentor-dashboard/`
 
 **Example Features:**
 - `view-mentors-list.feature` — Mentors list loads with total count.
@@ -114,7 +114,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Cee — Profile & Settings
-**Folder:** `ui_tests/features/profile/`
+**Folder:** `ui_tests/features/shared/`
 
 **Example Features:**
 - `view-profile.feature` — Profile information loads correctly.
@@ -126,7 +126,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Tareq — Usage Metrics (Student Readiness)
-**Folder:** `ui_tests/features/usage-metrics/student-readiness/`
+**Folder:** `ui_tests/features/metrics/`
 
 **Example Features:**
 - `readiness-overview-loads.feature` — Student readiness tab loads correctly.
@@ -138,7 +138,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Thelma — Resume Reviews
-**Folder:** `ui_tests/features/resume-reviews/`
+**Folder:** `ui_tests/features/shared/`
 
 **Example Features:**
 - `view-all-reviews.feature` — All reviews load with status labels.
@@ -150,7 +150,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Anshuma — Usage Metrics (Real-time Activity)
-**Folder:** `ui_tests/features/usage-metrics/real-time-activity/`
+**Folder:** `ui_tests/features/metrics/`
 
 **Example Features:**
 - `realtime-activity-loads.feature` — Real-time Activity tab loads correctly.
@@ -162,7 +162,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Joe — Usage Metrics (Expert Interviews)
-**Folder:** `ui_tests/features/usage-metrics/expert-interviews/`
+**Folder:** `ui_tests/features/metrics/`
 
 **Example Features:**
 - `expert-interviews-tab-loads.feature` — Tab loads correctly.
@@ -174,7 +174,7 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ---
 
 ## Amanda — Usage Metrics (Platform Analytics)
-**Folder:** `ui_tests/features/usage-metrics/platform-analytics/`
+**Folder:** `ui_tests/features/metrics/`
 
 **Example Features:**
 - `platform-analytics-loads.feature` — Platform Analytics tab loads correctly.
@@ -190,22 +190,14 @@ All features should be stored inside their assigned folder under `ui_tests/featu
 ```
 ui_tests/
   features/
-    login/
-    dashboard/
-    usage-metrics/
-      overview/
-      student-readiness/
-      real-time-activity/
-      expert-interviews/
-      platform-analytics/
-    all-users/
-    mentors/
+    auth/
+    admin-dashboard/
+    mentor-dashboard/
     mentor-assignments/
-    system-health/
-    coding-problems/
     interview-questions/
-    resume-reviews/
-    profile/
+    metrics/
+    system-health/
+    shared/
 ```
 
 ---

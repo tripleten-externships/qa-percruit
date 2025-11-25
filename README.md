@@ -47,7 +47,7 @@ This repository contains two complete testing suites with 60+ test scenarios:
 * **Language:** TypeScript
 * **Node Version:** 20 (managed via `.nvmrc`)
 * **Test Organization:**
-  - Feature files in [features/master-list/](./ui_tests/features/master-list/)
+  - Feature files in [features/](./ui_tests/features/) grouped by domain
   - Page Object Model in [src/pages/](./ui_tests/src/pages/)
   - Multi-environment configs (dev, stage, prod)
 * **Test Coverage:**
