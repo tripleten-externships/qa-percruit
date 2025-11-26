@@ -1,0 +1,17 @@
+
+Feature: Percuit Website Student-Connect-Forums
+ 
+Background:
+Given the Student is authenticated in the system
+    And the Student is on the “Forum” page
+    And the student clicks on the "New Post" button
+@wip
+Scenario: Student creates a new post successfully
+    Given the student is on the "Create a New Topic" page
+    When the student enters a valid title
+    And the student enters or select valid tag
+    And the student enters valid content
+    And the student clicks "Create Topic" button
+    Then the post should be created successfully
+    And the user should see a success message
+    And the new post should appear in the forum list
