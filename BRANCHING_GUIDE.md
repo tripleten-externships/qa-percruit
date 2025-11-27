@@ -184,7 +184,7 @@ type: brief description
 git checkout -b sarah/test-profile-edit
 
 # 2. Create feature file
-# ui_tests/features/master-list/profile/profile-edit.feature
+# ui_tests/features/shared/profile-edit.feature
 
 # 3. Create step definitions
 # ui_tests/steps/profile.steps.ts
@@ -215,7 +215,7 @@ git push -u origin sarah/test-profile-edit
 git checkout -b james/fix-dashboard-timeout
 
 # 2. Update test file
-# ui_tests/features/master-list/dashboard/dashboard.feature
+# ui_tests/features/admin-dashboard/dashboard-load.feature
 
 # 3. Commit fix
 git add .
@@ -441,30 +441,28 @@ All BDD work goes under:
 ```
 ui_tests/
 ├── features/
-│   └── master-list/
-│       ├── login/
-│       │   └── login.feature
-│       ├── dashboard/
-│       │   └── dashboard.feature
-│       └── profile/
-│           └── profile.feature
-├── steps/
-│   ├── login.steps.ts
-│   ├── dashboard.steps.ts
-│   └── profile.steps.ts
-└── src/
-    └── pages/
-        ├── BasePage.ts
-        ├── LoginPage.ts
-        └── DashboardPage.ts
+│   ├── auth/
+│   ├── admin-dashboard/
+│   ├── mentor-dashboard/
+│   ├── mentor-assignments/
+│   ├── interview-questions/
+│   ├── metrics/
+│   ├── system-health/
+│   └── shared/
+├── src/
+│   ├── config/
+│   ├── pages/
+│   └── step-definitions/
+└── api_tests/
+    └── tests/
 ```
 
 ### What Goes in Each Branch
 
 **Test Branch (`yourname/test-description`):**
-- New `.feature` files in `features/master-list/`
-- New `.steps.ts` files in `steps/`
-- New page objects in `src/pages/` (if needed)
+- New `.feature` files in the appropriate domain folder under `ui_tests/features/`
+- New `.steps.ts` files in `ui_tests/src/step-definitions/`
+- New page objects in `ui_tests/src/pages/` (if needed)
 
 **Fix Branch (`yourname/fix-description`):**
 - Updates to existing `.feature` files

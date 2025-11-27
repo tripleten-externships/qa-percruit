@@ -47,7 +47,7 @@ This repository contains two complete testing suites with 60+ test scenarios:
 * **Language:** TypeScript
 * **Node Version:** 20 (managed via `.nvmrc`)
 * **Test Organization:**
-  - Feature files in [features/master-list/](./ui_tests/features/master-list/)
+  - Feature files in [features/](./ui_tests/features/) grouped by domain
   - Page Object Model in [src/pages/](./ui_tests/src/pages/)
   - Multi-environment configs (dev, stage, prod)
 * **Test Coverage:**
@@ -199,11 +199,23 @@ qa-percruit/
 │   ├── pyproject.toml
 │   └── poetry.lock
 ├── ui_tests/               # TypeScript UI tests
-│   ├── features/           # Cucumber feature files
-│   │   └── master-list/    # Organized test scenarios
+│   ├── features/           # Cucumber feature files grouped by domain
+│   │   ├── auth/
+│   │   ├── admin-dashboard/
+│   │   ├── mentor-dashboard/
+│   │   ├── mentor-assignments/
+│   │   ├── interview-questions/
+│   │   ├── metrics/
+│   │   ├── system-health/
+│   │   └── shared/
 │   ├── src/
 │   │   ├── config/         # Environment configs
-│   │   ├── pages/          # Page Object Models
+│   │   ├── pages/          # Page Object Models (admin, mentor, student, common)
+│   │   ├── step-definitions/  # Cucumber step definitions by domain
+│   │   │   ├── auth.steps.ts
+│   │   │   ├── mentor-dashboard.steps.ts
+│   │   │   ├── interview-questions.steps.ts
+│   │   │   └── metrics.steps.ts
 │   │   └── utils/          # Helper functions
 │   ├── package.json
 │   └── playwright.config.ts

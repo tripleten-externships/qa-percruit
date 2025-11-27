@@ -71,11 +71,18 @@ git config --global --list
 ```
 qa-percruit/
 ├── ui_tests/
-│   └── features/
-│       └── master-list/     # Your test scenarios go here
-│           ├── login/
-│           ├── dashboard/
-│           └── profile/
+│   ├── features/            # Domain-grouped feature files
+│   │   ├── auth/
+│   │   ├── admin-dashboard/
+│   │   ├── mentor-dashboard/
+│   │   ├── mentor-assignments/
+│   │   ├── interview-questions/
+│   │   ├── metrics/
+│   │   ├── system-health/
+│   │   └── shared/
+│   └── src/
+│       ├── pages/
+│       └── step-definitions/
 └── api_tests/
     └── tests/               # API test files
 ```
@@ -194,13 +201,13 @@ git add .
 **Stage specific files:**
 ```bash
 # Stage a single file
-git add ui_tests/features/master-list/login/login.feature
+git add ui_tests/features/auth/login.feature
 
 # Stage multiple specific files
 git add file1.ts file2.feature
 
 # Stage all files in a directory
-git add ui_tests/features/master-list/profile/
+git add ui_tests/features/shared/
 ```
 
 **Verify what's staged:**

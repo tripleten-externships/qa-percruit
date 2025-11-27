@@ -505,7 +505,7 @@ npx cucumber-js --tags "@smoke"
 Now that your environment is set up, here's what to do next:
 
 ### **1. Familiarize Yourself with the Codebase**
-- **UI Tests:** Browse [ui_tests/features/master-list/](./ui_tests/features/master-list/) to see test scenarios
+- **UI Tests:** Browse [ui_tests/features/](./ui_tests/features/) to see domain-organized test scenarios
 - **Page Objects:** Check [ui_tests/src/pages/](./ui_tests/src/pages/) to understand the Page Object Model pattern
 - **API Tests:** Review [api_tests/tests/](./api_tests/tests/) for API test examples
 
@@ -533,12 +533,12 @@ Now that your environment is set up, here's what to do next:
 
 ### **4. Understand the Test Structure**
 
-**UI Test Anatomy:**
+**UI Test Anatomy (example):**
 ```
-ui_tests/features/master-list/login/
+ui_tests/features/auth/
 ├── login.feature                    # Gherkin scenarios
-└── step_definitions/
-    └── login.steps.ts              # Step implementations
+└── src/step-definitions/
+    └── auth.steps.ts                # Step implementations
 ```
 
 **Page Object Example:**
