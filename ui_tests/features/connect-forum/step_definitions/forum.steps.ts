@@ -6,12 +6,12 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../src/config/world';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
-import { IndustryNewsPage } from '../../../src/pages/student/IndustryNewsPage';
+import { ForumPage } from '../../../src/pages/student/ForumPage';
 
 let loginPage: LoginPage;
-let industryNewsPage: IndustryNewsPage;
+let forumPage: ForumPage;
 
-Before(async function() {
+Before(async function(this: { page: Page }) {
   loginPage = new LoginPage(this.page);
-  industryNewsPage = new IndustryNewsPage(this.page);
+  forumPage = new ForumPage(this.page);
 });
