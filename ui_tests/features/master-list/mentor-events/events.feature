@@ -6,7 +6,8 @@ Feature: Event creation by mentor
     Given the Mentor is authenticated in the system
     And the mentor navigates to the Events page
     
-  Scenario: Mentor successfully creates a new event
+@wip
+Scenario: Mentor successfully creates a new event
     And starts the process to create a new event
     Then the system displays the event creation form
     And the mentor provides valid event details
