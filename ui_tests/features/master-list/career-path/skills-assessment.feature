@@ -1,10 +1,12 @@
 @wip
 Feature: Skills Assessment
 
+@wip
 Scenario: No data inputted into assessment
 Given the student submits assessment with no data
 Then the student should see an error message
 
+@wip
 Scenario: Career Roadmap Generation
 Given the student is authenticated in the system
 And completed the Career Path assessment
@@ -12,6 +14,7 @@ When the student submits assessment
 Then the student should see a personalized Roadmap
 And tabs Career Roadmap, Learning Resources, Industry Insights and Project Ideas should display relevant information based on Target Role
 
+@wip
 Scenario: Assessment Validation of Required Fields
 Given the student is authenticated in the system
 And the user starts the assessment
