@@ -8,7 +8,6 @@ export class ForumPage extends BasePage {
     TitleInputBox= '//input[@placeholder=" What\'s your topic about?"]';
    
     SortByEditBox = '//input[@value="relevance"]';
-
   constructor(page: Page) {
     super(page);
   }
