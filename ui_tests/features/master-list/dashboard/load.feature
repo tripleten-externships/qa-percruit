@@ -7,6 +7,7 @@ Background:
     Given The admin is on the login page
 
 Scenario: Successful login to dashboard without issue
+    # Commented out as the step is already in Background
     #Given a registered admin  
     When they log in with valid credentials
     Then they should be redirected to their dashboard 
