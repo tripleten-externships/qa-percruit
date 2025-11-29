@@ -6,6 +6,14 @@ Given the Student is authenticated in the system
     And the Student is on the “Forum” page
     And the student clicks on the "New Post" button
 @wip
+Scenario: Student cancels post creation
+ Given the student is on the "Create a New Topic" page
+ When the student enters a valid title
+ And clicks the "Cancel" button
+ Then the user should be redirected back to the “Forums” page
+  And no new post should be created
+
+@wip
 Scenario: Student creates a new post successfully
     Given the student is on the "Create a New Topic" page
     When the student enters a valid title

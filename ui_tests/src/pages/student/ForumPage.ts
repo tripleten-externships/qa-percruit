@@ -5,6 +5,8 @@ export class ForumPage extends BasePage {
 
     IndustryNewsHeading = '//h1[text() = "Industry News"]';
     SearchEditBox = '//input[@placeholder="Search articles..."]';
+    TitleInputBox= '//input[@placeholder=" What\'s your topic about?"]';
+   
     SortByEditBox = '//input[@value="relevance"]';
 
   constructor(page: Page) {
