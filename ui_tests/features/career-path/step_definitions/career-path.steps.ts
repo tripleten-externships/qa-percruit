@@ -13,12 +13,12 @@ import { CareerPathPage } from '../../../src/pages/student/CareerPathPage';
 
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
-let CareerPathPage: CareerPathPage;
+let careerPathPage: CareerPathPage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  CareerPathPage = new CareerPathPage(this.page);
+  careerPathPage = new CareerPathPage(this.page);
 });
 
 
@@ -28,5 +28,5 @@ When('the user navigates to the Career Path page', async function() {
 });
 
 Then('the Career Path page displays', async function() {
-  await CareerPathPage.verifyPage();
+  await careerPathPage.verifyPage();
 });
