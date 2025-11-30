@@ -1,0 +1,25 @@
+Feature: Percruit Connect Messages Feature / User Login & Access
+
+  
+  Scenario: Student successfully logs in to the Percruit website
+    Given the Student is authenticated in the system
+    Then the Student should be able to open Messages page
+
+  @wip
+  Scenario: Student login successfull and navigates to Connect Messages
+    Given the user is on the login page
+    When the user enters a valid email and password
+    And clicks the login button
+    Then the user should be redirected to the Dashboard
+    Given the user is on the dashboard 
+    When the user navigates to Connect Messages
+    Then the user should see the Welcome to messages screen
+
+    @wip
+  Scenario: Student opens messages page
+    Given the user is logged in
+    And the user is on the Connect Messages page
+    Then the Messages page should display
+    And the user should see Welcome to Messages
+
+
