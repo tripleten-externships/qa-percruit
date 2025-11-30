@@ -22,3 +22,11 @@ Feature: Percruit Website Login
   And the user user
   And the user clicks sign in
   Then the Admin should see an invalid login message
+
+    @wip
+  Scenario: Student fails to the Percruit website
+  Given the Student is on the login page
+  When the user enters and administrator email
+  And the user user
+  And the user clicks sign in
+  Then the Admin should see an invalid login message
