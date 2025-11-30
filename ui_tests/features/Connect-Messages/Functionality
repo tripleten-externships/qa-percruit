@@ -46,9 +46,3 @@ Feature: Percruit Connect Messages Feature / User Login & Access
     Given the user is logged in and on the Messages page
     When the user enters a mentors name in the Search mentor bar
     Then only conversations with that mentor should appear
-
- 
-    
-
-
-

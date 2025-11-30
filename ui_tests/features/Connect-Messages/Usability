@@ -1,0 +1,21 @@
+Feature: Percruit Connect Messages Feature / Usability test
+
+  
+  Scenario: Student search for mentor information
+
+  @wip
+  Scenario: Student search for mentor
+    Given the user is logged in and mentor info is missing
+    When viewing the conversation
+    Then the system should display Mentor information unavailable
+
+  @wip
+  Scenario: Student search for mentor
+    Given the user is logged in and mentor info is missing
+    When viewing the conversation
+    Then the system should display Mentor information unav
+
+
+
+
+
