@@ -16,8 +16,3 @@ Feature: Percruit Connect Messages Feature / Usability test
     When the user searches for the mentor and then exits the search box
     Then the search box should close
     And the user should return to the Welcome Messages screen
-
-
-
-
-
