@@ -30,3 +30,4 @@ When('the user navigates to the Career Path page', async function() {
 Then('the Career Path page displays', async function() {
   await careerPathPage.verifyPage();
 });
+
