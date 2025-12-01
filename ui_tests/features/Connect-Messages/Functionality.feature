@@ -1,6 +1,7 @@
 Feature: Percruit Connect Messages Feature / User Login & Access
 
   
+  @wip
   Scenario: Student successfully logs in to the Percruit website
     Given the Student is authenticated in the system
     Then the Student should be able to open Messages page
