@@ -1,8 +1,7 @@
 
-Feature: Percuit Website Student-Connect-Forums test
+Feature: Connect-Forums screen test
 
-@wip
-Scenario: 
+Scenario: When user goes to the page, the page loads as expected.
     Given the Student is authenticated in the system
     When the user navigates to the Forum page
     Then the Forum page displays
