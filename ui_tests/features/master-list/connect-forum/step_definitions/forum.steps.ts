@@ -19,7 +19,7 @@ let forumPage: ForumPage;
 Before(async function() {
   loginPage = new LoginPage(this.page);
   forumPage= new ForumPage(this.page);
-});
+  });
 When('the user navigates to the Forum page', async function() {
   await this.page.goto(env.getBaseUrl() + 'forums');
   await expect(this.page).toHaveURL(/forums/);

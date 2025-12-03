@@ -2,5 +2,8 @@
   "dependencies": {
     "@cucumber/cucumber": "^12.2.0",
     "@playwright/test": "^1.57.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3"
   }
 }
