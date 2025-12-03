@@ -23,6 +23,7 @@ Before(async function() {
 When('the user navigates to the Forum page', async function() {
   await this.page.goto(env.getBaseUrl() + 'forums');
   await expect(this.page).toHaveURL(/forums/);
+  
 });
 
 Then('the Forum page displays', async function() {
