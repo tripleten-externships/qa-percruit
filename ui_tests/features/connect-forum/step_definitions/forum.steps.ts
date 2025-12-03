@@ -7,9 +7,9 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../../src/config/world';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import {ForumPage } from '../../../../src/pages/student/ForumPage';
+import * as env from '../../../src/config/world';
+import { LoginPage } from '../../../src/pages/common/LoginPage';
+import {ForumPage } from '../../../src/pages/student/ForumPage';
 
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
