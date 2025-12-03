@@ -5,7 +5,7 @@ export class ForumPage extends BasePage {
 
     ForumsHeading = '//h5[text() = "Forums"]';
     SearchEditBox = '//input[@placeholder="Search posts..."]';
-     SortByEditBox= '//input[@placeholder=" Filter by Topic"]';
+     SortByEditBox= '//input[@placeholder="Filter by Topic"]';
    
   constructor(page: Page) {
     super(page);
