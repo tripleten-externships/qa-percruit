@@ -21,3 +21,4 @@ Feature: Mentor-Student Assignments
       And displays an error indicating that a mentor selection is required
   
 
+    
