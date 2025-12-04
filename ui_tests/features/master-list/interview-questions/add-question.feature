@@ -11,14 +11,13 @@ Feature: Add Question
 
 
   Scenario: Adding a new question 
-    When the Admin adds a new interview question with valid details
+    When I add the title "Scenario: Adding a new question" to the log
+    And the Admin adds a new interview question with valid details
     Then the question is successfully saved
     And the Admin should see the added question correctly displayed on Interview Questions page
     
-
-
-
   Scenario: Displaying the Add Question form modal fields correctly
+    When I add the title "Scenario: Displaying the Add Question form modal fields correctly" to the log
     When the admin selects the "Add Question" option
     Then a form modal is displayed containing the following fields:
       | Field Name                                       | Type        |
@@ -39,6 +38,7 @@ Feature: Add Question
 
   Scenario: Cancelling the add question process
     Given the Add Question form modal is open
+    When I add the title "Scenario: Cancelling the add question process" to the log
     When the Admin selects the "Cancel" option
     Then the modal closes
    
