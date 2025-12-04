@@ -6,31 +6,14 @@ Feature: Interviews under Interview Prep Category
         When the user navigates to the Interview prep page
         Then the Interview Prep page displays
 
-    @wip
-    Scenario: Student views "Interviews" subcategory
-        Given the student is authenticated in the system
-        And the student is on the "Percruit" website homepage
-        And the student navigate to the "Interview Prep" category
-        When I click on the "Interviews" subcategory
-        Then I should see a list of interview preparation resources
-        And the page title should be "Interview Prep | Percruit"
-
-    @wip
+    
     Scenario: Student clicks on "Peer Interviews"
         Given the student is authenticated in the system
-        And the student is on the "Interviews" subcategory page
-        When the student clicks on the "Peer Interviews" button
+        And the student is on the Interview Prep page
+        When the student clicks on the "Schedule Your First Interview" button
+        And the student selects "Peer Interviews"
         Then the student should see a list of peer interviews of previous and upcoming sessions
         And the student can join and/or schedule a new peer interview session
-    
-    @wip
-    Scenario: Student clicks on "How It works" button in Peer Interviews section
-        Given the student is authenticated in the system
-        And the student is on the "Interviews" page
-        And selected "Peer Interviews" 
-        When the student clicks on the "How It Works" button
-        Then the student should see a modal or page explaining the process of peer interviews
-        And the explanation should include steps for scheduling, joining, and providing feedback for peer interviews
   
     @wip
     Scenario: Student succesfully schedules a Peer Interview

@@ -19,12 +19,34 @@ Before(async function() {
 });
 
 When('the user navigates to the Interview prep page', async function() {
-    await this.page.goto(`${env.getBaseUrl()}interview-prep`);
     await this.page.waitForLoadState('networkidle');
-    await expect(this.page).toHaveURL('/interview-prep/');
+    await this.page.goto(env.getBaseUrl() + 'interview-prep');
+    await expect(this.page).toHaveURL(/interview-prep/);
 });
 
 Then('the Interview Prep page displays', async function() {
-    await this.page.waitForLoadState('networkidle');
     await interviewPrepPage.verifyPage();
 });
+
+Given('the student is on the Interview Prep page', async function () {
+    await this.page.goto(`${env.getBaseUrl()}interview-prep`);
+    await expect(this.page).toHaveURL(/interview-prep/);
+    await interviewPrepPage.verifyPage();
+});
+
+When('the student clicks on the "Schedule Your First Interview" button', async function() {
+    await interviewPrepPage.clickScheduleFirstInterview();
+});
+
+When('the student selects "Peer Interviews"', async function() {
+    await interviewPrepPage.selectPeerInterviews();
+    console.log(await this.page.content());
+});
+
+Then('the student should see a list of peer interviews of previous and upcoming sessions', async function() {
+    await interviewPrepPage.verifyPeerInterviewsPage();
+});
+
+Then('the student can join and/or schedule a new peer interview session', async function() {
+    await interviewPrepPage.verifyPeerInterviewsPage(); 
+}); 
