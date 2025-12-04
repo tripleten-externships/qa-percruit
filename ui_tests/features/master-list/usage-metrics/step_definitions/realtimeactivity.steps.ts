@@ -15,9 +15,7 @@ Before(async function(){
 // Step definition: Navigate to the Usage Metrics page and verify successful navigation
 Given('the Admin navigates to the Usage Metrics page', async function () {
 
-  await this.page.getByRole('button', { name: 'ANALYTICS & REPORTING' }).click();
-  await this.page.getByRole('button',{name:'Usage Metrics'},{timeout:10000});
-  await this.eventsPage.clickByButtonRoleByText('Usage Metrics')
+  await this.page.getByRole('button', { name: 'Usage Metrics' }).click();
   const isOnUsageMetricsPage = await this.usagemetricsPage.isOnUsageMetricsPage();
   expect (isOnUsageMetricsPage).toBeTruthy();
 });  
