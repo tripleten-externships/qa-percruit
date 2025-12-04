@@ -77,19 +77,25 @@ async addNewQuestion(
   tags: string[]
 ): Promise<void> {
   // Click Add Question button
-  await this.clickByRole('Add Question');
-
+  //await this.clickByRole('Add Question');
+  console.log('Clicking Add Question button.');
+  await this.page.getByRole('button', { name: 'Add Question' }).click();
+  console.log('Clicked button, waiting for form.');
   // Verify Add New Question heading
   await this.verifyHeading('Add New Question');
 
   // Fill Title and Question
+  console.log('Entering title and question');
   await this.fillTextBox('Title', title, 30000);
   await this.fillTextBox('Question', question, 30000);
 
+  console.log('Entering solution in text area');
   // Fill Solution textarea
-  await this.fillTextArea('.MuiBox-root.css-5qphk3', solution);
+  //await this.fillTextArea('.MuiBox-root.css-5qphk3', solution);
+  await this.page.locator('//div[@data-placeholder="Type your text here... Use the toolbar above to format your text."]').fill(solution);
 
   // Open Job Title dropdown
+  console.log('Selecting job title');
   const jobTitleDropDown = this.page.getByRole('combobox').nth(1);
   await expect(jobTitleDropDown).toBeVisible({ timeout: 30000 });
   await jobTitleDropDown.click();
@@ -115,6 +121,7 @@ async addNewQuestion(
   
 
   // Open Difficulty dropdown
+  console.log('Selecting difficulty');
   const difficultyDropdown = this.page.getByRole('combobox').filter({ hasText: 'Medium' });
   await expect(difficultyDropdown).toBeVisible({ timeout: 30000 });
   await difficultyDropdown.click();
@@ -135,6 +142,7 @@ async addNewQuestion(
   await expect(this.page.locator('div').filter({ hasText: 'Add New QuestionTitle *Title' }).nth(1)).toBeVisible({ timeout: 30000 });
 
   // Add tags one by one
+  console.log('Adding tags');
   for (const tag of tags) {
     const tagInput = this.page.getByRole('textbox', { name: 'Add a tag' });
     await expect(tagInput).toBeVisible({ timeout: 30000 });

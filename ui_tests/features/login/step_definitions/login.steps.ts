@@ -28,6 +28,7 @@ Given('I am on the Percruit homepage', async function() {
   await expect(this.page).toHaveURL(/percruit.com/);
 });
 
+
 // Step: Log in as a specific user type (Student, Admin, Mentor)
 When(
   /I enter correct (.+) (?:email and password|credentials) and (?:click on sign in button|sign in|login)/,
@@ -50,3 +51,5 @@ Then('the Student should be able to see the Student Dashboard', async function()
   const isVisible = await studentDashboardPage.isOnDashboardPage();
   expect(isVisible).toBeTruthy();
 });
+
+
