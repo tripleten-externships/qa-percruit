@@ -19,9 +19,9 @@ Before(async function() {
 });
 
 When('the user navigates to the Interview prep page', async function() {
-    await this.page.goto(env.getBaseUrl() + 'interview-prep');
+    await this.page.goto(env.getBaseUrl() + '/interview-prep');
     await this.page.waitForLoadState('networkidle');
-    await expect(this.page).toHaveURL(/interview-prep/);
+    await expect(this.page).toHaveURL('/interview-prep/');
 });
 
 Then('the Interview Prep page displays', async function() {
