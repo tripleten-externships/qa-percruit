@@ -1,4 +1,4 @@
-@wip
+@indev
 Feature: Activities in the Coding Problems page
 As an Admin 
 the Admin wants to view and update activities in the coding problems page
