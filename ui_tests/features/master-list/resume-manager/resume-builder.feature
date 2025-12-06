@@ -4,7 +4,6 @@ As a logged in Student
 I want to use the in built resume builder
 So that i can create my own resume 
 
-@wip
 Background: 
 Given the Student is authenticated in the system
 And the Student successfully navigates to the Resume Manage page

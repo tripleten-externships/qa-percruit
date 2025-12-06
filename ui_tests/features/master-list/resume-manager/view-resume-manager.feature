@@ -4,7 +4,7 @@ As a logged in student
 I want to easily navigate to the Resume Manager page
 So that I can upload, edit or delete my resumes 
 
-@wip    
+  
 Background: 
 Given the Student is authenticated in the system
 
