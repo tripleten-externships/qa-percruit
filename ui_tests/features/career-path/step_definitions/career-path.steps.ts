@@ -21,13 +21,33 @@ Before(async function() {
   careerPathPage = new CareerPathPage(this.page);
 });
 
+Given('the student is authenticated in the system', async function(){
+
+});
 
 When('the user navigates to the Career Path page', async function() {
   await this.page.goto(env.getBaseUrl() + 'career-path');
   await expect(this.page).toHaveURL(/career-path/);
 });
 
+
 Then('the Career Path page displays', async function() {
   await careerPathPage.verifyPage();
 });
 
+
+Given('the student submits the assessment with valid details', async function() {
+  
+});
+
+When('the student clicks the restart button', async function() {
+
+});
+
+Then('the Current Role displays {string}', async function() {
+  await careerPathPage.verifyPage();
+});
+
+
+Then('the Target Role displays {string}', async function() {
+});
