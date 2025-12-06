@@ -1,11 +1,11 @@
 {
-<<<<<<< HEAD
+  "name": "qa-percruit",
+  "version": "1.0.0",
   "devDependencies": {
     "@types/jquery": "^3.5.33"
-=======
+  },
   "dependencies": {
     "@cucumber/cucumber": "^12.2.0",
     "@playwright/test": "^1.57.0"
->>>>>>> main
   }
 }
