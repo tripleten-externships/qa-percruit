@@ -25,16 +25,20 @@ export class StudentDashboardPage extends BasePage {
   }
 
   async isOnDashboardPage(): Promise<boolean> {
-    let isTrue = false;
-
-    // Check if required headings are visible to confirm we're on the dashboard
-    isTrue = await this.isHeadingVisible('Career Diary');
-    if (!isTrue) {
+    // Wait for the Career Diary heading to appear (gives page time to fully load)
+    try {
+      await this.page.waitForSelector('text=Career Diary', { timeout: 10000 });
+    } catch {
       return false;
     }
 
-    // Check if required Sidebar items are visible to confirm we're on the dashboard
-    return await this.areSpansVisible([
+    // Check if required headings are visible to confirm we're on the dashboard
+    const hasHeading = await this.isHeadingVisible('Career Diary');
+    if (!hasHeading) {
+      return false;
+    }
+
+    return await this.areMenuItemsVisible([
       this.sideBar.JOB_BOARD,
       this.sideBar.JOB_TRACKER,
       this.sideBar.RESUME_MANAGER,
@@ -44,5 +48,6 @@ export class StudentDashboardPage extends BasePage {
       this.sideBar.MESSAGES,
       this.sideBar.TASKS_GOALS,
     ]);
+    
   }
 }

@@ -1,14 +1,13 @@
 @wip
 Feature: Activities in the Coding Problems page
 As an Admin 
-The Admin wants to view and update activities in the coding problems page
+the Admin wants to view and update activities in the coding problems page
 so that activities can be tracked or managed accurately
 
 Background:
   Given The Admin is logged in using valid credentials
   And the Admin is on the Activities tab in Coding Problems
 
-@smoke
 Scenario: View existing activities
   When the Admin views the Activities tab in Coding Problems
   Then the Admin should see all existing activities
@@ -45,7 +44,7 @@ Scenario: Deletion of an existing Activity
   And the Admin selects a category from the existing Category dropdown list
   And the Admin selects a topic from the existing corresponding Topic dropdown list
   Then the Admin selects a unit from the existing Unit dropdown list
-  Then the Admin should be able to delete an existing activity after the deletion confirmation message
+  Then the Admin should be able to delete an existing activity after confirmation of deletion 
   And the topic should no longer exist on the Units page
 
 Scenario: No units present

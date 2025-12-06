@@ -42,6 +42,25 @@ export class BasePage {
     return results.every(result => result);
   }
 
+  async areMenuItemsVisible(menuItems: string[]):Promise<boolean> {
+
+  for (const item of menuItems) {
+    const locator = this.page.locator(
+      'li.ant-menu-item >> .ant-menu-title-content',
+      { hasText: item }
+    );
+
+    // Wait for the element to be attached or timeout early.
+    const count = await locator.count();
+    if (count === 0) {
+      console.log(`❌ Missing menu item: ${item}`);
+      return false;
+    }
+  }
+
+  return true;
+}
+
   async clickButtonByText(buttonText: string): Promise<void> {
     await this.page.click(`button:has-text("${buttonText}")`);
   }
