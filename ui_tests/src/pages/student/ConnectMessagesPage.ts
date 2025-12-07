@@ -1,18 +1,18 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 
-export class ConnectMessagePage extends BasePage {
+export class ConnectMessagesPage extends BasePage {
 
-    IndustryNewsHeading = '//h1[text() = "Messages"]';
+    ConnectMessagesPage = '//h1[text() = "Messages"]';
     SearchMessagesInput = '//input[@placeholder="Search messages..."]';
-    NewMessagesButton = '//input[@value="newmessage"]';
+    NewMessagesButton = '//input[@value="newmessages"]';
 
   constructor(page: Page) {
     super(page);
   }
 
   async verifyPage(){
-    await expect(this.page.locator(this.MessageHeading)).toBeVisible();
+    await expect(this.page.locator(this.ConnectMessagesPage)).toBeVisible();
     await expect(this.page.locator(this.SearchMessagesInput)).toBeVisible();
     await expect(this.page.locator(this.NewMessagesButton)).toBeVisible();
     
