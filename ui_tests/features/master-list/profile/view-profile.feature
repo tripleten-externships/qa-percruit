@@ -1,4 +1,4 @@
-@wip 
+@indev 
 Feature: View profile settings
   As an Admin
   I want to view profile settings
