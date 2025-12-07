@@ -7,9 +7,9 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../src/config/world';
-import { LoginPage } from '../../../src/pages/common/LoginPage';
-import { CareerPathPage } from '../../../src/pages/student/CareerPathPage';
+import * as env from '../../../../src/config/world';
+import { LoginPage } from '../../../../src/pages/common/LoginPage';
+import { CareerPathPage } from '../../../../src/pages/student/CareerPathPage';
 
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
@@ -21,9 +21,11 @@ Before(async function() {
   careerPathPage = new CareerPathPage(this.page);
 });
 
-Given('the student is authenticated in the system', async function(){
+// Given('the student is authenticated in the system', async function(){
+// loginPage = new LoginPage(this.page)
+// careerPathPage = new CareerPathPage(this.page)
+// });
 
-});
 
 When('the user navigates to the Career Path page', async function() {
   await this.page.goto(env.getBaseUrl() + 'career-path');
@@ -33,16 +35,16 @@ When('the user navigates to the Career Path page', async function() {
 
 Then('the Career Path page displays', async function() {
   await careerPathPage.verifyPage();
-});
-
-
-Given('the student submits the assessment with valid details', async function() {
   
 });
 
-When('the student clicks the restart button', async function() {
 
+Given('the student submits the assessment with valid required details', async function() {
+  
 });
+
+
+
 
 Then('the Current Role displays {string}', async function() {
   await careerPathPage.verifyPage();
