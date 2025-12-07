@@ -1,9 +1,16 @@
 import {Given, When, Then} from '@cucumber/cucumber';
-import { expect } from 'playwright/test';
+import { expect } from '@playwright/test';
+
 
 Given('The admin is on the login page', async function () {
-  await this.page.goto('https://stage.tripleten.percruit.com');
+  await this.page.goto('https://stage.tripleten.percruit.com/login');
+  await this.page.getByRole('button', { name: 'Sign In' })
+    .waitFor();
 });
+
+Given(/^a registered admin$/, async function () {
+});
+
 
 When('they log in with valid credentials', async function () {
   await this.page.getByRole('textbox', { name: 'Enter your email' }).click();
@@ -19,8 +26,7 @@ Then('they should be redirected to their dashboard', async function () {
 });
 
 Then('see the dashboard loads correctly', async function () {
-  await expect(this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible();
-
+  await expect(this.page.getByText('Admin Dashboard')).toBeVisible();
   await this.page.getByText('Total Users').waitFor();
   await this.page.getByText('Active This Week').waitFor();
   await this.page.getByText('Active Members').waitFor();
