@@ -1,10 +1,11 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 
 export class StudyPage extends BasePage {
   
     StudyHeading = '//h5[text() = "Study"]';
-    SearchEditBox = '//input[@placeholder="Search questions by title or content..."]';
+    SearchQuestionEditBox = '//input[@placeholder="Search questions by title or content..."]';
+    BrowseByJobRoleField = '//h6[text() = "Browse by Job Role"]'
     AllButton = '//button[text() = "All"]';
     EasyButton = '//button[text() = "Easy"]';
     MediumButton = '//p[text() = "Medium"]';
@@ -24,5 +25,11 @@ export class StudyPage extends BasePage {
     super(page);
   }
 
+  async verifyPage(){
+      await expect(this.page.locator(this.StudyHeading)).toBeVisible();
+      await expect(this.page.locator(this.SearchQuestionEditBox)).toBeVisible();
+      await expect(this.page.locator(this.BrowseByJobRoleField)).toBeVisible();
+      
+    }
 
 }
