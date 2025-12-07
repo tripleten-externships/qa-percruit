@@ -34,3 +34,55 @@ Then('the Study page is displayed', async function() {
 Then('the Search Questions box is clicked', async function () {
   
 })
+
+Then('All button is clicked and highlighted', async function () {
+  
+})
+
+Then('Easy button is clicked and highlighted', async function () {
+  
+})
+
+Then('Medium button is clicked and highlighted', async function () {
+  
+})
+
+Then('Hard button is clicked and highlighted', async function () {
+  
+})
+
+Then('Software Engineer tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('Data Scientist tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('ML Engineer tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('Product Manager tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('QA Analyst tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('Cybersecurity tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('LLMs tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('SQL tab is clicked and displays applicable roles', async function () {
+  
+})
+
+Then('Behavioral tab is clicked and displays applicable roles', async function () {
+  
+})
