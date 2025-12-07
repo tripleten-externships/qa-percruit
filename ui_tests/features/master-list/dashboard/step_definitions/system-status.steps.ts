@@ -29,15 +29,17 @@ When('the admin checks the System Health Monitor section', async function () {
 });
 
 Then('the system should indicate that all systems are operational', async function () {
-  await this.page.getByText('All Systems Operational');
+  await expect(this.page.getByText('All Systems Operational')).toBeVisible();
 });
+
 
 Then(
   'the dashboard should display the current uptime percentage in green text',
   async function () {
-   await this.page.getByText('System Uptime').toBeVisible();
+    await expect(this.page.getByText('System Uptime')).toBeVisible();
   },
 );
+
 
 Then(
   "the uptime value should accurately reflect the system's actual uptime",
@@ -48,8 +50,11 @@ Then(
 
 // Scenario 2
 When('the admin checks the System Health Monitor system', async function () {
- await this.page.getByRole('heading', { name: 'System Health Monitor' });
+  await this.page
+    .getByRole('heading', { name: 'System Health Monitor' })
+    .waitFor();
 });
+
 
 
 Then(
