@@ -12,7 +12,7 @@ export class ConnectMessagePage extends BasePage {
   }
 
   async verifyPage(){
-    await expect(this.page.locator(this.MessagesHeading)).toBeVisible();
+    await expect(this.page.locator(this.MessageHeading)).toBeVisible();
     await expect(this.page.locator(this.SearchMessagesInput)).toBeVisible();
     await expect(this.page.locator(this.NewMessagesButton)).toBeVisible();
     
