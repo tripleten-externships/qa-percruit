@@ -10,7 +10,7 @@ Scenario: When the user is on the Study Page, the Search Box is clicked
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
-    Then the Search Questions box is clicked
+    Then the Search Questions box is clicked and awaiting text
 
 Scenario: When the user is on the Study Page, All filter box is clicked and highlighted
     Given the Student is authenticated in the system

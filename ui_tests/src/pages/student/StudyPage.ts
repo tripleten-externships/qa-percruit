@@ -5,6 +5,7 @@ export class StudyPage extends BasePage {
   
     StudyHeading = '//h5[text() = "Study"]';
     SearchQuestionEditBox = '//input[@placeholder="Search questions by title or content..."]';
+    private SearchQuestionEditBoxWasClicked = false
     BrowseByJobRoleField = '//h6[text() = "Browse by Job Role"]'
     AllButton = '//button[text() = "All"]';
     EasyButton = '//button[text() = "Easy"]';
@@ -32,4 +33,13 @@ export class StudyPage extends BasePage {
       
     }
 
+  async clickButtonByText(buttonText: string): Promise<void> {
+      this.SearchQuestionEditBoxWasClicked
+  }
+
+  async clickByButtonRoleByText(buttonText: string): Promise<void> {
+      this.AllButton
+  }
+
+  
 }

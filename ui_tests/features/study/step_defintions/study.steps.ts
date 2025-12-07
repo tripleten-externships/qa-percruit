@@ -31,9 +31,9 @@ Then('the Study page is displayed', async function() {
   await studyPage.verifyPage();
 });
 
-Then('the Search Questions box is clicked', async function () {
-  
-})
+Then('the Search Questions box is clicked and awaiting text', async function () {
+  await studyPage.clickButtonByText;
+});
 
 Then('All button is clicked and highlighted', async function () {
   
