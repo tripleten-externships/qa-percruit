@@ -12,8 +12,8 @@ export class CareerPathPage extends BasePage {
     ContinueButton = '//button[normalize-space()="Continue"]';
     CompleteAssessmentButton = '//button[normalize-space()="Complete Assessment"]';
     RestartButton = '//button[normalize-space()="Restart"]';
-    CurrentRoleHeading = '//div[@class="MuiBox-root css-1ay9vb9"]//h6[@class="MuiTypography-root MuiTypography-h6 css-13eugz2"][normalize-space()="Not specified"]';
-    TargetRoleHeading = '//div[@class="MuiBox-root css-70qvj9"]//div[@class="MuiBox-root css-0"]//h6[@class="MuiTypography-root MuiTypography-h6 css-13eugz2"][normalize-space()="Not specified"]';
+    CurrentRoleHeading = '//p[text()="Current Role"]/following-sibling::h6[1]';
+    TargetRoleHeading = '//p[text()="Target Role"]/following-sibling::h6[1]';
 
 
   constructor(page: Page) {

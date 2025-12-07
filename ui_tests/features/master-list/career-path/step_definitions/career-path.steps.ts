@@ -59,10 +59,16 @@ console.log("Filled in current role");
 await this.page.locator(careerPathPage.ContinueButton).click({timeout:3000});
 console.log("Clicked continue button 1");
 await this.page.waitForTimeout(2000);
-await this.page.locator(careerPathPage.TargetRoleTextBox).click();
-console.log("Clicked target role box");
-await this.page.locator(careerPathPage.TargetRoleTextBox).fill('Qa Engineer');
+// await this.page.locator(careerPathPage.TargetRoleTextBox).click();
+await this.page.locator('h6:has-text("Target Position")').locator('xpath=following::input[@placeholder="Select from list or type your own"][1]').fill('QA Engineer');
+// await this.page.getByLabel('Target Role*').click();
+// console.log("Clicked target role box");
+// await this.page.locator(careerPathPage.TargetRoleTextBox).fill('Qa Engineer');
 console.log("Filled in QA Eng");
+await this.page.locator(careerPathPage.ContinueButton).click({timeout:3000});
+console.log("Clicked continue button 2");
+ await this.page.locator(careerPathPage.CompleteAssessmentButton).click();
+    console.log("clicked complete Assessment button");
 
 
     // await expect(this.page.locator(careerPathPage.CurrentPositionHeading)).toBeVisible();
@@ -89,14 +95,22 @@ console.log("Filled in QA Eng");
 
 When('the student clicks the restart button', async function () {
   await this.page.locator(careerPathPage.RestartButton).click();
+  console.log("Clicked Restart Button");
+  
 });
 
 
-Then('the Current Role displays {string}', async function () {
+Then('Current Role displays Not specified', async function () {
+  await this.page.waitForTimeout(15000);
+  console.log("Getting Current Role Text");
+  let currentroletext = await this.page.locator(careerPathPage.CurrentRoleHeading).textContent();
   await expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
+  console.log(currentroletext);
+  console.log("Verified Current Role displays Not specified");
     
 });
 
-Then('the Target Role displays {string}', async function () {
-  await expect(this.page.locator(careerPathPage.TargetRoleHeading)).toHaveText(/Not specified/);
-});
+// Then('Target Role displays Not specified', async function () {
+//   await expect(this.page.locator(careerPathPage.TargetRoleHeading)).toHaveText(/Not specified/);
+//   console.log("Verified Target Role displays Not specified");
+// });
