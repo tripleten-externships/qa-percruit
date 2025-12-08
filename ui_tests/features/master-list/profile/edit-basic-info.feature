@@ -1,4 +1,4 @@
- @wip
+ @indev
 Feature: Edit basic profile information
   As an Admin
   I want to edit basic user information

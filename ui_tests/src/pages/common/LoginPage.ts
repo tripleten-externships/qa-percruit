@@ -4,6 +4,16 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
+  static loginAsAdmin // Define element locators for Login page
+          () {
+                  throw new Error('Method not implemented.');
+  }
+  static loginAsUserType(userType: any) {
+          throw new Error('Method not implemented.');
+  }
+  static waitForPageLoad() {
+          throw new Error('Method not implemented.');
+  }
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
