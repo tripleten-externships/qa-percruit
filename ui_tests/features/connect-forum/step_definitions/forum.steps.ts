@@ -31,3 +31,18 @@ Then('the Forum page displays', async function() {
   await forumPage.verifyPage();
 });
 
+Given(
+  'the Student is authenticated in the system and the student is on the {string} page',
+  async function (pageName: string) {
+    // Assume login is already handled in hooks or here:
+    await this.page.goto('https://stage.tripletn.percruit.com/community/forums');
+
+    // Click New Post → navigate to Create Topic page
+    await this.page.getByRole('button', { name: 'New Post' }).click();
+
+    // Verify Create Topic page is visible
+    await expect(
+      this.page.getByRole('heading', { name: 'Create a New Topic' })
+    ).toBeVisible();
+  }
+);
