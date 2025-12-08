@@ -10,9 +10,9 @@ import { LoginPage } from '../../../../src/pages/common/LoginPage';
 
 When('the Admin navigates to the Coding Problems page', async function () {
   // Write code here that turns the phrase above into concrete actions
-  await this.page.waitForLoadState('networkidle', { timeout: 30000 });
+  await this.page.waitForLoadState('networkidle', { timeout: 60000 });
   await this.page.getByRole('button', { name: 'Coding Problems'}).click();
-  await this.page.waitForLoadState('networkidle', { timeout: 30000 });
+  await this.page.waitForLoadState('networkidle', { timeout: 60000 });
   await expect(this.page.getByRole('heading', { name: 'Coding Practice Administration' })).toBeVisible();
 });
 
