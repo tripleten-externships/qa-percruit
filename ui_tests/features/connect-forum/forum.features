@@ -5,3 +5,21 @@ Scenario: When user goes to the page, the page loads as expected.
     When the user navigates to the Forum page
     Then the Forum page displays
 
+@wip
+Scenario: Student cancels post creation
+ Given the student is on the "Create a New Topic" page
+ When the student enters a valid title
+ And clicks the "Cancel" button
+ Then the user should be redirected back to the “Forums” page
+  And no new post should be created
+
+@wip
+Scenario: Student tries to create a post without entering a title
+ Given the student is on the "Create a New Topic" page
+ When the student leaves the title field empty
+ And enters valid content
+ And clicks "Create Topic"
+ Then an error message should appear saying "Title is required"
+ And the post should not be published
+
+
