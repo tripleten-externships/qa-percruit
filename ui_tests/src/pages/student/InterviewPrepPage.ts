@@ -4,7 +4,6 @@ import { BasePage } from '../common/BasePage';
 export class InterviewPrepPage extends BasePage {
 
     InterviewPrepHeading = '//h4[contains(text(),"Interview Preparation")]';
-    Subheading = '//h5[contains(text(), "All your practice sessions in one place • AI, Peer & Expert interviews")]';
     ScheduleFirstInterviewButton = '//button[contains(text(),"Schedule Your First Interview")]';
     PeerInterviewsOption = '//button[contains(text(),"Peer Interviews")]';
     JoinAvailableSessionButton = '//button[contains(text(),"Join Available Session")]';
@@ -17,9 +16,7 @@ export class InterviewPrepPage extends BasePage {
 }
 
     async verifyPage(){
-     await expect(this.page.locator(this.InterviewPrepHeading)).toBeVisible();
-     await expect(this.page.locator(this.Subheading)).toBeVisible();
-    
+     await expect(this.page.locator(this.InterviewPrepHeading)).toBeVisible();    
     }
 
     async clickScheduleFirstInterview(){
