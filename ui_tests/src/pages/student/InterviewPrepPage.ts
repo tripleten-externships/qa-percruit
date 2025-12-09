@@ -5,7 +5,7 @@ export class InterviewPrepPage extends BasePage {
 
     InterviewPrepHeading = '//h4[contains(text(),"Interview Preparation")]';
     ScheduleInterviewButton = '//button[contains(text(),"Schedule Interview")]';
-    PeerInterviewsOption = '//button[contains(text(),"Peer Interviews")]';
+    PeerInterviewOption = '//button[contains(text(),"Peer Interview")]';
     JoinAvailableSessionButton = '//button[contains(text(),"Join Available Session")]';
     CreateNewSessionButton = '//button[contains(text(),"Create New Session")]';
 
@@ -25,7 +25,7 @@ export class InterviewPrepPage extends BasePage {
 
     async selectPeerInterviews(){
         await this.page.click(this.ScheduleInterviewButton)
-        await this.page.click(this.PeerInterviewsOption); 
+        await this.page.click(this.PeerInterviewOption); 
     }
 
     async joinAvailableSession(){
