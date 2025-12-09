@@ -6,7 +6,7 @@ Feature: Interviews under Interview Prep Category
         When the user navigates to the Interview prep page
         Then the Interview Prep page displays
 
-    
+
     Scenario: Student clicks on "Peer Interviews"
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
