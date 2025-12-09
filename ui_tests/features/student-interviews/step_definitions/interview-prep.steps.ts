@@ -43,10 +43,7 @@ When('the student selects "Peer Interviews"', async function() {
     console.log(await this.page.content());
 });
 
-Then('the student should see a list of peer interviews of previous and upcoming sessions', async function() {
+Then('the student should see an option to join or schedule a peer interview session', async function() {
     await interviewPrepPage.verifyPeerInterviewsPage();
 });
 
-Then('the student can join and/or schedule a new peer interview session', async function() {
-    await interviewPrepPage.verifyPeerInterviewsPage(); 
-}); 

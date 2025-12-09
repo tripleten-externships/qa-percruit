@@ -6,14 +6,13 @@ Feature: Interviews under Interview Prep Category
         When the user navigates to the Interview prep page
         Then the Interview Prep page displays
 
-    @wip
+    
     Scenario: Student clicks on "Peer Interviews"
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
         When the student clicks on the "Schedule Your First Interview" button
         And the student selects "Peer Interviews"
-        Then the student should see a list of peer interviews of previous and upcoming sessions
-        And the student can join and/or schedule a new peer interview session
+        Then the student should see an option to join or schedule a peer interview session
   
     @wip
     Scenario: Student succesfully schedules a Peer Interview
