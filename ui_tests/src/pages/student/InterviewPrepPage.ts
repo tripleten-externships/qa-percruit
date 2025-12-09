@@ -24,7 +24,7 @@ export class InterviewPrepPage extends BasePage {
     }
 
     async selectPeerInterview(){
-        await this.page.click(this.ScheduleInterviewButton)
+        await this.page.waitForSelector(this.PeerInterviewOption, { state: 'visible' });
         await this.page.click(this.PeerInterviewOption); 
     }
 
