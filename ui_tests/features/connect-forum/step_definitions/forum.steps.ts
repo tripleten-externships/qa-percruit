@@ -16,6 +16,7 @@ import {ForumPage } from '../../../src/pages/student/ForumPage';
 let loginPage: LoginPage;
 let forumPage: ForumPage;
 
+
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
