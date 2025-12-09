@@ -32,6 +32,7 @@ export class LoginPage extends BasePage {
   }
   // Generic method to perform login using given email and password
   async loginAndVerify(email: string, password: string) {
+    console.log("Logging in as "+email);
     await this.login(email, password);
 
     // Wait for navigation after login (sign-in button click triggers navigation)
@@ -39,29 +40,35 @@ export class LoginPage extends BasePage {
       // Wait for either URL change OR dashboard elements to appear
       await Promise.race([
         this.page.waitForURL(url => !url.toString().endsWith('percruit.com/'), { timeout: 60000 }),
-        this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
+        //this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
       ]);
     } catch (error) {
+      console.log("Error in loginAndVerify method");
       const currentUrl = this.page.url();
       throw new Error(
         `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}. Error: ${error}`
       );
     }
+    console.log("Login succeeds in loginAndVerify method");
   }
 
   // Generic method to perform login using given email and password
   async login(email: string, password: string) {
+
     await this.enterEmail(email);
     await this.enterPassword(password);
     await this.clickSignIn();
+    console.log("Completed POM Login method");
   }
 
   // Predefined login method for Student user type using credentials from environment config
   async loginAsStudent() {
+    console.log("Logging in as student.");
     await this.loginAndVerify(env.getStudentEmail(), env.getStudentPassword());
   }
   // Predefined login method for Admin user type using credentials from environment config
   async loginAsAdmin() {
+
     await this.loginAndVerify(env.getAdminEmail(), env.getAdminPassword());
   }
   // Predefined login method for Mentor user type using credentials from environment config
