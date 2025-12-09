@@ -34,12 +34,12 @@ Given('the student is on the Interview Prep page', async function () {
     await interviewPrepPage.verifyPage();
 });
 
-When('the student clicks on the "Schedule Your First Interview" button', async function() {
-    await interviewPrepPage.clickScheduleFirstInterview();
+When('the student clicks on the "Schedule Your Interview" button', async function() {
+    await interviewPrepPage.clickScheduleInterview();
 });
 
-When('the student selects "Peer Interviews"', async function() {
-    await interviewPrepPage.selectPeerInterviews();
+When('the student selects "Peer Interview"', async function() {
+    await interviewPrepPage.selectPeerInterview();
     console.log(await this.page.content());
 });
 

@@ -7,11 +7,11 @@ Feature: Interviews under Interview Prep Category
         Then the Interview Prep page displays
 
     
-    Scenario: Student clicks on "Peer Interviews"
+    Scenario: Student clicks on "Peer Interview"
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        When the student clicks on the "Schedule Your First Interview" button
-        And the student selects "Peer Interviews"
+        When the student clicks on the "Schedule Your Interview" button
+        And the student selects "Peer Interview"
         Then the student should see an option to join or schedule a peer interview session
   
     @wip

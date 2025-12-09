@@ -19,11 +19,11 @@ export class InterviewPrepPage extends BasePage {
      await expect(this.page.locator(this.InterviewPrepHeading)).toBeVisible();    
     }
 
-    async clickScheduleFirstInterview(){
+    async clickScheduleInterview(){
         await this.page.click(this.ScheduleInterviewButton);
     }
 
-    async selectPeerInterviews(){
+    async selectPeerInterview(){
         await this.page.click(this.ScheduleInterviewButton)
         await this.page.click(this.PeerInterviewOption); 
     }
