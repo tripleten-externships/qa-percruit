@@ -69,15 +69,6 @@ Feature: Interviews under Interview Prep Category
         When the student clicks on the "Expert Interviews" button
         Then the student should see a list of expert interview sessions available for booking
         And the student can join and/or book a session with an industry expert
-
-    @wip
-    Scenario: Student clicks on "How It works" button in Expert Interviews section
-        Given the student is authenticated in the system
-        And the student is on the "Interviews" page
-        And selected "Expert Interviews" 
-        When the student clicks on the "How It Works" button
-        Then the student should see a modal or page explaining the process of expert interviews
-        And the explanation should include steps for booking, joining, and preparing for expert interviews
     
     @wip
     Scenario: Student succesfully books an Expert Interview session
@@ -108,15 +99,6 @@ Feature: Interviews under Interview Prep Category
         When the student clicks on the "AI Interviews" button
         Then the student should see a list of AI-powered interview simulations
         And the student can start and/or schedule a new AI interview session
-    
-    @wip
-    Scenario: Student clicks on "Learn More" button in AI Interviews section
-        Given the student is authenticated in the system
-        And the student is on the "Interviews" page
-        And selected "AI Interviews" 
-        When the student clicks on the "Learn More" button
-        Then the student should see a modal or page explaining the features and benefits of AI interviews
-        And the explanation should include details about the AI technology used, types of questions, and feedback provided
 
     @wip
     Scenario: Student succesfully starts an AI Interview session

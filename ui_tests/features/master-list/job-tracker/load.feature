@@ -9,3 +9,4 @@ Scenario: Successful login to dashboard without issue
     And select 'Job Tracker' from features list
     Then see the dashboard loads correctly
     And the student should be able to access their application tracker without issues
+
