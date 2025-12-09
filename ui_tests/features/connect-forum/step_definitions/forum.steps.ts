@@ -11,6 +11,7 @@ import * as env from '../../../src/config/world';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 import {ForumPage } from '../../../src/pages/student/ForumPage';
 
+
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
 let forumPage: ForumPage;
@@ -30,4 +31,10 @@ When('the user navigates to the Forum page', async function() {
 Then('the Forum page displays', async function() {
   await forumPage.verifyPage();
 });
+
+//Scenario:Student cancels post creation
+
+
+
+
 

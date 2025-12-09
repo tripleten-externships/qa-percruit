@@ -6,10 +6,10 @@ Scenario: When I add the title "When user goes to the page, the page loads as ex
     Then the Forum page displays
 
 @wip
-Scenario: When I add the title "Student cancels post creation" to the log 
- Given the student is on the "Create a New Topic" page
- When the student enters a valid title
- And clicks the "Cancel" button
- Then the user should be redirected back to the “Forums” page
+Scenario: Student cancels post creation
+  Given the student is on the Forums page
+  When the student clicks the "New Post" button
+  And the student enters a valid title
+  And the student clicks the "Cancel" button
+  Then the user should be redirected back to the "Forums" page
   And no new post should be created
-
