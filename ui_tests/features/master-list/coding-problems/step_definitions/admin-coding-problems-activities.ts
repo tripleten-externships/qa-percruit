@@ -104,4 +104,6 @@ declare const page: Page;
 
             })
         })
-        Then('the admin should not see any activites displayed on the activiites page', async function)
+        Then('the admin should not see any activites displayed on the activiites page', async function(){
+            
+        })
