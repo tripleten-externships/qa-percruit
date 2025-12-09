@@ -34,9 +34,9 @@ export class LoginPage extends BasePage {
   async login(email: string, password: string) {
     console.log("In POM login method, logging in as "+email);
     await this.enterEmail(email);
-    console.log("Entered this in email: "+ await this.page.locator(this.EMAIL_LOCATOR).allTextContents);
+    //console.log("Entered this in email: "+ await this.page.locator(this.EMAIL_LOCATOR).allTextContents);
     await this.enterPassword(password);
-    console.log("Entered this in password: "+ await this.page.locator(this.PASSWORD_LOCATOR).allTextContents);
+    //console.log("Entered this in password: "+ await this.page.locator(this.PASSWORD_LOCATOR).allTextContents);
     await this.clickSignIn();
     console.log("Completed POM Login method");
   }
