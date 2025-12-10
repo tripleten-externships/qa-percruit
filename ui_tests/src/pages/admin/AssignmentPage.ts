@@ -68,10 +68,11 @@ export class AssignmentPage extends BasePage {
         // Finds and clicks Check Assignment Issues button to reveal table
         await this.page.getByRole('button', { name: 'Check Assignment Issues' }).click();       
         // Locate the student row
-        const row = this.page.locator(`li:has-text("${studentName}")`);
-        await row.scrollIntoViewIfNeeded();
-        // Open mentor dropdown
-        await row.locator('button:has-text("Select Mentor")').click();
+        const studentRow = this.page.locator(`li:has(span:text("${studentName}"))`);
+        await studentRow.scrollIntoViewIfNeeded();
+        // Locate the dropdown inside that row and click to open
+        const dropdown = studentRow.locator('div[role="combobox"]');
+        await dropdown.click();
         // Select mentor from dropdown
         const mentorOption = this.page.locator(`li[role="option"]:has-text("${mentorName}")`);
         await mentorOption.scrollIntoViewIfNeeded();

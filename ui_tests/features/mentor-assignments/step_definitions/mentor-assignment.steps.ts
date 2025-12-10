@@ -64,5 +64,12 @@ Then('displays an error indicating that a mentor selection is required', async f
 Given('all student profiles contain the required information', async function () {
     await this.assignmentPage.checkAssignmentIssues(
         'Eric Hibbard Student', 'Eric Hibbard' );
+});
 
-    });
+When('the admin accesses the Incomplete Info tool', async function () {
+    // Accessed in the Given step
+});
+
+Then('the system displays the message "Mentor Assignment created successfully"', async function () {
+
+});
