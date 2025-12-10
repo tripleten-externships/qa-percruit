@@ -1,0 +1,10 @@
+
+Feature: Percuit Website Student-Connect-Forums- Create a New post
+@wip
+Scenario: Student cancels post creation
+ Given the student is on the "Create a New Topic" page
+ When the student enters a valid title
+ And clicks the "Cancel" button
+ Then the user should be redirected back to the “Forums” page
+  And no new post should be created
+
