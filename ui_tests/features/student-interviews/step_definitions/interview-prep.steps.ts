@@ -18,6 +18,7 @@ Before(async function() {
     interviewPrepPage = new InterviewPrepPage(this.page);
 });
 
+// This for the 1st Scenario
 When('the user navigates to the Interview prep page', async function() {
     await this.page.waitForLoadState('networkidle');
     await this.page.goto(env.getBaseUrl() + 'interview-prep');
@@ -27,6 +28,8 @@ When('the user navigates to the Interview prep page', async function() {
 Then('the Interview Prep page displays', async function() {
     await interviewPrepPage.verifyPage();
 });
+
+// This is for the 2nd Scenario
 
 Given('the student is on the Interview Prep page', async function () {
     await this.page.goto(`${env.getBaseUrl()}interview-prep`);
@@ -47,11 +50,14 @@ Then('the student should see an option to join or schedule a peer interview sess
     await interviewPrepPage.verifyPeerInterviewsPage();
 });
 
-Given('the student has clicked on the Schedule Your Interview button', async function() {
+// This is for the 3rd Scenario
+
+Given('the student has clicked on the Schedule Interview button', async function() {
     await interviewPrepPage.clickScheduleInterview();
 });
 
 Given('the student has selected Peer Interview', async function() {
+    await interviewPrepPage.clickScheduleInterview();
     await interviewPrepPage.selectPeerInterview();
 });
 
