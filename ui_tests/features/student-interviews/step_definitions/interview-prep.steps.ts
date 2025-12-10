@@ -47,12 +47,6 @@ Then('the student should see an option to join or schedule a peer interview sess
     await interviewPrepPage.verifyPeerInterviewsPage();
 });
 
-Given('the student is on the Interview Prep page', async function () {
-    await this.page.goto(`${env.getBaseUrl()}interview-prep`);
-    await expect(this.page).toHaveURL(/interview-prep/);
-    await interviewPrepPage.verifyPage();
-});
-
 Given('the student has clicked on the "Schedule Your Interview" button', async function() {
     await interviewPrepPage.clickScheduleInterview();
 });
