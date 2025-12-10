@@ -47,6 +47,12 @@ Then('the student should see an option to join or schedule a peer interview sess
     await interviewPrepPage.verifyPeerInterviewsPage();
 });
 
+Given('the student is on the Interview Prep page', async function () {
+    await this.page.goto(`${env.getBaseUrl()}interview-prep`);
+    await expect(this.page).toHaveURL(/interview-prep/);
+    await interviewPrepPage.verifyPage();
+});
+
 Given('the student has clicked on the "Schedule Your Interview" button', async function() {
     await interviewPrepPage.clickScheduleInterview();
 });
@@ -72,5 +78,13 @@ When('inputs a valid difficulty level', async function() {
 });
 
 When('clicks on the "Create Session" button', async function() {
-    await interviewPrepPage.clickCreateSession()    ;
+    await interviewPrepPage.clickCreateSession();
 });  
+
+Then('the Interview Prep page displays', async function() {
+    await interviewPrepPage.verifyPage();
+});
+
+Then('Upcoming Sessions list shows the newly scheduled peer interview with correct details', async function() {
+    await interviewPrepPage.verifySessionInUpcomingList('Technical Coding', '12/31/2025', '10:00');
+});

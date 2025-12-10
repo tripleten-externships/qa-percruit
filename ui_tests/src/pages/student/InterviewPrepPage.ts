@@ -13,6 +13,7 @@ export class InterviewPrepPage extends BasePage {
     InterviewTopicField = 'label:has-text("Interview Topic") + input';
     DifficultyLevelDropdown = 'label:has-text("Difficulty Level") + input'
     CreateSessionButton = 'button:has-text("Create Session")';
+    UpcomingSessionsList = '#upcoming-sessions-list';
 
     constructor(page: Page) {
         super(page);
@@ -63,5 +64,10 @@ export class InterviewPrepPage extends BasePage {
 
     async clickCreateSession(){
         await this.page.click(this.CreateSessionButton);
+    }
+
+    async verifySessionInUpcomingList(topic: string, date: string, time: string){
+        const sessionLocator = this.page.locator(this.UpcomingSessionsList).locator(`text=${topic} >> text=${date} >> text=${time}`);
+        await expect(sessionLocator).toBeVisible();
     }
 }

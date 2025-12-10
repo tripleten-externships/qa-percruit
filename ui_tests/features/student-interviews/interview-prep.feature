@@ -25,8 +25,9 @@ Feature: Interviews under Interview Prep Category
         And inputs a valid interview topic
         And inputs a valid difficulty level
         And clicks on the "Create Session" button
-        Then the student should see a confirmation message indicating the interview has been scheduled
-        And the new interview should appear in the list of scheduled peer interviews
+        Then the Interview Prep page displays
+        And Upcoming Sessions list shows the newly scheduled peer interview with correct details
+
 
     @wip
     Scenario: Student sucesfully joins a Peer Interview session
