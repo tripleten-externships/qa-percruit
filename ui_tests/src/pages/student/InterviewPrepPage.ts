@@ -8,6 +8,10 @@ export class InterviewPrepPage extends BasePage {
     PeerInterviewOption = 'li:has-text("Peer Interview")';
     JoinAvailableSessionButton = 'button:has-text("Join Available Session")';
     CreateNewSessionButton = 'button:has-text("Create New Session")';
+    DateInputField = 'input[placeholder="MM/DD/YYYY"]';
+    TimeInputField = 'input[placeholder="HH:MM"]';
+    InterviewTopicField = 'label:has-text("Interview Topic") + input';
+    DifficultyLevelDropdown = 'label:has-text("Difficulty Level") + input'
 
     constructor(page: Page) {
         super(page);
@@ -39,4 +43,20 @@ export class InterviewPrepPage extends BasePage {
         await expect(this.page.locator(this.CreateNewSessionButton)).toBeVisible();
     }
 
+    async inputDate(date: string){
+        await this.page.fill(this.DateInputField, date);
+    }  
+
+    async inputTime(time: string){
+        await this.page.fill(this.TimeInputField, time);
+    }
+
+    async inputInterviewTopic(topic: string){
+        await this.page.fill(this.InterviewTopicField, topic);
+    }
+    
+    async selectDifficultyLevel(level: string){
+        await this.page.click(this.DifficultyLevelDropdown);
+        await this.page.click(`li:has-text("${level}")`);
+    }   
 }
