@@ -12,6 +12,7 @@ export class InterviewPrepPage extends BasePage {
     TimeInputField = 'input[placeholder="HH:MM"]';
     InterviewTopicField = 'label:has-text("Interview Topic") + input';
     DifficultyLevelDropdown = 'label:has-text("Difficulty Level") + input'
+    CreateSessionButton = 'button:has-text("Create Session")';
 
     constructor(page: Page) {
         super(page);
@@ -54,9 +55,13 @@ export class InterviewPrepPage extends BasePage {
     async inputInterviewTopic(topic: string){
         await this.page.fill(this.InterviewTopicField, topic);
     }
-    
+
     async selectDifficultyLevel(level: string){
         await this.page.click(this.DifficultyLevelDropdown);
         await this.page.click(`li:has-text("${level}")`);
     }   
+
+    async clickCreateSession(){
+        await this.page.click(this.CreateSessionButton);
+    }
 }

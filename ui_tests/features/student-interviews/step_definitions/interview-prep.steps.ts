@@ -66,3 +66,17 @@ When('the student clicks on the "Create New Session" option', async function() {
 });
 
 When('inputs a valid date and time for the interview', async function() {
+    await this.page.fill(interviewPrepPage.DateInputField, '12/31/2024');
+    await this.page.fill(interviewPrepPage.TimeInputField, '10:00');
+});
+
+When('inputs a valid interview topic', async function() {
+    await interviewPrepPage.inputInterviewTopic('Data Structures and Algorithms');
+});     
+When('inputs a valid difficulty level', async function() {
+    await interviewPrepPage.selectDifficultyLevel('Intermediate');
+});
+
+When('clicks on the "Create Session" button', async function() {
+    await this.page.click('button:has-text("Create Session")');
+});  
