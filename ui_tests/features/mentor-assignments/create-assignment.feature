@@ -1,4 +1,4 @@
-@eric
+
 Feature: Mentor-Student Assignments
   The system should allow administrators to link
   students with mentors to ensure proper mentorship assignments.
