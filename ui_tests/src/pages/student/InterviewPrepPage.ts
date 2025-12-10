@@ -5,7 +5,7 @@ export class InterviewPrepPage extends BasePage {
 
     InterviewPrepHeading = '//h4[contains(text(),"Interview Preparation")]';
     ScheduleInterviewButton = '//button[contains(text(),"Schedule Interview")]';
-    PeerInterviewOption = '//button[contains(text(),"Peer Interview")]';
+    PeerInterviewOption = 'li:has-text("Peer Interview")';
     JoinAvailableSessionButton = '//button[contains(text(),"Join Available Session")]';
     CreateNewSessionButton = '//button[contains(text(),"Create New Session")]';
 
