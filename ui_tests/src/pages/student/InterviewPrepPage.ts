@@ -4,12 +4,10 @@ import { BasePage } from '../common/BasePage';
 export class InterviewPrepPage extends BasePage {
 
     InterviewPrepHeading = '//h4[contains(text(),"Interview Preparation")]';
-    ScheduleInterviewButton = '//button[contains(text(),"Schedule Interview")]';
+    ScheduleInterviewButton = 'button:has-text("Schedule Interview")';
     PeerInterviewOption = 'li:has-text("Peer Interview")';
-    JoinAvailableSessionButton = '//button[contains(text(),"Join Available Session")]';
-    CreateNewSessionButton = '//button[contains(text(),"Create New Session")]';
-
-
+    JoinAvailableSessionButton = 'button:has-text("Join Available Session")';
+    CreateNewSessionButton = 'button:has-text("Create New Session")';
 
     constructor(page: Page) {
         super(page);
@@ -24,7 +22,7 @@ export class InterviewPrepPage extends BasePage {
     }
 
     async selectPeerInterview(){
-        await this.page.waitForSelector(this.PeerInterviewOption, { state: 'visible' });
+        await expect(this.page.locator(this.PeerInterviewOption)).toBeVisible();
         await this.page.click(this.PeerInterviewOption); 
     }
 
