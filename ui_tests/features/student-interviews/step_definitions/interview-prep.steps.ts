@@ -81,10 +81,6 @@ When('clicks on the "Create Session" button', async function() {
     await interviewPrepPage.clickCreateSession();
 });  
 
-Then('the Interview Prep page displays', async function() {
-    await interviewPrepPage.verifyPage();
-});
-
 Then('Upcoming Sessions list shows the newly scheduled peer interview with correct details', async function() {
     await interviewPrepPage.verifySessionInUpcomingList('Technical Coding', '12/31/2025', '10:00');
 });
