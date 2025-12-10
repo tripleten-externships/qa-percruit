@@ -60,7 +60,7 @@ When('the student clicks on the "Create New Session" option', async function() {
 });
 
 When('inputs a valid date and time for the interview', async function() {
-    await this.page.fill(interviewPrepPage.DateInputField, '12/31/2024');
+    await this.page.fill(interviewPrepPage.DateInputField, '12/31/2025');
     await this.page.fill(interviewPrepPage.TimeInputField, '10:00');
 });
 
