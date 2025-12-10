@@ -1,4 +1,3 @@
-@indev
 Feature: Activities in the Coding Problems page
 As an Admin 
 the Admin wants to view and update activities in the coding problems page
@@ -13,24 +12,24 @@ Scenario: View existing activities
   When the Admin views the Activities tab in Coding Problems
   Then the Admin should see all existing activities
   
- @wip
+ @indev
 Scenario: Selecting a Category on activities page
   When the Admin filters a category using the Category dropdown
   Then the Admin should be able to select a category from the existing Category dropdown list
 
-@wip
+@indev
 Scenario: Selecting a Topic on activities page
   When the Admin wants to select a new topic from the existing Topic dropdown list
   And a Category is already selected 
   Then the Admin should be able to select a topic from the Topic dropdown list 
 
-@wip
+@indev
 Scenario: Selecting a Unit on activities page
   When the Admin wants to select a new unit from the existing Unit dropdown list
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
 
-@wip
+@indev
 Scenario: Adding an Activity
   When the Admin wants to add a new activity
   And the Admin selects a category from the existing Category dropdown list
@@ -39,13 +38,13 @@ Scenario: Adding an Activity
   Then the Admin should be able to add an activity with the valid information
   And the added activity should be visible to the Admin on the Activities page
 
-@wip
+@indev
 Scenario: Updating an existing Activity
   When the Admin makes an edit to an existing activity with valid information
   Then the Admin should be able to save the changes in the existing activity
   And the updated activity should be correctly displayed on the Activities page
 
-@wip
+@indev
 Scenario: Deletion of an existing Activity
   When the Admin wants to delete a specific activity
   And the Admin selects a category from the existing Category dropdown list
