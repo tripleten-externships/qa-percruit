@@ -21,11 +21,7 @@ function getProfilePage(this: CustomWorld) {
     return this.pages.profile;
 }
 
-Given('The profile tab is the default view with key sections', async function (this: CustomWorld) {
-    const profile = getProfilePage.call(this);
-    await profile.gotoProfile();
-});
-
+//Scenario: Profile tab is default view with key sections
 Then('the Profile tab is active', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const active = await profile.isProfileTabActive();
@@ -45,11 +41,7 @@ And('the sections Profile Photo, Basic Information and About Me are visible', as
     await expect(profile.page.getByText(s3, { exact: true })).toBeVisible();
 });
 
-Given('Profile photo area provides identity and guicdance', async function (this: CustomWorld) {
-    const profile = getProfilePage.call(this);
-    await profile.gotoProfile();
-});
-
+//Scenario: Profile photo area provides identity and guidance
 When('The Admin views the Profile photo section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const visible = await profile.isProfilePhotoVisible();
@@ -67,11 +59,7 @@ And('guidance is displayed for uploading a professional headshot with a recommne
     await expect(profile.page.getByText('Upload a professional headshot that represents you well. Recommended: Sqaure image, at least 400x400 px', { exact: true })).toBeVisible();
 });
 
-Given('Basic Information shows required and optional fields', async function (this: CustomWorld) {
-    const profile = getProfilePage.call(this);
-    await profile.gotoProfile();
-});
-
+//Scenario: Basic Information shows required and optional fields
 When('The Admin views the Basic Information section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const visible = await profile.areSectionsVisible(['Basic Information']);
@@ -108,6 +96,7 @@ And('Helper text indicates the browser-detected timezone', async function (this:
     await expect(profile.page.getByText('Your detected timezone is (UTC-07:00) Mountain Time (US & Canada)', { exact: false })).toBeVisible();
 });
 
+//Scenario: Optional fields can be left blank without error
 Given('The Admin is viewing the Basic Information section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     await profile.gotoProfile();
@@ -125,11 +114,7 @@ And('No validation error is displayed for leaving optionnal fields blank', async
     expect(err).toBeFalsy();
 });
 
-Given('Data on screen reflects the stored account values', async function (this: CustomWorld) {
-    const profile = getProfilePage.call(this);
-    await profile.gotoProfile();
-});
-
+//Data on screen reflects the stored account values
 When('The Admin views the profile', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     await profile.gotoProfile();
