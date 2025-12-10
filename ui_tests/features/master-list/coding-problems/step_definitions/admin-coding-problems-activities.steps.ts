@@ -98,7 +98,7 @@ declare const page: Page;
         })
         Then('the admin should be able to save the changes in the existing activity', async function(){
             await page.getByRole('button', { name: 'Update Problem' }).click();
-            After('the updated activity should be correctly displayed on the Activities page', async function(){
+            After('the updated activity should be correctly displayed on t Activities page', async function(){
                 await expect(page.getByRole('cell', { name: 'Test me like one of your' })).toBeVisible();
             })
         })
@@ -123,22 +123,7 @@ declare const page: Page;
 
         })
         Then('the admin should be able to delete an existing activity after confirmatoin of deletion', async function(){
-            if(true){
-                page.once('dialog', dialog => {
-                    console.log(`Dialog message: ${dialog.message()}`);
-                    dialog.dismiss().catch(() => {});
-            });
-            await page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
-        }
-        else
-        {
-            
-        page.once('dialog', dialog => {
-          console.log(`Dialog message: ${dialog.message()}`);
-          dialog.dismiss().catch(() => {});
-        });
-        await page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
-        }
+        
             After('the topic should no longer exist on the Units page', async function(){
                 
             })
@@ -146,8 +131,11 @@ declare const page: Page;
 
 //scenario no units present
         When('The admin views the activities tab', async function(){
+            await page.getByRole('tab', { name: 'Activities' }).click();
             After('there are no existing activities', async function(){
-                
+
+            await expect(page.getByText('No activities yet. Click "Add')).toBeVisible();
+            
             })
         })
         Then('the admin should not see any activites displayed on the activiites page', async function(){
