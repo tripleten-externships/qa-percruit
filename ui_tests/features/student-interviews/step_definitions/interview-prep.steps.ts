@@ -47,15 +47,15 @@ Then('the student should see an option to join or schedule a peer interview sess
     await interviewPrepPage.verifyPeerInterviewsPage();
 });
 
-Given('the student has clicked on the "Schedule Your Interview" button', async function() {
+Given('the student has clicked on the Schedule Your Interview button', async function() {
     await interviewPrepPage.clickScheduleInterview();
 });
 
-Given('the student has selected "Peer Interview"', async function() {
+Given('the student has selected Peer Interview', async function() {
     await interviewPrepPage.selectPeerInterview();
 });
 
-When('the student clicks on the "Create New Session" option', async function() {
+When('the student clicks on the Create New Session option', async function() {
     await interviewPrepPage.createNewSession();
 });
 
@@ -71,7 +71,7 @@ When('inputs a valid difficulty level', async function() {
     await interviewPrepPage.selectDifficultyLevel('Intermediate');
 });
 
-When('clicks on the "Create Session" button', async function() {
+When('clicks on the Create Session button', async function() {
     await interviewPrepPage.clickCreateSession();
 });  
 
