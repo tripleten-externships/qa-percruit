@@ -1,21 +1,22 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class LogoutPage extends BasePage {
-    profileMenu = 
-    signOutButton =
-    loginPageHeader =
+    PROFILE_MENU_LOCATOR = '.MuiAvatar-root'
+    SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
 
     constructor(page: Page) {
         super(page);
     }
 
     async initiateLogout() {
-        
+        await this.page.locator(this.PROFILE_MENU_LOCATOR).first().click();
+        await this.page.getByRole('menuitem', { name: 'Sign Out' }).click();
     }
 
     async isOnLoginPage() {
-        
+        await this.page.getByRole('heading', { name: 'Welcome to Percruit' }).click();
+        return true;
     }
 
 }
