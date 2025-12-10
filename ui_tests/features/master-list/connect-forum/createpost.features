@@ -1,7 +1,7 @@
 
 Feature: Percuit Website Student-Connect-Forums- Create a New post
 @wip
-Scenario: Student cancels post creation
+Scenario: When I add the title "Student cancels post creation" to the log 
  Given the student is on the "Create a New Topic" page
  When the student enters a valid title
  And clicks the "Cancel" button

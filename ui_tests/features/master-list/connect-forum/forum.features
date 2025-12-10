@@ -1,7 +1,7 @@
 
 Feature: Percuit Website Student-Connect-Forums test
 
-Scenario: When user goes to the page, the page loads as expected.
+Scenario: When I add the title "When user goes to the page, the page loads as expected" to the log 
     Given the Student is authenticated in the system
     When the user navigates to the Forum page
     Then the Forum page displays
