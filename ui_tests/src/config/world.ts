@@ -5,6 +5,7 @@
 import * as dotenv from 'dotenv';
 import { setWorldConstructor, World, IWorldOptions, Before, After, setDefaultTimeout } from '@cucumber/cucumber';
 import { Browser, Page, chromium } from 'playwright';
+import { ProfilePage } from '../pages/profile/ProfilePage';
 import { CONFIG as DEV } from './dev.env';
 import { CONFIG as STAGE } from './stage.env';
 import { CONFIG as PROD } from './prod.env';
@@ -99,11 +100,15 @@ export function getConfig(envName?: string) {
 export interface CustomWorld extends World {
   browser: Browser;
   page: Page;
+  pages?: {
+    profile?: ProfilePage;
+  };
 }
 
 class PlaywrightWorld extends World implements CustomWorld {
   browser!: Browser;
   page!: Page;
+  pages?: { profile?: ProfilePage };
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -135,6 +140,10 @@ Before(async function () {
     this.page = await this.browser.newPage();
     await this.page.setDefaultTimeout(ENV.defaultTimeout);
     await this.page.setDefaultNavigationTimeout(ENV.navigationTimeout);
+    // instantiate page objects for use in step definitions
+    this.pages = {
+      profile: new ProfilePage(this.page)
+    };
   }
 });
 
