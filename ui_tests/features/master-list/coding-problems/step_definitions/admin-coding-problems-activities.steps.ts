@@ -99,7 +99,7 @@ declare const page: Page;
             await this.page.getByRole('button', { name: 'Create Problem' }).click();
             
         
-            Then('the added activity should be visible to the Admin on the Acitivities page', async function(){
+            Then('the added activity should be visible to the Admin on the Activities page', async function(){
                 await expect(this.page.getByRole('cell', { name: '1', exact: true })).toBeVisible();
             })  
         })
@@ -121,48 +121,64 @@ declare const page: Page;
             await this.page.getByRole('button', { name: 'Update Problem' }).click();
            
         })
-         Then('the updated activity should be correctly displayed on the Activities page', async function(){
+        Then('the updated activity should be correctly displayed on the Activities page', async function(){
                 await expect(this.page.getByRole('cell', { name: 'Test me like one of your' })).toBeVisible();
             })
 
 // scenario deletion of an existing activity    
         When('the Admin wants to delete a specific activity', async function(){
-
+             await this.page.getByRole('combobox').first().click();
+             await this.page.getByRole('option', { name: 'TypeScript' }).click();
+             await this.page.getByRole('combobox').nth(1).click();
+             await this.page.getByRole('option', { name: 'Sample Topic' }).click();
+             await this.page.getByRole('combobox').nth(2).click();
+             await this.page.getByRole('option', { name: 'unit' }).click();
+ 
         })
-        When('the Admin selects a category from the existing Category dropdown list', async function(){
+        //Commented out due to program having issues with the existance of matching step definitions
+        /*Then('the Admin selects a category from the existing Category dropdown list', async function(){
                 
-            await page.getByRole('combobox').first().click();
-            await page.getByRole('option', { name: 'TypeScript' }).click();
-            })
-        When('the Admin selects a topic from the existing corresponding Topic dropdown list', async function(){
+            
+        })
+        Then('the Admin selects a topic from the existing corresponding Topic dropdown list', async function(){
                 
-            await page.getByRole('combobox').nth(1).click();
-            await page.getByRole('option', { name: 'Sample Topic' }).click();
-            })
+            
+        })
         
         Then('the Admin selects a unit from the existing Unit dropdown list', async function(){
 
-            await page.getByRole('combobox').nth(2).click();
-            await page.getByRole('option', { name: 'unit' }).click();
+           
 
-        })
-        Then('the admin should be able to delete an existing activity after confirmatoin of deletion', async function(){
-        
-            After('the topic should no longer exist on the Units page', async function(){
+        })*/
+        Then('the Admin should be able to delete an existing activity after confirmation of deletion', async function(){
+                this.page.once('dialog', (dialog: { message: () => any; dismiss: () => Promise<any>; }) => {
+                    console.log(`Dialog message: ${dialog.message()}`);
+                   
                 
-            })
+            });
+            await this.page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
+            
+
+       
+            
+        })
+        Then('the topic should no longer exist on the Units page', async function(){
+            await this.page.getByRole('tab', { name: 'Units' }).click();    
+            await expect(this.page.locator('#coding-admin-tabpanel-2')).toContainText('0 Activities');
         })
 
 //scenario no units present
         When('The Admin views the Activities tab', async function(){
+
             await page.getByRole('tab', { name: 'Activities' }).click();
         
         })
-        After('there are no existing activities', async function(){
 
-            await expect(page.getByText('No activities yet. Click "Add')).toBeVisible();
+        When('there are no existing activities', async function(){
 
-            })
+            await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
+
+        })
         Then('the admin should not see any activites displayed on the activiites page', async function(){
             
         })

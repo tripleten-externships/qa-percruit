@@ -29,7 +29,7 @@ Scenario: Selecting a Unit on activities page
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
 
-@wip
+@indev
 Scenario: Adding an Activity
   When the Admin wants to add a new activity
   And the Admin selects a category from the existing Category dropdown list
