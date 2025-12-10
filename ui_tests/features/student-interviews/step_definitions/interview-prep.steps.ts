@@ -71,7 +71,7 @@ When('inputs a valid date and time for the interview', async function() {
 });
 
 When('inputs a valid interview topic', async function() {
-    await interviewPrepPage.inputInterviewTopic('Data Structures and Algorithms');
+    await interviewPrepPage.inputInterviewTopic('Technical Coding');
 });     
 When('inputs a valid difficulty level', async function() {
     await interviewPrepPage.selectDifficultyLevel('Intermediate');
