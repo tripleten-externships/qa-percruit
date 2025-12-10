@@ -7,7 +7,7 @@ Feature: Interviews under Interview Prep Category
         Then the Interview Prep page displays
 
     
-    Scenario: Student clicks on "Peer Interview"
+    Scenario: Student clicks on Peer Interview
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
         When the student clicks on the Schedule Your Interview button

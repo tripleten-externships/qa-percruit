@@ -57,7 +57,6 @@ Given('the student has clicked on the Schedule Interview button', async function
 });
 
 Given('the student has selected Peer Interview', async function() {
-    await interviewPrepPage.clickScheduleInterview();
     await interviewPrepPage.selectPeerInterview();
 });
 
