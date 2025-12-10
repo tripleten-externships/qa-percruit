@@ -14,7 +14,7 @@ Feature: Interviews under Interview Prep Category
         And the student selects "Peer Interview"
         Then the student should see an option to join or schedule a peer interview session
   
-    @wip
+
     Scenario: Student succesfully schedules a Peer Interview
         Given the student is authenticated in the system
         And the student is on the "Interview Prep" page
