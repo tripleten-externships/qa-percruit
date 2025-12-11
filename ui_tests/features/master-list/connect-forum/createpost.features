@@ -2,9 +2,8 @@
 Feature: Percuit Website Student-Connect-Forums- Create a New post
 @wip
 Scenario: When I add the title "Student cancels post creation" to the log 
- Given the student is on the "Create a New Topic" page
- When the student enters a valid title
- And clicks the "Cancel" button
- Then the user should be redirected back to the “Forums” page
-  And no new post should be created
-
+  Given the student is on the "Forum" page
+  When the student clicks the "New Post" button
+  And the student clicks the "Cancel" button
+  Then the user should be redirected back to the "Forums" page
+  

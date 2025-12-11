@@ -21,13 +21,20 @@ Before(async function() {
   forumPage= new ForumPage(this.page);
 });
 
-
-When('the user navigates to the Forum page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
+Given('the student is on the "Forum" page', async function () {
+  this.forumPage = new ForumPage(this.page);
+  await this.forumPage.open();
 });
 
-Then('the Forum page displays', async function() {
-  await forumPage.verifyPage();
+When('the student clicks the "New Post" button', async function () {
+  await this.forumPage.clickNewPost();
+});
+
+When('the student clicks the "Cancel" button', async function () {
+  await this.forumPage.clickCancel();
+});
+
+Then('the user should be redirected back to the "Forums" page', async function () {
+  await this.forumPage.isOnForumsPage();
 });
 
