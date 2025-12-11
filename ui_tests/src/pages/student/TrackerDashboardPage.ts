@@ -36,6 +36,9 @@ export class StudentDashboardPage extends BasePage {
 }
 
 export class JobTrackerPage extends BasePage {
+    static verifyPage() {
+        throw new Error('Method not implemented.');
+    }
   isVisible: any;
   // Use Playwright locators instead of jQuery selectors
   get trackerDashboard() { return this.page.locator('#job-tracker-dashboard'); }
