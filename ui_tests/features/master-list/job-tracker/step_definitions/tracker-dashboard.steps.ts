@@ -1,16 +1,23 @@
-import { Given, When, Then } from '@cucumber/cucumber';
-import { Page } from 'playwright';
-import { expect } from '@playwright/test';
+// Import Cucumber functions
+import { Given, When, Then, Before, After } from '@cucumber/cucumber';
+// Import Playwright classes and assertion utilities
+import { chromium, Browser, Page, expect } from '@playwright/test';
+// Import environment configuration and Page Object Models
+import * as env from '../../../../src/config/world';
+import { LoginPage } from '../../../../src/pages/common/LoginPage';
 import { JobTrackerPage } from '../../../../src/pages/student/TrackerDashboardPage';
 
+// Declare variables to hold browser, page, and page object instances
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-let page: Page;
+let loginPage: LoginPage;
+let jobtrackerpage: JobTrackerPage;
 
-Given(`the student is logged into the application portal`, async () => {
-    // [Given] Describes the initial context or state before the scenario begins.
+Before(async function() {
+    loginPage = new LoginPage(this.page);
+    jobtrackerpage = new JobTrackerPage(this.page);
 });
 
-When('the user navigates to the Job Tracker page', async function() {
+When('the student navigates to the Job Tracker page', async function () {
   await this.page.goto(BASE_URL + '/jobs-tracker');
   await expect(this.page).toHaveURL(/jobs-tracker/);
 });
