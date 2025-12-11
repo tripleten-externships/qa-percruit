@@ -13,7 +13,7 @@ Scenario: When I add the title "Student cancels post creation" to the log
   When the student clicks the "Cancel" button in the modal
   Then the new post modal should close
   And the student should remain on the "Forum" page
-@wip
+
  Scenario: When I add the title "Student tries to create a post without entering a title" to the log
   Given the student is on the Forum page
   When the student clicks the "New Post" button
