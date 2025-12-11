@@ -5,7 +5,7 @@ Scenario: When I add the title "When user goes to the page, the page loads as ex
     Given the Student is authenticated in the system
     When the user navigates to the Forum page
     Then the Forum page displays
-@wip
+
 Scenario: When I add the title "Student cancels post creation" to the log 
   Given the Student is authenticated in the system
   When the student clicks the "New Post" button
