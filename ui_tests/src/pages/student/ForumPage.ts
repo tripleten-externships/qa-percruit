@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
-
+import * as env from '../../config/world';
 export class ForumPage extends BasePage {
 
     ForumsHeading = '//h5[text() = "Forums"]';
@@ -35,7 +35,14 @@ export class ForumPage extends BasePage {
         return this.newPostModal().locator('//button[text()="Cancel"]');
     }
 // Methods to interact with the New Post modal to cancel a new post
-    async clickNewPostButton() {
+
+// Navigate to the Forum page dynamically using base URL
+  async navigateTo() {
+    const url = env.getBaseUrl() + 'forums';
+    await this.page.goto(url);
+    await expect(this.page.locator(this.ForumsHeading)).toBeVisible();
+}
+async clickNewPostButton() {
         await this.page.locator(this.NewPostButton).click();
     }
 

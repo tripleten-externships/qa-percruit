@@ -1,4 +1,3 @@
-
 Feature: Percuit Website Student-Connect-Forums test
 
 Scenario: When I add the title "When user goes to the Forum page, the page loads as expected" to the log 
@@ -7,7 +6,8 @@ Scenario: When I add the title "When user goes to the Forum page, the page loads
   Then the Forum page displays
 
 Scenario: When I add the title "Student cancels post creation" to the log 
-  Given the Student is on the Forum page
+  Given the Student is authenticated in the system 
+  And the Student is on the Forum page
   When the student clicks the "New Post" button
   Then the new post modal should appear
   When the student clicks the "Cancel" button in the modal
@@ -16,6 +16,7 @@ Scenario: When I add the title "Student cancels post creation" to the log
 
  Scenario: When I add the title "Student tries to create a post without entering a title" to the log
   Given the student is on the Forum page
+  And the Student is authenticated in the system 
   When the student clicks the "New Post" button
   Then the new post modal should appear
   When the student leaves the title field empty
