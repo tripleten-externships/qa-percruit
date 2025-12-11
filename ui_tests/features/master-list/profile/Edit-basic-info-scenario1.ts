@@ -1,9 +1,10 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { LoginPage } from '../../../src/pages/common/LoginPage';
-import { expect } from 'playwright/test';
+import { expect } from '@playwright/test';
 import { Page } from 'playwright/test';
-export let loginPage: LoginPage;
-
+import { LoginPage } from '../../../src/pages/common/LoginPage';
+import { ProfileSettingsPage } from '../../../src/pages/admin/ProfileSettingPage';
+let loginPage: LoginPage;
+let profilePage: ProfileSettingsPage;
 
         // User is login as Admin.
         When(/the (.+) is authenticated in the system/, async function (userType) {
@@ -22,18 +23,24 @@ export let loginPage: LoginPage;
          Given('the Admin is viewing the Basic Information section', async function () {
            await this.page.goto('https://stage.tripleten.percruit.com/profile')
            await expect(this.page.getByText('Profile Settings')).toBeVisible();
+           profilePage = new ProfileSettingsPage(this.page);
 
          });
    
          // Fields like full name, phone number and other should be editable to be update with new information
          Then('the fields Full Name, Phone Number, Location, and Timezone should be editable', async function () {
-           await expect(this.page.getByText('Name'), 'Full Name').toBeEditable();
-           await expect(this.page.getByText('Name'), 'Phone Number').toBeEditable();
-           await expect(this.page.getByText('Name'), 'Location').toBeEditable();
-           await expect(this.page.getByText('Name'), 'Timezone').toBeEditable();
-           await this.page.getByLabel('FullName').fill('John Joe');
-           await this.page.getByLabel('Location').fill('New Jersey');
-           await this.page.getByLabel('Phone Number').fill('3470098765');
+          expect(await profilePage.isFieldEditable('[data-test="full-name-input"]')).toBe(true);
+          expect(await profilePage.isFieldEditable('[data-test="phone-input"]')).toBe(true);
+          expect(await profilePage.isFieldEditable('[data-test="location-input"]')).toBe(true);
+          expect(await profilePage.isFieldEditable('[data-test="timezone-select"]')).toBe(true); 
+        
+          //await expect(this.page.getByText('Name'), 'Full Name').toBeEditable();
+           //await expect(this.page.getByText('Name'), 'Phone Number').toBeEditable();
+          // await expect(this.page.getByText('Name'), 'Location').toBeEditable();
+           ///await expect(this.page.getByText('Name'), 'Timezone').toBeEditable();
+          // await this.page.getByLabel('FullName').fill('John Joe');
+           //await this.page.getByLabel('Location').fill('New Jersey');
+           //await this.page.getByLabel('Phone Number').fill('3470098765');
          });
        
    
@@ -44,8 +51,19 @@ export let loginPage: LoginPage;
    
          // The update field should reflect its most recent changes.
          Then('each field should display its current value or be empty if optional', async function () {
-           expect(this.page.getByText('Name'), 'Full Name').toBeDefined();
-           expect(this.page.getByText('Name'), 'Phone Number').toBeDefined();
-           expect(this.page.getByText('Name'), 'Location').toBeDefined();
-           expect(this.page.getByText('Name'), 'Timezone').toBeEmpty();
+           const fullName = await profilePage.getFullName();
+           const phone = await profilePage.getPhoneNumber();
+           const location = await profilePage.getLocation();
+           const timezone = await profilePage.getTimezone();
+           expect(fullName).not.toBeUndefined();
+           expect(phone).not.toBeUndefined();
+           expect(location).not.toBeUndefined();
+           expect(timezone).not.toBeUndefined();
+          
+          
+          
+          //expect(this.page.getByText('Name'), 'Full Name').toBeDefined();
+           //expect(this.page.getByText('Name'), 'Phone Number').toBeDefined();
+           //expect(this.page.getByText('Name'), 'Location').toBeDefined();
+           //expect(this.page.getByText('Name'), 'Timezone').toBeEmpty();
          });

@@ -4,6 +4,9 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
+  gotoLoginPage() {
+      throw new Error('Method not implemented.');
+  }
   static loginAsAdmin // Define element locators for Login page
           () {
                   throw new Error('Method not implemented.');
