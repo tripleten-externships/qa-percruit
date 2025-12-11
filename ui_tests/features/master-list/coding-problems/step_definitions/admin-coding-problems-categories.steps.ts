@@ -13,7 +13,8 @@ When('the Admin navigates to the Coding Problems page', async function () {
   await this.page.waitForLoadState('networkidle', { timeout: 30000 });
   await this.page.getByRole('button', { name: 'Coding Problems'}).click();
   await this.page.waitForLoadState('networkidle', { timeout: 30000 });
-  await expect(this.page.getByRole('heading', { name: 'Coding Practice Administration' })).toBeVisible();
+  //await expect(this.page.getByRole('heading', { name: 'Coding Practice Administration' })).toBeVisible();
+  await expect(this.page.locator('//h4[text()="Coding Practice Administration"]')).toBeVisible();
 });
 
 Then('the Admin should see all existing coding problems grouped by category', async function () {
