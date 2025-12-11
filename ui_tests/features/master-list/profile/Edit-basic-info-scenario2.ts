@@ -1,7 +1,9 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { expect } from 'playwright/test';
+import { ProfileSettingsPage } from '../../../src/pages/admin/ProfileSettingPage';
 let loginPage: LoginPage;
+let profilePage: ProfileSettingsPage;
  
  
  
@@ -14,8 +16,14 @@ let loginPage: LoginPage;
        
   // User Navigate to the profile setting page after signing in.
          Given('the Admin is viewing the Basic Information section', async function () {
-           await this.page.goto('https://stage.tripleten.percruit.com/profile')
-           await expect(this.page.getByText('Name'), 'Profile Setting').toBeVisible();
+          await this.page.goto('https://stage.tripleten.percruit.com/profile')
+          await expect(this.page.getByText('Profile Settings')).toBeVisible();
+          profilePage = new ProfileSettingsPage(this.page); 
+          
+          
+          
+          // await this.page.goto('https://stage.tripleten.percruit.com/profile')
+          // await expect(this.page.getByText('Name'), 'Profile Setting').toBeVisible();
          });
        
    
