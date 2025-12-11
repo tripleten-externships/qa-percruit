@@ -21,7 +21,7 @@ Before(async function() {
   forumPage= new ForumPage(this.page);
 });
 
-
+// Step definitions to load a Forum page
 When('the user navigates to the Forum page', async function() {
   await this.page.goto(env.getBaseUrl() + 'forums');
   await expect(this.page).toHaveURL(/forums/);
@@ -51,3 +51,23 @@ Then('the student should remain on the "Forum" page', async function() {
   await forumPage.verifyPage();
 });
 
+// Step definitions to create a new post
+When('the student leaves the title field empty', async function () {
+  await forumPage.clearTitleField();
+});
+
+When('the student enters valid content', async function () {
+  await forumPage.enterContent("abc"); // any text is valid
+});
+
+When('clicks "Create Topic"', async function () {
+  await forumPage.clickCreateTopicButton();
+});
+
+Then('an error message should appear saying "Title is required"', async function () {
+  await forumPage.expectTitleRequiredError();
+});
+
+Then('the post should not be published', async function () {
+  await forumPage.expectNewPostModalVisible(); // still open
+});

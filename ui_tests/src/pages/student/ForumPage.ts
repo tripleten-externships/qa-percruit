@@ -6,8 +6,14 @@ export class ForumPage extends BasePage {
     ForumsHeading = '//h5[text() = "Forums"]';
     SearchEditBox = '//input[@placeholder="Search posts..."]';
      SortByEditBox= '//input[@placeholder=" Filter by Topic"]';
-     // New Post modal locators
+     // New Post button locators
     NewPostButton = '//button[text()="New Post"]';
+    // New Post modal locators
+    TitleField = '//input[@placeholder="What\'s your topic about?"]';
+    ContentField = '//div[@data-placeholder="Type your text here..."]';
+    CreateTopicButton = '//button[text()="Create Topic"]';
+    TitleRequiredError = '//p[contains(text(), "Title is required")]';
+
 
   constructor(page: Page) {
     super(page);
@@ -28,7 +34,7 @@ export class ForumPage extends BasePage {
     cancelButtonInModal() {
         return this.newPostModal().locator('//button[text()="Cancel"]');
     }
-
+// Methods to interact with the New Post modal to cancel a new post
     async clickNewPostButton() {
         await this.page.locator(this.NewPostButton).click();
     }
@@ -44,4 +50,27 @@ export class ForumPage extends BasePage {
     async expectNewPostModalHidden() {
         await expect(this.newPostModal()).toHaveCount(0);
     }
+
+// Additional methods to interact with the New Post modal to create a new post without title
+
+async clearTitleField() {
+    await this.page.locator(this.TitleField).fill('');
+  }
+
+  async enterContent(content: string) {
+    const editor = this.page.locator(this.ContentField);
+    await editor.click();
+    await editor.fill(content).catch(async () => {
+      // fallback for rich editors
+      await this.page.keyboard.type(content);
+    });
+  }
+
+  async clickCreateTopicButton() {
+    await this.page.locator(this.CreateTopicButton).click();
+  }
+
+  async expectTitleRequiredError() {
+    await expect(this.page.locator(this.TitleRequiredError)).toBeVisible();
+  }
 }
