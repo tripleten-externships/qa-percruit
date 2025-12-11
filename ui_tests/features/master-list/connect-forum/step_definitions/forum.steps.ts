@@ -30,4 +30,24 @@ When('the user navigates to the Forum page', async function() {
 Then('the Forum page displays', async function() {
   await forumPage.verifyPage();
 });
+// Step definitions to cancel a new post
+When('the student clicks the "New Post" button', async function() {
+  await forumPage.clickNewPostButton();
+});
+
+Then('the new post modal should appear', async function() {
+  await forumPage.expectNewPostModalVisible();
+});
+
+When('the student clicks the "Cancel" button in the modal', async function() {
+  await forumPage.clickCancelInModal();
+});
+
+Then('the new post modal should close', async function() {
+  await forumPage.expectNewPostModalHidden();
+});
+
+Then('the student should remain on the "Forum" page', async function() {
+  await forumPage.verifyPage();
+});
 
