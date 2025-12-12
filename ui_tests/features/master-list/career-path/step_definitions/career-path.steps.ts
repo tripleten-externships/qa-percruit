@@ -55,17 +55,31 @@ console.log("2:On Career Path TITLE Confirm");
   await this.page.waitForTimeout(5000);
   console.log("Waited for load state Idle");
 // await this.page.getByPlaceholder('Select from list or type your own').click();
-await this.page.locator('#_r_13_').click({timeout:5000});
+
+//Start Refresh
+await this.page.locator(careerPathPage.RestartButton).click({timeout:5000});
+console.log("Clicked Restart Button to ensure fresh form");
+//End Refresh
+
+
+  await this.page.waitForTimeout(5000);
+await expect(this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox)).toBeVisible();
+
+
+
+await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).click({timeout:5000});
 console.log("3:Clicked Current Role textbox");
-await this.page.locator('#_r_13_').fill("Student");
+await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).fill("Student");
 console.log("4:Filled in current role");
-await this.page.locator(careerPathPage.ContinueButton).click({timeout:1000});
+await this.page.locator(careerPathPage.ContinueButton).click({timeout:5000});
 console.log("5:Clicked continue button 1");
 
+ await this.page.waitForTimeout(5000);
 
-await this.page.locator('#_r_1a_').click();
+
+await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).click({timeout:5000});
 console.log("Clicked target role box");
-await this.page.locator('#_r_1a_').fill('Qa Engineer');
+await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).fill('Qa Engineer');
 console.log("6: Filled in QA Eng");
 ///
 // await this.page.getByText('Continue', { exact: true }).isVisible();
@@ -78,19 +92,30 @@ console.log("7: Clicked continue button 2");
   });
 
 When('the student clicks the restart button', async function () {
-  await this.page.locator(careerPathPage.RestartButton).click({timeout:5000});
+
+  await this.page.locator(careerPathPage.RestartButton).click();
   console.log("Clicked Restart Button");
   
 });
 
 
 Then('Current Role displays Not specified', async function () {
-  await this.page.waitForTimeout(15000);
-  console.log("Getting Current Role Text");
-  let currentRoleText = await this.page.locator(careerPathPage.CurrentRoleHeading).textContent();
-  await expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
-  console.log(currentRoleText);
+ 
+    await expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
+    console.log( await this.page.locator(careerPathPage.CurrentRoleHeading).textContent());
   console.log("Verified Current Role displays Not specified");
+
+  // console.log("Getting Current Role Text");
+  // await this.page.waitForLoadState('networkidle')
+  
+  // let currentRoleText;
+  //  currentRoleText = await this.page.locator(careerPathPage.CurrentRoleHeading);
+  // console.log(currentRoleText.textContent());
+
+  //  console.log("Current Text now After wait: " + await currentRoleText.textContent());
+  // expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
+ 
+  // console.log("Verified Current Role displays Not specified");
     
 });
 

@@ -7,8 +7,8 @@ export class CareerPathPage extends BasePage {
     CareerJourneySection = '//h5[text()="Your Career Journey"]';
     CareerMentorshipSection = '//h4[normalize-space()="Career Mentorship"]';
     CurrentPositionHeading = '//h6[normalize-space()="Current Position"]';
-    //CurrentRoleTextBox = 'Select from list or type your own';
-     CurrentRoleTextBox = '#_r_50';
+    CurrentRoleTextBox = 'Select from list or type your own';
+    //  CurrentRoleTextBox = '#_r_50';
     TargetRoleTextBox = 'Select from list or type your own';
     ContinueButton = '//button[normalize-space()="Continue"]';
     CompleteAssessmentButton = '//button[normalize-space()="Complete Assessment"]';
