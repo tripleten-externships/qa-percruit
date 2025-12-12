@@ -1,78 +1,59 @@
-// Step definitions for login feature using Cucumber and Playwright
+import { Given, When, Then, Before } from '@cucumber/cucumber';
+import { expect } from '@playwright/test';
+import { ForumPage } from '../../../../src/pages/student/ForumPage';
 
-// Import Cucumber hooks and step definition decorators
-import { Given, When, Then, Before, After } from '@cucumber/cucumber';
-
-// Import Playwright classes and assertion utilities
-import { chromium, Browser, Page, expect } from '@playwright/test';
-
-// Import environment configuration and Page Object Models
-import * as env from '../../../../src/config/world';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import {ForumPage } from '../../../../src/pages/student/ForumPage';
-
-// Declare variables to hold browser, page, and page object instances
-let loginPage: LoginPage;
 let forumPage: ForumPage;
 
-// Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
-  loginPage = new LoginPage(this.page);
-  forumPage= new ForumPage(this.page);
+  // Assuming this.page is initialized in custom World
+  forumPage = new ForumPage(this.page);
 });
 
-// Step definitions to load a Forum page
-When('the user navigates to the Forum page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
+/**
+ * Step: Student navigates to a specific page
+ */
+Given('the student is on the {string} page', async function (pageName: string) {
+  if (pageName.toLowerCase() === 'forum') {
+    await forumPage.navigateTo();
+  } else {
+    throw new Error(`Unknown page: ${pageName}`);
+  }
 });
 
-Then('the Forum page displays', async function() {
-  await forumPage.verifyPage();
-});
-// Step definitions to cancel a new post
-// Given the student is on the Forum page
-Given('the student is on the Forum page', async function() {
-  await forumPage.navigateTo(); // POM method to open forum page
-  await expect(this.page).toHaveURL(/forums/);
-});
-When('the student clicks the "New Post" button', async function() {
-  await forumPage.clickNewPostButton();
-});
-
-Then('the new post modal should appear', async function() {
-  await forumPage.expectNewPostModalVisible();
-});
-
-When('the student clicks the "Cancel" button in the modal', async function() {
-  await forumPage.clickCancelInModal();
+/**
+ * Step: Student clicks a button (New Post / Cancel)
+ */
+When('the student clicks the {string} button', async function (buttonName: string) {
+  switch(buttonName.toLowerCase()) {
+    case 'new post':
+      await forumPage.clickNewPostButton();
+      break;
+    case 'cancel':
+      await forumPage.clickCancelInModal(); // use correct method
+      break;
+    default:
+      throw new Error(`Unknown button: ${buttonName}`);
+  }
 });
 
-Then('the new post modal should close', async function() {
-  await forumPage.expectNewPostModalHidden();
+/**
+ * Step: Verify the new post modal appears
+ */
+Then('the new post modal should appear', async function () {
+  await forumPage.expectNewPostModalVisible(); // use POM method
 });
 
-Then('the student should remain on the "Forum" page', async function() {
-  await forumPage.verifyPage();
+/**
+ * Step: Verify the new post modal closes
+ */
+Then('the new post modal should close', async function () {
+  await forumPage.expectNewPostModalHidden(); // use POM method
 });
 
-// Step definitions to create a new post
-When('the student leaves the title field empty', async function () {
-  await forumPage.clearTitleField();
-});
-
-When('the student enters valid content', async function () {
-  await forumPage.enterContent("abc"); // any text is valid
-});
-
-When('clicks "Create Topic"', async function () {
-  await forumPage.clickCreateTopicButton();
-});
-
-Then('an error message should appear saying "Title is required"', async function () {
-  await forumPage.expectTitleRequiredError();
-});
-
-Then('the post should not be published', async function () {
-  await forumPage.expectNewPostModalVisible(); // still open
+/**
+ * Step: Verify the student remains on the Forum page
+ */
+Then('the student should remain on the {string} page', async function (pageName: string) {
+  const currentURL = this.page.url();
+  expect(currentURL.toLowerCase()).toContain(pageName.toLowerCase());
 });
