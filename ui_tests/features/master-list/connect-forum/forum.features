@@ -5,9 +5,11 @@ Feature: Percuit Website Student-Connect-Forums test
     When the user navigates to the Forum page
     Then the Forum page displays
 
-  Scenario: When I add the title "Student cancels post creation" to the log 
     Given the Student is authenticated in the system 
     And the Student is on the Forum page
+  
+  Scenario: When I add the title "Student cancels post creation" to the log 
+    
     When the student clicks the "New Post" button
     Then the new post modal should appear
     When the student clicks the "Cancel" button in the modal
@@ -15,8 +17,6 @@ Feature: Percuit Website Student-Connect-Forums test
     And the student should remain on the "Forum" page
 
   Scenario: When I add the title "Student tries to create a post without entering a title" to the log
-    Given the student is on the Forum page
-    And the Student is authenticated in the system 
     When the student clicks the "New Post" button
     Then the new post modal should appear
     When the student leaves the title field empty
