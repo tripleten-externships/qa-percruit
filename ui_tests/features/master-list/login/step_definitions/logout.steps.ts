@@ -9,14 +9,11 @@ let logoutPage: LogoutPage;
 let loginPage: LoginPage;
 
          Given('the admin is logged into the system', async function () {
-            // user logs in as an admin
+            //user logs in as an admin
             //user navigates to site 
-            await this.page.goto(env.BASE_URL)
-            await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
-            await this.page.getByRole('textbox', { name: 'user@example.com' }).fill('cheyannejaileen16+admin@gmail.com');
-            await this.page.getByRole('textbox', { name: 'Enter your password' }).click();
-            await this.page.getByRole('textbox', { name: 'Enter your password' }).fill('Externship22');
-            await this.page.getByRole('button', { name: 'Sign In' }).click();
+            const loginPage = new LoginPage(this.page);
+            await this.page.goto(env.BASE_URL);
+            await loginPage.loginAsUserType('Admin')
 
             logoutPage = new LogoutPage(this.page);
             });
