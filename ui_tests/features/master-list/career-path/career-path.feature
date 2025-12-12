@@ -13,7 +13,7 @@ Feature: Verify Page Open
     When the student clicks the restart button
     Then Current Role displays Not specified
 
-@wip
+
   Scenario: Target role displays not specified when the restart button is clicked
     Given the student is authenticated in the system
     And the student navigates to the Career Path page

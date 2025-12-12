@@ -123,3 +123,9 @@ Then('Target Role displays Not specified', async function () {
   await expect(this.page.locator(careerPathPage.TargetRoleHeading)).toHaveText(/Not specified/);
   console.log("Verified Target Role displays Not specified");
 });
+
+// todo: Remove old comments
+// todo: Add more descriptive comments
+// todo: correct POM to clean up
+// todo: Submit a pull request
+
