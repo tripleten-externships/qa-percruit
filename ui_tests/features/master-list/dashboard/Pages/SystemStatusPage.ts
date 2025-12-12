@@ -1,41 +1,62 @@
-import { Page } from '@playwright/test';
+// SystemStatusPage.ts
+// Page Object for the System Health Monitor section
+
+import { Page, Locator, expect } from '@playwright/test';
 
 export class SystemStatusPage {
-  page: Page;
+  private page: Page;
+
+  private statusCard: Locator;
+  private statusMessage: Locator;
+
+  private uptimeLabel: Locator;
+  private uptimeValue: Locator;
+
+  private responseTimeLabel: Locator;
+  private responseTimeValue: Locator;
 
   constructor(page: Page) {
     this.page = page;
+
+    // MAIN SYSTEM HEALTH CARD
+    this.statusCard = page.getByText('System Health Monitor', { exact: false });
+
+    // “All Systems Operational”
+    this.statusMessage = page.getByText('All Systems Operational', {
+      exact: false,
+    });
+
+    // SYSTEM UPTIME
+    this.uptimeLabel = page.getByText('System Uptime', { exact: false });
+    this.uptimeValue = this.page.getByRole('heading', { name: /%$/ }).first();
+
+
+    // AVG RESPONSE TIME
+    this.responseTimeLabel = page.getByText('Avg Response Time', {
+      exact: false,
+    });
+    this.responseTimeValue = page.getByRole('heading', { name: /ms$/ }); // ex: "250ms"
   }
 
-  async waitForSystemHealthMonitor() {
-    await this.page
-      .getByRole('heading', { name: 'System Health Monitor' })
-      .waitFor();
+  // == WAIT FOR HEALTH CARD ==
+  async waitForSystemHealthCard(): Promise<void> {
+    await this.statusCard.waitFor();
   }
 
-
-
-  async waitForSummaryMetrics() {
-    await this.page.getByText('System Uptime').waitFor();
-    await this.page.getByText('Avg Response Time').waitFor();
-    await this.page.getByText('Critical Issues').waitFor();
+  // == VERIFY SYSTEM OPERATIONAL ==
+  async verifyAllSystemsOperational(): Promise<void> {
+    await expect(this.statusMessage).toBeVisible();
   }
 
-  async waitForAllSystemsOperational() {
-    await this.page.getByText('All Systems Operational').waitFor();
+  // == VERIFY UPTIME ==
+  async verifyUptimeVisible(): Promise<void> {
+    await expect(this.uptimeLabel).toBeVisible();
+    await expect(this.uptimeValue).toBeVisible();
   }
 
-  async waitForUptimeLabel() {
-    await this.page.getByText('System Uptime').waitFor();
-  }
-
-
-  async waitForAvgResponseTimeWithMs() {
-    await this.page.getByText('250msAvg Response Time').waitFor();
-    await this.page.getByText('ms').first().waitFor();
-  }
-
-  async waitForAvgResponseTimeLabel() {
-    await this.page.getByText('Avg Response Time').waitFor();
+  // == VERIFY RESPONSE TIME ==
+  async verifyResponseTimeVisible(): Promise<void> {
+    await expect(this.responseTimeLabel).toBeVisible();
+    await expect(this.responseTimeValue).toBeVisible();
   }
 }
