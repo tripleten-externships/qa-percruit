@@ -7,12 +7,14 @@ import { CustomWorld } from '../../../../src/config/world';
 
 import { Page } from '@playwright/test';
 import { BasePage } from '../../../../src/pages/common/BasePage';
+import { ProfilePage } from '../../../../src/pages/profile/ProfilePage';
 
-export class ProfilePage extends BasePage {
-  constructor(page: Page) {
-    super(page);
-  }
-}
+let profilePage: ProfilePage;
+
+Before(async function() {
+  profilePage = new ProfilePage(this.page);
+  
+});
 
 function getProfilePage(this: CustomWorld) {
     if (!this.pages || !this.pages.profile) {
@@ -21,16 +23,18 @@ function getProfilePage(this: CustomWorld) {
     return this.pages.profile;
 }
 
+
+
 //Scenario: Profile tab is default view with key sections
 Then('the Profile tab is active', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const active = await profile.isProfileTabActive();
-    expect(active).toBeTruthy();
+    await expect(active).toBeTruthy();
 });
 
 And('the tabs Professional, Social Links, Notifications, and Privacy & AI are available', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
-    await expect(profile.page.getByText('Professional', { exact: true })).toBeVisible();
+    await profilePage.isProfessionalTabVisible();
     await expect(profile.page.getByText('Social Links', { exact: true })).toBeVisible();
 });
 
@@ -130,4 +134,8 @@ Then('The displayed name, email, and timezone match the accounts stored values',
     expect(email).toBe('admin@percruit.com');
     expect(tz).toBe('America/Denver');
 });
+
+function Before(arg0: () => Promise<void>) {
+    throw new Error('Function not implemented.');
+}
     

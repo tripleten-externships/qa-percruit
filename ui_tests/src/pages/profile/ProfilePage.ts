@@ -1,9 +1,16 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 
 export class ProfilePage extends BasePage {
+  readonly professionalTab: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.professionalTab = page.getByText('Professional', { exact: true });
+    
+  }
+  async isProfessionalTabVisible(): Promise<boolean> {
+    return this.professionalTab.isVisible();
   }
 
   async gotoProfile(): Promise<void> {
