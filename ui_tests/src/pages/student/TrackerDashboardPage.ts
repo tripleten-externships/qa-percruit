@@ -1,6 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
-
 export class StudentDashboardPage extends BasePage {
   readonly sideBar = {
     JOB_BOARD: 'Job Board',
@@ -16,58 +15,77 @@ export class StudentDashboardPage extends BasePage {
     CAREER_INSIGHTS: 'Career Insights',
     INDUSTRY_NEWS: 'Industry News',
   };
-
+  readonly dashboardContainer: Locator;
+  readonly sidebarMenu: Locator;
   constructor(page: Page) {
     super(page);
+    this.dashboardContainer = page.locator('#student-dashboard-container');
+    this.sidebarMenu = page.locator('#student-sidebar-menu');
   }
-
   async isOnDashboardPage(): Promise<boolean> {
-    return this.isVisible(this.page.locator('#root'));
+    return await this.dashboardContainer.isVisible();
   }
-  isVisible(arg0: Locator): boolean | PromiseLike<boolean> {
-    throw new Error('Method not implemented.');
-  }
-
   // Method to select a feature from the sidebar
   async selectJobTracker(): Promise<void> {
     await this.page.locator(`text=${this.sideBar.JOB_TRACKER}`).click();
     await this.page.waitForLoadState('networkidle');
   }
-}
-
+  async selectFeature(featureName: string): Promise<void> {
+    await this.page.locator(`text=${featureName}`).click();
+    await this.page.waitForLoadState('networkidle');
+  }
+} // close StudentDashboardPage class
 export class JobTrackerPage extends BasePage {
-    static verifyPage() {
-        throw new Error('Method not implemented.');
-    }
   isVisible: any;
   // Use Playwright locators instead of jQuery selectors
   get trackerDashboard() { return this.page.locator('#job-tracker-dashboard'); }
   get trackerHeader() { return this.page.locator('#job-tracker-header'); }
-  get trackerSearchBar(){ return this.page.locator('#job-tracker-search-bar'); }
+  get trackerSearchBar() { return this.page.locator('#job-tracker-search-bar'); }
   get trackerBookmarkedButton() { return this.page.locator('#job-tracker-bookmarked-button'); }
   get trackerAppliedButton() { return this.page.locator('#job-tracker-applied-button'); }
   get trackerInterviewingButton() { return this.page.locator('#job-tracker-interviewing-button'); }
   get trackerNegotiatingButton() { return this.page.locator('#job-tracker-negotiating-button'); }
   get trackerNoResponseButton() { return this.page.locator('#job-tracker-no-response-button'); }
-
+  jobsTable: Locator;
+  jobsRows: Locator;
   constructor(page: Page) {
     super(page);
+
+    this.jobsTable = page.locator('.jobs-table');
+    this.jobsRows = page.locator('.jobs-table tbody tr');
   }
-
-  // selector for <table class="jobs-table">
-  get jobsTable() { return this.page.locator('.jobs-table'); }
-
-  // rows inside the jobs table (use Playwright xpath locator)
-  get jobsRows() {
-    return this.page.locator('//table[contains(@class,"jobs-table")]//tbody/tr'); }
-
-    async waitForTracker() {
-      // Wait for the tracker dashboard to be visible
-      await this.trackerDashboard.waitFor({ state: 'visible' });
-    }
-  
-    async isLoaded(): Promise<boolean> {
-      // pass a Locator to the helper (assumes BasePage.isVisible accepts a Locator)
-      return this.isVisible(this.page.locator('xpath=//*[@id="root"]/div'));
-    }
+  async waitForTracker(): Promise<void> {
+    await this.trackerDashboard.waitFor({ state: 'visible' });
   }
+  async isLoaded(): Promise<boolean> {
+    return await this.trackerDashboard.isVisible();
+  }
+  async getJobCount(): Promise<number> {
+    return await this.jobsRows.count();
+  }
+  async searchForJob(searchTerm: string): Promise<void> {
+    await this.trackerSearchBar.fill(searchTerm);
+    await this.trackerSearchBar.press('Enter');
+  }
+  async clickStatusButton(status: 'bookmarked' | 'applied' | 'interviewing' | 'negotiating' | 'no-response'): Promise<void> {
+    const buttonMap = {
+      'bookmarked': this.trackerBookmarkedButton,
+      'applied': this.trackerAppliedButton,
+      'interviewing': this.trackerInterviewingButton,
+      'negotiating': this.trackerNegotiatingButton,
+      'no-response': this.trackerNoResponseButton
+    };
+    await buttonMap[status].click();
+  }
+  async verifyAllComponentsVisible(): Promise<void> {
+    await expect(this.trackerDashboard).toBeVisible();
+    await expect(this.trackerHeader).toBeVisible();
+    await expect(this.trackerSearchBar).toBeVisible();
+    await expect(this.trackerBookmarkedButton).toBeVisible();
+    await expect(this.trackerAppliedButton).toBeVisible();
+    await expect(this.trackerInterviewingButton).toBeVisible();
+    await expect(this.trackerNegotiatingButton).toBeVisible();
+    await expect(this.trackerNoResponseButton).toBeVisible();
+    await expect(this.jobsTable).toBeVisible();
+  }
+}
