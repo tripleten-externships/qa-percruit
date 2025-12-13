@@ -1,24 +1,34 @@
+// Import Neccesary cucumber functions and page objects
+
 import { Given, When, Then } from '@cucumber/cucumber';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { expect } from 'playwright/test';
 import { ProfileSettingsPage } from '../../../src/pages/admin/ProfileSettingPage';
-let loginPage: LoginPage;
-let profilePage: ProfileSettingsPage;
+
+export let loginPage: LoginPage;
+export let profilePage: ProfileSettingsPage;
  
  
- 
+ // User is login as Admin.
+When(/the (.+) is authenticated in the system/, async function (userType) {
+  loginPage = new LoginPage(this.page);
+  profilePage = new ProfileSettingsPage(this.page);
+  loginPage.gotoLoginPage();
+  await loginPage.loginAsAdmin();
+  await expect(this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible();
+});
  // User Signs in with the valid admin credentials
         Given('the Admin is on the Profile Settings page', async function () {
-          loginPage = new LoginPage(this.page)
-          LoginPage.loginAsAdmin() 
-         await expect(this.page).toHaveURL('https://stage.tripleten.percruit.com/dashboard')
+          await this.page.goto('https://stage.tripleten.percruit.com/profile');
+          await expect(this.page).toHaveURL(/profile/);
+  
          });
        
   // User Navigate to the profile setting page after signing in.
          Given('the Admin is viewing the Basic Information section', async function () {
-          await this.page.getByRole('heading', { name: 'Profile Settings' }).click();
-           await this.page.getByRole('heading', { name: 'Basic Information' }).toBeVisible();
-           profilePage = new ProfileSettingsPage(this.page);
+          await profilePage.openBasicInfoSection();
+  await expect(this.page.getByText('Basic Information')).toBeVisible();
+  profilePage = new ProfileSettingsPage(this.page);
          });
        
    
