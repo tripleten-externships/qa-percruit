@@ -34,7 +34,7 @@ export class StudentDashboardPage extends BasePage {
     await this.page.locator(`text=${featureName}`).click();
     await this.page.waitForLoadState('networkidle');
   }
-} // close StudentDashboardPage class
+}
 export class JobTrackerPage extends BasePage {
   isVisible: any;
   // Use Playwright locators instead of jQuery selectors
