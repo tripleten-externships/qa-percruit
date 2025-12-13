@@ -4,7 +4,6 @@ import { expect } from '@playwright/test';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 import { JobTrackerPage } from '../../../../src/pages/student/TrackerDashboardPage';
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-let page: Page;
 Given(`the student is authenticated in the system`, () => {
     // [Given] Sets up the initial state of the system.
 });
