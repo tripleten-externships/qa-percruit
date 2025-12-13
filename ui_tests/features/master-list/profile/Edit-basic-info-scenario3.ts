@@ -17,23 +17,30 @@ let loginPage: LoginPage;
  
        
          Given('the Phone Number field already contains a valid value', async function () {
-            expect(this.page.getByText('Name'), 'Phone Number').toBeDefined();
+          await expect(this.page.getByText('Name'), 'Phone Number').toBeDefined();
+          expect(this.page.inputValue('[data-test="input-phone-number"]')).not.toBe('');
+          await expect(this.page.inputValue('[data-test="input-phone-number"]')).not.toBe('');
+          
          });
        
   
          When('the Admin clears the Phone Number field in the Basic Information section', async function () {
-          await this.page.getByLabel('Phone Number').clears();
+          await this.page.getByRole('textbox', { name: 'Phone Number' }).click();
+          await this.page.fill('[data-test="input-phone-number"]', '');
+         
          });
     
        
          Then('the change should automatically save as the Admin types', async function () {
            await expect(this.page.getByText('Name'), 'Phone Number').toBeEmpty();
+           await this.page.inputValue('[data-test="input-phone-number"]');
+           await expect(this.page.inputValue('[data-test="input-phone-number"]')).toBe('');
          });
        
  
          Then('no validation or error message should appear', async function () {
-           
-         });
+           await
+           expect(this.page.getByText('Name'), 'Phone Number').not.toHaveAttribute('aria-invalid', 'true');});
        
   
        
@@ -45,6 +52,7 @@ let loginPage: LoginPage;
          });
   
          Then('the cleared Phone Number field should remain empty after a page refresh', async function () {
-            await this.page.goto('https://stage.tripleten.percruit.com/profile')
-            await expect(this.page.getByText('Name'), 'Phone Number').toBeEmpty();
+            await this.page.reload();
+            await expect(this.page.inputValue('[data-test="input-phone-number"]')).toBe('');  
+            
          });

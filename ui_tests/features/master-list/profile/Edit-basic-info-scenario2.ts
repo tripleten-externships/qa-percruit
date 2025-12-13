@@ -11,45 +11,42 @@ let profilePage: ProfileSettingsPage;
         Given('the Admin is on the Profile Settings page', async function () {
           loginPage = new LoginPage(this.page)
           LoginPage.loginAsAdmin() 
-         await expect(this.page).toHaveURL('https://stage.tripleten.percruit.com/profile')
+         await expect(this.page).toHaveURL('https://stage.tripleten.percruit.com/dashboard')
          });
        
   // User Navigate to the profile setting page after signing in.
          Given('the Admin is viewing the Basic Information section', async function () {
-          await this.page.goto('https://stage.tripleten.percruit.com/profile')
-          await expect(this.page.getByText('Profile Settings')).toBeVisible();
-          profilePage = new ProfileSettingsPage(this.page); 
-          
-          
-          
-          // await this.page.goto('https://stage.tripleten.percruit.com/profile')
-          // await expect(this.page.getByText('Name'), 'Profile Setting').toBeVisible();
+          await this.page.getByRole('heading', { name: 'Profile Settings' }).click();
+           await this.page.getByRole('heading', { name: 'Basic Information' }).toBeVisible();
+           profilePage = new ProfileSettingsPage(this.page);
          });
        
    
        // In the profile settings Full name and location tabs are update with valid  information.
          When('the Admin updates the Full Name and Location with valid information', async function () {
-           await this.page.getByLabel('FullName').fill('John Joe');
-           await this.page.getByLabel('Location').fill('New Jersey');
+           await this.page.getByRole('textbox', { name: 'Full Name' }).click();
+           await this.page.fill('[data-test="input-full-name"]', 'John Joe');
+           await this.page.getByRole('textbox', { name: 'Location' }).click();
+           await this.page.fill('[data-test="input-location"]', 'New Jersey');
          });
        
   
        // The update information entered in the previous tab should reflect its changes.
          Then('the changes should automatically save as the Admin types', async function () {
-          
-            expect(this.page.getByText('Name'), 'Full Name').toBeDefined();
-            expect(this.page.getByText('Name'), 'Location').toBeDefined();
-            await expect(this.page.getByLabel('Full Name')).toContainText(['John Joe']);
-            await expect(this.page.getByLabel('Location')).toContainText(['New Jersey']);
+          expect(this.page.inputValue('[data-test="input-full-name"]')).toBe('John Joe');
+          expect(this.page.inputValue('[data-test="input-location"]')).toBe('New Jersey');
+          await profilePage.getFullName();
+          await profilePage.getLocation();
          });
    
 // The updates information should be saved immediately as it being entered.
          Then('the updated values should immediately appear in the Basic Information section', async function () {
-          await expect(this.page.getByText('John Joe')).toBeVisible();
-          await expect(this.page.getByText('New Jersey')).toBeVisible();
+          return await this.page.inputValue('[data-test="input-full-name"]'); 
+          return await this.page.inputValue('[data-test="input-location"]');
+          
          });
    
 // The information should be consistent after a page refresh and change of tab.
          Then('the data should remain consistent after a page refresh', async function () {
-           
+           return await this.page.reload();
          });

@@ -1,8 +1,4 @@
 import { Page } from '@playwright/test';
-
-
-
-
 export class ProfileSettingsPage {
 constructor(private page: Page) {}
 
