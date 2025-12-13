@@ -4,7 +4,6 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { expect } from 'playwright/test';
 import { ProfileSettingsPage } from '../../../src/pages/admin/ProfileSettingPage';
-
 export let loginPage: LoginPage;
 export let profilePage: ProfileSettingsPage;
  
@@ -17,6 +16,7 @@ When(/the (.+) is authenticated in the system/, async function (userType) {
   await loginPage.loginAsAdmin();
   await expect(this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible();
 });
+
  // User Signs in with the valid admin credentials
         Given('the Admin is on the Profile Settings page', async function () {
           await this.page.goto('https://stage.tripleten.percruit.com/profile');
@@ -27,11 +27,10 @@ When(/the (.+) is authenticated in the system/, async function (userType) {
   // User Navigate to the profile setting page after signing in.
          Given('the Admin is viewing the Basic Information section', async function () {
           await profilePage.openBasicInfoSection();
-  await expect(this.page.getByText('Basic Information')).toBeVisible();
-  profilePage = new ProfileSettingsPage(this.page);
+          await expect(this.page.getByText('Basic Information')).toBeVisible();
+          profilePage = new ProfileSettingsPage(this.page);
          });
        
-   
        // In the profile settings Full name and location tabs are update with valid  information.
          When('the Admin updates the Full Name and Location with valid information', async function () {
            await this.page.getByRole('textbox', { name: 'Full Name' }).click();
