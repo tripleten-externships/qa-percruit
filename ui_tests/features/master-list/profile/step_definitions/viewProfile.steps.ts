@@ -3,10 +3,10 @@ import { Given, Then, When } from '@cucumber/cucumber';
 export const And: typeof When = When;
 
 import { expect } from '@playwright/test';
-import { CustomWorld } from '../../../src/config/world';
+import { CustomWorld } from '../../../../src/config/world';
 
 import { Page } from '@playwright/test';
-import { BasePage } from '../../../src/pages/common/BasePage';
+import { BasePage } from '../../../../src/pages/common/BasePage';
 
 export class ProfilePage extends BasePage {
   constructor(page: Page) {
