@@ -32,13 +32,13 @@ Then(`the dashboard should not load successfully`, async function () {
 Then(`an error message should be displayed to the student`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const errorMessage = this.page.locator('#job-tracker-error-message');
-    expect(errorMessage).toBeVisible();
-    expect(errorMessage).toHaveText('Unable to load Job Tracker data. Please try again later.');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('Unable to load Job Tracker data. Please try again later.');
 });
 Then(`the application tracker should not be accessible`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const dashboard = this.page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    expect(dashboard).not.toBeVisible();
+    await expect(dashboard).not.toBeVisible();
 });
 Then(`the dashboard should load partially`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
@@ -56,15 +56,15 @@ Then(`required UI components \(such as status tiles or application list) should 
 Then(`a warning or fallback message should be displayed`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const warningMessage = this.page.locator('#job-tracker-warning-message');
-    expect(warningMessage).toBeVisible();
-    expect(warningMessage).toHaveText('Some features of the Job Tracker are currently unavailable. Please try again later.');
+    await expect(warningMessage).toBeVisible();
+    await expect(warningMessage).toHaveText('Some features of the Job Tracker are currently unavailable. Please try again later.');
 });
 Then(`the student should not be able to fully access their application tracker`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const dashboard = this.page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    expect(dashboard).toBeVisible();
+    await expect(dashboard).toBeVisible();
     const jobsTable = this.page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    expect(jobsTable).not.toBeVisible();
+    await expect(jobsTable).not.toBeVisible();
 });
 Then(`the dashboard should load correctly`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
@@ -73,18 +73,18 @@ Then(`the dashboard should load correctly`, async function () {
 Then(`the application tracker data should fail to load`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const jobsTable = this.page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    expect(jobsTable).not.toBeVisible();
+    await expect(jobsTable).not.toBeVisible();
 });
 Then(`an error message should be shown indicating data retrieval failed`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const errorMessage = this.page.locator('#job-tracker-error-message');
-    expect(errorMessage).toBeVisible();
-    expect(errorMessage).toHaveText('Failed to retrieve Job Tracker data. Please try again later.');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('Failed to retrieve Job Tracker data. Please try again later.');
 });
 Then(`the student should not be able to see their list of applications`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const jobsTable = this.page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    expect(jobsTable).not.toBeVisible();
+    await expect(jobsTable).not.toBeVisible();
 });
 When(`they attempt to select {string} from the features list`, (arg0: string) => {
     // [When] Describes the action or event that triggers the scenario.
@@ -92,16 +92,16 @@ When(`they attempt to select {string} from the features list`, (arg0: string) =>
 Then(`a message should appear indicating the Job Tracker service is currently unavailable`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const serviceUnavailableMessage = this.page.locator('#job-tracker-service-unavailable-message');
-    expect(serviceUnavailableMessage).toBeVisible();
-    expect(serviceUnavailableMessage).toHaveText('The Job Tracker service is currently unavailable. Please try again later.');
+    await expect(serviceUnavailableMessage).toBeVisible();
+    await expect(serviceUnavailableMessage).toHaveText('The Job Tracker service is currently unavailable. Please try again later.');
 });
 Then(`the dashboard should not load`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const dashboard = this.page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    expect(dashboard).not.toBeVisible();
+    await expect(dashboard).not.toBeVisible();
 });
 Then(`no application tracker information should be displayed`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     const jobsTable = this.page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    expect(jobsTable).not.toBeVisible();
+    await expect(jobsTable).not.toBeVisible();
 });
