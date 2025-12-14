@@ -1,11 +1,11 @@
 Feature: Verify Page Open
-
+@wip
   Scenario: When the user navigates to the Career Path page, the page loads as expected
     Given the student is authenticated in the system
     When the user navigates to the Career Path page
     Then the Career Path page displays
 
-  
+@wip 
   Scenario: Current role displays not specified when the restart button is clicked
     Given the student is authenticated in the system
     Given the student navigates to the Career Path page

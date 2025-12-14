@@ -22,11 +22,6 @@ Before(async function () {
   careerPathPage = new CareerPathPage(this.page);
 });
 
-// Given('the student is authenticated in the system', async function(){
-// loginPage = new LoginPage(this.page)
-// careerPathPage = new CareerPathPage(this.page)
-// });
-
 
 When('the user navigates to the Career Path page', async function () {
   await this.page.goto(env.getBaseUrl() + 'career-path');
@@ -41,91 +36,63 @@ Then('the Career Path page displays', async function () {
 Given('the student navigates to the Career Path page', async function () {
   await this.page.goto(env.getBaseUrl() + 'career-path');
   await expect(this.page).toHaveURL(/career-path/);
-  console.log("Navigated to Career Path Page");
-  
-  
+  console.log("Navigated to Career Path Page"); 
 });
 
 Given('the student submits the assessment with valid required details', async function () {
-  console.log('1: Starting Assessment Section');
- 
- console.log('1.5:Wait for Page Load Successful');
-await expect(this.page).toHaveTitle(/Career Path Advisor/);
-console.log("2:On Career Path TITLE Confirm");
+  await expect(this.page).toHaveTitle(/Career Path Advisor/);
+  console.log("Title Confirmed on Career Path Page");
   await this.page.waitForTimeout(5000);
-  console.log("Waited for load state Idle");
-// await this.page.getByPlaceholder('Select from list or type your own').click();
-
-//Start Refresh
-await this.page.locator(careerPathPage.RestartButton).click({timeout:5000});
-console.log("Clicked Restart Button to ensure fresh form");
-//End Refresh
-
-
-  await this.page.waitForTimeout(5000);
-await expect(this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox)).toBeVisible();
-
-
-
-await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).click({timeout:5000});
-console.log("3:Clicked Current Role textbox");
-await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).fill("Student");
-console.log("4:Filled in current role");
-await this.page.locator(careerPathPage.ContinueButton).click({timeout:5000});
-console.log("5:Clicked continue button 1");
-
- await this.page.waitForTimeout(5000);
-
-
-await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).click({timeout:5000});
-console.log("Clicked target role box");
-await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).fill('Qa Engineer');
-console.log("6: Filled in QA Eng");
-///
-// await this.page.getByText('Continue', { exact: true }).isVisible();
-// await this.page.locator('(//button[normalize-space()="Continue"])[2]').click();
-await this.page.getByText('Continue').click()
-console.log("7: Clicked continue button 2");
- await this.page.locator(careerPathPage.CompleteAssessmentButton).click({timeout:5000});
-    console.log("8: Clicked complete Assessment button");
-    
-  });
-
-When('the student clicks the restart button', async function () {
-
-  await this.page.locator(careerPathPage.RestartButton).click();
-  console.log("Clicked Restart Button");
   
+  //Start Refresh
+  await this.page.locator(careerPathPage.RestartButton).click({timeout:5000});
+  console.log("Clicked Restart Button to ensure fresh form");
+  //End Refresh
+
+
+  await this.page.waitForTimeout(5000);
+
+  //Fill Assessment Form
+  console.log("Filling Assessment Form Now");
+  await careerPathPage.fillAssessment(careerPathPage.currentRole, careerPathPage.targetRole);
+
+//   await expect(this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox)).toBeVisible();
+//   await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).click({timeout:5000});
+//   console.log("3:Clicked Current Role textbox");
+//   await this.page.getByPlaceholder(careerPathPage.CurrentRoleTextBox).fill("Student");
+//   console.log("4:Filled in current role");
+//   await this.page.getByText(careerPathPage.ContinueButton).click({timeout:5000});
+//   console.log("5:Clicked Continue Button 1");
+//   await this.page.waitForTimeout(5000);
+//   await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).click({timeout:5000});
+//   console.log("Clicked target role box");
+//   await this.page.getByPlaceholder(careerPathPage.TargetRoleTextBox).fill('Qa Engineer');
+//   console.log("6: Filled in Target Role");
+//   await this.page.getByText(careerPathPage.ContinueButton).click()
+//   console.log("7: Clicked Continue Button 2");
+  // await this.page.locator(careerPathPage.CompleteAssessmentButton).click({timeout:5000});
+  // console.log("8: Clicked Complete Assessment Button");     
 });
 
+When('the student clicks the restart button', async function () {
+  await this.page.waitForTimeout(5000);
+  await this.page.locator(careerPathPage.RestartButton).click();
+  console.log("Clicked Restart Button");  
+  await this.page.waitForTimeout(5000);
+});
 
 Then('Current Role displays Not specified', async function () {
- 
-    await expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
-    console.log( await this.page.locator(careerPathPage.CurrentRoleHeading).textContent());
+  console.log('Current Role Text is "' + await this.page.locator(careerPathPage.CurrentRoleHeading).textContent() +'"');
+  await expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
   console.log("Verified Current Role displays Not specified");
-
-  // console.log("Getting Current Role Text");
-  // await this.page.waitForLoadState('networkidle')
-  
-  // let currentRoleText;
-  //  currentRoleText = await this.page.locator(careerPathPage.CurrentRoleHeading);
-  // console.log(currentRoleText.textContent());
-
-  //  console.log("Current Text now After wait: " + await currentRoleText.textContent());
-  // expect(this.page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
- 
-  // console.log("Verified Current Role displays Not specified");
-    
 });
 
 Then('Target Role displays Not specified', async function () {
+  console.log('Target Role Text is "' + await this.page.locator(careerPathPage.TargetRoleHeading).textContent() +'"') ;
   await expect(this.page.locator(careerPathPage.TargetRoleHeading)).toHaveText(/Not specified/);
   console.log("Verified Target Role displays Not specified");
 });
 
-// todo: Remove old comments
-// todo: Add more descriptive comments
-// todo: correct POM to clean up
-// todo: Submit a pull request
+
+
 
