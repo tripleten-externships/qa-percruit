@@ -32,23 +32,23 @@ Then('the Study page is displayed', async function() {
 });
 
 Then('the Search Questions box is clicked and awaiting text', async function () {
-  await studyPage.clickButtonByText;
+  studyPage.clickButtonByText;
 });
 
 Then('All button is clicked and highlighted', async function () {
-  
+  studyPage.AllButton
 })
 
 Then('Easy button is clicked and highlighted', async function () {
-  
+  studyPage.EasyButton
 })
 
 Then('Medium button is clicked and highlighted', async function () {
-  
+  studyPage.MediumButton
 })
 
 Then('Hard button is clicked and highlighted', async function () {
-  
+  studyPage.HardButton
 })
 
 Then('Software Engineer tab is clicked and displays applicable roles', async function () {

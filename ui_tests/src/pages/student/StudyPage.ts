@@ -10,7 +10,7 @@ export class StudyPage extends BasePage {
     AllButton = '//button[text() = "All"]';
     EasyButton = '//button[text() = "Easy"]';
     MediumButton = '//p[text() = "Medium"]';
-    HardButtoon = '//p[text() = "Hard"]';
+    HardButton = '//p[text() = "Hard"]';
     SoftwareEngineerTab = '//p[text() = "Software Engineer"]';
     DataScientistTab = '//p[text() = "Data Scientist"]';
     MLEngineerTab = '//p[text() = "ML Engineer"]';
@@ -30,16 +30,26 @@ export class StudyPage extends BasePage {
       await expect(this.page.locator(this.StudyHeading)).toBeVisible();
       await expect(this.page.locator(this.SearchQuestionEditBox)).toBeVisible();
       await expect(this.page.locator(this.BrowseByJobRoleField)).toBeVisible();
-      
+
     }
 
   async clickButtonByText(buttonText: string): Promise<void> {
       this.SearchQuestionEditBoxWasClicked
   }
 
-  async clickByButtonRoleByText(buttonText: string): Promise<void> {
-      this.AllButton
+  async clickAllButton(buttonText: string): Promise<void> {
+      await expect(this.page.locator(this.AllButton)).toHaveAttribute('aria-pressed', 'true')
   }
 
-  
+  async clickEasyButton(buttonText: string): Promise<void> {
+      await expect(this.page.locator(this.EasyButton)).toHaveAttribute('aria-pressed', 'true')
+  }
+
+  async clickMediumButton(buttonText: string): Promise<void> {
+      await expect(this.page.locator(this.MediumButton)).toHaveAttribute('aria-pressed', 'true')
+  }
+
+  async clickHardButton(buttonText: string): Promise<void> {
+      await expect(this.page.locator(this.HardButton)).toHaveAttribute('aria-pressed', 'true')
+  }
 }
