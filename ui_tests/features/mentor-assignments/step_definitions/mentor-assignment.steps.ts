@@ -61,15 +61,19 @@ Then('displays an error indicating that a mentor selection is required', async f
     return 'pending';
 });
 
+// Check Assignment Issues Steps
 Given('all student profiles contain the required information', async function () {
+    await expect(this.page).toHaveURL(/mentor-assignments/);
+});
+
+When('the admin accesses the Incomplete Info tool', async function () {
+    // Access incomplete info tool
     await this.assignmentPage.checkAssignmentIssues(
         'Eric Hibbard Student', 'Eric Hibbard' );
 });
 
-When('the admin accesses the Incomplete Info tool', async function () {
-    // Accessed in the Given step
-});
-
 Then('the system displays the message "Mentor Assignment created successfully"', async function () {
-
+    await this.assignmentPage.verifyAssignmentCreated();
+    // Remove assignment after each test to maintain test isolation
+    await this.assignmentPage.removeAssignment('Eric Hibbard Student');
 });

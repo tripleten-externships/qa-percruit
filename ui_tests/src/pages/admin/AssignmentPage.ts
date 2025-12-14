@@ -77,5 +77,9 @@ export class AssignmentPage extends BasePage {
         const mentorOption = this.page.locator(`li[role="option"]:has-text("${mentorName}")`);
         await mentorOption.scrollIntoViewIfNeeded();
         await mentorOption.click();
+        const assignMentorButton = studentRow.getByRole('button', { name: 'Assign Mentor' });
+        await expect(assignMentorButton).toBeEnabled();
+        await assignMentorButton.click();
+
     } 
 }
