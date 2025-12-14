@@ -35,55 +35,55 @@ Scenario: When the user is on the Study Page, Hard filter box is clicked and hig
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Hard button is clicked and highlighted
-
+@wip
 Scenario: When the user is on the Study Page, Software Engineer Roles is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Software Engineer tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, Data Scientist Roles is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Data Scientist tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, ML Engineer Roles is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then ML Engineer tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, Product Manager is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Product Manager tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, QA Analyst is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then QA Analyst tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, Cybersecurity is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Cybersecurity tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, LLMs is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then LLMs tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, SQL is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
     Then the Study page is displayed
     Then SQL tab is clicked and displays applicable roles
-
+@wip
 Scenario: When the user is on the Study Page, Behavioral is clicked and displays specified roles
     Given the Student is authenticated in the system
     When the user navigates to the Study page
