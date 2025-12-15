@@ -5,7 +5,8 @@ import * as env from '../../config/world';
 export class ForumsPage extends BasePage {
   // Locators
   ForumsHeading = this.page.getByRole('heading', { name: 'Forums' });
-  NewPostButton = this.page.locator('button', { hasText: 'New Post' });
+  NewPostButton = this.page.locator('button:has-text("New Post")');
+
 // Flexible locator for the New Post button
   
 

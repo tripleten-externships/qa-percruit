@@ -7,7 +7,7 @@ Feature: Percuit Website Student-Connect-Forums Test
   Background:
     Given the Student is authenticated in the system
     And the student is on the Forums page
-
+  @wip 
   Scenario: Student cancels creating a new post
     When the student clicks the New Post button
     Then the new post modal should appear
