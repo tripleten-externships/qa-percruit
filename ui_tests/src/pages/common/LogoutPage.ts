@@ -19,4 +19,8 @@ export class LogoutPage extends BasePage {
         return true;
     }
 
+    async isOnHomePage() {
+        await expect (this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible({ timeout: 10000 });
+    }
+       
 }

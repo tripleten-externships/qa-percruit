@@ -4,4 +4,3 @@ test-results/
 .DS_Store
 .env
 screenshots/
-test-1.spec.ts

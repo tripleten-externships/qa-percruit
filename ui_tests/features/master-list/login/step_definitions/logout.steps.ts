@@ -20,7 +20,7 @@ let loginPage: LoginPage;
        
          Given('the admin is on the home page', async function () {
          // user confirms they are on the admin dashboard
-            await expect (this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible({ timeout: 10000 });
+            await logoutPage.isOnHomePage();
          });
       
          When('the admin initiates a logout', async function () {
@@ -36,3 +36,5 @@ let loginPage: LoginPage;
          // the user is on the login page and sees "Welcome to Percruit"
             await logoutPage.isOnLoginPage();
          });
+
+
