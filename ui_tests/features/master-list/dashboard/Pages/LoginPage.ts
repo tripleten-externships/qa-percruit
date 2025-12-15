@@ -9,6 +9,7 @@ export class LoginPage {
   }
 
   // Go to login page using ENV base URL
+  // 
   async gotoLoginPage(): Promise<void> {
     await this.page.goto(`${ENV.baseUrl}/login`, {
       waitUntil: 'domcontentloaded',
