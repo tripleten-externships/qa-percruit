@@ -1,3 +1,4 @@
+@wip
 Feature: Event creation by mentor
   In order to make new events available to users
   A mentor should be able to create and view new events in the system

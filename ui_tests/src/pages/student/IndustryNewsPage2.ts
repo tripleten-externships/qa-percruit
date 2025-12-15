@@ -1,0 +1,21 @@
+import { Page, expect } from '@playwright/test';
+import { BasePage } from '../common/BasePage';
+
+export class IndustryNewsPage2 extends BasePage {
+
+    IndustryNewsHeading = '//h1[text() = "Industry News"]';
+    SearchEditBox = '//input[@placeholder="Search articles..."]';
+    SortByEditBox = '//input[@value="relevance"]';
+
+  constructor(page: Page) {
+    super(page);
+  }
+
+  async verifyPage(){
+    await expect(this.page.locator(this.IndustryNewsHeading)).toBeVisible();
+    await expect(this.page.locator(this.SearchEditBox)).toBeVisible();
+    await expect(this.page.locator(this.SortByEditBox)).toBeVisible();
+    
+  }
+
+}

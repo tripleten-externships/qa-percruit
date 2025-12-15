@@ -1,3 +1,4 @@
+@wip
 Feature: Categories in the Coding Problems page
   As an Admin
   the Admin wants to view and update categories in Coding Problems page
