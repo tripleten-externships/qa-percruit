@@ -31,11 +31,7 @@ export class ForumsPage extends BasePage {
 }
 
 
-    /** Click the "New Post" button */
- // async clickNewPostButton() {
-  //await expect(this.NewPostButton).toBeEnabled({ timeout: 15000 });
-  //await this.NewPostButton.click();
-//}
+  /** Click the "New Post" button */
 async clickNewPostButton() {
   // Ensure button exists in DOM
   await expect(this.NewPostButton).toHaveCount(1, { timeout: 15000 });
@@ -70,6 +66,12 @@ async clickNewPostButton() {
   async expectNewPostModalHidden() {
     await expect(this.newPostModal()).toBeHidden();
   }
+  async expectForumsPageVisible() {
+  await expect(
+    this.page.getByRole('heading', { name: /forums/i })
+  ).toBeVisible();
+}
+
 }
 
 
