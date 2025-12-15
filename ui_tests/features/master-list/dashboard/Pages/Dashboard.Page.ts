@@ -19,3 +19,4 @@ export class DashboardPage {
     return this.page.getByRole('heading', { name: /dashboard/i }).isVisible();
   }
 }
+
