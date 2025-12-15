@@ -36,53 +36,53 @@ Then('the Search Questions box is clicked and awaiting text', async function () 
 });
 
 Then('All button is clicked and highlighted', async function () {
-  studyPage.AllButton
+  studyPage.clickAllButton
 })
 
 Then('Easy button is clicked and highlighted', async function () {
-  studyPage.EasyButton
+  studyPage.clickEasyButton
 })
 
 Then('Medium button is clicked and highlighted', async function () {
-  studyPage.MediumButton
+  studyPage.clickMediumButton
 })
 
 Then('Hard button is clicked and highlighted', async function () {
-  studyPage.HardButton
+  studyPage.clickHardButton
 })
 
 Then('Software Engineer tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickSoftwareEngineer
 })
 
 Then('Data Scientist tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickDataScientist
 })
 
 Then('ML Engineer tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickMLEngineer
 })
 
 Then('Product Manager tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickProductManager
 })
 
 Then('QA Analyst tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickQAAnalyst
 })
 
 Then('Cybersecurity tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickCybersecurity
 })
 
 Then('LLMs tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickLLMs
 })
 
 Then('SQL tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickSQL
 })
 
 Then('Behavioral tab is clicked and displays applicable roles', async function () {
-  
+  studyPage.clickBehavioral
 })

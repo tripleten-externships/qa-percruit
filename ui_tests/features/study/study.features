@@ -14,7 +14,7 @@ Scenario: When the user is on the Study Page, the Search Box is clicked
 
 Scenario: When the user is on the Study Page, All filter box is clicked and highlighted
     Given the Student is authenticated in the system
-    When the user navigates to the Study page
+    When I add the title "Scenario: When the user is on the Study Page, All filter box is clicked and highlighted" to the log
     Then the Study page is displayed
     Then All button is clicked and highlighted
 
@@ -89,3 +89,21 @@ Scenario: When the user is on the Study Page, Behavioral is clicked and displays
     When the user navigates to the Study page
     Then the Study page is displayed
     Then Behavioral tab is clicked and displays applicable roles
+@wip
+Scenario: When the user is on the Study Page, user is able to select difficulty and then select desired job roles
+    Given the Student is authenticated in the system
+    When the user navigates to the Study page
+    Then the Study page is displayed
+    Then All button is clicked and highlighted
+        Or Then Easy button is clicked and highlighted
+        Or Then Medium button is clicked and highlighted
+        Or Then Hard button is clicked and highlighted
+    Then Software Engineer tab is clicked and displays applicable roles
+        Or Then Data Scientist tab is clicked and displays applicable roles
+        Or Then ML Engineer tab is clicked and displays applicable roles
+        Or Then Product Manager tab is clicked and displays applicable roles
+        Or Then QA Analyst tab is clicked and displays applicable roles
+        Or Then Cybersecurity tab is clicked and displays applicable roles
+        Or Then LLMs tab is clicked and displays applicable roles
+        Or Then SQL tab is clicked and displays applicable roles
+        Or Then Behavioral tab is clicked and displays applicable roles
