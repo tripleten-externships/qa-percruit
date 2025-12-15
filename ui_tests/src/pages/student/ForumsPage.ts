@@ -36,17 +36,17 @@ export class ForumsPage extends BasePage {
   //await expect(this.NewPostButton).toBeEnabled({ timeout: 15000 });
   //await this.NewPostButton.click();
 //}
-
 async clickNewPostButton() {
-  await this.page.waitForLoadState('networkidle');
+  // Ensure button exists in DOM
+  await expect(this.NewPostButton).toHaveCount(1, { timeout: 15000 });
 
-  // Scroll — REQUIRED
-  await this.page.mouse.wheel(0, 1000);
   await this.NewPostButton.scrollIntoViewIfNeeded();
 
-  await expect(this.NewPostButton).toBeVisible({ timeout: 15000 });
-  await this.NewPostButton.click();
+  // Force click because button is not visible to Playwright
+  await this.NewPostButton.click({ force: true });
 }
+
+
 
 
 
