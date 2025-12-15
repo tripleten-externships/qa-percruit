@@ -1,14 +1,15 @@
 import { Given, Then, When } from "@cucumber/cucumber"; 
-import { expect } from "playwright/test";    
+import { expect } from "playwright/test";  
+import { env } from "process";  
          Given('the admin is on the login page', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await this.page.goto('https://stage.tripleten.percruit.com/');
+            await this.page.goto(env.BASE_URL);
             await this.page.getByRole('heading', { name: 'Welcome to Percruit' }).click();
          });
     
-         When('the admin clicks the {string} link', async function (string) {
+         When('the admin clicks the {Forgot password?} link', async function (string) {
            // Write code here that turns the phrase above into concrete actions
-           await page.getByRole('button', { name: '×' }).click();
+           await this.page.getByRole('button', { name: '×' }).click();
            await this.page.getByRole('button', { name: 'Forgot password?' }).click();
          });
   
@@ -20,6 +21,8 @@ import { expect } from "playwright/test";
        
          Then('the page should display a form to enter the registered email address', async function () {
            // Write code here that turns the phrase above into concrete actions
-           await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
-           await this.page.getByRole('textbox', { name: 'user@example.com' }).fill('cheyannejaileen16+admin@gmail.com');
+            await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
+            await this.page.getByRole('textbox', { name: 'user@example.com' }).fill('cheyannejaileen16+admin@gmail.com');
+            await this.page.getByRole('button', { name: 'Send Reset Link' }).click();
+            await this.page.getByText('Password reset link sent').click();
          });
