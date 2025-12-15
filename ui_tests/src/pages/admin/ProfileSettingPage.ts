@@ -1,11 +1,16 @@
 import { Page } from '@playwright/test';
 export class ProfileSettingsPage {
+    
+    phoneNumberError() {
+        throw new Error('Method not implemented.');
+    }
 constructor(private page: Page) {}
 
 
 
 async gotoProfileSettings(): Promise<void> {
 await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');
+
 
 }
 
@@ -43,6 +48,8 @@ await this.page.getByRole('textbox', { name: 'Location' }).click();
 async getFullName(): Promise<string> {
 
 return await this.page.inputValue('[data-test="input-full-name"]');
+
+
  }
 
 
@@ -60,8 +67,6 @@ return await this.page.inputValue('[data-test="input-phone-number"]');
 
 }
 
-
-
 async getTimezone(): Promise<string> {
 
 const timezone = await this.page.inputValue('[data-test="input-timezone"]');
@@ -69,16 +74,12 @@ const timezone = await this.page.inputValue('[data-test="input-timezone"]');
 return timezone;
  }
 
- 
-
 //couldnt find locator for this one but leaving method here for future use
 
 async isFieldEditable(selector: string): Promise<boolean> {
 
 return await this.page.isEditable(selector);
  }
-
-
 
  //couldnt find locator for this one but leaving method here for future use
 
@@ -89,7 +90,9 @@ return await this.page.isEditable(selector);
  return readonlyAttr !== null;
 
  }
+ async gotoProfessionalTab(): Promise<void> {
 
+ await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=professional');}
 
 
  //couldn't find locator for this one but leaving method here for future use
@@ -99,5 +102,5 @@ return await this.page.isEditable(selector);
  await this.page.reload();
 
  }
-
 }
+

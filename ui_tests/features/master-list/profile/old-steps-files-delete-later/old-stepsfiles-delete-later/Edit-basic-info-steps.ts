@@ -1,7 +1,7 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import { ProfileSettingsPage } from '../../../../src/pages/admin/ProfileSettingPage';
+import { LoginPage } from '../../../../../src/pages/common/LoginPage';
+import { ProfileSettingsPage } from '../../../../../src/pages/admin/ProfileSettingPage';
 import { env as processEnv } from 'process';
 export let loginPage: LoginPage;
 export let profilePage: ProfileSettingsPage;

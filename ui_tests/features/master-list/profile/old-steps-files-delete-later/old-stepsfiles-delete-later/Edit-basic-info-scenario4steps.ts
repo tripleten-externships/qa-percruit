@@ -1,7 +1,7 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
+import { LoginPage } from '../../../../../src/pages/common/LoginPage';
 import { expect } from 'playwright/test';
-import { ProfileSettingsPage } from '../../../../src/pages/admin/ProfileSettingPage';
+import { ProfileSettingsPage } from '../../../../../src/pages/admin/ProfileSettingPage';
 let loginPage: LoginPage;
 let profilePage: ProfileSettingsPage;
 
@@ -55,4 +55,4 @@ When(/the (.+) is authenticated in the system/, async function (userType) {
        
         Then('returning to the Basic Information section should display the latest data', async function () {
            await this.page.goto('https://stage.tripleten.percruit.com/profile')
-         });
+         })

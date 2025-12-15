@@ -4,6 +4,56 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
+  reload() {
+      throw new Error('Method not implemented.');
+  }
+  gotoProfileSettings() {
+      throw new Error('Method not implemented.');
+  }
+  openBasicInfoSection() {
+      throw new Error('Method not implemented.');
+  }
+  getFullName(getFullName: any) {
+      throw new Error('Method not implemented.');
+  }
+  getPhoneNumber(getPhoneNumber: any) {
+      throw new Error('Method not implemented.');
+  }
+  getLocation(getLocation: any) {
+      throw new Error('Method not implemented.');
+  }
+  getTimezone(getTimezone: any) {
+      throw new Error('Method not implemented.');
+  }
+  email(email: any) {
+      throw new Error('Method not implemented.');
+  }
+  fullname(fullname: any) {
+      throw new Error('Method not implemented.');
+  }
+  // Predefined login method for Student user type using credentials from environment config
+  phoneNumber(phoneNumber: any) {
+      throw new Error('Method not implemented.');
+  }
+  location(location: any) {
+      throw new Error('Method not implemented.');
+  }
+  timezone(timezone: any) {
+      throw new Error('Method not implemented.');
+  }
+  fullName: any;
+  waitForAutoSave() {
+      throw new Error('Method not implemented.');
+  }
+  phoneNumberError(phoneNumberError: any) {
+      throw new Error('Method not implemented.');
+  }
+  gotoProfessionalTab() {
+      throw new Error('Method not implemented.');
+  }
+  gotoBasicInfoSection() {
+      throw new Error('Method not implemented.');
+  }
   gotoLoginPage() {
       throw new Error('Method not implemented.');
   }
