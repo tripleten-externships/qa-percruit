@@ -1,4 +1,4 @@
-Feature: Study screen tests
+Feature: Study screen test
 
     
 Scenario: When user goes to the page, the page loads as expected.
