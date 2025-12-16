@@ -9,11 +9,11 @@ import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { StudentDashboardPage } from '../../../src/pages/student/StudentDashboardPage';
 
 let loginPage: LoginPage;
-let StudentDashboardPage: StudentDashboardPage;
+let studentDashboardPage: StudentDashboardPage;
 
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  StudentDashboardPage = new StudentDashboardPage(this.page);
+  studentDashboardPage = new StudentDashboardPage(this.page);
 });
 
 When('the user navigates to the Student Dashboard page', async function() {
