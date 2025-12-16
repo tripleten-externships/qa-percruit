@@ -1,25 +1,25 @@
-import { Page, expect } from '@playwright/test';
+//import { Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 import * as env from '../../config/world';
-export class ForumsPage extends BasePage { 
-  
-ForumsHeader = this.page.getByRole('heading', { name: /Forums/i });
-NewPostButton = this.page.getByRole('button', { name: /New Post/i });
-SearchPostBox = this.page.locator('input[placeholder="Search posts"]');
+import { Page, expect, Locator } from '@playwright/test';
 
+export class ForumsPage extends BasePage {
+  readonly ForumsHeader: Locator;
 
-
-  
-constructor(page: Page) {
-    super(page); // call BasePage constructor
+  constructor(page: Page) {
+    super(page);
+    this.ForumsHeader = page.getByText(/forums/i, { exact: false });
   }
-  /** Navigate to the Forums page */
-  async navigateTo() {
-    const url = env.getBaseUrl() + 'forums';
-    await this.page.goto(url, { waitUntil: 'networkidle' }); // ensures page fully loaded
-    await this.verifyPage(); // verify page after navigation
+
+  async verifyPage() {
+    await expect(this.page).toHaveURL(/\/forums$/);
+    await expect(this.ForumsHeader).toBeVisible({ timeout: 15000 });
   }
- async verifyPage(){
+}
+
+
+
+ /*async verifyPage(){
        await expect(this.ForumsHeader).toBeVisible();
        await expect(this.NewPostButton).toBeVisible();
        await expect(this.SearchPostBox).toBeVisible();
@@ -36,7 +36,7 @@ constructor(page: Page) {
      // expect(this.NewPostButton).toBeVisible({ timeout: 30000 }),
      // expect(this.SearchPostBox).toBeVisible({ timeout: 30000 }),
     //]);
-  }
+  
   
 /** Click the "New Post" button 
   async clickNewPostButton() {
@@ -83,4 +83,4 @@ constructor(page: Page) {
 */
 
 
-
+  
