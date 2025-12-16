@@ -8,7 +8,7 @@ Background:
   Given the Admin is logged in using valid credentials
   And the Admin is on the Topics tab in Coding Problems
 
-Scenario: View existing topics
+Scenario: View existing topics                                        //this is the 1st scenario done by ayesha
   When the Admin views the Topics page in Coding Problems
   Then the all existing topics should be viewable to the Admin
 
