@@ -27,7 +27,7 @@ Then('the Forums page displays', async function () {
 
 /**
  * Step: Student navigates to a specific page
- */
+ 
 
 Given('the student is on the Forums page', async function () {
   await this.page.goto(env.getBaseUrl() + 'forums');
@@ -57,4 +57,4 @@ Then('the student should remain on the Forums page', async function () {
 
 
 
-
+*/
