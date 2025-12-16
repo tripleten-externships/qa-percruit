@@ -70,7 +70,8 @@ export class StudyPage extends BasePage {
   }
 
   async clickDataScientist(buttonText: string): Promise<void> {
-      this.DataScientistTab
+      //this.DataScientistTab
+      await expect(this.page.locator(this.SoftwareEngineerTab)).toHaveClass('Data Scientist')
       this.DataScientistRoleTab
   }
 
