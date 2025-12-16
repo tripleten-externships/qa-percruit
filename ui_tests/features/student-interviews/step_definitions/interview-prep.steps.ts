@@ -71,12 +71,13 @@ When('inputs a valid date and time for the interview', async function() {
 
 When('inputs a valid interview topic', async function() {
     await interviewPrepPage.inputInterviewTopic('Technical Coding');
-});     
+});    
+
 When('inputs a valid difficulty level', async function() {
     await interviewPrepPage.selectDifficultyLevel('Intermediate');
 });
 
-When('clicks on the Create Session button', async function() {
+When('clicks on the Create New Session option', function () {
     await interviewPrepPage.clickCreateSession();
 });  
 
