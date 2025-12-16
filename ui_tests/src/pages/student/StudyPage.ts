@@ -9,8 +9,8 @@ export class StudyPage extends BasePage {
     BrowseByJobRoleField = '//h6[text() = "Browse by Job Role"]'
     AllButton = '//button[text() = "All"]';
     EasyButton = '//button[text() = "Easy"]';
-    MediumButton = '//p[text() = "Medium"]';
-    HardButton = '//p[text() = "Hard"]';
+    MediumButton = '//button[text() = "Medium"]';
+    HardButton = '//button[text() = "Hard"]';
     SoftwareEngineerTab = '//p[text() = "Software Engineer"]';
     SoftwareEngineerRoleTab = '//ph6[text() = "Software Engineer Questions"]';
     DataScientistTab = '//p[text() = "Data Scientist"]';
@@ -64,7 +64,8 @@ export class StudyPage extends BasePage {
   }
 
   async clickSoftwareEngineer(buttonText: string): Promise<void> {
-      this.SoftwareEngineerTab
+      //this.SoftwareEngineerTab
+      await expect(this.page.locator(this.SoftwareEngineerTab)).toHaveClass('Software Engineer')
       this.SoftwareEngineerRoleTab
   }
 
