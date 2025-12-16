@@ -14,6 +14,16 @@ Before(async function() {
   loginPage = new LoginPage(this.page);
   forumsPage = new ForumsPage(this.page);
 });
+When('the user navigates to the Forums page', async function () {
+  await this.page.goto(env.getBaseUrl() + 'forums');
+  await this.page.waitForLoadState('domcontentloaded');
+  await expect(this.page).toHaveURL(/forums/);
+});
+
+Then('the Forums page displays', async function () {
+  await forumsPage.verifyPage();
+  console.log("Forums Page verified");
+});
 
 /**
  * Step: Student navigates to a specific page
