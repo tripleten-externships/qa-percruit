@@ -15,15 +15,16 @@ export class InterviewPrepPage extends BasePage {
     CreateNewSessionButton = 'button:has-text("Create New Session")';
     DatePickerIconButton = 'button[aria-label^="Choose date"]';
     DateInputField = 'input[placeholder="MM/DD/YYYY"]';
-    TimeInputField = 'input[placeholder="HH:MM"]';
+    TimePickerButton = 'button[aria-label^="Choose time"]';;
     InterviewTopicField = 'label:has-text("Interview Topic") + input';
     DifficultyLevelDropdown = 'label:has-text("Difficulty Level") + input'
     CreatePeerSession = 'button:has-text("Create Session")';
     UpcomingSessionIcon = 'svg[viewBox="0 0 24 24"]';
     MentorDateInputField = 'input[placeholder="MM/DD/YYYY"]';
-    TimeSlotButton = 'button:has-text("12:00 PM")';
+    TimeSlotButton = 'button:has-text("${time}")';
     MentorInterviewTopicField = 'label:has-text("Interview Topic") + input';
     MentorScheduleInterviewButton = 'button:has-text("Schedule Interview")';
+    NextButton = 'button:has-text("Next")';
 
     constructor(page: Page) {
         super(page);
@@ -81,8 +82,10 @@ export class InterviewPrepPage extends BasePage {
         await this.page.fill(this.DateInputField, date);
     }  
 
-    async inputTime(time: string){
-        await this.page.fill(this.TimeInputField, time);
+    async selectPeerTime(time: string) {
+        const timeButton = this.page.getByRole('button', { name: time });
+        await expect(timeButton).toBeVisible();
+        await timeButton.click();
     }
 
     async inputInterviewTopic(topic: string){
@@ -110,8 +113,10 @@ export class InterviewPrepPage extends BasePage {
         await this.page.fill(this.MentorDateInputField, date);
     }
 
-    async selectTimeSlot(){
-        await this.page.click(this.TimeSlotButton);
+    async selectTimeSlot(time: string) {
+        const timeButton = this.page.getByRole('button', { name: time });
+        await expect(timeButton).toBeVisible();
+        await timeButton.click();
     }
 
     async inputMentorInterviewTopic(topic: string){
@@ -124,6 +129,10 @@ export class InterviewPrepPage extends BasePage {
 
     async verifyMentorUpcomingSession(){
         await expect(this.page.locator(this.UpcomingSessionIcon)).toBeVisible();
+    }
+
+    async clickNextButton(){
+        await this.page.click(this.NextButton);
     }
 
 }

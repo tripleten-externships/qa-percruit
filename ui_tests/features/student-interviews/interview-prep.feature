@@ -36,7 +36,8 @@ Feature: Interview under Interview Prep Category
         When the student clicks on the Schedule Interview button
         And the student selects "Peer Interview"
         And the student clicks on the Create New Session option
-        And inputs a valid date and time for the interview
+        And inputs a valid date for the interview
+        And inputs a valid time for the interview
         And inputs a valid interview topic
         And inputs a valid difficulty level
         And clicks on the Create Session button
@@ -48,9 +49,9 @@ Feature: Interview under Interview Prep Category
         And the student is on the Interview Prep page
         When the student clicks on the Schedule Interview button
         And the student selects "Expert Interview"
-        And the student clicks on the Create New Session option
-        And inputs a valid date for the interview
-        And selects a valid time slot for the interview
+        And inputs a valid Mentor date for the interview
+        And selects a valid Mentor time slot for the interview
+        And the student clicks on the Next button
         And inputs a valid interview topic
         And clicks on the Schedule Interview button on the Expert Interview form
         Then the Interview Prep page displays
