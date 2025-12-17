@@ -5,82 +5,61 @@ import { Page, expect, Locator } from '@playwright/test';
 
 export class ForumsPage extends BasePage {
   readonly ForumsHeader: Locator;
+  readonly NewPostButton: Locator;
+  readonly CancelButton: Locator;
+  readonly CreateTopicButton: Locator;
+  readonly NewPostModal: Locator;
+  readonly TitleInput: Locator;
+  readonly TitleError: Locator;
+ 
+  
 
   constructor(page: Page) {
     super(page);
+    
     this.ForumsHeader = page.getByText(/forums/i, { exact: false });
+    this.NewPostButton = this.page.locator('button', { hasText: '+ New Post' });
+    this.CancelButton = page.getByRole('button', { name: /Cancel/i });
+    this.CreateTopicButton = page.getByRole('button', { name: /Create Topic/i });
+    this.NewPostModal = this.page.locator('div.MuiDialogContent-root:has-text("Create a New Topic")');
+    this.TitleInput = this.NewPostModal.locator('input[name="title"]'); // adjust if needed
+    this.TitleError = this.NewPostModal.locator('text=Title is required'); // adjust if needed
+
+    
   }
 
   async verifyPage() {
     await expect(this.page).toHaveURL(/\/forums$/);
     await expect(this.ForumsHeader).toBeVisible({ timeout: 15000 });
-  }
-}
 
-
-
- /*async verifyPage(){
-       await expect(this.ForumsHeader).toBeVisible();
-       await expect(this.NewPostButton).toBeVisible();
-       await expect(this.SearchPostBox).toBeVisible();
-
-    }
-  /** Verify Forums page is displayed */
- // async verifyPage() {
-    // First check URL
-    //await expect(this.page).toHaveURL(/forums/i, { timeout: 30000 });
- //await expect(this.page.locator(this.ForumsHeader)).toBeVisible();
-    // Then check main elements in parallel
-    //await Promise.all([
-     // expect(this.ForumsHeader).toBeVisible({ timeout: 30000 }),
-     // expect(this.NewPostButton).toBeVisible({ timeout: 30000 }),
-     // expect(this.SearchPostBox).toBeVisible({ timeout: 30000 }),
-    //]);
-  
-  
-/** Click the "New Post" button 
-  async clickNewPostButton() {
-    // ✅ FIX: We only need to wait for the button to be visible/enabled and click it.
-    // getByRole automatically waits for the element to be found and actionable.
-    await expect(this.NewPostButton).toBeVisible({ timeout: 15000 });
-    await this.NewPostButton.click();
     
-    // You can remove the old, problematic lines:
-    // await expect(this.NewPostButton).toHaveCount(1, { timeout: 15000 });
-    // await this.NewPostButton.scrollIntoViewIfNeeded();
-    // await this.NewPostButton.click({ force: true });
-  }
 
-
-
-
-/** Locator for the New Post modal 
-  newPostModal() {
-    return this.page.getByRole('heading', { name: 'Create a New Topic' });
-  }
-  
-
-  /** Click the "Cancel" button in the modal 
-  async clickCancelInModal() {
-    const cancelBtn = this.page.getByRole('button', { name: 'Cancel' });
-    await expect(cancelBtn).toBeVisible();
-    await cancelBtn.click();
-  }
-
-  /** Verify the New Post modal is visible 
-  async expectNewPostModalVisible() {
-    await expect(this.newPostModal()).toBeVisible();
-  }*/
-  /** Verify the New Post modal is hidden 
-  async expectNewPostModalHidden() {
-    await expect(this.newPostModal()).toBeHidden();
-  }
-  async expectForumsPageVisible() {
-  await expect(
-    this.page.getByRole('heading', { name: /forums/i })
-  ).toBeVisible();
+ 
 }
-*/
-
-
   
+ // Open New Post modal safely
+  async openNewPostModal() {
+    await this.NewPostButton.scrollIntoViewIfNeeded();
+    await this.NewPostButton.waitFor({ state: 'attached', timeout: 15000 });
+    await this.NewPostButton.waitFor({ state: 'visible', timeout: 15000 });
+    await this.NewPostButton.click();
+    await expect(this.NewPostModal).toBeVisible({ timeout: 5000 });
+  }
+
+  // Attempt to create post without title to trigger validation
+  async createPostWithoutTitle() {
+    await this.CreateTopicButton.click();
+    await expect(this.TitleError).toBeVisible({ timeout: 5000 });
+  }
+
+  // Cancel New Post modal
+  async cancelNewPost() {
+    await this.CancelButton.click();
+    await expect(this.NewPostModal).toHaveCount(0); // modal closed
+  }
+}
+
+
+
+
+ 

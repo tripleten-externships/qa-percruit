@@ -16,6 +16,35 @@ Feature: Percuit Website Student-Connect-Forums Test
     Given the student is on the Forums page
     When the student clicks the New Post button
     Then the new post modal should appear
+    When the student clicks the Create Topic button
+    Then it shows an error Title is required
     When the student clicks the Cancel button
     Then the new post modal should close
     And the student should remain on the Forums page
+
+  Scenario Outline: User filters posts by topic
+    Given the student is authenticated in the system
+    And the user is on the Forum page
+   And the topic filter options are visible
+  | Interview Prep |
+  | Resume         |
+  | Career Advice  |
+  | Job Search     |
+  | Salary         |
+  | Networking     |
+  | Technical      |
+  | Behavioral     |
+    When the user selects the "<Topic>" topic filter
+    Then only posts tagged with "<Topic>" should be displayed
+    And posts from other topics should be hidden
+
+    Examples:
+    | Topic          |
+    | Interview Prep |
+    | Resume         |
+    | Career Advice  |
+    | Job Search     |
+    | Salary         |
+    | Networking     |
+    | Technical      |
+    | Behavioral     |
