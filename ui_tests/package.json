@@ -6,7 +6,6 @@
   "scripts": {
     "test": "cucumber-js --tags \"not @wip\"",
     "test:indev": "cucumber-js --require-module dotenv/config --tags \"@indev\"",
-    
     "test:debug": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"not @wip\"",
     "format": "prettier --write .",
     "prepare": "husky",

@@ -1,4 +1,4 @@
-
+@admin-auth
 Feature: Incomplete Mentor Info Tool
   As an admin user
   I want to identify students with missing profile information

@@ -1,4 +1,4 @@
-@wip
+
 Feature: Assignment Table Loads with the correct row of Mentor/Student/Status/Date
   As an admin user
   I want to verify that the assignment table loads correctly

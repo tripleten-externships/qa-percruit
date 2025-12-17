@@ -54,7 +54,7 @@ export class AssignmentPage extends BasePage {
         await studentOption.scrollIntoViewIfNeeded();
         await studentOption.click();
     }
-
+// Verify that no assignment was created
     async verifyNoAssignments() {
         // Verify button is disabled
         const createButton = this.page.locator('button:has-text("Create Assignment")');
@@ -80,6 +80,24 @@ export class AssignmentPage extends BasePage {
         const assignMentorButton = studentRow.getByRole('button', { name: 'Assign Mentor' });
         await expect(assignMentorButton).toBeEnabled();
         await assignMentorButton.click();
-
     } 
+
+    async verifyTableDisplay() {
+    // Verify that table displays existing assignments
+        const tableRows = this.page.locator('table tbody tr');
+        const rowCount = await tableRows.count();
+        expect(rowCount).toBeGreaterThan(0);
+    }
+
+    async verifyColumnHeaders() {
+    // Verify that the table contains the correct columns
+        const headers = this.page.locator('tr.MuiTableRow-head th.MuiTableCell-head');
+    // Collect the visible text of all headers
+        const headerTexts = await headers.allTextContents();
+    // Assert the required columns are present
+        expect(headerTexts).toContain('Student');
+        expect(headerTexts).toContain('Mentor');
+        expect(headerTexts).toContain('Status');
+        expect(headerTexts).toContain('Assigned Date');
+    }
 }
