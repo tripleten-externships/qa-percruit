@@ -12,7 +12,7 @@ import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { StudentDashboardPage } from '../../../src/pages/student/StudentDashboardPage';
 
 // Declare variables to hold browser, page, and page object instances
-export let loginPage: LoginPage;
+let loginPage: LoginPage;
 let studentDashboardPage: StudentDashboardPage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
