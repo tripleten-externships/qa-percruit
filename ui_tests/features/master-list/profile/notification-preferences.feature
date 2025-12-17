@@ -1,4 +1,4 @@
-@wip
+@Zach
 Feature: Email notification preferences
   As an Admin
   I want to manage email notification preferences
