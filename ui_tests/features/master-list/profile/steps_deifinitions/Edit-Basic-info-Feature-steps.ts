@@ -2,7 +2,7 @@
 // Import Cucumber hooks and step definition decorators
 import { Given, When, Then, Before, And } from '@cucumber/cucumber';
 // Import Playwright classes and assertion utilities
-import { chromium, Browser, Page, expect } from '@playwright/test';
+import { chromium, Browser, Page, expect,test } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
@@ -28,7 +28,7 @@ Given('the Admin is authenticated in the system', async function() {
     loginPage = new LoginPage(this.page);
     profilePage = new ProfileSettingsPage(this.page);
     loginPage.gotoLoginPage();
-  await loginPage.loginAsAdmin();
+    await loginPage.loginAsAdmin();
 });
 
 And('the Admin is on the Profile Settings page', async function() {
@@ -39,18 +39,19 @@ And('the Admin is on the Profile Settings page', async function() {
 And('the Admin is viewing the Basic Information section', async function() {
   // Veify Admin is in the Basic Information section
     await loginPage.openBasicInfoSection(); 
+    
 
 });
 
 // Scenario1: Editable fields are visible and correctly labeled
 Then('the fields Full Name, Phone Number, Location, and Timezone should be editable', async function() {
   // All fields should be editable
-   
-    await profilePage.getFullName();
+  
+    await profilePage.getFullName()
     await profilePage.getPhoneNumber();
     await profilePage.getLocation();
-    await profilePage.getTimezone();
-
+    await profilePage.getTimezone();  
+ 
 });
 
 And('the Email field should be read-only', async function() {
@@ -91,8 +92,7 @@ And('the updated values should immediately appear in the Basic Information secti
 
 And('the data should remain consistent after a page refresh', async function() {
   // Data should remain after page refresh
-    await page.reload();
-    await loginPage.reload();
+    await profilePage.reload();
     await expect(profilePage.getFullName()).toBe('John Joe');
     await expect(profilePage.getLocation()).toBe('Los Angeles, USA');
 
@@ -106,6 +106,7 @@ Given('the Phone Number field already contains a valid value', async function() 
 When('the Admin clears the Phone Number field in the Basic Information section', async function() {
   // Admin clears the phone number field
     await this.page.phoneNumber.fill('');
+    await profilePage.updatePhoneNumber('');
 });
 
 Then('the change should automatically save as the Admin types', async function() {
@@ -129,8 +130,7 @@ And('the section should continue displaying valid data for all other fields', as
 
 And('the cleared Phone Number field should remain empty after a page refresh', async function() {
   // The Phone Number should empty after a page refresh
-    await page.reload();
-    await loginPage.reload();
+    await profilePage.reload();
     await expect(profilePage.getPhoneNumber()).toBe('');    
 
 });

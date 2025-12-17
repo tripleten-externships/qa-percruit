@@ -1,5 +1,11 @@
 import { Page } from '@playwright/test';
 export class ProfileSettingsPage {
+  updatePhoneNumber(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
+  reload() {
+    throw new Error('Method not implemented.');
+  }
     
     phoneNumberError() {
         throw new Error('Method not implemented.');
@@ -74,14 +80,14 @@ const timezone = await this.page.inputValue('[data-test="input-timezone"]');
 return timezone;
  }
 
-//couldnt find locator for this one but leaving method here for future use
+//couldnt find locator 
 
 async isFieldEditable(selector: string): Promise<boolean> {
 
 return await this.page.isEditable(selector);
  }
 
- //couldnt find locator for this one but leaving method here for future use
+ //couldnt find locator 
 
  async isEmailReadOnly(): Promise<boolean> {
 
@@ -95,7 +101,7 @@ return await this.page.isEditable(selector);
  await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=professional');}
 
 
- //couldn't find locator for this one but leaving method here for future use
+ //couldn't find locator 
 
  async refresh(): Promise<void> {
 
