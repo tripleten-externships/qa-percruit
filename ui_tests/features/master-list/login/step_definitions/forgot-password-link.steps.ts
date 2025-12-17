@@ -1,28 +1,53 @@
-import { Given, Then, When } from "@cucumber/cucumber"; 
+import { Given, Then, When, World } from "@cucumber/cucumber"; 
 import { expect } from "playwright/test";  
 import { env } from "process";  
+import { ResetPasswordPage } from "../../../../src/pages/common/ResetPasswordPage";
+import { LoginPage } from "../../../../src/pages/common/LoginPage";
+
+let resetPasswordPage: ResetPasswordPage;
+let loginPage: LoginPage;
+let world: World;
+
          Given('the admin is on the login page', async function () {
-           // Write code here that turns the phrase above into concrete actions
+           // Navigates to login page
+            resetPasswordPage = new ResetPasswordPage(this.page);
             await this.page.goto(env.BASE_URL);
-            await this.page.getByRole('heading', { name: 'Welcome to Percruit' }).click();
+            await resetPasswordPage.isOnLoginPage();
+            loginPage = new LoginPage(this.page);
          });
     
-         When('the admin clicks the {Forgot password?} link', async function (string) {
-           // Write code here that turns the phrase above into concrete actions
-           await this.page.getByRole('button', { name: '×' }).click();
-           await this.page.getByRole('button', { name: 'Forgot password?' }).click();
+         When('the admin clicks the {string} link', async function (string) {
+           // Removes cookies pop-up window and clicks 'Forgot Password'
+            await resetPasswordPage.makeForgotPasswordVisible();
+            await loginPage.clickForgotPassword();
+
          });
   
          Then('the system should navigate to the password reset page', async function () {
-           // Write code here that turns the phrase above into concrete actions  
-            await this.page.getByRole('heading', { name: 'Reset Password' }).click();
-        
+           // Confirms user is on reset page 
+            await resetPasswordPage.isOnResetPage(); 
+            
          });
        
          Then('the page should display a form to enter the registered email address', async function () {
-           // Write code here that turns the phrase above into concrete actions
-            await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
-            await this.page.getByRole('textbox', { name: 'user@example.com' }).fill('cheyannejaileen16+admin@gmail.com');
-            await this.page.getByRole('button', { name: 'Send Reset Link' }).click();
-            await this.page.getByText('Password reset link sent').click();
+           // Confirms the reset page contains form to enter the registered email address
+            await resetPasswordPage.enterEmailFieldVisible();
+          
+         });
+
+         Given('the admin is on the reset page', async function () {
+           // Navigates to login page, then proceeds to reset page
+            await this.page.goto(env.BASE_URL);
+            await resetPasswordPage.goToResetPage();
+
+         });
+       
+         When('the admin enters a valid email and clicks the {string} button', async function (string) {
+           // Enters valid email and send reset link request
+            await resetPasswordPage.submitResetRequest();
+         });
+       
+         Then('the admin should see a {string} success message', async function (message: string) {
+           // Confirms a success message appears
+            await resetPasswordPage.successMessageVisible();
          });
