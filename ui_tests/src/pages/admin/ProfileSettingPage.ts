@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
 export class ProfileSettingsPage {
+
   updatePhoneNumber(arg0: string) {
     throw new Error('Method not implemented.');
   }

@@ -79,7 +79,8 @@ When('the Admin updates the Full Name and Location with valid information', asyn
 
 Then('the changes should automatically save as the Admin types', async function() {
   // Fields updates as the admin types
-    await loginPage.waitForAutoSave();
+    await expect(profilePage.getFullName()).toBe('John Joe');
+    await expect(profilePage.getLocation()).toBe('Los Angeles, USA');
 });
 
 And('the updated values should immediately appear in the Basic Information section', async function() {
@@ -101,12 +102,11 @@ And('the data should remain consistent after a page refresh', async function() {
 // Scenario2: Admin clears a field and decides to leave it blank
 Given('the Phone Number field already contains a valid value', async function() {
   // The Phone Number field has already a valid value
-    await this.page.getPhoneNumber().toHaveValue(phoneNumber);
+    await this.page.phoneNumber().toHaveValue('123-456-7890');
 
 When('the Admin clears the Phone Number field in the Basic Information section', async function() {
   // Admin clears the phone number field
-    await this.page.phoneNumber.fill('');
-    await profilePage.updatePhoneNumber('');
+    await this.page.phoneNumber().fill('');
 });
 
 Then('the change should automatically save as the Admin types', async function() {

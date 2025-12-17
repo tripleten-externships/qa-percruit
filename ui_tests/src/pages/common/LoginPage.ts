@@ -4,69 +4,18 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
-  reload() {
-      throw new Error('Method not implemented.');
+  async gotoLoginPage(): Promise<void> {
+    await this.page.goto(env.getBaseUrl());
   }
-  gotoProfileSettings() {
-      throw new Error('Method not implemented.');
+async openBasicInfoSection(): Promise<void> {
+
+await this.page.getByRole('heading', { name: 'Basic Information' }).click();
   }
-  openBasicInfoSection() {
-      throw new Error('Method not implemented.');
-  }
-  getFullName(getFullName: any) {
-      throw new Error('Method not implemented.');
-  }
-  getPhoneNumber(getPhoneNumber: any) {
-      throw new Error('Method not implemented.');
-  }
-  getLocation(getLocation: any) {
-      throw new Error('Method not implemented.');
-  }
-  getTimezone(getTimezone: any) {
-      throw new Error('Method not implemented.');
-  }
-  email(email: any) {
-      throw new Error('Method not implemented.');
-  }
-  fullname(fullname: any) {
-      throw new Error('Method not implemented.');
-  }
-  // Predefined login method for Student user type using credentials from environment config
-  phoneNumber(phoneNumber: any) {
-      throw new Error('Method not implemented.');
-  }
-  location(location: any) {
-      throw new Error('Method not implemented.');
-  }
-  timezone(timezone: any) {
-      throw new Error('Method not implemented.');
-  }
-  fullName: any;
-  waitForAutoSave() {
-      throw new Error('Method not implemented.');
-  }
-  phoneNumberError(phoneNumberError: any) {
-      throw new Error('Method not implemented.');
-  }
-  gotoProfessionalTab() {
-      throw new Error('Method not implemented.');
-  }
-  gotoBasicInfoSection() {
-      throw new Error('Method not implemented.');
-  }
-  gotoLoginPage() {
-      throw new Error('Method not implemented.');
-  }
-  static loginAsAdmin // Define element locators for Login page
-          () {
-                  throw new Error('Method not implemented.');
-  }
-  static loginAsUserType(userType: any) {
-          throw new Error('Method not implemented.');
-  }
-  static waitForPageLoad() {
-          throw new Error('Method not implemented.');
-  }
+
+async gotoProfileSettings(): Promise<void> {
+await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');
+}
+
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
