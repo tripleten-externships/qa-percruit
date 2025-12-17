@@ -7,14 +7,7 @@ export class LoginPage extends BasePage {
   async gotoLoginPage(): Promise<void> {
     await this.page.goto(env.getBaseUrl());
   }
-async openBasicInfoSection(): Promise<void> {
 
-await this.page.getByRole('heading', { name: 'Basic Information' }).click();
-  }
-
-async gotoProfileSettings(): Promise<void> {
-await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');
-}
 
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
@@ -80,6 +73,14 @@ await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile')
   async loginAsMentor() {
     await this.loginAndVerify(env.getMentorEmail(), env.getMentorPassword());
   }
+
+  async openBasicInfoSection(): Promise<void> {
+
+  await this.page.getByRole('heading', { name: 'Basic Information' }).click();
+  }
+
+async gotoProfileSettings(): Promise<void> {
+await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');}
 
   async loginAsUserType(userType: string) {
     switch (userType) {
