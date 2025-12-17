@@ -62,6 +62,12 @@ export function getAdminPassword(): string {
   return process.env.ADMIN_PASSWORD || '';
 }
 
+// Get the admin display name from environment variables (optional)
+// Returns empty string when not provided.
+export function getAdminDisplayName(): string {
+  return process.env.ADMIN_DISPLAY_NAME || '';
+}
+
 // Get the base URL for the application under test
 // Uses BASE_URL env variable if set, otherwise falls back to config
 export function getBaseUrl(): string {

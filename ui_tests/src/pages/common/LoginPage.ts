@@ -5,7 +5,7 @@ import { BasePage } from './BasePage';
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
   // Define element locators for Login page
-  readonly EMAIL_LOCATOR = 'input[type="email"]';
+  readonly EMAIL_LOCATOR = '//input[@placeholder="user@example.com"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
   readonly SIGNIN_LOCATOR = 'button:has-text("Sign In")';
   readonly FORGOT_PASSWORD_LOCATOR = 'button:has-text("Forgot password?")';
