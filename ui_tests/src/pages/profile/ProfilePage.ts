@@ -3,10 +3,35 @@ import { BasePage } from '../common/BasePage';
 
 export class ProfilePage extends BasePage {
   readonly professionalTab: Locator;
+  readonly socialLinksTab: Locator;
+  readonly notificationsTab: Locator;
+  readonly privacyAndAITab: Locator;
+  readonly profilePhotoSection: Locator;
+  readonly basicInformationSection: Locator;
+  readonly aboutMeSection: Locator;
+  readonly nameInput: Locator;
+  readonly emailInput: Locator;
+  readonly guidanceText: Locator;
+  readonly phoneNumberInput: Locator;
+  readonly locationInput: Locator;
+  readonly timezoneSelect: Locator;
+
 
   constructor(page: Page) {
     super(page);
     this.professionalTab = page.getByText('Professional', { exact: true });
+    this.socialLinksTab = page.getByText('Social Links', { exact: true });
+    this.notificationsTab = page.getByText('Notifications', { exact: true });
+    this.privacyAndAITab = page.getByText('Privacy & AI', { exact: true });
+    this.profilePhotoSection = page.getByText('Profile Photo', { exact: true });
+    this.basicInformationSection = page.getByText('Basic Information', { exact: true });
+    this.aboutMeSection = page.getByText('About Me', { exact: true });
+    this.nameInput = page.getByText('Full Name', { exact: true });
+    this.emailInput = page.getByText('Email', { exact: true });
+    this.guidanceText = page.getByText('Uphold a professional headshot that represents you well. Recommended: Square image, at least 400x400 px', { exact: true });
+    this.phoneNumberInput = page.getByText('Phone Number', { exact: true });
+    this.locationInput = page.getByText('Location', { exact: true });
+    this.timezoneSelect = page.getByText('Timezone', { exact: true });
     
   }
   async isProfessionalTabVisible(): Promise<boolean> {
@@ -77,3 +102,4 @@ export class ProfilePage extends BasePage {
     return this.page.getByText(text, { exact: false }).isVisible();
   }
 }
+

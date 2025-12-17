@@ -3,19 +3,18 @@ import { Before, Given, Then, When } from '@cucumber/cucumber';
 export const And: typeof When = When;
 
 import { expect } from '@playwright/test';
-import { CustomWorld } from '../../../../src/config/world';
+import { CustomWorld } from '../../../src/config/world';
 
 import { Page } from '@playwright/test';
-import { BasePage } from '../../../../src/pages/common/BasePage';
-import { ProfilePage } from '../../../../src/pages/profile/ProfilePage';
+import { BasePage } from '../../../src/pages/common/BasePage';
+import { ProfilePage } from '../../../src/pages/profile/ProfilePage';
 
 let profilePage: ProfilePage;
 
-Before(async function(this: CustomWorld) {
+Before(async function(this: CustomWorld) {       
     profilePage = new ProfilePage(this.page);
 
-});
-
+});    
 
 function getProfilePage(this: CustomWorld) {
     if (!this.pages || !this.pages.profile) {
@@ -23,13 +22,6 @@ function getProfilePage(this: CustomWorld) {
     }
     return this.pages.profile;
 }
-
-// Authentication handled by shared login step: Given('the {word} is authenticated in the system', ...)
-
-Then('the Admin is on the Profile Settings page', async function (this: CustomWorld) {
-    const profile = getProfilePage.call(this);
-    await profile.gotoProfile();
-});
 
 //Scenario: Profile tab is default view with key sections
 Then('the Profile tab is active', async function (this: CustomWorld) {
@@ -41,6 +33,7 @@ Then('the Profile tab is active', async function (this: CustomWorld) {
 And('the tabs Professional, Social Links, Notifications, and Privacy & AI are available', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     await profilePage.isProfessionalTabVisible();
+    await expect(profile.page.getByText('Professional', { exact: true })).toBeVisible();
     await expect(profile.page.getByText('Social Links', { exact: true })).toBeVisible();
     await expect(profile.page.getByText('Notifications', { exact: true })).toBeVisible();
     await expect(profile.page.getByText('Privacy & AI', { exact: true })).toBeVisible();
@@ -48,6 +41,7 @@ And('the tabs Professional, Social Links, Notifications, and Privacy & AI are av
 
 And('the sections Profile Photo, Basic Information and About Me are visible', async function (this: CustomWorld, s1: string, s2: string, s3: string) {
     const profile = getProfilePage.call(this);
+    await profilePage.isProfessionalTabVisible();
     await expect(profile.page.getByText(s1, { exact: true })).toBeVisible();
     await expect(profile.page.getByText(s2, { exact: true })).toBeVisible();
     await expect(profile.page.getByText(s3, { exact: true })).toBeVisible();
@@ -57,7 +51,7 @@ And('the sections Profile Photo, Basic Information and About Me are visible', as
 When('The Admin views the Profile photo section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const visible = await profile.isProfilePhotoVisible();
-    await expect(visible).toBeTruthy();
+    expect(visible).toBeTruthy();
 });
 
 Then('The admins display name and email are shown', async function (this: CustomWorld) {
@@ -75,7 +69,7 @@ And('guidance is displayed for uploading a professional headshot with a recommne
 When('The Admin views the Basic Information section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const visible = await profile.areSectionsVisible(['Basic Information']);
-    await expect(visible).toBeTruthy();
+    expect(visible).toBeTruthy();
 });
 
 Then('The fields Full Name, Email, Phone Number, Location, and Timezone are visible', async function (this: CustomWorld) {
@@ -111,14 +105,13 @@ And('Helper text indicates the browser-detected timezone', async function (this:
 //Scenario: Optional fields can be left blank without error
 Given('The Admin is viewing the Basic Information section', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
-    const visible = await profile.areSectionsVisible(['Basic Information']);
-    await expect(visible).toBeTruthy();
+    await profile.gotoProfile();
 });
 
 Then('The Phone Number field may be empty', async function (this: CustomWorld) {
     const profile = getProfilePage.call(this);
     const empty = await profile.isPhoneNumberEmpty();
-    await expect(empty).toBeTruthy();
+    expect(empty).toBeTruthy();
 });
 
 And('No validation error is displayed for leaving optionnal fields blank', async function (this: CustomWorld) {
@@ -143,4 +136,4 @@ Then('The displayed name, email, and timezone match the accounts stored values',
     expect(email).toBe('admin@percruit.com');
     expect(tz).toBe('America/Denver');
 });
-
+    
