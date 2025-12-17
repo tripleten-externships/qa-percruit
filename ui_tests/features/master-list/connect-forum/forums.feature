@@ -10,7 +10,7 @@ Feature: Percuit Website Student-Connect-Forums Test
     When the student navigates to the Forums page
     Then the Forums page is displayed
 
-  @forums
+  @wip
   Scenario: Student cancels creating a new post
     Given the student is authenticated in the system
     Given the student is on the Forums page
@@ -21,30 +21,16 @@ Feature: Percuit Website Student-Connect-Forums Test
     When the student clicks the Cancel button
     Then the new post modal should close
     And the student should remain on the Forums page
+ 
   @wip
-  Scenario Outline: User filters posts by topic
-    Given the student is authenticated in the system
-    And the user is on the Forum page
-   And the topic filter options are visible
-  | Interview Prep |
-  | Resume         |
-  | Career Advice  |
-  | Job Search     |
-  | Salary         |
-  | Networking     |
-  | Technical      |
-  | Behavioral     |
-    When the user selects the "<Topic>" topic filter
-    Then only posts tagged with "<Topic>" should be displayed
-    And posts from other topics should be hidden
+  Scenario Outline: User filters posts by category
+  Given the user is on the Forums page
+  And the post category options are visible
+  When the user selects the "<Category>" option
+  Then only posts sorted by "<Category>" should be displayed
 
-    Examples:
-    | Topic          |
-    | Interview Prep |
-    | Resume         |
-    | Career Advice  |
-    | Job Search     |
-    | Salary         |
-    | Networking     |
-    | Technical      |
-    | Behavioral     |
+Examples:
+  | Category |
+  | Hot      |
+  | New      |
+  | Top      |

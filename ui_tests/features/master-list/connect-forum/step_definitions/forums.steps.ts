@@ -38,9 +38,6 @@ When('the student clicks the New Post button', async function () {
   await newPostButton.click();
 });
 
-
-
-
 Then('the new post modal should appear', async function () {
   await expect(forumsPage.NewPostModal).toBeVisible();
 });
@@ -64,6 +61,10 @@ Then('the new post modal should close', async function () {
 Then('the student should remain on the Forums page', async function () {
   await forumsPage.verifyPage();
 });
+
+// Steps for verifying post category options
+
+
 
 
 
