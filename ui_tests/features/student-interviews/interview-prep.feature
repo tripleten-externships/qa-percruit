@@ -61,7 +61,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student successfully starts an AI Practice session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         And gave the browser permissions to access microphone
         When the student clicks on the Start AI Practice button
         Then the AI Practice session should begin
@@ -72,7 +72,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student successfully joins a Peer Interview session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Peer Interview 
+        And selects "Peer Interview" 
         When the student selects an upcoming peer interview session from the list
         And clicks on the Join Session button
         Then the student should be redirected to the interview session interface
@@ -82,7 +82,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student cancels a scheduled Peer Interview session
         Given the student is authenticated in the system
         And the student is on theInterview page
-        And selects Peer Interview 
+        And selects "Peer Interview" 
         When the student selects a scheduled peer interview session from the list
         And clicks on the Cancel Session button
         Then a confirmation prompt should appear asking the student to confirm the cancellation
@@ -94,7 +94,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student clicks on Provide Feedback for a completed Peer Interview session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Peer Interview 
+        And selects "Peer Interview" 
         When the student selects a completed peer interview session from the list
         And clicks on the Provide Feedback button
         Then the student should see a feedback form with fields for rating and comments
@@ -105,7 +105,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student successfully joins an Expert Interview session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Expert Interview 
+        And selects "Expert Interview" 
         When the student selects a booked expert interview session from the list
         And clicks on the Join Session button
         Then the student should be redirected to the expert interview session interface
@@ -115,7 +115,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student views past AI Practice sessions
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         When the student clicks on the Past Sessions tab
         Then the student should see a list of previously completed AI Practice sessions
         And the student can review their performance and feedback for each session
@@ -124,7 +124,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student views the AI analysis of past AI Practice sessions
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice"
         When the student selects a past AI Practice session from the list
         And clicks on the View Analysis button
         Then the student should see a detailed analysis of their performance including strengths, weaknesses, and areas for improvement
@@ -133,7 +133,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student views transcriptions of past AI Practice sessions
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         When the student selects a past AI Practice session from the list
         And clicks on the View Transcription button
         Then the student should see a complete transcription of their responses during the AI Practice session
@@ -142,7 +142,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student downloads transcriptions of past AI Practice sessions
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         When the student selects a past AI Practice session from the list
         And clicks on the Download Transcription button
         Then the student should be able to download the transcription as a text file or PDF document
@@ -152,7 +152,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student deletes a past AI Practice session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         When the student selects a past AI Practice session from the list
         And clicks on the Delete Session button
         Then a confirmation prompt should appear asking the student to confirm the deletion
@@ -164,7 +164,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student cannots start an AI Practice session without microphone permissions
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects AI Practice 
+        And selects "AI Practice" 
         When the student clicks on the Start AI Practice button without granting microphone permissions
         Then the student should see an error message indicating that microphone access is required to start the AI Practice session
         And the AI Practice session should not begin until microphone permissions are granted
@@ -173,7 +173,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student tries to schedule a session when no time slots are available for Expert Interview
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Expert Interview 
+        And selects "Expert Interview" 
         When the student clicks on the Schedule Interview button
         And there are no available time slots for any experts
         Then the student should see a message indicating that no time slots are currently available
@@ -183,7 +183,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student tries to schedule a session when there's no experts or mentors assigned to the student
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Expert Interview 
+        And selects "Expert Interview" 
         When the student clicks on the Schedule Interview button
         And there are no experts or mentors assigned to the student
         Then the student should see a message indicating that no experts or mentors are currently available
@@ -193,7 +193,7 @@ Feature: Interview under Interview Prep Category
     Scenario: Student tries to schedule a session for a past date/time for Peer Interview
         Given the student is authenticated in the system
         And the student is on the Interview Prep page
-        And selects Peer Interview 
+        And selects "Peer Interview" 
         When the student clicks on the Schedule Interview button
         And inputs a past date and time for the interview
         Then the student should see an error message indicating that scheduling for past dates/times is not allowed

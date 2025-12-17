@@ -60,7 +60,7 @@ Then('the student should see an option to start or end an AI Practice session', 
 
 // Creating new peer interview sessions
 When('the student clicks on the Create New Session option', async function() {
-    await this.page.click(interviewPrepPage.CreateNewSessionButton);
+    await interviewPrepPage.clickCreateNewSession();
 });
 
 When('inputs a valid date for the interview', async function() {
@@ -70,6 +70,7 @@ When('inputs a valid date for the interview', async function() {
 
 When('inputs a valid time for the interview', async function() {
     await interviewPrepPage.selectPeerTime('10:00 AM');
+    await interviewPrepPage.clickSetTimeButton();
 });
 
 When('inputs a valid interview topic', async function() {
@@ -85,12 +86,12 @@ When('clicks on the Create Session button', async function() {
 });  
 
 // Creating new expert interview sessions
-When('inputs a valid Mentor date for the interview', async function() {
-    await interviewPrepPage.inputMentorDate('12/31/2025');
+When('inputs a valid Mentor date for the interview', async function () {
+  await interviewPrepPage.selectMentorDate(2025, 'December', 31);
 }); 
 
 When('selects a valid Mentor time slot for the interview', async function() {
-    await this.page.click(this.getTimeSlotButton('10:00 AM'));
+    await interviewPrepPage.selectTimeSlot('10:00 AM');
 });
 
 When('the student clicks on the Next button', async function() {
