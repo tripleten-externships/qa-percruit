@@ -8,18 +8,42 @@ Before(async function () {
   topicsPage = new AdminCodingProblemsTopicsPage(this.page);
 });
 
+/* ---------- VIEW TOPICS PAGE ---------- */
+
+When('the Admin views the Topics tab', async function () {
+  await topicsPage.openTopicsTab();
+});
+
+Then('the Topics heading should be visible', async function () {
+  await topicsPage.isTopicsPageVisible();
+});
+
+Then('the Select Category dropdown should be visible', async function () {
+  await expect(topicsPage.selectCategoryDropdown).toBeVisible();
+});
+
+Then('the Add Topic button should be visible', async function () {
+  await topicsPage.isAddTopicButtonVisible();
+});
+
+/* ---------- FILTER BY CATEGORY ---------- */
+
 When(
-  'the Admin views the Topics page in Coding Problems',
+  'the Admin filters a topic using the Select Category dropdown',
   async function () {
-    await topicsPage.openTopicsTab();
+    await topicsPage.selectCategory('Python');
   }
 );
 
 Then(
-  'the all existing topics should be viewable to the Admin',
+  'the Admin should be able to add a topic for the selected category',
   async function () {
-    const visible = await topicsPage.areTopicsVisible();
-    expect(visible).toBeTruthy();
+    await topicsPage.clickAddTopic();
+
+    // Create Topic popup
+    await expect(this.page.getByRole('dialog')).toBeVisible();
+    await expect(
+      this.page.getByRole('heading', { name: 'Create Topic' })
+    ).toBeVisible();
   }
 );
-
