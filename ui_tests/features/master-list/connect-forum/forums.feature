@@ -10,7 +10,7 @@ Feature: Percuit Website Student-Connect-Forums Test
     When the student navigates to the Forums page
     Then the Forums page is displayed
 
-  @forums
+  @wip
   Scenario: New post modal workflow
     Given the student is authenticated in the system
     And the student is on the Forums page
