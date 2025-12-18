@@ -1,0 +1,49 @@
+Feature: Percruit Connect Messages Feature / User Login & Access
+
+  
+  @wip
+  Scenario: Student successfully logs in to the Percruit website
+    Given the Student is authenticated in the system
+    Then the Student should be able to open Messages page
+    And then search conversations
+
+  @wip
+  Scenario: Student login successfull and navigates to Connect Messages
+    Given the user is on the login page
+    When the user enters a valid email and password
+    And clicks the login button
+    Then the user should be redirected to the Dashboard
+    Given the user is on the dashboard 
+    When the user navigates to Connect Messages
+    Then the user should see the Welcome to messages screen
+
+    @wip
+  Scenario: Student opens messages page
+    Given the user is logged in
+    And the user is on the Connect Messages page
+    Then the Messages page should display
+    And the user should see Welcome to Messages
+
+     @wip
+  Scenario: Student search for conversation
+    Given the user is logged in and has at least one conversation
+    When the user selects a conversation
+    Then the conversation should open and display the full message thread
+
+    @wip
+  Scenario: Student send a message to Mentor
+    Given the user is logged in and has opened a conversation
+    When the user types a message and clicks send
+    Then the message should appear in the thread and be sent to the mentor
+
+     @wip
+  Scenario: Student create a new message
+    Given the user is logged in and on the messages page
+    When the user clicks New Message
+    Then the system should open a form to select a mentor and type a new message
+
+     @wip
+  Scenario: Student search for a Mentor
+    Given the user is logged in and on the Messages page
+    When the user enters a mentors name in the Search mentor bar
+    Then only conversations with that mentor should appear
