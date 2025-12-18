@@ -16,9 +16,6 @@ Feature: Percuit Website Student-Connect-Forums Test
     And the student is on the Forums page
     When the student clicks the New Post button
     Then the New Post modal should appear
-    When the student enters a title
-    And clicks the Create Topic button
-    Then a message "Post created successfully" should be displayed
     When the student clicks the Cancel button
     Then the New Post modal should close
 

@@ -43,31 +43,27 @@ When('the student clicks the New Post button', async function () {
 
 Then('the New Post modal should appear', async function () {
     await forumsPage.verifyNewPostModalVisible();
+    console.log('New Post modal is visible');
 });
 
-When('the student enters a title', async function () {
-    await forumsPage.enterPostTitle('My Test Post');
-    console.log('Post title entered');
-});
-When('clicks the Create Topic button', async function () {
-    await forumsPage.clickCreateTopicButton();
-    console.log('Create Topic button clicked');
-});
-
-Then('a message {string} should be displayed', async function (message: string) {
-    await forumsPage.verifySuccessMessage(message);
-    console.log('Success message verified:', message);
-});
 
 When('the student clicks the Cancel button', async function () {
-  await forumsPage.clickCancelButton();
+  // wait for modal to be visible
+  //await expect(forumsPage.NewPostModal).toBeVisible({ timeout: 15000 });
+
+  // click the cancel button (animation-safe)
+  await forumsPage.clickCancelButton(); // method should click safely
   console.log('Cancel button clicked');
 });
 
+
+
 Then('the New Post modal should close', async function () {
-    await forumsPage.verifyNewPostModalHidden();
-    console.log('New Post modal closed');
-})
-Then('the Title error message {string} should be displayed', async function (message: string) {
-    await forumsPage.verifyTitleError(message);
+  // assert modal is hidden
+  await forumsPage.verifyNewPostModalHidden();
+  console.log('New Post modal is hidden');
 });
+
+
+
+

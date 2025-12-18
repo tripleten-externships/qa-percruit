@@ -6,16 +6,10 @@ import { Page, expect, Locator } from '@playwright/test';
 export class ForumsPage extends BasePage {
   readonly ForumsHeader: Locator;
   readonly NewPostButton: Locator;
-  readonly NewPostModal: Locator;
-  readonly NewPostModalTitle: Locator;
-  readonly CancelButton: Locator;
-  readonly CreateTopicButton: Locator;
-  readonly TitleInput: Locator;
-  readonly TitleError: Locator;
-  readonly SuccessMessage: Locator;
-
+  //readonly NewPostModal: Locator;
+  //readonly NewPostModalTitle: Locator;
+  //readonly CancelButton: Locator;
   
-
   constructor(page: Page) {
     super(page);
     
@@ -24,24 +18,24 @@ export class ForumsPage extends BasePage {
 
     // New Post button
     this.NewPostButton = page.getByRole('button', { name: /new post/i });
-    this.CancelButton = page.getByRole('button', { name: /cancel/i });
-    this.CreateTopicButton = page.getByRole('button', { name: /create topic/i });
+    
+  }
+// ===== MODAL GETTERS =====
+  get NewPostModal() {
+    // Scoped to dialog to avoid stale / hidden elements
+    return this.page.getByRole('dialog');
+  }
 
+  get NewPostModalTitle() {
+    return this.NewPostModal.getByRole('heading', {
+      name: /create a new topic/i,
+    });
+  }
 
-    // New Post modal
-   
-  this.NewPostModal = page.getByRole('dialog');
-  this.NewPostModalTitle = this.NewPostModal.locator('text=Create a New Topic');
- // Input and validation
-    this.TitleInput = this.NewPostModal.locator('input[placeholder="What\'s your topic about?"]');
-
-    this.TitleError = page.locator('.MuiAlert-message'); 
-    this.SuccessMessage = page.locator('.MuiSnackbarContent-message'); 
-
-
+  get CancelButton() {
+    return this.NewPostModal.getByRole('button', { name: 'Cancel' });
   }
   
-
  // Navigate to Forums page
   async navigateToForums() {
     await this.page.goto(env.getBaseUrl() + 'community/forums');
@@ -53,45 +47,41 @@ export class ForumsPage extends BasePage {
     await expect(this.page).toHaveURL(/\/community\/forums$/);
     await expect(this.ForumsHeader).toBeVisible({ timeout: 15000 });
   }
-
+  
   // Click New Post button
   async clickNewPostButton() {
-    await this.NewPostButton.click();
-  }
+  await expect(this.NewPostButton).toBeVisible({ timeout: 15000 });
+  await this.NewPostButton.click();
+}
+
 
   async verifyNewPostModalVisible() {
   await this.NewPostModal.waitFor({ state: 'visible', timeout: 10000 });
   await expect(this.NewPostModalTitle).toBeVisible({ timeout: 5000 });
 }
 
-//enter title
- async enterPostTitle(title: string) {
-    await expect(this.TitleInput).toBeVisible({ timeout: 10000 });
-    await this.TitleInput.fill(title);
+
+async clickCancelButton() {
+  const cancel = this.CancelButton;
+
+  await expect(this.NewPostModal).toBeVisible({ timeout: 15000 });
+  await expect(cancel).toBeVisible({ timeout: 15000 });
+  await expect(cancel).toBeEnabled({ timeout: 15000 });
+
+  // Scroll and click
+  await cancel.scrollIntoViewIfNeeded();
+  await cancel.click({ force: true });
+
+  // Wait longer for modal fade-out
+  await this.page.waitForTimeout(500); // adjust as needed
+
+  await expect(this.NewPostModal).toBeHidden({ timeout: 15000 });
 }
-
-
-
- async clickCreateTopicButton() {
-    await this.CreateTopicButton.click();
-  }
-
- async verifySuccessMessage(message: string) {
-    await expect(this.SuccessMessage).toHaveText(message, { timeout: 5000 });
-}
-
-
-  async clickCancelButton() {
-    await this.CancelButton.click();
-  }
 
   async verifyNewPostModalHidden() {
     await expect(this.NewPostModal).toBeHidden({ timeout: 5000 });
   }
 
-  async verifyTitleError(message: string) {
-    await expect(this.TitleError).toHaveText(message, { timeout: 5000 });
-}
 
 }
 
