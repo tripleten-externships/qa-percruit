@@ -38,11 +38,11 @@ When(
 );
 
 // Step: Login as a specific user type (Student, Admin, Mentor)
-When(/the (.+) is authenticated in the system/, async function (userType) {
+/*When(/the (.+) is authenticated in the system/, async function (userType) {
   await this.page.goto(env.getBaseUrl());
   await loginPage.waitForPageLoad();
   await loginPage.loginAsUserType(userType);
-});
+});*/
 
 // Step: Verify that the Student is on the Student Dashboard
 Then('the Student should be able to see the Student Dashboard', async function() {
