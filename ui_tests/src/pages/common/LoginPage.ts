@@ -4,6 +4,9 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
+  goto() {
+    throw new Error('Method not implemented.');
+  }
   
   readonly EMAIL_LOCATOR = '//input[@placeholder="user@example.com"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
