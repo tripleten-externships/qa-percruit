@@ -20,10 +20,11 @@ Given('the admin User is logged into the Percruit website', async function () {
 }); 
 
 Then('the mentors list with assigned students is available', async function () {
-    //Go to mentor list page  
+    // Initiate MentorListPage 
     this.mentorPage = new MentorListPage(this.page);
+    //Go to mentor list page
     await this.page.goto(`${env.getBaseUrl()}/admin/mentors`);
-    // Initiate MentorListPage
+     
     
     await expect(this.page).toHaveURL(/mentors/);
 
