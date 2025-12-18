@@ -19,7 +19,7 @@ let loginPage: LoginPage;
             });
        
          Given('the admin is on the home page', async function () {
-         // user confirms they are on the admin dashboard
+         // user confirms they are on the admin dashboard/ Home page
             await logoutPage.isOnHomePage();
          });
       
@@ -28,8 +28,9 @@ let loginPage: LoginPage;
             await logoutPage.initiateLogout();
          });
        
-         Then('the admin should be signed out successfully', function () {
-         // the user confirms log out was successful
+         Then('the admin should be signed out successfully', async function () {
+         // Confirms the user is no longer on the admin dashboard and the log out was successful
+            await logoutPage.noLongerOnDashboard();
          });
        
          Then('the login page should be displayed', async function () {
