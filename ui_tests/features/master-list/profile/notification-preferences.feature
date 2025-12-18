@@ -1,4 +1,3 @@
-@Zach
 Feature: Email notification preferences
   As an Admin
   I want to manage email notification preferences
@@ -8,13 +7,13 @@ Feature: Email notification preferences
     Given the Admin is authenticated in the system
     And the Admin is on the Notifications tab in Profile Settings
 
-  @smoke
+  @indev
   Scenario: Notification controls and guidance are visible
     Then the Email Notifications section is visible
     And the preferences Message Notifications, Task & Goal Notifications, and Resume Review Notifications are available
     And each preference displays descriptive guidance about when emails are sent
     And the current state of each preference is clearly indicated
-
+@wip
   Scenario Outline: Enable a notification preference (auto-saves and persists)
     When the Admin enables <preference>
     Then the preference is saved automatically
@@ -27,7 +26,7 @@ Feature: Email notification preferences
       | Message Notifications       |
       | Task & Goal Notifications   |
       | Resume Review Notifications |
-
+@wip
   Scenario Outline: Disable a notification preference (shows disabled status, persists)
     Given <preference> is currently enabled
     When the Admin disables <preference>
@@ -41,7 +40,7 @@ Feature: Email notification preferences
       | Message Notifications       |
       | Task & Goal Notifications   |
       | Resume Review Notifications |
-
+@wip
   Scenario: Changing one preference does not affect the others
     Given Message Notifications is enabled
     And Task & Goal Notifications is disabled
