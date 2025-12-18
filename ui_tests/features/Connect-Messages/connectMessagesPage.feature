@@ -12,3 +12,9 @@ Given the user is logged in
 And the user is on the Connect Messages page
 Then the Messages page should display
 And the user should see Welcome to Messages
+
+@wip
+Scenario: Student search for conversation
+Given the user is logged in and has at least one conversation
+When the user selects a conversation
+Then the conversation should open and display the full message thread
