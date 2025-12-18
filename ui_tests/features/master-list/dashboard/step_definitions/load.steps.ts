@@ -19,7 +19,7 @@ let adminDashboardPage: AdminDashboardPage;
         When('they log in with valid credentials', async function () {
                 // user enters valid credentials and clicks the sign-in button
                 loginPage = new LoginPage(this.page);
-                await loginPage.loginAsAdmin();
+                await loginPage.loginAsUserType('Admin');
         });
 
         Then('they should be redirected to their dashboard', async function () {
