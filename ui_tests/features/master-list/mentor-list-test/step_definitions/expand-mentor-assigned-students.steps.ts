@@ -9,13 +9,13 @@ import { LoginPage } from '../../../../src/pages/common/LoginPage';
 // Imports Assignment Page functionality
 import { MentorListPage } from '../../../../src/pages/admin/MentorListPage';
 
-Given('the admin User is logged into the Precruit website', async function () {
+Given('the admin User is logged into the Percruit website', async function () {
     //Log user in as admin
     const loginPage = new LoginPage(this.page);
-    await this.page.goto('https://stage.tripleten.percruit.com/');
+    await this.page.goto(env.getBaseUrl());
     await loginPage.loginAsUserType('Admin');
     // Wait for the dashboard header to appear
-    await this.page.waitForSelector('h1:has-text("Admin Dashboard")', { timeout: 30000 });
+    await this.page.waitForSelector('h1:has-text("Admin Dashboard")');
 
 }); 
 
