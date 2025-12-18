@@ -52,7 +52,7 @@ Feature: Interview under Interview Prep Category
         And inputs a valid Mentor date for the interview
         And selects a valid Mentor time slot for the interview
         And the student clicks on the Next button
-        And inputs a valid interview topic
+        And inputs a valid mentor interview topic
         And clicks on the Schedule Interview button on the Expert Interview form
         Then the Interview Prep page displays
         And Upcoming Sessions list shows the newly scheduled Expert Interview with correct details

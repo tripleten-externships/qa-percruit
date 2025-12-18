@@ -95,7 +95,7 @@ When('selects a valid Mentor time slot for the interview', async function() {
 });
 
 When('the student clicks on the Next button', async function() {
-    await interviewPrepPage.clickNextButton();
+    await interviewPrepPage.clickNextButton('12/31/2025', '10:00 AM');
 });
 
 When('inputs a valid mentor interview topic', async function() {
@@ -114,3 +114,4 @@ Then('Upcoming Sessions list shows the newly scheduled Peer Interview with corre
 Then('Upcoming Sessions list shows the newly scheduled Expert Interview with correct details', async function() {
     await interviewPrepPage.verifyUpcomingSession();
 });
+

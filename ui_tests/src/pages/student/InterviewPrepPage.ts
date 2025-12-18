@@ -29,7 +29,7 @@ export class InterviewPrepPage extends BasePage {
     TimeSlotButton = 'button:has-text("${time}")';
     MentorInterviewTopicField = 'label:has-text("Interview Topic") + input';
     MentorScheduleInterviewButton = 'button:has-text("Schedule Interview")';
-    NextButton = 'button:has-text("Next")';
+    NextButton = 'button[type="button"]:has-text("Next")';
 
     // AI Practice Page Locators
     StartInterviewButton = 'button:has-text("Start Interview")';
@@ -39,7 +39,7 @@ export class InterviewPrepPage extends BasePage {
         super(page);
     }
 
-// Interview Prep Page
+    // Interview Prep Page
     async verifyPage(){
      await expect(this.page.locator(this.InterviewPrepHeading)).toBeVisible();    
     }
@@ -58,7 +58,7 @@ export class InterviewPrepPage extends BasePage {
         await expect(this.page.locator(this.UpcomingSessionIcon)).toBeVisible();
     }
 
-// Different Interview Pages verification
+    // Different Interview Pages verification
     async verifyPeerInterviewPage(){
         await expect(this.page.locator(this.JoinAvailableSessionButton)).toBeVisible();
         await expect(this.page.locator(this.CreateNewSessionButton)).toBeVisible();
@@ -73,7 +73,7 @@ export class InterviewPrepPage extends BasePage {
         await expect(this.page.locator(this.EndInterviewButton)).toBeVisible();
     }
 
-// Peer Interview Session Creation
+    // Peer Interview Session Creation
     async joinAvailableSession(){
         await this.page.click(this.JoinAvailableSessionButton);
     }
@@ -92,11 +92,26 @@ export class InterviewPrepPage extends BasePage {
         await this.page.fill(this.DateInputField, date);
     }  
 
-    async selectPeerTime(time: string) {
-        const timeButton = this.page.locator(this.QuickSelectTime(time));
-        await timeButton.waitFor({ state: 'visible' });
-        await timeButton.click();
-    }
+async selectPeerTime(time: string) {
+    // Click the time picker button (not the SVG)
+    const timeInput = this.page.getByRole('button', { name: /choose time/i });
+    await expect(timeInput).toBeVisible({ timeout: 10000 });
+    await expect(timeInput).toBeEnabled({ timeout: 10000 });
+    await timeInput.click();
+
+    // Wait for dropdown options to appear and select the time
+    const timeOption = this.page.locator(`li[role="option"]:has-text("${time}")`);
+    await expect(timeOption).toBeVisible({ timeout: 10000 });
+    await timeOption.click();
+
+    // Confirm time selection
+    const setTimeButton = this.page.locator(this.SetTimeButton);
+    await expect(setTimeButton).toBeVisible({ timeout: 5000 });
+    await expect(setTimeButton).toBeEnabled({ timeout: 5000 });
+    await setTimeButton.click();
+}
+
+
 
     async clickSetTimeButton() {    
         await this.page.waitForSelector(this.SetTimeButton, { state: 'visible' });
@@ -117,7 +132,7 @@ export class InterviewPrepPage extends BasePage {
         await this.page.click(this.CreatePeerSession);
     }
 
-// Expert Interview Session Creation
+    // Expert Interview Session Creation
     async selectMentorDate(year: number, month: string, day: number) {
         // Open the date picker
         await this.page.click(this.MentorDate);
@@ -136,19 +151,43 @@ export class InterviewPrepPage extends BasePage {
         await this.page.click(`button[role="gridcell"]:not([disabled]):has-text("${day}")`);
     }
 
+    async verifyMentorDate(expectedDate: string) {
+        const dateInput = this.page.locator(this.MentorDate);
+        const dateValue = await dateInput.inputValue();
+        expect(dateValue).toBe(expectedDate);
+        await dateInput.waitFor({ state: 'visible' });
+    }
+
     async selectTimeSlot(time: string) {
         const timeButton = this.page.locator(`button:has-text("${time}")`);
-        await timeButton.waitFor({ state: 'visible' });
         await timeButton.click();
     }
 
-    async clickNextButton(){
+    async verifyselectMentorTimeSlot(time: string) {
+        const timeButton = this.page.locator(`button:has-text("${time}")`);
+        await expect(timeButton).toBeVisible();
+    }
+
+    async clickNextButton(expectedDate: string, expectedTime: string) {
         const nextBtn = this.page.locator(this.NextButton);
-        await nextBtn.waitFor({ state: 'visible', timeout: 10000 });
-        await expect(nextBtn).toBeEnabled();
-        await nextBtn.scrollIntoViewIfNeeded();
+        const dateInput = this.page.locator(this.MentorDate);
+        const timeButton = this.page.locator(`button:has-text("${expectedTime}")`);
+
+        // Wait for date input to have correct value
+        await expect(dateInput).toBeVisible({ timeout: 10000 });
+        await expect(dateInput).toHaveValue(expectedDate, { timeout: 10000 });
+
+        // Wait for time button to be visible and enabled
+        await expect(timeButton).toBeVisible({ timeout: 10000 });
+        await expect(timeButton).toBeEnabled({ timeout: 10000 });
+
+        // Wait for Next button to be enabled
+        await expect(nextBtn).toBeEnabled({ timeout: 10000 });
+
+        // Click Next
         await nextBtn.click();
     }
+
 
     async inputMentorInterviewTopic(topic: string){
         await this.page.waitForSelector(this.MentorInterviewTopicField, { state: 'visible' });
@@ -165,7 +204,7 @@ export class InterviewPrepPage extends BasePage {
         await expect(this.page.locator(this.UpcomingSessionIcon)).toBeVisible();
     }
 
-// AI Practice Session 
+    // AI Practice Session 
     async clickStartInterview(){
         await this.page.click(this.StartInterviewButton);
     }
