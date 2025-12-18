@@ -5,7 +5,7 @@ Feature: Categories in the Coding Problems page
   
   Background:
   Given the Admin is authenticated in the system
-@indev
+@wip
 Scenario: View existing categories
   When the Admin navigates to the Coding Problems page 
   Then the Admin should see all existing coding problems grouped by category

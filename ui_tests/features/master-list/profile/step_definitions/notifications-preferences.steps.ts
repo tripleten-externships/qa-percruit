@@ -4,13 +4,13 @@ import { LoginPage } from '../../../../src/pages/common/LoginPage';
 import { Given, Then, When } from '@cucumber/cucumber';
 declare const page: Page;
 
-    Given('the Admin is authenticated in the system', async function () {
-      const loginPage = new LoginPage(page);
-      await this.page.goto(env.getBaseUrl());
-      await loginPage.loginAsUserType('Admin');
-    });
+    // Given('the Admin is authenticated in the system', async function () {
+    //   const loginPage = new LoginPage(page);
+    //   await this.page.goto(env.getBaseUrl());
+    //   //await loginPage.loginAsUserType('Admin');
+    // });
 
-    Given('the Admin is on the Notifications tab in Profile Settings', async function () {
+    When('the Admin is on the Notifications tab in Profile Settings', async function () {
       await page.waitForLoadState('networkidle');
       await page.locator('#root').getByText('Adminqa+100119@qaexternship.').click();
       await page.getByRole('menuitem', { name: 'View Profile' }).click();

@@ -5,7 +5,7 @@ Feature: Email notification preferences
 
   Background:
     Given the Admin is authenticated in the system
-    And the Admin is on the Notifications tab in Profile Settings
+    When the Admin is on the Notifications tab in Profile Settings
 
   @indev
   Scenario: Notification controls and guidance are visible
