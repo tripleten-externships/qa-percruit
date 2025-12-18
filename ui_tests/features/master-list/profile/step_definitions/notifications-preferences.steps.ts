@@ -11,14 +11,14 @@ declare const page: Page;
     // });
 
     When('the Admin is on the Notifications tab in Profile Settings', async function () {
-      await page.waitForLoadState('networkidle');
-      await page.locator('#root').getByText('Adminqa+100119@qaexternship.').click();
-      await page.getByRole('menuitem', { name: 'View Profile' }).click();
-      await page.getByRole('tab', { name: 'Notifications' }).click();
+      await this.page.waitForLoadState('networkidle');
+      await this.page.locator('.MuiAvatar-root').first().click();
+      await this.page.getByRole('menuitem', { name: 'View Profile' }).click();
+      await this.page.getByRole('tab', { name: 'Notifications' }).click();
     });
     
     Then('the Email Notifications section is visible', async function () {
-      await expect(page.getByText('Email NotificationsMessage')).toBeVisible();
+      await expect(this.page.getByText('Email NotificationsMessage')).toBeVisible();
     });
 
     Then('the preferences Message Notifications, Task & Goal Notifications, and Resume Review Notifications are available', async function () {
