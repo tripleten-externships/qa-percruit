@@ -11,6 +11,8 @@ export class LoginPage extends BasePage {
 
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
+  
+  readonly EMAIL_LOCATOR = '//input[@placeholder="user@example.com"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
   readonly SIGNIN_LOCATOR = 'button:has-text("Sign In")';
   readonly FORGOT_PASSWORD_LOCATOR = 'button:has-text("Forgot password?")';
@@ -35,30 +37,15 @@ export class LoginPage extends BasePage {
   async clickForgotPassword() {
     await this.page.click(this.FORGOT_PASSWORD_LOCATOR);
   }
-  // Generic method to perform login using given email and password
-  async loginAndVerify(email: string, password: string) {
-    await this.login(email, password);
 
-    // Wait for navigation after login (sign-in button click triggers navigation)
-    try {
-      // Wait for either URL change OR dashboard elements to appear
-      await Promise.race([
-        this.page.waitForURL(url => !url.toString().endsWith('percruit.com/'), { timeout: 60000 }),
-        this.page.waitForSelector('[data-testid="dashboard"], [class*="dashboard"], [class*="Dashboard"]', { timeout: 60000 }).catch(() => null)
-      ]);
-    } catch (error) {
-      const currentUrl = this.page.url();
-      throw new Error(
-        `Login failed for email: ${email}. Page did not finish loading after login. Current URL: ${currentUrl}. Error: ${error}`
-      );
-    }
-  }
-
-  // Generic method to perform login using given email and password
   async login(email: string, password: string) {
+    console.log("In POM login method, logging in as "+email);
     await this.enterEmail(email);
+    //console.log("Entered this in email: "+ await this.page.locator(this.EMAIL_LOCATOR).allTextContents);
     await this.enterPassword(password);
+    //console.log("Entered this in password: "+ await this.page.locator(this.PASSWORD_LOCATOR).allTextContents);
     await this.clickSignIn();
+    console.log("Completed POM Login method");
   }
 
   // Predefined login method for Student user type using credentials from environment config
@@ -83,21 +70,30 @@ async gotoProfileSettings(): Promise<void> {
 await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');}
 
   async loginAsUserType(userType: string) {
+ async loginAsUserType(userType: string) {
+    console.log('Logging in as user type: '+userType);
     switch (userType) {
       case 'Student':
       case 'student':
-        await this.loginAsStudent();
+        await this.login(env.getStudentEmail(), env.getStudentPassword());
         break;
       case 'Admin':
       case 'admin':
-        await this.loginAsAdmin();
+        await this.login(env.getAdminEmail(), env.getAdminPassword());
         break;
       case 'Mentor':
       case 'mentor':
-        await this.loginAsMentor();
+        await this.login(env.getMentorEmail(), env.getMentorPassword());
         break;
       default:
         throw new Error(`Unknown user type: ${userType}`);
     }
+    await this.waitForDashboard();
+  }
+
+  async waitForDashboard(){
+    await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
+    await expect(this.page).toHaveURL(/dashboard/);
+
   }
 }

@@ -38,8 +38,7 @@ export class StudentDashboardPage extends BasePage {
       return false;
     }
 
-    // Check if required Sidebar items are visible to confirm we're on the dashboard
-    return await this.areSpansVisible([
+    return await this.areMenuItemsVisible([
       this.sideBar.JOB_BOARD,
       this.sideBar.JOB_TRACKER,
       this.sideBar.RESUME_MANAGER,
@@ -49,5 +48,6 @@ export class StudentDashboardPage extends BasePage {
       this.sideBar.MESSAGES,
       this.sideBar.TASKS_GOALS,
     ]);
+    
   }
 }
