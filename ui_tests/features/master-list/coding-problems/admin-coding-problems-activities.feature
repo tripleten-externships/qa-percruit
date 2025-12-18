@@ -29,7 +29,7 @@ Scenario: Selecting a Unit on activities page
   And a Topic is already selected
   Then the Admin should be able to select a unit from the Unit dropdown list
 
-@indev
+@wip
 Scenario: Adding an Activity
   When the Admin wants to add a new activity
   And the Admin selects a category from the existing Category dropdown list
@@ -44,7 +44,7 @@ Scenario: Updating an existing Activity
   Then the Admin should be able to save the changes in the existing activity
   And the updated activity should be correctly displayed on the Activities page
 
-@indev
+@wip
 Scenario: Deletion of an existing Activity
   When the Admin wants to delete a specific activity
   And the Admin selects a category from the existing Category dropdown list

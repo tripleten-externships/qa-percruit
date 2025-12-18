@@ -1,6 +1,6 @@
 Feature: Percruit Website Login
 
-  
+ 
   Scenario: Student successfully logs in to the Percruit website
     Given the Student is authenticated in the system
     When I add the title "Scenario: Student successfully logs into the Percruit website" to the log

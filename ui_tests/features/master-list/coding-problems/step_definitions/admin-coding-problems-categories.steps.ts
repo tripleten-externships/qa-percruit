@@ -8,7 +8,7 @@ import { chromium, Browser, Page, expect, BrowserContext } from '@playwright/tes
 import { env } from 'process';
    
 
-Given ('The Admin is logged in using valid credentials', async function () {
+Given ('the Admin is authenticated in the system', async function () {
   //Login and navigate to "coding problems" page
   await this.page.goto(env.BASE_URL);
   await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
@@ -49,7 +49,7 @@ Given ('The Admin is logged in using valid credentials', async function () {
     await this.page.getByRole('button', { name: 'Save' }).click();
  })
 
-  Then('the Admin should see all existing coding problems grouped by category', async function(){
+  Then('the new category should be visible along with the other Coding Problems categories', async function(){
     await this.page.getByRole('button', { name: 'Add Topic' }).click();
     await this.page.getByRole('textbox', { name: 'Name' }).click();
     await this.page.getByRole('textbox', { name: 'Name' }).fill('Ultramarine');
@@ -69,7 +69,7 @@ Given ('The Admin is logged in using valid credentials', async function () {
     await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
   })
 
-  Then('coding problems can can be associated with the new category', async function(){
+  Then('coding problems can be associated with the new category', async function(){
     await this.page.getByRole('button', { name: 'Add Activity' }).click();
     await this.page.getByRole('tab', { name: 'Basic Info' }).click();
     await this.page.getByRole('textbox', { name: 'Title' }).click();
