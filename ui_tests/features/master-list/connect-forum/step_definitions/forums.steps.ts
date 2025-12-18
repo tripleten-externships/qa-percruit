@@ -14,60 +14,60 @@ Before(async function() {
   loginPage = new LoginPage(this.page);
   forumsPage = new ForumsPage(this.page);
 });
-// Step definitions for Forums page navigation
+
+// ----------------------
+// Scenario 1: Verify Forums page loads
+// ----------------------
 When('the student navigates to the Forums page', async function () {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
+  await forumsPage.navigateToForums();
 });
 
 Then('the Forums page is displayed', async function () {
-   await forumsPage.verifyPage();
+  await forumsPage.verifyPage();
   console.log('Forums Page verified');
 });
 
-
-// Steps for New Post Modal functionality
+// ----------------------
+// Scenario 2: New Post modal
+// ----------------------
 Given('the student is on the Forums page', async function () {
-  await this.page.goto(env.getBaseUrl() + 'forums');
+  // Navigate and verify page (reuse existing methods)
+  await forumsPage.navigateToForums();
   await forumsPage.verifyPage();
 });
 
 When('the student clicks the New Post button', async function () {
-  const newPostButton = this.page.locator('body >> button:has-text("New Post")');
-  await newPostButton.waitFor({ state: 'visible', timeout: 20000 });
-  await newPostButton.click();
+  await forumsPage.clickNewPostButton();
+  console.log('New Post button clicked');
 });
 
-Then('the new post modal should appear', async function () {
-  await expect(forumsPage.NewPostModal).toBeVisible();
+Then('the New Post modal should appear', async function () {
+    await forumsPage.verifyNewPostModalVisible();
 });
 
-When('the student clicks the Create Topic button', async function () {
-  await forumsPage.createPostWithoutTitle();
+When('the student enters a title', async function () {
+    await forumsPage.enterPostTitle('My Test Post');
+    console.log('Post title entered');
+});
+When('clicks the Create Topic button', async function () {
+    await forumsPage.clickCreateTopicButton();
+    console.log('Create Topic button clicked');
 });
 
-Then('it shows an error Title is required', async function () {
-  await expect(forumsPage.TitleError).toBeVisible();
+Then('a message {string} should be displayed', async function (message: string) {
+    await forumsPage.verifySuccessMessage(message);
+    console.log('Success message verified:', message);
 });
 
 When('the student clicks the Cancel button', async function () {
-  await forumsPage.cancelNewPost();
+  await forumsPage.clickCancelButton();
+  console.log('Cancel button clicked');
 });
 
-Then('the new post modal should close', async function () {
-  await expect(forumsPage.NewPostModal).toHaveCount(0);
+Then('the New Post modal should close', async function () {
+    await forumsPage.verifyNewPostModalHidden();
+    console.log('New Post modal closed');
+})
+Then('the Title error message {string} should be displayed', async function (message: string) {
+    await forumsPage.verifyTitleError(message);
 });
-
-Then('the student should remain on the Forums page', async function () {
-  await forumsPage.verifyPage();
-});
-
-// Steps for verifying post category options
-
-
-
-
-
-
-
-

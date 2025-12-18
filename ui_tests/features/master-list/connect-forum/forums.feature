@@ -10,17 +10,19 @@ Feature: Percuit Website Student-Connect-Forums Test
     When the student navigates to the Forums page
     Then the Forums page is displayed
 
-  @wip
-  Scenario: Student cancels creating a new post
+  @forums
+  Scenario: New post modal workflow
     Given the student is authenticated in the system
-    Given the student is on the Forums page
+    And the student is on the Forums page
     When the student clicks the New Post button
-    Then the new post modal should appear
-    When the student clicks the Create Topic button
-    Then it shows an error Title is required
+    Then the New Post modal should appear
+    When the student enters a title
+    And clicks the Create Topic button
+    Then a message "Post created successfully" should be displayed
     When the student clicks the Cancel button
-    Then the new post modal should close
-    And the student should remain on the Forums page
+    Then the New Post modal should close
+
+    
  
   @wip
   Scenario Outline: User filters posts by category
