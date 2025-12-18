@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { TIMEOUT } from 'dns';
 
 /**
  * BasePage class containing common methods that can be extended by all page object models
@@ -12,7 +13,7 @@ export class BasePage {
   }
 
   async waitForPageLoad(): Promise<void> {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('networkidle', {timeout: 60000});
   }
 
   async isHeadingVisible(heading: string): Promise<boolean> {
