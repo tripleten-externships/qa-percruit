@@ -10,20 +10,36 @@ export class MentorListPage extends BasePage {
         super(page);
 } 
 
-async navigateToDashboard() {
-    await this.page.goto(env.getBaseUrl());
-    await expect(this.page).toHaveURL(/dashboard/);
+async expandMentor() {
+    await this.page.locator('button.MuiIconButton-root').click();
 }
 
+async expectListNotEmpty() {
+    // Wait for the list container to be visible
+    await this.page.waitForLoadState('networkidle');
+    const firstRowButton = this.page.locator('.mentor-row').first().locator('button[type="button"]');
+    await firstRowButton.click();
 
+  // Wait for the list in the same row to appear
+    const list = this.page.locator('.mentor-row').first().locator('ul.MuiList-root');
+    await expect(list).toBeVisible();
 
-
-
-
-
-
-
-
-
-
+  // Assert it has at least one item
+    const items = list.locator('li.MuiListItem-root');
+    const itemslist = await items.count();
+    await expect(itemslist).toBeGreaterThan(0);
+  };
 }
+  
+
+
+
+
+
+
+
+
+
+
+
+

@@ -21,15 +21,17 @@ Given('the admin User is logged into the Percruit website', async function () {
 
 Then('the mentors list with assigned students is available', async function () {
     //Go to mentor list page  
+    this.mentorPage = new MentorListPage(this.page);
     await this.page.goto(`${env.getBaseUrl()}/admin/mentors`);
-    // Initiate AssignmentPage
-    this.assignmentPage = new MentorListPage(this.page);
+    // Initiate MentorListPage
+    
     await expect(this.page).toHaveURL(/mentors/);
+
 });
 
 // Expanding a mentor shows their assigned students
 When('the admin user expands a mentor in the mentors list', async function () {
-    //  
+    await this.mentorPage.expectListNotEmpty();
 
 });
 
