@@ -254,5 +254,50 @@ export class ProfilePage extends BasePage {
       console.log('DEBUG: error while dumping timezone DOM', err);
     }
   }
+
+  // Wait for profile controls (name input or timezone select) to appear in page or any frame
+  async waitForProfileControls(timeout = 15000): Promise<void> {
+    const pollInterval = 400;
+    const deadline = Date.now() + timeout;
+
+    const selectors = [
+      'input[aria-label="Full Name"]',
+      'input[aria-label*="Name"]',
+      'input[name*="name"]',
+      'select[aria-label="Timezone"]',
+      '[data-testid*="timezone"]',
+      'label:has-text("Full Name")'
+    ];
+
+    const checkFrame = async (frame: any) => {
+      for (const sel of selectors) {
+        try {
+          const el = await frame.$(sel);
+          if (el) return true;
+        } catch (e) {
+          // ignore
+        }
+      }
+      return false;
+    };
+
+    while (Date.now() < deadline) {
+      // check main frame
+      if (await checkFrame(this.page.mainFrame())) return;
+      // check child frames
+      for (const f of this.page.frames()) {
+        try {
+          if (await checkFrame(f)) return;
+        } catch (e) {
+          // ignore
+        }
+      }
+      await this.page.waitForTimeout(pollInterval);
+    }
+
+    // final dump for debugging before throwing
+    await this.debugTimezoneDom();
+    throw new Error('Timed out waiting for profile controls (Full Name input or Timezone select)');
+  }
 }
 

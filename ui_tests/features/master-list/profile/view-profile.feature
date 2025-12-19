@@ -19,7 +19,7 @@ Feature: View profile settings
     Then the admins display name and email are shown
     And guidance is displayed for uploading a professional headshot with a recommended minimum size
 
-  @wip
+  @jons
   Scenario: Basic Information shows required and optional fields
     When the Admin views the Basic Information section
     Then the fields Full Name, Email, Phone Number, Location, and Timezone are visible
@@ -34,7 +34,7 @@ Feature: View profile settings
     Then the Phone Number field may be empty
     And no validation error is displayed for leaving optional fields blank
 
-  @jons
+  @wip
   Scenario: Data on screen reflects the stored account values
     When the Admin views the profile
     Then the displayed name, email, and timezone match the accounts stored data

@@ -40,10 +40,58 @@ When(
 
 // Step: Login as a specific user type (Admin, Mentor)
 Given('the {word} is authenticated in the system', async function (this: CustomWorld, userType: string) {
-  await this.page.goto(env.getBaseUrl());
-  const loginPage = new LoginPage(this.page);
-  await loginPage.waitForPageLoad();
-  await loginPage.loginAsUserType(userType);
+  // Defensive: ensure browser/page are available and retry login on any navigation error
+  const ensurePage = async () => {
+    if (!this.page) {
+      this.browser = await chromium.launch({ headless: process.env.PLAYWRIGHT_HEADLESS !== 'false' });
+      this.page = await this.browser.newPage();
+      this.pages = this.pages || {};
+    } else {
+      // try calling isClosed if available
+      try {
+        const isClosedFn = (this.page as any).isClosed;
+        if (typeof isClosedFn === 'function' && this.page.isClosed()) {
+          // recreate
+          try { await this.page.close(); } catch (e) {}
+          try { await this.browser?.close(); } catch (e) {}
+          this.browser = await chromium.launch({ headless: process.env.PLAYWRIGHT_HEADLESS !== 'false' });
+          this.page = await this.browser.newPage();
+          this.pages = this.pages || {};
+        }
+      } catch (e) {
+        // recreate if any check throws
+        try { await this.browser?.close(); } catch (e) {}
+        this.browser = await chromium.launch({ headless: process.env.PLAYWRIGHT_HEADLESS !== 'false' });
+        this.page = await this.browser.newPage();
+        this.pages = this.pages || {};
+      }
+    }
+  };
+
+  // Try navigate+login, recreate and retry once on failure
+  try {
+    await ensurePage();
+    await this.page.goto(env.getBaseUrl());
+    const loginPage = new LoginPage(this.page);
+    await loginPage.waitForPageLoad();
+    await loginPage.loginAsUserType(userType);
+  } catch (err) {
+    // recreate and retry once
+    try {
+      try { await this.page?.close(); } catch (e) {}
+      try { await this.browser?.close(); } catch (e) {}
+      this.browser = await chromium.launch({ headless: process.env.PLAYWRIGHT_HEADLESS !== 'false' });
+      this.page = await this.browser.newPage();
+      this.pages = this.pages || {};
+      await this.page.goto(env.getBaseUrl());
+      const loginPage = new LoginPage(this.page);
+      await loginPage.waitForPageLoad();
+      await loginPage.loginAsUserType(userType);
+    } catch (err2) {
+      // rethrow original error for visibility
+      throw err;
+    }
+  }
 });
 
 // Step: Verify that the Admin is on the Admin Dashboard
