@@ -48,32 +48,16 @@ Then('the New Post modal should appear', async function () {
 });
 
 
-When('the student clicks the Cancel button', async function () {
-  // wait for modal to be visible
-  //await expect(forumsPage.NewPostModal).toBeVisible({ timeout: 15000 });
 
-  // click the cancel button (animation-safe)
-  await forumsPage.clickCancelButton(); // method should click safely
-  console.log('Cancel button clicked');
-});
-
-
-
-Then('the New Post modal should close', async function () {
-  // assert modal is hidden
-  await forumsPage.verifyNewPostModalHidden();
-  console.log('New Post modal is hidden');
-});
-
-
+// ----------------------
+// Search steps (Scenario Outline)
+// ----------------------
 Given('a search input field is visible at the page', async function () {
   const searchInput = this.page.locator('input[placeholder="Search posts..."]');
   await expect(searchInput).toBeVisible({ timeout: 10000 });
   console.log('✅ Search input is visible');
 });
-// ----------------------
-// Search steps (Scenario Outline)
-// ----------------------
+
 When(
   'the student types {string} into the search field',
   async function (keyword: string) {

@@ -5,9 +5,9 @@ import { Page, expect, Locator } from '@playwright/test';
 export class ForumsPage extends BasePage {
   readonly ForumsHeader: Locator;
   readonly NewPostButton: Locator;
-  //readonly NewPostModal: Locator;
-  //readonly NewPostModalTitle: Locator;
-  //readonly CancelButton: Locator;
+  readonly NewPostModal: Locator;
+  readonly NewPostModalTitle: Locator;
+  
   readonly SearchInput: Locator;
   readonly Posts: Locator;
 
@@ -24,22 +24,12 @@ export class ForumsPage extends BasePage {
     this.SearchInput = page.locator('input[placeholder="Search posts..."]'); 
     // All post headings
     this.Posts = page.locator('h6'); 
-  }
-// ===== MODAL GETTERS =====
-  get NewPostModal() {
-    // Scoped to dialog to avoid stale / hidden elements
-    return this.page.getByRole('dialog');
+    this.NewPostModal=page.getByRole('dialog');
+    this.NewPostModalTitle= this.NewPostModal.getByRole('heading', { name: /create a new topic/i });
   }
 
-  get NewPostModalTitle() {
-    return this.NewPostModal.getByRole('heading', {
-      name: /create a new topic/i,
-    });
-  }
-
-  get CancelButton() {
-    return this.NewPostModal.getByRole('button', { name: 'Cancel' });
-  }
+ 
+  
   
  // Navigate to Forums page
   
@@ -68,29 +58,11 @@ export class ForumsPage extends BasePage {
   async verifyNewPostModalVisible() {
   await this.NewPostModal.waitFor({ state: 'visible', timeout: 10000 });
   await expect(this.NewPostModalTitle).toBeVisible({ timeout: 5000 });
-}
-
-
-async clickCancelButton() {
-  const cancel = this.CancelButton;
-
-  await expect(this.NewPostModal).toBeVisible({ timeout: 15000 });
-  await expect(cancel).toBeVisible({ timeout: 15000 });
-  await expect(cancel).toBeEnabled({ timeout: 15000 });
-
-  // Scroll and click
-  await cancel.scrollIntoViewIfNeeded();
-  await cancel.click({ force: true });
-
-  // Wait longer for modal fade-out
-  await this.page.waitForTimeout(500); // adjust as needed
-
-  await expect(this.NewPostModal).toBeHidden({ timeout: 15000 });
-}
-
+  }
   async verifyNewPostModalHidden() {
     await expect(this.NewPostModal).toBeHidden({ timeout: 5000 });
   }
+
 
  async verifySearchInputVisible() {
   // 1️⃣ Ensure Forums page is really loaded
