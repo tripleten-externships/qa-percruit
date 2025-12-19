@@ -33,7 +33,27 @@ Feature: Percuit Website Student-Connect-Forums Test
   | Networking               |
   | NonExistentKeyword       |
 
-   
+ @forums
+  Scenario Outline: User filters posts by topic and sees the button highlighted
+  Given the student is authenticated in the system
+  And the student is on the Forums page
+  And the topic filter options are visible
+  When the student clicks the "<topic>" topic filter
+  Then the "<topic>" topic filter button should appear selected
+  And only posts tagged with "<topic>" should be displayed
+  And posts from other topics should be hidden
+
+Examples:
+  | topic           |
+  | Interview-Prep  |
+  | Resume          |
+  | Career-Advice   |
+  | Job-Search      |
+  | Salary          |
+  | Networking      |
+  | Technical       |
+  | Behavioral      |
+
 
   @wip
   Scenario Outline: User filters posts by category

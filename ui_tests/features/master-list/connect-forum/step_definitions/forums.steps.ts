@@ -79,6 +79,46 @@ Then('only posts containing {string} are displayed', async function (keyword: st
   await forumsPage.verifyNonMatchingPostsAreHidden(keyword);
 });
 
+//Forum Topic Filter Steps
+Given('the topic filter options are visible', async function () {
+  // Example topics that should always be present
+  const topics = [
+    'Interview-Prep',
+    'Resume',
+    'Career-Advice',
+    'Job-Search', 
+    'Salary',
+    'Networking',
+    'Technical',
+    'Behavioral'
+  ];
+
+  for (const topic of topics) {
+    const button = forumsPage.topicButton(topic);
+    await expect(button).toBeVisible({ timeout: 10000 });
+  }
+});
+
+When('the student clicks the {string} topic filter', async function (topic: string) {
+  await forumsPage.clickTopic(topic);
+});
+
+Then('the {string} topic filter button should appear selected', async function (topic: string) {
+  await forumsPage.verifyButtonHighlighted(topic);
+});
 
 
+Then('only posts tagged with {string} should be displayed', async function (topic: string) {
+  await forumsPage.verifyPostsForTopic(topic);
+});
 
+Then('posts from other topics should be hidden', async function () {
+  const posts = forumsPage.forumPosts();
+  const count = await posts.count();
+
+  for (let i = 0; i < count; i++) {
+    const post = posts.nth(i);
+    const tags = await forumsPage.postTopic(post).allTextContents();
+    expect(tags.length).toBeGreaterThan(0);
+  }
+});

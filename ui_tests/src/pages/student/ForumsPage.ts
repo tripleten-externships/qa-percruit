@@ -10,6 +10,8 @@ export class ForumsPage extends BasePage {
   
   readonly SearchInput: Locator;
   readonly Posts: Locator;
+ 
+  
 
   
   constructor(page: Page) {
@@ -26,10 +28,26 @@ export class ForumsPage extends BasePage {
     this.Posts = page.locator('h6'); 
     this.NewPostModal=page.getByRole('dialog');
     this.NewPostModalTitle= this.NewPostModal.getByRole('heading', { name: /create a new topic/i });
+
+  }
+  
+
+  // Dynamically get topic button
+  topicButton(topic: string): Locator {
+    return this.page.getByRole('button', { name: topic }).first();
   }
 
- 
+  // Locator for forum posts
+  forumPosts(): Locator {
+    return this.page.locator('.forum-post'); // adjust to your actual post container
+  }
+
+  // Locator for post topic tags
+  postTopic(post: Locator): Locator {
+    return post.locator('.post-topic'); // adjust to your actual post topic class
+  }
   
+
   
  // Navigate to Forums page
   
@@ -106,12 +124,34 @@ export class ForumsPage extends BasePage {
   return true; // posts found
 }
 
-
+// Verify non-matching posts are hidden
   async verifyNonMatchingPostsAreHidden(keyword: string) {
   const nonMatchingPosts = this.Posts.filter({ hasNotText: keyword });
   await expect(nonMatchingPosts).toHaveCount(await nonMatchingPosts.count());
 }
 
+// ===== TOPIC FILTER METHODS =====
+// ===== TOPIC FILTER METHODS =====
+
+async clickTopic(topic: string) {
+  await this.topicButton(topic).click();
+  await this.page.waitForTimeout(300); // UI animation
+}
+
+async verifyButtonHighlighted(topic: string) {
+  const classList = await this.topicButton(topic).getAttribute('class');
+  expect(classList).toMatch(/MuiChip-filledPrimary|selected/);
+}
+
+async verifyPostsForTopic(topic: string) {
+  const posts = this.forumPosts();
+  const count = await posts.count();
+
+  for (let i = 0; i < count; i++) {
+    const post = posts.nth(i);
+    const tags = await this.postTopic(post).allTextContents();
+    expect(tags).toContain(topic);
+  }
 }
 
 
@@ -120,4 +160,17 @@ export class ForumsPage extends BasePage {
 
 
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
