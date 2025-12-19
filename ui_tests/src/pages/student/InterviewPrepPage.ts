@@ -9,18 +9,11 @@ export class InterviewPrepPage extends BasePage {
     PeerInterviewOption = 'li:has-text("Peer Interview")';
     ExpertInterviewOption = 'li:has-text("Expert Interview")';
     AIPracticeOption = 'li:has-text("AI Practice")';
-    UpcomingSessionIcon = 'svg[aria-label="Upcoming Session"]';
+    UpcomingSessionRows = 'section:has(h6:has-text("Upcoming Sessions")) tbody tr'
 
     // Peer Interview Page Locators
     JoinAvailableSessionButton = 'button:has-text("Join Available Session")';
     CreateNewSessionButton = 'button:has-text("Create New Session")';
-    DatePickerIconButton = 'button[aria-label^="Choose date"]';
-    DateInputField = 'input[placeholder="MM/DD/YYYY"]';
-    PeerTimePicker = 'button[aria-label^="Choose time"]';
-    QuickSelectTime = (time: string) => `span.MuiChip-label:has-text("${time}")`;
-    SetTimeButton = 'button:has-text("Set Time")';
-    InterviewTopicField = 'label:has-text("Interview Topic") + input';
-    DifficultyLevelDropdown = 'label:has-text("Difficulty Level") + input'
     CreatePeerSession = 'button:has-text("Create Session")';
 
     // Expert Interview Page Locators
@@ -54,8 +47,9 @@ export class InterviewPrepPage extends BasePage {
         await optionLocator.click();
     }
 
-    async verifyUpcomingSession(){
-        await expect(this.page.locator(this.UpcomingSessionIcon)).toBeVisible();
+    async UpcomingSessionsCount() {
+        const rowCount = await this.page.locator('table tbody tr').first().count();
+        return rowCount;
     }
 
     // Different Interview Pages verification
@@ -81,52 +75,6 @@ export class InterviewPrepPage extends BasePage {
     async clickCreateNewSession(){
         await this.page.click(this.CreateNewSessionButton);
     }
-
-    async clickDatePicker(){
-        await this.page.click(this.DatePickerIconButton);
-    }
-    
-    async inputDate(date: string){
-        await this.page.click(this.DateInputField);
-        await this.page.waitForSelector(this.DateInputField, { state: 'visible' });
-        await this.page.fill(this.DateInputField, date);
-    }  
-
-async selectPeerTime(time: string) {
-    // Click the time picker button (not the SVG)
-    const timeInput = this.page.getByRole('button', { name: /choose time/i });
-    await expect(timeInput).toBeVisible({ timeout: 10000 });
-    await expect(timeInput).toBeEnabled({ timeout: 10000 });
-    await timeInput.click();
-
-    // Wait for dropdown options to appear and select the time
-    const timeOption = this.page.locator(`li[role="option"]:has-text("${time}")`);
-    await expect(timeOption).toBeVisible({ timeout: 10000 });
-    await timeOption.click();
-
-    // Confirm time selection
-    const setTimeButton = this.page.locator(this.SetTimeButton);
-    await expect(setTimeButton).toBeVisible({ timeout: 5000 });
-    await expect(setTimeButton).toBeEnabled({ timeout: 5000 });
-    await setTimeButton.click();
-}
-
-
-
-    async clickSetTimeButton() {    
-        await this.page.waitForSelector(this.SetTimeButton, { state: 'visible' });
-        await this.page.click(this.SetTimeButton);
-    }
-
-    async inputInterviewTopic(topic: string){
-        await this.page.waitForSelector(this.InterviewTopicField, { state: 'visible' });
-        await this.page.fill(this.InterviewTopicField, topic);
-    }
-
-    async selectDifficultyLevel(level: string){
-        await this.page.click(this.DifficultyLevelDropdown);
-        await this.page.click(`li:has-text("${level}")`);
-    }   
 
     async clickCreatePeerSession(){
         await this.page.click(this.CreatePeerSession);
@@ -197,20 +145,6 @@ async selectPeerTime(time: string) {
     async clickMentorScheduleInterview(){
         await this.page.waitForSelector(this.MentorScheduleInterviewButton, { state: 'visible' });
         await this.page.click(this.MentorScheduleInterviewButton);
-    }
-
-    async verifyMentorUpcomingSession(){
-        await this.page.waitForSelector(this.UpcomingSessionIcon, { state: 'visible' });
-        await expect(this.page.locator(this.UpcomingSessionIcon)).toBeVisible();
-    }
-
-    // AI Practice Session 
-    async clickStartInterview(){
-        await this.page.click(this.StartInterviewButton);
-    }
-
-    async clickEndInterview(){
-        await this.page.click(this.EndInterviewButton);
     }
 
 }

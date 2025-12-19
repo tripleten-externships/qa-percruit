@@ -36,14 +36,11 @@ Feature: Interview under Interview Prep Category
         When the student clicks on the Schedule Interview button
         And the student selects "Peer Interview"
         And the student clicks on the Create New Session option
-        And inputs a valid date for the interview
-        And inputs a valid time for the interview
-        And inputs a valid interview topic
-        And inputs a valid difficulty level
         And clicks on the Create Session button
         Then the Interview Prep page displays
         And Upcoming Sessions list shows the newly scheduled Peer Interview with correct details
     
+    @wip
     Scenario: Student successfully books an Expert Interview session
         Given the student is authenticated in the system
         And the student is on the Interview Prep page

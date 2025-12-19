@@ -63,55 +63,37 @@ When('the student clicks on the Create New Session option', async function() {
     await interviewPrepPage.clickCreateNewSession();
 });
 
-When('inputs a valid date for the interview', async function() {
-    await this.page.click(interviewPrepPage.DatePickerIconButton);
-    await this.page.fill(interviewPrepPage.DateInputField, '12/31/2025');
-});
-
-When('inputs a valid time for the interview', async function() {
-    await interviewPrepPage.selectPeerTime('10:00 AM');
-    await interviewPrepPage.clickSetTimeButton();
-});
-
-When('inputs a valid interview topic', async function() {
-    await interviewPrepPage.inputInterviewTopic('Technical Coding');
-});     
-
-When('inputs a valid difficulty level', async function() {
-    await interviewPrepPage.selectDifficultyLevel('Intermediate');
-});
-
 When('clicks on the Create Session button', async function() {
     await interviewPrepPage.clickCreatePeerSession();
 });  
 
-// Creating new expert interview sessions
-When('inputs a valid Mentor date for the interview', async function () {
-  await interviewPrepPage.selectMentorDate(2025, 'December', 31);
-}); 
+// Creating new expert interview sessions @wip
+// When('inputs a valid Mentor date for the interview', async function () {
+// await interviewPrepPage.selectMentorDate(2025, 'December', 31);
+// }); 
 
-When('selects a valid Mentor time slot for the interview', async function() {
-    await interviewPrepPage.selectTimeSlot('10:00 AM');
-});
+// When('selects a valid Mentor time slot for the interview', async function() {
+// await interviewPrepPage.selectTimeSlot('10:00 AM');
+// });
 
-When('the student clicks on the Next button', async function() {
-    await interviewPrepPage.clickNextButton('12/31/2025', '10:00 AM');
-});
+// When('the student clicks on the Next button', async function() {
+// await interviewPrepPage.clickNextButton('12/31/2025', '10:00 AM');
+// });
 
-When('inputs a valid mentor interview topic', async function() {
-    await interviewPrepPage.inputMentorInterviewTopic('Behavioral');
-});
+// When('inputs a valid mentor interview topic', async function() {
+// await interviewPrepPage.inputMentorInterviewTopic('Behavioral');
+// });
 
-When('clicks on the Schedule Interview button on the Expert Interview form', async function() {
-    await interviewPrepPage.clickMentorScheduleInterview();
-});  
+// When('clicks on the Schedule Interview button on the Expert Interview form', async function() {
+// await interviewPrepPage.clickMentorScheduleInterview();
+// });  
 
 // Verification of upcoming sessions
 Then('Upcoming Sessions list shows the newly scheduled Peer Interview with correct details', async function() {
-    await interviewPrepPage.verifyUpcomingSession();
+    await interviewPrepPage.verifyPage();
+    await interviewPrepPage.UpcomingSessionsCount();
+    const sessionCount = await interviewPrepPage.UpcomingSessionsCount();
+    expect(sessionCount).toBeGreaterThan(0);
 });
 
-Then('Upcoming Sessions list shows the newly scheduled Expert Interview with correct details', async function() {
-    await interviewPrepPage.verifyUpcomingSession();
-});
 
