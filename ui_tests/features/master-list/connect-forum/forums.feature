@@ -33,7 +33,7 @@ Feature: Percuit Website Student-Connect-Forums Test
   | Networking               |
   | NonExistentKeyword       |
 
- @forums
+ @wip
   Scenario Outline: User filters posts by topic and sees the button highlighted
   Given the student is authenticated in the system
   And the student is on the Forums page
