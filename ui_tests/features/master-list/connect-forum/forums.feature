@@ -50,6 +50,6 @@ Examples:
   | Interview-Prep           |
   | Resume                   |
   | Networking               |
-  | NonExistentKeyword       |# this one will test empty results
+  | NonExistentKeyword       |
 
    
