@@ -18,8 +18,8 @@ Scenario: Adding a new Category
 
 @wip
 Scenario: Updating an existing Category
-  When the Admin edits a coding problem in a category with valid information
-  Then the details for the coding problems will be changed successfully
+  When the Admin edits a category with valid information
+  Then the details for the category will be changed successfully
   And the updated category should be correctly displayed on the Categories page
 
 @wip
@@ -28,7 +28,7 @@ Scenario: Deletion of an existing Category
    Then the Admin should receive a message asking if they are sure they want to delete the specific category 
    And the category should no longer exist on the Categories page after confirmation
 
-@wip
+@indev
 Scenario: No Categories present
    When the Admin views the Categories tab
    And there are no existing categories

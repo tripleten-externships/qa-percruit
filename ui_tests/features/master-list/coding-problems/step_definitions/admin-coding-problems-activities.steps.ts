@@ -47,7 +47,7 @@ declare const page: Page;
         When('a Category is already selected', async function(){
             await expect(this.page.getByText('TypeScript')).toBeVisible();
             })
-        Then ('The Admin should be able to select a topic from the Topic dropdown list', async function(){
+        Then ('the Admin should be able to select a topic from the Topic dropdown list', async function(){
             await this.page.getByRole('combobox').nth(1).click();
             await this.page.getByRole('option', { name: 'Sample Topic' }).click();
         })
@@ -140,7 +140,8 @@ declare const page: Page;
                 
             
         })
-        Then('the Admin selects a topic from the existing corresponding Topic dropdown list', async function(){
+        Then('the Admin selects a topic from 
+        await page.locator('div').filter({ hasText: /^BDDBDD$/ }).first().click();the existing corresponding Topic dropdown list', async function(){
                 
             
         })
@@ -151,26 +152,25 @@ declare const page: Page;
 
         })*/
         Then('the Admin should be able to delete an existing activity after confirmation of deletion', async function(){
-                this.page.once('dialog', (dialog: { message: () => any; dismiss: () => Promise<any>; }) => {
-                    console.log(`Dialog message: ${dialog.message()}`);
-                   
+               await this.page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
+                this.page.once('dialog', (dialog: { message: () => any; accept: () => Promise<any>; }) => {
+                console.log(`Dialog message: ${dialog.message()}`);
+                 dialog.accept().catch(() => {});
+             });
+             await this.page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
                 
-            });
-            await this.page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
-            
-
-       
-            
-        })
+            });          
+          
+        
         Then('the topic should no longer exist on the Units page', async function(){
             await this.page.getByRole('tab', { name: 'Units' }).click();    
             await expect(this.page.locator('#coding-admin-tabpanel-2')).toContainText('0 Activities');
         })
 
 //scenario no units present
-        When('The Admin views the Activities tab', async function(){
+        When('the Admin views the Activities tab', async function(){
 
-            await page.getByRole('tab', { name: 'Activities' }).click();
+            await this.page.getByRole('tab', { name: 'Activities' }).click();
         
         })
 
@@ -179,6 +179,6 @@ declare const page: Page;
             await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
 
         })
-        Then('the admin should not see any activites displayed on the activiites page', async function(){
+        Then('the Admin should not see any activites displayed on the Activiites page', async function(){
             
         })
