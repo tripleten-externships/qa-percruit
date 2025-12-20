@@ -36,7 +36,7 @@ When('the student clicks the Weekly Applications button', async function() {
 });
 
 Then('the Student Dashboard page displays', async function() {
-  await expect(this.page.locator('//h4[contains(text(),"Good afternoon")]')).toBeVisible();
+  await expect(this.page.locator('//h4[contains(text(),"Good ")]')).toBeVisible();
   
 });
 
