@@ -10,7 +10,7 @@ Scenario: View existing categories
   When the Admin navigates to the Coding Problems page 
   Then the Admin should see all existing coding problems grouped by category
 
- @indev
+ @wip
 Scenario: Adding a new Category
   When the Admin adds a new category with valid information
   Then the new category should be visible along with the other Coding Problems categories

@@ -52,6 +52,8 @@ Given ('the Admin is authenticated in the system', async function () {
 
   Then('the new category should be visible along with the other Coding Problems categories', async function(){
     await this.page.getByRole('tab', { name: 'Topics' }).click();
+    await this.page.getByRole('combobox').click();
+    await this.page.getByRole('option', { name: 'Test' }).click();
     await this.page.getByRole('button', { name: 'Add Topic' }).click();
     await this.page.getByRole('textbox', { name: 'Name' }).click();
     await this.page.getByRole('textbox', { name: 'Name' }).fill('Ultramarine');
@@ -68,11 +70,12 @@ Given ('the Admin is authenticated in the system', async function () {
     await this.page.getByRole('textbox', { name: 'Description' }).fill('Chaos');
     await this.page.getByRole('button', { name: 'Save' }).click();
     await this.page.getByRole('tab', { name: 'Activities' }).click();
+    await this.page.getByRole('combobox').nth(2).click();
+    await this.page.getByRole('option', { name: 'The Warp' }).click();
     await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
   })
 
   Then('coding problems can be associated with the new category', async function(){
-    await this.page.getByRole('tab', { name: 'Topics' }).click();
     await this.page.getByRole('button', { name: 'Add Activity' }).click();
     await this.page.getByRole('tab', { name: 'Basic Info' }).click();
     await this.page.getByRole('textbox', { name: 'Title' }).click();
