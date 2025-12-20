@@ -27,6 +27,20 @@ When('the user navigates to the Student Dashboard page', async function() {
   await expect(this.page).toHaveURL(/dashboard/);
 });
 
+When('the student clicks the "Struggling" button', async function() {
+  await this.page.locator('//span[contains(text(),"Struggling")]').click();
+});
+
+When('the student clicks the Weekly Applications button', async function() {
+  await this.page.locator('//h6[contains(text(),"Weekly Applications")]').click();
+});
+
 Then('the Student Dashboard page displays', async function() {
-  await this.page.locator('//h4[contains(text(),"Good afternoon")]');
+  await expect(this.page.locator('//h4[contains(text(),"Good afternoon")]')).toBeVisible();
+  
+});
+
+Then('the Weekly Applications dialog should display', async function() {
+  await expect(this.page.locator('//h6[contains(text(),"This Week\'s Job Applications")]')).toBeVisible();
+  
 });
