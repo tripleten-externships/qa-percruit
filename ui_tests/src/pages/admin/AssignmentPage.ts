@@ -16,6 +16,10 @@ export class AssignmentPage extends BasePage {
         await this.page.waitForLoadState('networkidle');
     }
 
+    async waitForDashboard(timeout = 30000) {
+        await expect(this.page.locator('h1:has-text("Admin Dashboard")')).toBeVisible({ timeout });
+  }
+
 // Create a new mentor-student assignment
     async assignStudentToMentor(studentText: string, mentorText: string) {
         // Select student

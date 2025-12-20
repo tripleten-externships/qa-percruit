@@ -3,7 +3,7 @@ Feature: Assignment Table Loads with the correct row of Mentor/Student/Status/Da
   As an admin user
   I want to verify that the assignment table loads correctly
   So that I can view all mentor-student assignments accurately
-@indev
+
   Scenario: Assignment table loads successfully with data
     Given the admin is logged into the system to test assignment
     And the admin navigates to the Assignments page

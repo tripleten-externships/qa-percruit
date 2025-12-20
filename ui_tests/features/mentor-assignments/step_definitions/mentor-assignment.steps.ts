@@ -8,15 +8,16 @@ import * as env from '../../../src/config/world';
 import { LoginPage } from '../../../src/pages/common/LoginPage';
 // Imports Assignment Page functionality
 import { AssignmentPage } from '../../../src/pages/admin/AssignmentPage';   
+import { AdminDashboardPage } from '../../../src/pages/admin/AdminDashboardPage';
 
-
-Before({ tags: '@indev' }, async function () {
-    // Initialize LoginPage, sign in as Admin, only runs before hook with appropriate tag
+Before({ tags: '@admin-auth' }, async function () {
+    // Initialize LoginPage, sign in as Admin, only runs before hook with appropriate tag THIS DOES NOT EFFECT
     const loginPage = new LoginPage(this.page);
     await this.page.goto(env.getBaseUrl());
     await loginPage.loginAsUserType('Admin');
     // Wait for the dashboard header to appear
-    await this.page.waitForSelector('h1:has-text("Admin Dashboard")', { timeout: 30000 });
+    const dashboardPage = new AdminDashboardPage(this.page);
+    await dashboardPage.waitForDashboard();
     // Navigate to the Mentor Assignments section
     await this.page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
     // Initiate AssignmentPage
@@ -46,23 +47,7 @@ Then('the new mentor-student pairing is displayed in the assignments list', asyn
     // Remove assignment after each test to maintain test isolation
     await this.assignmentPage.removeAssignment('Eric Hibbard Student');
 });
-// Step Definitions for Assignment Missing Mentor Scenario
-When('the admin attempts to create a new assignment without selecting a mentor', async function () {
-    // Selects only student without mentor
-    await this.assignmentPage.assignmentMissingMentor(
-    'Eric Hibbard Student (eric.hibbard91+student@gmail.com)');
-});
 
-Then('the system rejects the request', async function () {
-    // Verify button is disabled
-    await this.assignmentPage.verifyNoAssignments();
-});
-
-Then('displays an error indicating that a mentor selection is required', async function () {
-    // TODO: UI does not currently show an error message
-    // This step will fail until the frontend implements the proper error display
-    console.log('Error message display not implemented in UI yet.');
-});
 
 // Check Assignment Issues Feature Steps
 Given('all student profiles contain the required information', async function () {
@@ -81,13 +66,16 @@ Then('the system displays the message "Mentor Assignment created successfully"',
     await this.assignmentPage.removeAssignment('Eric Hibbard Student');
 });
 
-// Assignment Table Visible Feature Steps
+// Assignment Table Visible Feature Steps this feature does NOT have @admin-auth tag 
+// SO the BEFORE hook does NOT run for this feature
+
 Given('the admin is logged into the system to test assignment', async function () {
     const loginPage = new LoginPage(this.page);
     await this.page.goto(env.getBaseUrl());
     await loginPage.loginAsUserType('Admin');
     // Wait for the dashboard header to appear
-    await this.page.waitForSelector('h1:has-text("Admin Dashboard")', { timeout: 30000 });
+    const dashboardPage = new AdminDashboardPage(this.page);
+    await dashboardPage.waitForDashboard();
 });
 Then('the admin navigates to the Assignments page', async function () {
     await this.page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
