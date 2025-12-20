@@ -7,27 +7,26 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../../src/config/world';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import {ForumPage } from '../../../../src/pages/student/ForumPage';
+import * as env from '../../../src/config/world';
+import { LoginPage } from '../../../src/pages/common/LoginPage';
+import { ResumeManagerPage } from '../../../src/pages/student/ResumeManagerPage';
 
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
-let forumPage: ForumPage;
+let resumeManagerPage: ResumeManagerPage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  forumPage= new ForumPage(this.page);
+  resumeManagerPage = new ResumeManagerPage(this.page);
 });
 
 
-When('the user navigates to the Forum page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
-});
+ When('the user navigates to the Resume Manager page', async function () {
+  await this.page.goto(env.getBaseUrl() + 'resume-manager');
+  await expect(this.page).toHaveURL(/resume-manager/);
+  });
 
-Then('the Forum page displays', async function() {
-  await forumPage.verifyPage();
+Then('the Resume Manager page displays', async function() {
+   await resumeManagerPage.verifyPage(); 
 });
-
