@@ -11,7 +11,7 @@ When the user navigates to the Student Dashboard page
 Then the Student Dashboard page displays
 
 Scenario: Student clicks Weekly Applications and sees the Weekly Applications dialog
-When Student clicks Weekly Applications and sees the Weekly Applications dialog to the log
+When I add the title Student clicks Weekly Applications and sees the Weekly Applications dialog to the log
 When I add the title Student clicks Weekly Applications and sees the Weekly Applications dialog to the log
 And the student clicks the Weekly Applications button
 Then the Weekly Applications dialog should display
