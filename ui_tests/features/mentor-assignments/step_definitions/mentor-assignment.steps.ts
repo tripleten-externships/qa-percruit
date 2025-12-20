@@ -10,7 +10,7 @@ import { LoginPage } from '../../../src/pages/common/LoginPage';
 import { AssignmentPage } from '../../../src/pages/admin/AssignmentPage';   
 
 
-Before({ tags: '@admin-auth' }, async function () {
+Before({ tags: '@indev' }, async function () {
     // Initialize LoginPage, sign in as Admin, only runs before hook with appropriate tag
     const loginPage = new LoginPage(this.page);
     await this.page.goto(env.getBaseUrl());
@@ -82,7 +82,7 @@ Then('the system displays the message "Mentor Assignment created successfully"',
 });
 
 // Assignment Table Visible Feature Steps
-Given('the admin is logged into the system', async function () {
+Given('the admin is logged into the system to test assignment', async function () {
     const loginPage = new LoginPage(this.page);
     await this.page.goto(env.getBaseUrl());
     await loginPage.loginAsUserType('Admin');
