@@ -5,8 +5,7 @@ import { BasePage } from './BasePage';
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
   
-  // Define element locators for Login page
-  readonly EMAIL_LOCATOR = 'input[type="email"]';
+  readonly EMAIL_LOCATOR = '//input[@placeholder="user@example.com"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
   readonly SIGNIN_LOCATOR = 'button:has-text("Sign In")';
   readonly FORGOT_PASSWORD_LOCATOR = 'button:has-text("Forgot password?")';
@@ -42,21 +41,7 @@ export class LoginPage extends BasePage {
     console.log("Completed POM Login method");
   }
 
-  // Predefined login method for Student user type using credentials from environment config
-  async loginAsStudent() {
-    await this.loginAndVerify(env.getStudentEmail(), env.getStudentPassword());
-  }
-  // Predefined login method for Admin user type using credentials from environment config
-  async loginAsAdmin() {
-    await this.loginAndVerify(env.getAdminEmail(), env.getAdminPassword());
-  }
-  // Predefined login method for Mentor user type using credentials from environment config
-  async loginAsMentor() {
-    await this.loginAndVerify(env.getMentorEmail(), env.getMentorPassword());
-  }
-
-  async loginAsUserType(userType: string, string: any) {
-    await this.loginAsUserType(userType: string) {
+ async loginAsUserType(userType: string) {
     console.log('Logging in as user type: '+userType);
     switch (userType) {
       case 'Student':
