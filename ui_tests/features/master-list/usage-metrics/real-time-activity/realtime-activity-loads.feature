@@ -1,3 +1,4 @@
+@wip
 Feature: Real-time Activity Tab
   As a user
   Verify that the Real-time Activity tab load correctly
