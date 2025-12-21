@@ -4,11 +4,7 @@ import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
-  async gotoLoginPage(): Promise<void> {
-    await this.page.goto(env.getBaseUrl());
-  }
-
-
+  
   // Define element locators for Login page
   readonly EMAIL_LOCATOR = 'input[type="email"]';
   
@@ -60,14 +56,6 @@ export class LoginPage extends BasePage {
   async loginAsMentor() {
     await this.loginAndVerify(env.getMentorEmail(), env.getMentorPassword());
   }
-
-  async openBasicInfoSection(): Promise<void> {
-
-  await this.page.getByRole('heading', { name: 'Basic Information' }).click();
-  }
-
-async gotoProfileSettings(): Promise<void> {
-await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');}
 
   async loginAsUserType(userType: string) {
  async loginAsUserType(userType: string) {
