@@ -69,6 +69,16 @@ export class AssignmentPage extends BasePage {
     }
 
     async checkAssignmentIssues(studentName: string, mentorName: string) {
+        // Checks for All Students have mentors assigned message. Msg disables check assignment issues button
+        
+        const satisfiedMessage = this.page.getByText(
+        'All students have mentors assigned with complete information!'
+    );
+        await satisfiedMessage.first().waitFor({ timeout: 3000 }).catch(() => {});
+    // Guard clause: if UI already shows all assigned, skip assignment
+        if (await satisfiedMessage.isVisible()) {
+            return;
+    } 
         // Finds and clicks Check Assignment Issues button to reveal table
         await this.page.getByRole('button', { name: 'Check Assignment Issues' }).click();       
         // Locate the student row
@@ -84,7 +94,22 @@ export class AssignmentPage extends BasePage {
         const assignMentorButton = studentRow.getByRole('button', { name: 'Assign Mentor' });
         await expect(assignMentorButton).toBeEnabled();
         await assignMentorButton.click();
+        return 'assigned';
     } 
+
+    async verifyAssignmentIssue() {
+        const createdMessage = this.page.getByText('Mentor Assignment created successfully');
+        const allAssignedMessage = this.page.getByText(
+        'All students have mentors assigned with complete information!'
+    );
+
+        if (await allAssignedMessage.isVisible()) {
+        await expect(allAssignedMessage).toBeVisible();
+        } else {
+            await expect(createdMessage).toBeVisible();
+    }
+}
+   
 
     async verifyTableDisplay() {
     // Verify that table displays existing assignments

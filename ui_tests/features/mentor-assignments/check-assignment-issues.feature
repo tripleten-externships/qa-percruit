@@ -1,4 +1,6 @@
-@admin-auth @indev
+
+#Tag for Before Hook. DO NOT REMOVE
+@admin-auth 
 Feature: Incomplete Mentor Info Tool
   As an admin user
   I want to identify students with missing profile information
@@ -9,3 +11,4 @@ Feature: Incomplete Mentor Info Tool
     When the admin accesses the Incomplete Info tool
     Then the system displays the message "Mentor Assignment created successfully"
 
+#https://qaexternship1.atlassian.net/browse/PER-338
