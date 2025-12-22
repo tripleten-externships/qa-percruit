@@ -8,7 +8,6 @@ import { chromium, Browser, Page, expect,test } from '@playwright/test';
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 import { ProfileSettingsPage } from '../../../../src/pages/admin/ProfileSettingPage';
-import { profile } from 'console';
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
 let profilePage: ProfileSettingsPage;
@@ -18,18 +17,15 @@ const timezone = ' Eastern Time (US & Canada)';
 
 
 // Background:
-Given('the Admin is authenticated in the system', async function() {
+
+
++Given('the Admin is authenticated in the system', async function() {
     // Login as Admin
       loginPage = new LoginPage(this.page);
-      profilePage = new ProfileSettingsPage(this.page);
+      await this.page.goto(process.env.BASE_URL);
       await loginPage.loginAsUserType('Admin');
+      profilePage = new ProfileSettingsPage(this.page);
 }); 
-
-Given('the Admin is on the Profile Settings page', async function() {
-      profilePage = new ProfileSettingsPage(this.page);
-
-      await loginPage.loginAsUserType('Admin');
-});
 
 And('the Admin is on the Profile Settings page', async function() {
   // Navigate to Profile Settings page
@@ -39,7 +35,8 @@ And('the Admin is on the Profile Settings page', async function() {
 
 And('the Admin is viewing the Basic Information section', async function() {
   // Veify Admin is in the Basic Information section
-      await profilePage.openBasicInfoSection();     
+      await profilePage.openBasicInfoSection();  
+      await expect(this.page.getByRole('heading', { name: 'Basic Information' })).toBeVisible();         
     
 });
 
@@ -82,6 +79,7 @@ When('the Admin updates the Full Name and Location with valid information', asyn
 
       await profilePage.updateFullName('John Joe');
       await profilePage.updateLocation('Los Angeles, USA');
+      await this.page.waitForLoadState('networkidle', { timeout: 30000 });
 
 });
 
@@ -111,10 +109,12 @@ Then('the data should remain consistent after a page refresh', async function() 
 Given('the Phone Number field already contains a valid value', async function() {
   // The Phone Number field has already a valid value
       await profilePage.phoneNumber().toHaveValue('123-456-7890');
+      await expect(profilePage.getPhoneNumber()).toBe('123-456-7890');
 
 When('the Admin clears the Phone Number field in the Basic Information section', async function() {
   // Admin clears the phone number field
-      await profilePage.phoneNumber().fill('');
+      // await profilePage.phoneNumber().fill('');
+      await profilePage.updatePhoneNumber('');
 });
 
 Then('the change should automatically save as the Admin types', async function() {
@@ -158,7 +158,6 @@ When('navigates to another settings tab', async function() {
   // Admin go to another tab in the profile setting and this case is the proffesional tab
       await profilePage.gotoProfessionalTab();
       await expect(this.page).toHaveURL(/.*\/profile\?tab=professional/);
-
 
 });
 
