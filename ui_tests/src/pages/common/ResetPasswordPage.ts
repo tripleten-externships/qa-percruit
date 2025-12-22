@@ -1,54 +1,64 @@
-import { expect, Page } from '@playwright/test';
+import { expect,Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { LoginPage } from './LoginPage';
+import * as env from '../../config/world';
 
 export class ResetPasswordPage extends BasePage {
   private loginPage: LoginPage;
-  // Locators
-  EMAIL_INPUT = 'user@example.com';
-  RESET_BUTTON = 'Send Reset Link';
-  SUCCESS_MESSAGE = 'Password reset link sent';
+   
+// LOCATORS (ALL CAPS)
 
+  EMAIL_INPUT: Locator;
+  RESET_BUTTON: Locator;
+  SUCCESS_MESSAGE:Locator;
+  COOKIES_CONTAINER:Locator;
+  COOKIES_X_BUTTON:Locator;
+  RESET_PAGE_HEADING:Locator;
+
+// Constructor to initialize the page object
   constructor(page: Page) {
     super(page);
     this.loginPage = new LoginPage(page);
+
+    // Initialize locators
+    this.EMAIL_INPUT = this.page.getByRole('textbox', { name: 'user@example.com' });
+    this.RESET_BUTTON = this.page.getByRole('button', { name: 'Send Reset Link' });
+    this.SUCCESS_MESSAGE = this.page.getByText('Password reset link sent');
+    this.COOKIES_CONTAINER = this.page.getByText('This website uses cookies');
+    this.COOKIES_X_BUTTON = this.page.getByRole('button', { name: '×' });
+    this.RESET_PAGE_HEADING = this.page.getByRole('heading', { name: 'Reset Password' });
+
   }
 
-    async isOnLoginPage() {
-        await this.page.getByRole('heading', { name: 'Welcome to Percruit' }).click();
-        return true;
+  //Method to close cookies pop up
+  async closeCookiesPopupIfPresent() {
+    if (await this.COOKIES_CONTAINER.isVisible()) {
+      await this.COOKIES_X_BUTTON.click();
     }
+  }
+  // Method to confirm user is on reset page
+  async isOnResetPage() {
+    await expect(this.RESET_PAGE_HEADING).toBeVisible();
 
-    async makeForgotPasswordVisible() {
-        await this.page.locator('div').filter({ hasText: '×🍪 This website uses cookies' }).nth(2).click();
-        await this.page.getByRole('button', { name: '×' }).click();
-        
-    }
-
-    async isOnResetPage() {
-        await this.page.getByRole('heading', { name: 'Reset Password' }).click();
-    }
-
-    async enterEmailFieldVisible() {
-        await expect(this.page.getByRole('textbox', { name: 'user@example.com' } )).toBeVisible();
-    }
-
-    async submitResetRequest() {
-        await this.page.getByRole('textbox', { name: 'user@example.com' }).click();
-        await this.page.getByRole('textbox', { name: 'user@example.com' }).fill('cheyannejaileen16+admin@gmail.com');
-        await this.page.getByRole('button', { name: 'Send Reset Link' }).click();
-    }
-
-    async successMessageVisible() {
-        await expect(this.page.getByText('Password reset link sent')).toBeVisible();
-  
-    } 
-
-    async goToResetPage() {
-        await this.isOnLoginPage();
-        await this.makeForgotPasswordVisible();
-        await this.loginPage.clickForgotPassword();
-        await this.isOnResetPage();
-    }
-
+  }
+  // Method to confirm email field is present
+  async emailFieldIsVisible() {
+    await expect(this.EMAIL_INPUT).toBeVisible();
+  }
+  //Method to submit reset password request
+  async submitResetRequest() {
+    await this.EMAIL_INPUT.fill(env.getAdminEmail());
+    await this.RESET_BUTTON.click();
+  }
+  // Method to confirm user see's success message 
+  async successMessageIsVisible() {
+    await expect(this.SUCCESS_MESSAGE).toBeVisible({timeout: 10000});
+  }
+   
+  //Method to go to reset page from login page
+  async goToResetPasswordPage() {
+    await this.closeCookiesPopupIfPresent();
+    await this.loginPage.clickForgotPassword();
+    await this.isOnResetPage();
+  }
 }
