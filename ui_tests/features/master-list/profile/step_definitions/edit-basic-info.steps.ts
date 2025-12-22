@@ -12,7 +12,7 @@ import { profile } from 'console';
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
 let profilePage: ProfileSettingsPage;
-
+// Test data      
 const phoneNumber = '123-456-7890';
 const timezone = ' Eastern Time (US & Canada)';
 
@@ -20,7 +20,7 @@ const timezone = ' Eastern Time (US & Canada)';
 Before(async function() {
       loginPage = new LoginPage(this.page);
       await this.page.goto(env.getBaseUrl());
-      //await loginPage.loginAsUserType('Admin');
+      await loginPage.loginAsUserType('Admin');
       this.profilePage = new ProfileSettingsPage(this.page);
 });
          
@@ -35,11 +35,17 @@ Before(async function() {
 
 Given('the Admin is on the Profile Settings page', async function() {
       profilePage = new ProfileSettingsPage(this.page);
-  // Navigate to Profile Settings page
-      await profilePage.gotoProfileSettings();
+
+      await loginPage.loginAsUserType('Admin');
 });
 
-Given('the Admin is viewing the Basic Information section', async function() {
+And('the Admin is on the Profile Settings page', async function() {
+  // Navigate to Profile Settings page
+      await profilePage.gotoProfileSettings();
+      await expect(this.page).toHaveURL(/.*\/profile\?tab=basic-info/);
+});
+
+And('the Admin is viewing the Basic Information section', async function() {
   // Veify Admin is in the Basic Information section
       await profilePage.openBasicInfoSection();     
     
@@ -53,7 +59,6 @@ Then('the fields Full Name, Phone Number, Location, and Timezone should be edita
       await profilePage.FullnamefieldEditable();
       await profilePage.LocationfieldEditable();
       await profilePage.TimezonefieldEditable();  
-
 });
 
 
@@ -62,6 +67,7 @@ Then('the Email field should be read-only', async function() {
   // The Email field should be read only
 
       await profilePage.isEmailReadOnly();
+      await expect(this.page.locator('[data-test="input-email"]')).toBeDisabled();
 
 });
 
@@ -69,10 +75,13 @@ Then('each field should display its current value or be empty if optional', asyn
   // All fields should display current value or be empty
 
       await profilePage.getFullName();
+      await expect(profilePage.getFullName()).not.toBeNull();
       await profilePage.getPhoneNumber();
+      await expect(profilePage.getPhoneNumber()).not.toBeNull();
       await profilePage.getLocation();
+      await expect(profilePage.getLocation()).not.toBeNull();
       await profilePage.getTimezone();
-
+      await expect(profilePage.getTimezone()).not.toBeNull();
 });
 
 // Scenario: Admin updates profile details successfully
@@ -109,11 +118,11 @@ Then('the data should remain consistent after a page refresh', async function() 
 // Scenario2: Admin clears a field and decides to leave it blank
 Given('the Phone Number field already contains a valid value', async function() {
   // The Phone Number field has already a valid value
-      await this.page.phoneNumber().toHaveValue('123-456-7890');
+      await profilePage.phoneNumber().toHaveValue('123-456-7890');
 
 When('the Admin clears the Phone Number field in the Basic Information section', async function() {
   // Admin clears the phone number field
-      await this.page.phoneNumber().fill('');
+      await profilePage.phoneNumber().fill('');
 });
 
 Then('the change should automatically save as the Admin types', async function() {
@@ -156,12 +165,15 @@ When('the Admin updates one or more editable fields', async function() {
 When('navigates to another settings tab', async function() {
   // Admin go to another tab in the profile setting and this case is the proffesional tab
       await profilePage.gotoProfessionalTab();
+      await expect(this.page).toHaveURL(/.*\/profile\?tab=professional/);
+
 
 });
 
 Then('the updated values should already be saved', async function() {
     // The updated values should be saved
       await profilePage.gotoProfileSettings();
+      await expect(this.page).toHaveURL(/.*\/profile\?tab=basic-info/);
       await expect(profilePage.getFullName()).toBe('Jane Smith');
       await expect(profilePage.getLocation()).toBe('Chicago, USA');
       await expect(this.page.phoneNumber()).toHaveValue('');

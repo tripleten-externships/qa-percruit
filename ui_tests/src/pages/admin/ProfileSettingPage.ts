@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
 export class ProfileSettingsPage {
+      phoneNumber: any;
 
    
 constructor(private page: Page) {}
@@ -8,7 +9,7 @@ constructor(private page: Page) {}
 
 async gotoProfileSettings(): Promise<void> {
 
-await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=profile');
+await this.page.goto(`${process.env.BASE_URL}/profile?tab=basic-info`);
 
 }
 
@@ -112,7 +113,6 @@ return true;
  //couldnt find locator 
 
 async isEmailReadOnly(): Promise<boolean> {
-
 await this.page.getAttribute('[data-test="input-email"]', 'readonly');
 const Emailfield = this.page.locator('[data-test="input-email"]');
 await expect(Emailfield).not.toBeEditable();
@@ -121,7 +121,7 @@ return true;
 
 
  async gotoProfessionalTab(): Promise<void> {
- await this.page.goto('https://stage.tripleten.percruit.com/profile?tab=professional');}
+ await this.page.goto(`${process.env.BASE_URL}/profile?tab=professional`);}
 
 
 
