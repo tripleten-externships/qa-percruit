@@ -16,22 +16,14 @@ let profilePage: ProfileSettingsPage;
 const phoneNumber = '123-456-7890';
 const timezone = ' Eastern Time (US & Canada)';
 
-// Before hook: Launch a new browser and page before each scenario and initialize page objects
-Before(async function() {
-      loginPage = new LoginPage(this.page);
-      await this.page.goto(env.getBaseUrl());
-      await loginPage.loginAsUserType('Admin');
-      this.profilePage = new ProfileSettingsPage(this.page);
-});
-         
-// Background:
-// Given('the Admin is authenticated in the system', async function() {
-    // Login as Admin
-      //loginPage = new LoginPage(this.page);
-      //profilePage = new ProfileSettingsPage(this.page);
 
-      //await loginPage.loginAsUserType('Admin');
-// });
+// Background:
+Given('the Admin is authenticated in the system', async function() {
+    // Login as Admin
+      loginPage = new LoginPage(this.page);
+      profilePage = new ProfileSettingsPage(this.page);
+      await loginPage.loginAsUserType('Admin');
+}); 
 
 Given('the Admin is on the Profile Settings page', async function() {
       profilePage = new ProfileSettingsPage(this.page);
