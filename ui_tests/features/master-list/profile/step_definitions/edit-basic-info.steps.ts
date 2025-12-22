@@ -20,25 +20,26 @@ const timezone = ' Eastern Time (US & Canada)';
 Before(async function() {
       loginPage = new LoginPage(this.page);
       await this.page.goto(env.getBaseUrl());
-      await loginPage.loginAsUserType('Admin');
+      //await loginPage.loginAsUserType('Admin');
       this.profilePage = new ProfileSettingsPage(this.page);
 });
          
 // Background:
-Given('the Admin is authenticated in the system', async function() {
+// Given('the Admin is authenticated in the system', async function() {
     // Login as Admin
-      loginPage = new LoginPage(this.page);
+      //loginPage = new LoginPage(this.page);
+      //profilePage = new ProfileSettingsPage(this.page);
+
+      //await loginPage.loginAsUserType('Admin');
+// });
+
+Given('the Admin is on the Profile Settings page', async function() {
       profilePage = new ProfileSettingsPage(this.page);
-
-      await loginPage.loginAsUserType('Admin');
-});
-
-And('the Admin is on the Profile Settings page', async function() {
   // Navigate to Profile Settings page
       await profilePage.gotoProfileSettings();
 });
 
-And('the Admin is viewing the Basic Information section', async function() {
+Given('the Admin is viewing the Basic Information section', async function() {
   // Veify Admin is in the Basic Information section
       await profilePage.openBasicInfoSection();     
     
@@ -57,14 +58,14 @@ Then('the fields Full Name, Phone Number, Location, and Timezone should be edita
 
 
 
-And('the Email field should be read-only', async function() {
+Then('the Email field should be read-only', async function() {
   // The Email field should be read only
 
       await profilePage.isEmailReadOnly();
 
 });
 
-And('each field should display its current value or be empty if optional', async function() {
+Then('each field should display its current value or be empty if optional', async function() {
   // All fields should display current value or be empty
 
       await profilePage.getFullName();
@@ -89,7 +90,7 @@ Then('the changes should automatically save as the Admin types', async function(
       await expect(profilePage.getLocation()).toBe('Los Angeles, USA');
 });
 
-And('the updated values should immediately appear in the Basic Information section', async function() {
+Then('the updated values should immediately appear in the Basic Information section', async function() {
   // Updated values should appear immediately
 
       await expect(profilePage.getFullName()).toBe('John Joe');
@@ -97,7 +98,7 @@ And('the updated values should immediately appear in the Basic Information secti
 
 });
 
-And('the data should remain consistent after a page refresh', async function() {
+Then('the data should remain consistent after a page refresh', async function() {
   // Data should remain after page refresh
       await profilePage.refresh();
       await expect(profilePage.getFullName()).toBe('John Joe');
@@ -121,14 +122,14 @@ Then('the change should automatically save as the Admin types', async function()
 
 });
 
-And('no validation or error message should appear', async function() {
+Then('no validation or error message should appear', async function() {
   // No error message should appear
 
       await profilePage.errormessages();
 });
 
 
-And('the section should continue displaying valid data for all other fields', async () => {
+Then('the section should continue displaying valid data for all other fields', async () => {
   // All other fields should retain their values
       await expect((profilePage.getFullName())).toBe('John Joe');
       await expect((profilePage.getLocation())).toBe('Los Angeles, USA');
@@ -136,7 +137,7 @@ And('the section should continue displaying valid data for all other fields', as
 
 });
 
-And('the cleared Phone Number field should remain empty after a page refresh', async () => {
+Then('the cleared Phone Number field should remain empty after a page refresh', async () => {
   // The Phone Number should empty after a page refresh
    
       await profilePage.refresh();  
@@ -152,7 +153,7 @@ When('the Admin updates one or more editable fields', async function() {
       await profilePage.updateLocation('Chicago, USA');
 });
 
-And('navigates to another settings tab', async function() {
+When('navigates to another settings tab', async function() {
   // Admin go to another tab in the profile setting and this case is the proffesional tab
       await profilePage.gotoProfessionalTab();
 
@@ -167,7 +168,7 @@ Then('the updated values should already be saved', async function() {
     
 });
 
-And('returning to the Basic Information section should display the latest data', async () => {
+Then('returning to the Basic Information section should display the latest data', async () => {
     // Admin return to the basic info tab and verify the data is updated
       await profilePage.gotoProfileSettings();
       await profilePage.openBasicInfoSection();
