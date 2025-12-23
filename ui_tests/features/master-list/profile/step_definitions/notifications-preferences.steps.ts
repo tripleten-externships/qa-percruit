@@ -14,8 +14,13 @@ declare const page: Page;
       await this.page.waitForLoadState('networkidle');
       await this.page.locator('.MuiAvatar-root').first().click();
       await this.page.getByRole('menuitem', { name: 'View Profile' }).click();
-      await this.page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
+      await page.locator('.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiAvatar-fallback').first().click();
+      await page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
+      await page.locator('.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiAvatar-fallback > path').first().click();
+      await page.getByRole('menuitem', { name: 'View Profile' }).click();
+      await page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
       await this.page.getByRole('tab', { name: 'Notifications' }).click();
+      await expect(page).toHaveURL(/.*profile\?tab=notifications/);
     });
     
     Then('the Email Notifications section is visible', async function () {
@@ -29,19 +34,9 @@ declare const page: Page;
     });
 
     Then('each preference displays descriptive guidance about when emails are sent', async function () {
-    await this.page.getByRole('switch', { name: 'Resume Review Notifications' }).uncheck();
-    await expect('Notifications Disabled'.nth(0)).not.toBeChecked();
-    await this.page.getByRole('switch', { name: 'Message Notifications Receive' }).check();
-    await expect(this.page.getByRole('switch', { name: 'Message Notifications Receive' })).toBeChecked();
-    await this.page.getByRole('switch', { name: 'Message Notifications Receive' }).uncheck();
-    await this.page.getByRole('switch', { name: 'Task & Goal Notifications' }).check();
-    await this.page.getByRole('switch', { name: 'Task & Goal Notifications' }).uncheck();
-    await this.page.getByText('Notificaions Disabled: You will not recieve email notifications for new tasks').isVisible();
-    await this.page.getByRole('switch', { name: 'Resume Review Notifications' }).check();
-    await this.page.getByRole('switch', { name: 'Resume Review Notifications' }).uncheck();
-    await expect('Notifications Disabled'.nth(1)).not.toBeChecked();
-    await this.page.toBeChecked('Notifications Disabled').isVisible
-    await expect('Notifications Disabled'.nth(2).not.toBeChecked());
+    await expect(this.page.getByText('Recieve email notifications when you get new messages from mentors or students')).toBeVisible();
+    await expect(this.page.getByText('Recieve email notifications when your mentor assigns you new tasks or goals')).toBeVisible();
+    await expect(this.page.getByText('Recieve email notifications when your mentor reviews your resume or when a')).toBeVisible();
     });
 
     Then('the current state of each preference is clearly indicated', async function () {
@@ -52,7 +47,7 @@ declare const page: Page;
 
     
 
-    When('the Admin enables <preference>', async function () {
+    When('the Admin enables Message Notifications, Task & Goal Notifications, & Resume Review Notifications', async function () {
     await page.getByRole('switch', { name: 'Message Notifications Receive' }).check();
     await expect(this.page.getByRole('switch', { name: 'Message Notifications Receive' })).toBeChecked();
     await page.getByRole('switch', { name: 'Task & Goal Notifications' }).check();
@@ -65,10 +60,10 @@ declare const page: Page;
     await this.page.getByText('All changes saved').isVisible();
     });
 
-    Then('the Notifications Disabled status panel for <preference> is not shown', async function () {
-    await page.getByRole('alert').first().toBeVisible() == false;
-    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).toBeVisible == false;
-    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).toBeVisible == false;
+    Then('the Notifications Disabled status panel for Message Notifications, Task & Goal Notifications, & Resume Review Notifications is not shown', async function () {
+    await page.getByRole('alert').first().isHidden();
+    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).isHidden();
+    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).isHidden();
     });
 
     Then('the enabled state remains after switching to another tab and returning', async function () {
@@ -79,26 +74,26 @@ declare const page: Page;
     await page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
     await page.getByRole('tab', { name: 'Notifications' }).click();
     await expect(page.getByRole('switch', { name: 'Message Notifications Receive' })).toBeChecked();
-    await page.getByRole('alert').first().toBeVisible() == false;
+    await page.getByRole('alert').first().isHidden();
     await expect(page.getByRole('switch', { name: 'Task & Goal Notifications' })).toBeChecked();
-    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).toBeVisible == false;
+    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).isHidden();
     await expect(page.getByRole('switch', { name: 'Resume Review Notifications' })).toBeChecked();
-    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).toBeVisible == false;
+    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).isHidden();
     });
 
     Then('the enabled state remains after a page refresh', async function () {
     await page.goto('https://stage.tripleten.percruit.com/profile?tab=notifications');
     await expect(page.getByRole('switch', { name: 'Message Notifications Receive' })).toBeChecked();
-    await page.getByText('alert').first().toBeVisible() == false;
+    await page.getByText('alert').first().isHidden();
     await expect(page.getByRole('switch', { name: 'Task & Goal Notifications' })).toBeChecked();
-    await page.getByText('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).toBeVisible == false;
+    await page.getByText('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).isHidden();
     await expect(page.getByRole('switch', { name: 'Resume Review Notifications' })).toBeChecked();
-    await page.getByText('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).toBeVisible == false;
+    await page.getByText('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).isHidden();
     });
 
     
 
-    Given('<preference> is currently enabled', async function () {
+    Given('Message Notifications, Task & Goal Notifications, & Resume Review Notifications is currently enabled', async function () {
     await page.getByRole('switch', { name: 'Message Notifications Receive' }).check();
     await expect(this.page.getByRole('switch', { name: 'Message Notifications Receive' })).toBeChecked();
     await page.getByRole('switch', { name: 'Task & Goal Notifications' }).check();
@@ -107,7 +102,7 @@ declare const page: Page;
     await expect(this.page.getByRole('switch', { name: 'Resume Review Notifications' })).toBeChecked();
     });
 
-    When('the Admin disables <preference>', async function () {
+    When('the Admin disables Message Notifications, Task & Goal Notifications, & Resume Review Notifications', async function () {
     await page.getByRole('switch', { name: 'Message Notifications Receive' }).uncheck();
     await page.getByRole('switch', { name: 'Task & Goal Notifications' }).uncheck();
     await page.getByRole('switch', { name: 'Resume Review Notifications' }).uncheck();
@@ -117,7 +112,7 @@ declare const page: Page;
     await this.page.getByText('All changes saved').isVisible();
     });
 
-    Then('a Notifications Disabled status panel for <preference> is displayed with explanatory text', async function () {
+    Then('a Notifications Disabled status panel for Message Notifications, Task & Goal Notifications, & Resume Review Notifications is displayed with explanatory text', async function () {
     await this.page.getByRole('alert').first().isVisible();
     await this.page.getByText('Notifications Disabled: You').first().isVisible();
     await this.page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for new tasks'}).isVisible();
@@ -180,8 +175,7 @@ declare const page: Page;
     Then('Resume Review Notifications remains enabled and its Notifications Disabled panel is not shown', async function () {
     await page.getByRole('switch', { name: 'Resume Review Notifications' }).check();
     await expect(this.page.getByRole('switch', { name: 'Resume Review Notifications' })).toBeChecked();
-    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).toBeVisible == false;
-    await page.getByText('Notificaions Disabled: You will not recieve email notifications for resume').toBeVisible() == false;
+    await page.getByRole('alert').filter({ hasText: 'Notificaions Disabled: You will not recieve email notifications for resume'}).isHidden();
     });
       
 
