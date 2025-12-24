@@ -7,27 +7,24 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../src/config/world';
-import { LoginPage } from '../../../src/pages/common/LoginPage';
-import { CareerPathPage } from '../../../src/pages/student/CareerPathPage';
-
+import * as env from '../../../../src/config/world';
+import { LoginPage } from '../../../../src/pages/common/LoginPage';
+import { ProfilePage } from '../../../../src/pages/common/ProfilePage';
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
-let careerPathPage: CareerPathPage;
+let profilePage: ProfilePage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  careerPathPage = new CareerPathPage(this.page);
+  profilePage = new ProfilePage(this.page);
 });
 
-
-When('the user navigates to the Career Path page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'career-path');
-  await expect(this.page).toHaveURL(/career-path/);
+When('the student navigates to the Profile page', async function() {
+  await this.page.goto(env.getBaseUrl() + 'profile');
+  await expect(this.page).toHaveURL(/profile/);
 });
 
-Then('the Career Path page displays', async function() {
-  await careerPathPage.verifyPage();
+Then('the Student Profile page displays', async function() {
+  await profilePage.verifyPage();
 });
-
