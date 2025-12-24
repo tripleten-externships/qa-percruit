@@ -1,0 +1,150 @@
+import { Page, expect } from '@playwright/test';
+import { BasePage } from '../common/BasePage';
+
+export class InterviewPrepPage extends BasePage {
+
+    // Interview Prep Page Locators
+    InterviewPrepHeading = '//h4[contains(text(),"Interview Preparation")]';
+    ScheduleInterviewButton = 'button:has-text("Schedule Interview")';
+    PeerInterviewOption = 'li:has-text("Peer Interview")';
+    ExpertInterviewOption = 'li:has-text("Expert Interview")';
+    AIPracticeOption = 'li:has-text("AI Practice")';
+    UpcomingSessionRows = 'section:has(h6:has-text("Upcoming Sessions")) tbody tr'
+
+    // Peer Interview Page Locators
+    JoinAvailableSessionButton = 'button:has-text("Join Available Session")';
+    CreateNewSessionButton = 'button:has-text("Create New Session")';
+    CreatePeerSession = 'button:has-text("Create Session")';
+
+    // Expert Interview Page Locators
+    AssignedMentor = 'h5:has-text("Schedule with Your Assigned Mentor")';
+    MentorDate = 'input[placeholder="MM/DD/YYYY"]';
+    TimeSlotButton = 'button:has-text("${time}")';
+    MentorInterviewTopicField = 'label:has-text("Interview Topic") + input';
+    MentorScheduleInterviewButton = 'button:has-text("Schedule Interview")';
+    NextButton = 'button[type="button"]:has-text("Next")';
+
+    // AI Practice Page Locators
+    StartInterviewButton = 'button:has-text("Start Interview")';
+    EndInterviewButton = 'button:has-text("End Interview")';
+
+    constructor(page: Page) {
+        super(page);
+    }
+
+    // Interview Prep Page
+    async verifyPage(){
+     await expect(this.page.locator(this.InterviewPrepHeading)).toBeVisible();    
+    }
+
+    async clickScheduleInterview(){
+        await this.page.click(this.ScheduleInterviewButton);
+    }
+
+    async selectInterviewOption(option: 'Peer Interview' | 'Expert Interview' | 'AI Practice') {
+        const optionLocator = this.page.locator(`li:has-text("${option}")`);
+        await expect(optionLocator).toBeVisible({ timeout: 5000 });
+        await optionLocator.click();
+    }
+
+    async UpcomingSessionsCount() {
+        const rowCount = await this.page.locator('table tbody tr').first().count();
+        return rowCount;
+    }
+
+    // Different Interview Pages verification
+    async verifyPeerInterviewPage(){
+        await expect(this.page.locator(this.JoinAvailableSessionButton)).toBeVisible();
+        await expect(this.page.locator(this.CreateNewSessionButton)).toBeVisible();
+    }   
+
+    async verifyExpertInterviewPage(){
+        await expect(this.page.locator(this.AssignedMentor)).toBeVisible();
+    }
+
+    async verifyAIPracticePage(){
+        await expect(this.page.locator(this.StartInterviewButton)).toBeVisible();
+        await expect(this.page.locator(this.EndInterviewButton)).toBeVisible();
+    }
+
+    // Peer Interview Session Creation
+    async joinAvailableSession(){
+        await this.page.click(this.JoinAvailableSessionButton);
+    }
+
+    async clickCreateNewSession(){
+        await this.page.click(this.CreateNewSessionButton);
+    }
+
+    async clickCreatePeerSession(){
+        await this.page.click(this.CreatePeerSession);
+    }
+
+    // Expert Interview Session Creation
+    async selectMentorDate(year: number, month: string, day: number) {
+        // Open the date picker
+        await this.page.click(this.MentorDate);
+
+        // Wait for calendar to appear
+        const calendarLabel = this.page.locator('div.MuiPickersCalendarHeader-label');
+        await expect(calendarLabel).toBeVisible();
+
+        // Navigate to correct month/year
+        let currentLabel = await calendarLabel.textContent();
+        while (!currentLabel?.includes(`${month} ${year}`)) {
+            await this.page.click('button[aria-label="Next month"]');
+            currentLabel = await calendarLabel.textContent();}
+
+        // Click the day
+        await this.page.click(`button[role="gridcell"]:not([disabled]):has-text("${day}")`);
+    }
+
+    async verifyMentorDate(expectedDate: string) {
+        const dateInput = this.page.locator(this.MentorDate);
+        const dateValue = await dateInput.inputValue();
+        expect(dateValue).toBe(expectedDate);
+        await dateInput.waitFor({ state: 'visible' });
+    }
+
+    async selectTimeSlot(time: string) {
+        const timeButton = this.page.locator(`button:has-text("${time}")`);
+        await timeButton.click();
+    }
+
+    async verifyselectMentorTimeSlot(time: string) {
+        const timeButton = this.page.locator(`button:has-text("${time}")`);
+        await expect(timeButton).toBeVisible();
+    }
+
+    async clickNextButton(expectedDate: string, expectedTime: string) {
+        const nextBtn = this.page.locator(this.NextButton);
+        const dateInput = this.page.locator(this.MentorDate);
+        const timeButton = this.page.locator(`button:has-text("${expectedTime}")`);
+
+        // Wait for date input to have correct value
+        await expect(dateInput).toBeVisible({ timeout: 10000 });
+        await expect(dateInput).toHaveValue(expectedDate, { timeout: 10000 });
+
+        // Wait for time button to be visible and enabled
+        await expect(timeButton).toBeVisible({ timeout: 10000 });
+        await expect(timeButton).toBeEnabled({ timeout: 10000 });
+
+        // Wait for Next button to be enabled
+        await expect(nextBtn).toBeEnabled({ timeout: 10000 });
+
+        // Click Next
+        await nextBtn.click();
+    }
+
+
+    async inputMentorInterviewTopic(topic: string){
+        await this.page.waitForSelector(this.MentorInterviewTopicField, { state: 'visible' });
+        await this.page.fill(this.MentorInterviewTopicField, topic);
+    }
+
+    async clickMentorScheduleInterview(){
+        await this.page.waitForSelector(this.MentorScheduleInterviewButton, { state: 'visible' });
+        await this.page.click(this.MentorScheduleInterviewButton);
+    }
+
+}

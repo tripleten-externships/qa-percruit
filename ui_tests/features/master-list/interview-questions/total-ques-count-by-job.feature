@@ -5,8 +5,8 @@ Feature: View questions count and percentages by job title
   So that question distribution can be tracked and monitored
 
   Background:
-    Given the Admin is logged in
-    And the Admin views the Interview Questions Manager page
+    Given the Admin is authenticated in the system
+    And the Admin views the Interview Questions page
 
   Scenario Outline: Display total count and percentage for each job title
     When the Admin views the interview question count and percentage stat cards by job title
