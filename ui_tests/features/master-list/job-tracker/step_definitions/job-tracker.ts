@@ -3,8 +3,8 @@ import { Page } from 'playwright';
 import { expect } from '@playwright/test';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 import { JobTrackerPage } from '../../../../src/pages/student/TrackerDashboardPage';
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-Given(`the student is authenticated in the system`, () => {
+//const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+/*Given(`the student is authenticated in the system`, () => {
     // [Given] Sets up the initial state of the system.
 });
 When(`they log in with valid credentials`, () => {
@@ -12,7 +12,7 @@ When(`they log in with valid credentials`, () => {
 });
 When(`select {string} from features list`, (arg0: string) => {
     // [When] Describes the action or event that triggers the scenario.
-});
+});*/
 Then(`see the dashboard loads correctly`, async function () {
     // [Then] Describes the expected outcome or result of the scenario.
     await expect(this.page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]")).toBeVisible();

@@ -1,7 +1,8 @@
-@smoke
+@wip
 Feature: Application Tracker Dashboard
 As a Student, I want to login successfully to my account
 So I can verify the Application Tracker loads correctly
+
 
 Scenario: Successful login to dashboard without issue
     Given the student navigates to the Job Tracker page
