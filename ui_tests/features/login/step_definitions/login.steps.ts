@@ -38,7 +38,7 @@ When(
 );
 
 // Step: Login as a specific user type (Student, Admin, Mentor)
-When(/the (.+) is authenticated in the system/, async function (userType) {
+Given(/the (.+) is authenticated in the system/, async function (userType) {
   await this.page.goto(env.getBaseUrl());
   await loginPage.waitForPageLoad();
   await loginPage.loginAsUserType(userType);

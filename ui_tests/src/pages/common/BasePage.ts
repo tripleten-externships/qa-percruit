@@ -13,7 +13,8 @@ export class BasePage {
   }
 
   async waitForPageLoad(): Promise<void> {
-    await this.page.waitForLoadState('networkidle', {timeout: 60000});
+    // Use the page's default timeout (configured in the world) instead of a hardcoded 60s
+    await this.page.waitForLoadState('networkidle');
   }
 
   async isHeadingVisible(heading: string): Promise<boolean> {
