@@ -22,5 +22,5 @@ When('the user navigates to the Student Dashboard page', async function() {
 });
 
 Then('the Student Dashboard page displays', async function() {
-  await StudentDashboardPage.verifyPage();
+  await studentDashboardPage.verifyPage();
 });
