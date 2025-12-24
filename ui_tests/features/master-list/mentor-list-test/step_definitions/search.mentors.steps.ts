@@ -1,12 +1,20 @@
-import { Given, Then, When } from "@cucumber/cucumber";
+import { Given, Then, When, BeforeAll, setDefaultTimeout } from "@cucumber/cucumber";
 import { LoginPage } from "../../../../src/pages/common/LoginPage";
 import { env } from "process";
 import { LogoutPage } from "../../../../src/pages/common/LogoutPage";
 import { MentorsPage } from "../../../../src/pages/admin/MentorsPage";
+import { expect } from "@playwright/test";
+
+setDefaultTimeout(120_000);
+
+BeforeAll(async function(){
+    console.log('BeforeAll: global setup complete');
+});
 
 let loginPage: LoginPage;
 let logoutPage: LogoutPage;
 let mentorsPage: MentorsPage;
+
 
        //scenario 1
          Given('the admin is logged in and viewing the mentors list', async function () {
@@ -18,13 +26,13 @@ let mentorsPage: MentorsPage;
             await this.page.goto(env.BASE_URL);
             await loginPage.loginAsUserType('Admin');
             await logoutPage.isOnHomePage();
-            await mentorsPage.clickMentorsTab();
-            await mentorsPage.mentorsHeadingIsVisible();
+            await mentorsPage.goToMentorsPage();
+            await mentorsPage.waitForMentorsPageReady();
          });
     
          When('the admin user searches for a mentor by full name', async function () {
            // Write code here that turns the phrase above into concrete actions
-        
+            await mentorsPage.clickSearchMentorsField();
          });
        
          Then('the mentors list should display only mentors whose names matches the search criteria', async function () {
@@ -38,13 +46,6 @@ let mentorsPage: MentorsPage;
          });
   
             //Scenario 2
-       /*  Given('the admin is logged in and viewing the mentors list', async function () {
-           // Write code here that turns the phrase above into concrete actions
-            const loginPage = new LoginPage(this.page);
-            await this.page.goto(env.BASE_URL);
-            await loginPage.loginAsUserType('Admin');
-         });*/
-       
          When('the admin user searches using part of a mentor name', async function () {
            // Write code here that turns the phrase above into concrete actions
         
@@ -61,13 +62,6 @@ let mentorsPage: MentorsPage;
          });
 
          //scenario 3
-        /* Given('the admin is logged in and viewing the mentors list', async function () {
-           // Write code here that turns the phrase above into concrete actions
-            const loginPage = new LoginPage(this.page);
-            await this.page.goto(env.BASE_URL);
-            await loginPage.loginAsUserType('Admin');
-         });*/
-       
          When('the admin user searches using a mentor email address', async function () {
            // Write code here that turns the phrase above into concrete actions
          
@@ -85,13 +79,6 @@ let mentorsPage: MentorsPage;
          });
 
          //Scenario 4
-       /* Given('the admin is logged in and viewing the mentors list', async function () {
-           // Write code here that turns the phrase above into concrete actions
-            const loginPage = new LoginPage(this.page);
-            await this.page.goto(env.BASE_URL);
-            await loginPage.loginAsUserType('Admin');
-         });*/
-       
          When('the admin user searches for a name or email that does not exist', async function () {
            // Write code here that turns the phrase above into concrete actions
  

@@ -16,23 +16,23 @@ constructor(page: Page) {
    // Initialize locators
    this.MENTORS_TAB = this.page.getByRole('button', { name: 'Mentors' });
    this.MENTORS_HEADING = this.page.getByRole('heading', { name: 'Mentors' });
-   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search mentors by name, email' });
+   this.SEARCH_MENTORS_FIELD = this.page.getByPlaceholder('Search mentors by name, email');
    
     }
 
-    async clickMentorsTab() {
-        await this.MENTORS_TAB.click();
-    }
 
-    async mentorsHeadingIsVisible() {
+    async waitForMentorsPageReady() {
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(this.MENTORS_HEADING).toBeVisible();
-
-        /*await this.MENTORS_HEADING.waitFor({ state: 'visible' });
-        await expect(this.MENTORS_HEADING).toBeVisible({timeout: 40000});*/
+        await expect(this.SEARCH_MENTORS_FIELD).toBeVisible({ timeout: 100_000 });
+    }
+    
+    async goToMentorsPage() {
+        await this.MENTORS_TAB.click();
     }
 
     async clickSearchMentorsField() {
         await this.SEARCH_MENTORS_FIELD.fill('value');
     }
+
 }
+
