@@ -9,25 +9,22 @@ import { chromium, Browser, Page, expect } from '@playwright/test';
 // Import environment configuration and Page Object Models
 import * as env from '../../../../src/config/world';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import {ForumPage } from '../../../../src/pages/student/ForumPage';
-
+import { ProfilePage } from '../../../../src/pages/common/ProfilePage';
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
-let forumPage: ForumPage;
+let profilePage: ProfilePage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  forumPage= new ForumPage(this.page);
+  profilePage = new ProfilePage(this.page);
 });
 
-
-When('the user navigates to the Forum page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
+When('the student navigates to the Profile page', async function() {
+  await this.page.goto(env.getBaseUrl() + 'profile');
+  await expect(this.page).toHaveURL(/profile/);
 });
 
-Then('the Forum page displays', async function() {
-  await forumPage.verifyPage();
+Then('the Student Profile page displays', async function() {
+  await profilePage.verifyPage();
 });
-
