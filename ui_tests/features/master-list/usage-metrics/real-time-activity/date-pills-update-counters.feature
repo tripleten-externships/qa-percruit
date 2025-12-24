@@ -8,7 +8,8 @@ Background:
     And the Admin navigates to the Usage Metrics page
 
 Scenario Outline: Verify Time Filters update counts correctly
-  When the user is on Real Time Activity tab
+  When I add the title "//nScenario: Verify Time Filters update counts correctly" to the log
+  And the user is on Real Time Activity tab
   And apply the "<timeFilter>" time filter
   Then user should see the usage counts updated for "<timeFilter>"
 
