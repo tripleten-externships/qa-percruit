@@ -1,4 +1,4 @@
- @wip
+@indev
 Feature: Edit basic profile information
   As an Admin
   I want to edit basic user information
@@ -9,7 +9,6 @@ Feature: Edit basic profile information
     And the Admin is on the Profile Settings page
     And the Admin is viewing the Basic Information section
 
-  @smoke
   Scenario: Editable fields are visible and correctly labeled
     Then the fields Full Name, Phone Number, Location, and Timezone should be editable
     And the Email field should be read-only
