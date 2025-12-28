@@ -32,7 +32,7 @@ let mentorsPage: MentorsPage;
     
          When('the admin user searches for a mentor by full name', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await mentorsPage.clickSearchMentorsField();
+            await mentorsPage.SearchMentorsFullName();
          });
        
          Then('the mentors list should display only mentors whose names matches the search criteria', async function () {
@@ -48,7 +48,7 @@ let mentorsPage: MentorsPage;
             //Scenario 2
          When('the admin user searches using part of a mentor name', async function () {
            // Write code here that turns the phrase above into concrete actions
-        
+            await mentorsPage.SearchMentorsPartialName();
          });
        
          Then('the mentors list should show all mentors whose names contain the part of what was typed in', async function () {
@@ -64,7 +64,7 @@ let mentorsPage: MentorsPage;
          //scenario 3
          When('the admin user searches using a mentor email address', async function () {
            // Write code here that turns the phrase above into concrete actions
-         
+            await mentorsPage.SearchMentorsEmail();
          });
         
          Then('only the mentor with that email address should appear in the list', async function () {
@@ -81,7 +81,7 @@ let mentorsPage: MentorsPage;
          //Scenario 4
          When('the admin user searches for a name or email that does not exist', async function () {
            // Write code here that turns the phrase above into concrete actions
- 
+            await mentorsPage.SearchMentorNotInSystem();
          });
        
          Then('the mentors list should display a message saying {string}', async function (string) {

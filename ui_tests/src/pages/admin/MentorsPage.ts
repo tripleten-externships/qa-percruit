@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
+import * as MentorListTestData from '../../test-data/MentorListTestData';
 
 export class MentorsPage extends BasePage {
 
@@ -7,7 +8,6 @@ export class MentorsPage extends BasePage {
  MENTORS_TAB!: Locator;
  MENTORS_HEADING!: Locator;
  SEARCH_MENTORS_FIELD!: Locator;
-
 
 constructor(page: Page) {
     super(page);
@@ -30,9 +30,23 @@ constructor(page: Page) {
         await this.MENTORS_TAB.click();
     }
 
-    async clickSearchMentorsField() {
-        await this.SEARCH_MENTORS_FIELD.fill('value');
+    async SearchMentorsFullName() {
+        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.FULL_NAME);
     }
+
+    async SearchMentorsPartialName() {
+        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.PARTIAL_NAME);
+    }
+
+    async SearchMentorsEmail() {
+        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.MENTOR_EMAIL);
+    }
+
+    async SearchMentorNotInSystem() {
+        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.NON_EXISTENT_NAME);
+    }
+
+    async 
 
 }
 
