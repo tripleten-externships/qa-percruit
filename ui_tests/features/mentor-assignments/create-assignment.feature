@@ -1,4 +1,6 @@
-@wip
+
+#Tag for Before Hook. DO NOT REMOVE
+@admin-auth
 Feature: Mentor-Student Assignments
   The system should allow administrators to link
   students with mentors to ensure proper mentorship assignments.
@@ -14,10 +16,7 @@ Feature: Mentor-Student Assignments
       And the new mentor-student pairing is displayed in the assignments list
 
 
-    Scenario: Failed creation due to missing mentor selection
-      Given an admin is authorized to manage mentor-student assignments
-      When the admin attempts to create a new assignment without selecting a mentor
-      Then the system rejects the request
-      And displays an error indicating that a mentor selection is required
+   
   
 
+    

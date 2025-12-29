@@ -7,27 +7,30 @@ import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { chromium, Browser, Page, expect } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
-import * as env from '../../../../src/config/world';
-import { LoginPage } from '../../../../src/pages/common/LoginPage';
-import {ForumPage } from '../../../../src/pages/student/ForumPage';
+import * as env from '../../../src/config/world';
+import { LoginPage } from '../../../src/pages/common/LoginPage';
+import { StudyPage } from '../../../src/pages/student/StudyPage';
 
 // Declare variables to hold browser, page, and page object instances
 let loginPage: LoginPage;
-let forumPage: ForumPage;
+let studyPage: StudyPage;
 
 // Before hook: Launch a new browser and page before each scenario and initialize page objects
 Before(async function() {
   loginPage = new LoginPage(this.page);
-  forumPage= new ForumPage(this.page);
+  studyPage = new StudyPage(this.page);
 });
 
 
-When('the user navigates to the Forum page', async function() {
-  await this.page.goto(env.getBaseUrl() + 'forums');
-  await expect(this.page).toHaveURL(/forums/);
+When('the user navigates to the Study page', async function() {
+  await this.page.goto(env.getBaseUrl() + 'interview-study');
+  await expect(this.page).toHaveURL(/interview-study/);
 });
 
-Then('the Forum page displays', async function() {
-  await forumPage.verifyPage();
+Then('the Study page is displayed', async function() {
+  await studyPage.verifyPage();
 });
 
+Then('the Search Questions box is clicked', async function () {
+  
+})
