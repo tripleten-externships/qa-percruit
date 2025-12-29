@@ -51,5 +51,3 @@ Then('the Student should be able to see the Student Dashboard', async function()
   const isVisible = await studentDashboardPage.isOnDashboardPage();
   expect(isVisible).toBeTruthy();
 });
-
-

@@ -12,37 +12,40 @@ import { ProfileSettingsPage } from '../../../../src/pages/admin/ProfileSettingP
 let loginPage: LoginPage;
 let profilePage: ProfileSettingsPage;
 // Test data      
-
 const timezone = ' Eastern Time (US & Canada)';
 
 
-// Background: Admin is authenticated 
-
-
+// Background: Admin is authenticated.
 Given('the Admin is authenticated in the system', async function() {
     // Login as Admin
-      loginPage = new LoginPage(this.page);
-      await this.page.goto(process.env.BASE_URL);
-      await loginPage.loginAsUserType('Admin');
-      profilePage = new ProfileSettingsPage(this.page);
+    await this.page.goto(process.env.BASE_URL);  
+    loginPage = new LoginPage(this.page);
+    await loginPage.loginAsUserType('Admin');
+    console.log("Admin logged in successfully");
+    profilePage = new ProfileSettingsPage(this.page);
+   
+ 
 }); 
 
+
 And('the Admin is on the Profile Settings page', async function() {
-  // Admin is on the Profile Settings page and verify URL
+  // Admin is on the Profile Settings page and verify URL.
       await profilePage.gotoProfileSettings();
       await expect(this.page).toHaveURL(/.*\/profile\?tab=basic-info/);
 });
 
+
 And('the Admin is viewing the Basic Information section', async function() {
-  // Veify Admin is in the Basic Information section and verify its visibility
+  // Veify Admin is in the Basic Information section and verify its visibility.
       await profilePage.openBasicInfoSection();  
       await expect(this.page.getByRole('heading', { name: 'Basic Information' })).toBeVisible();         
     
 });
 
-// Scenario1: Editable fields are visible and correctly labeled
+
+// Scenario1: Editable fields are visible and correctly labeled.
 Then('the fields Full Name, Phone Number, Location, and Timezone should be editable', async function() {
-  // All fields should be editable as expected
+  // All fields should be editable as expected.
   
       await profilePage.PhonefieldEditable();
       await profilePage.FullnamefieldEditable();
@@ -52,7 +55,7 @@ Then('the fields Full Name, Phone Number, Location, and Timezone should be edita
 
 
 Then('the Email field should be read-only', async function() {
-  // The Email field should be read only as expected
+  // The Email field should be read only as expected.
 
       await profilePage.isEmailReadOnly();
       await expect(this.page.locator('[data-test="input-email"]')).toBeDisabled();
@@ -61,7 +64,7 @@ Then('the Email field should be read-only', async function() {
 
 
 Then('each field should display its current value or be empty if optional', async function() {
-  // All fields should display current value or be empty
+  // All fields should display current value or be empty.
 
       await profilePage.getFullName();
       await expect(profilePage.getFullName()).not.toBeNull();
@@ -76,7 +79,7 @@ Then('each field should display its current value or be empty if optional', asyn
 
 // Scenario: Admin updates profile details successfully
 When('the Admin updates the Full Name and Location with valid information', async function() {
-    // Admin update the full name and location fields
+    // Admin update the full name and location fields.
 
       await profilePage.updateFullName('John Joe');
       await profilePage.updateLocation('Los Angeles, USA');
@@ -86,15 +89,14 @@ When('the Admin updates the Full Name and Location with valid information', asyn
 
 
 Then('the changes should automatically save as the Admin types', async function() {
-  // Fields updates as the admin types
+  // Fields updates as the admin types.
       await expect(profilePage.getFullName()).toBe('John Joe');
       await expect(profilePage.getLocation()).toBe('Los Angeles, USA');
 });
 
 
 Then('the updated values should immediately appear in the Basic Information section', async function() {
-  // Updated values should appear immediately
-
+  // Updated values should appear immediately.
       await expect(profilePage.getFullName()).toBe('John Joe');
       await expect(profilePage.getLocation()).toBe('Los Angeles, USA');
 
@@ -113,17 +115,15 @@ Then('the data should remain consistent after a page refresh', async function() 
 // Scenario2: Admin clears a field and decides to leave it blank
 Given('the Phone Number field already contains a valid value', async function() {
   // The Phone Number field has already a valid value
-
-      
       await expect(profilePage.getPhoneNumber()).toBe('123-456-7890');
 });
 
 
 When('the Admin clears the Phone Number field in the Basic Information section', async function() {
   // Admin clears the phone number field value
-      
       await profilePage.updatePhoneNumber('');
 });
+
 
 Then('the change should automatically save as the Admin types', async function() {
   // Fields updates as the admin types 
@@ -131,9 +131,9 @@ Then('the change should automatically save as the Admin types', async function()
 
 });
 
+
 Then('no validation or error message should appear', async function() {
   // verify there is no error message
-
       await profilePage.errormessages();
 });
 
@@ -150,7 +150,6 @@ Then('the section should continue displaying valid data for all other fields', a
 
 Then('the cleared Phone Number field should remain empty after a page refresh', async () => {
   // The Phone Number should empty after a page refresh
-   
       await profilePage.refresh();  
       await expect(profilePage.getPhoneNumber()).toBe('');
       
@@ -160,7 +159,6 @@ Then('the cleared Phone Number field should remain empty after a page refresh', 
 // Scenario3: Admin navigates away after making changes
 When('the Admin updates one or more editable fields', async function() {
   // Admin update the full name and location fields
-
       await profilePage.updateFullName('Jane Smith');
       await profilePage.updateLocation('Chicago, USA');
 });
