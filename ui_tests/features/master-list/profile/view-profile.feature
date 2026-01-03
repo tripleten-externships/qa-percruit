@@ -7,11 +7,12 @@ Feature: View profile settings
     Given the Admin is authenticated in the system
     And the Admin is on the Profile Settings page
 
-  
+ 
   Scenario: Profile tab is the default view with key sections
     Then the Profile tab is active
     And the tabs Professional, Social Links, Notifications, and Privacy & AI are available
     And the sections "Profile Photo", "Basic Information", and "About Me" are visible
+
 
   Scenario: Profile photo area provides identity and guidance
     When the Admin views the Profile Photo section
@@ -32,6 +33,7 @@ Feature: View profile settings
     Given the Admin is viewing the Basic Information section
     Then the Phone Number field may be empty
     And no validation error is displayed for leaving optional fields blank
+
 
   Scenario: Data on screen reflects the stored account values
     When the Admin views the profile
