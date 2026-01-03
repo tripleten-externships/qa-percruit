@@ -8,6 +8,7 @@ import { Browser, Page, chromium } from 'playwright';
 import { CONFIG as DEV } from './dev.env';
 import { CONFIG as STAGE } from './stage.env';
 import { CONFIG as PROD } from './prod.env';
+import { ProfilePage } from '../pages/admin/ProfilePage';
 
 // Initialize dotenv to load environment variables
 dotenv.config();
@@ -119,6 +120,10 @@ setWorldConstructor(PlaywrightWorld);
 
 // Set Cucumber default timeout to match Playwright timeouts
 setDefaultTimeout(ENV.defaultTimeout);
+
+// Register ProfilePage globally so step files can fall back to it when needed
+(global as any).ProfilePage = ProfilePage;
+console.log('Registered ProfilePage globally');
 
 // ============================================================================
 // CUCUMBER HOOKS
