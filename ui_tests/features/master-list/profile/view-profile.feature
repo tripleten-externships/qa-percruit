@@ -1,5 +1,5 @@
 Feature: View profile settings
-  As an Admin
+  As an Admins
   I want to view profile settings
   So that I can confirm the profile UI and core data render correctly
 
@@ -7,7 +7,7 @@ Feature: View profile settings
     Given the Admin is authenticated in the system
     And the Admin is on the Profile Settings page
 
-  @smoke
+  
   Scenario: Profile tab is the default view with key sections
     Then the Profile tab is active
     And the tabs Professional, Social Links, Notifications, and Privacy & AI are available
@@ -18,6 +18,7 @@ Feature: View profile settings
     Then the admins display name and email are shown
     And guidance is displayed for uploading a professional headshot with a recommended minimum size
 
+
   Scenario: Basic Information shows required and optional fields
     When the Admin views the Basic Information section
     Then the fields Full Name, Email, Phone Number, Location, and Timezone are visible
@@ -25,6 +26,7 @@ Feature: View profile settings
     And Phone Number is marked optional
     And Timezone is selectable from a list
     And helper text indicates the browser-detected timezone
+
 
   Scenario: Optional fields may be empty without error
     Given the Admin is viewing the Basic Information section

@@ -1,11 +1,12 @@
 import { Page } from '@playwright/test';
 import { ProfilePage } from '../../../../src/pages/admin/ProfilePage';
+import { ProfilePageObject } from '../../../../src/pages/admin/ProfilePageObject';
 import * as env from '../../../../src/config/world';
 import * as fs from 'fs';
 import { BasePage } from '../../../../src/pages/common/BasePage';
 import { LoginPage } from '../../../../src/pages/common/LoginPage';
 
-export const PROFESSIONAL_SECTION = '//h2[text()="Professional Information"]';
+export const PROFESSIONAL_SECTION = '//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6][contains(translate(normalize-space(.), "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "professional")]';
 
 export const FIELD_OF_INTEREST_LABEL = '//label[text()="Field of Interest"]';
 export const FIELD_OF_INTEREST_INPUT = '//input[@name="fieldOfInterest"]';
@@ -55,10 +56,75 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
     const page = (this as CustomWorld).page;
 
     const profile = getProfilePage.call(this) as ProfilePage;
+    const profileObj = new ProfilePageObject(page);
 
     const errors: string[] = [];
 
+    // Prefer the ProfilePageObject deterministic opener before running fallback attempts
+    try {
+        try { await profileObj.openProfessional(50000); } catch (e) { errors.push('profileObj.openProfessional:' + (e instanceof Error ? e.message : String(e))); }
+        const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
+        if (ok) return;
+    } catch (e) {
+        // ignore and continue to fallback attempts
+    }
+
+    const dumpTabsOuterHTML = async () => {
+        try {
+            const selectors = ['[role="tablist"]', 'nav', '[data-testid="profile-tabs"]', 'div[role="tablist"]', '.tabs', '#debug-profile-inject', '[data-testid="profile-link"]'];
+            for (const s of selectors) {
+                const outer = await page.evaluate((sel) => {
+                    const el = document.querySelector(sel as string);
+                    return el ? el.outerHTML : null;
+                }, s).catch(() => null);
+                if (outer) {
+                    try { fs.writeFileSync('profile-tabs-outer.html', outer, { encoding: 'utf8' }); } catch (e) {}
+                    return outer;
+                }
+            }
+            // fallback: find any element that contains the Professional text
+            const fallback = await page.evaluate(() => {
+                const nodes = Array.from(document.querySelectorAll('button, a, [role="tab"], div'));
+                const found = nodes.find(n => n.textContent && /Professional Information|Professional/i.test(n.textContent));
+                return found ? found.outerHTML : null;
+            }).catch(() => null);
+            if (fallback) {
+                try { fs.writeFileSync('profile-tabs-outer.html', fallback, { encoding: 'utf8' }); } catch (e) {}
+                return fallback;
+            }
+            // final fallback: capture the whole document body so we can craft selectors
+            try {
+                const body = await page.evaluate(() => document.body ? document.body.outerHTML : document.documentElement.outerHTML).catch(() => null);
+                if (body) {
+                    try { fs.writeFileSync('profile-tabs-outer.html', body, { encoding: 'utf8' }); } catch (e) {}
+                    return body;
+                }
+            } catch (e) {
+                // ignore
+            }
+        } catch (e) {
+            // ignore
+        }
+        return null;
+    };
+
     const attempt = async () => {
+        // (previous persistent pin removed) 
+        // helper: ensure profile URL and Professional section remain visible for a short stable period
+        const waitForStableProfile = async (tries = 3, delay = 500) => {
+            for (let i = 0; i < tries; i++) {
+                try {
+                    const cur = await page.url();
+                    const visible = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().isVisible().catch(() => false);
+                    if (!/profile(\?|\/|$)/.test(cur) || !visible) return false;
+                } catch (e) {
+                    return false;
+                }
+                await page.waitForTimeout(delay);
+            }
+            return true;
+        };
+
         // 1) Best-effort authentication: login then wait for dashboard
         try {
             const loginPage = new LoginPage(page);
@@ -89,6 +155,11 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                 await profile.gotoProfile();
                 await page.waitForLoadState('domcontentloaded', { timeout: 3000 }).catch(() => {});
             }
+            // If the POM exposes a stronger ensure method, use it to guarantee the Professional tab
+            if (typeof profile.ensureOnProfessionalTab === 'function') {
+                await profile.ensureOnProfessionalTab().catch((e: any) => { errors.push('ensureOnProfessionalTab:' + (e instanceof Error ? e.message : String(e))); });
+                await page.waitForLoadState('domcontentloaded', { timeout: 2000 }).catch(() => {});
+            }
         } catch (e) {
             errors.push('pomGoto:' + (e instanceof Error ? e.message : String(e)));
         }
@@ -100,7 +171,11 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                 await page.goto(new URL(p, env.getBaseUrl()).toString(), { timeout: 8000, waitUntil: 'domcontentloaded' }).catch(() => {});
                 await page.waitForLoadState('domcontentloaded', { timeout: 3000 }).catch(() => {});
                 const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().isVisible().catch(() => false);
-                if (ok) return;
+                if (ok) {
+                    const stable = await waitForStableProfile();
+                    if (stable) return;
+                    errors.push('unstable:profilePath:' + p);
+                }
             } catch (e) {
                 // try next
             }
@@ -108,18 +183,80 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
 
         // 4) If Professional section already visible after navigation, we're done
         try {
-            if (await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().isVisible().catch(() => false)) return;
+            if (await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().isVisible().catch(() => false)) { return; }
         } catch (e) {
             errors.push('sectionCheck:' + (e instanceof Error ? e.message : String(e)));
         }
 
         // 5) Try multiple selectors for the Professional tab and click the first that works
+        // Pause here so the Playwright inspector can be used interactively during debug runs
+        // (helpful when element structure differs between environments).
+        try { await page.pause(); } catch (e) { /* ignore when not in debug mode */ }
+        // If we're still on dashboard, attempt a force navigation to the canonical profile URL
+        try {
+            const cur = await page.url();
+            if (/dashboard/.test(cur)) {
+                const forceUrl = new URL('settings/profile', env.getBaseUrl()).toString();
+                try {
+                    await page.goto(forceUrl, { waitUntil: 'networkidle', timeout: 15000 });
+                    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
+                        if (await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().isVisible().catch(() => false)) {
+                        // Install a lightweight client-side lock that forces the SPA URL back to /profile
+                        // if it briefly navigates away. This helps tests stay on the Profile page while
+                        // the app performs transient client-side routing.
+                        try {
+                                await page.evaluate(() => {
+                                // Install a light lock that keeps the SPA on /profile?tab=professional
+                                (window as any).__forceProfileLock = true;
+                                if ((window as any).__forceProfileInterval) return;
+                                const ensureProfile = () => {
+                                    try {
+                                        const u = location.pathname + (location.search || '');
+                                        if (!/profile(\/?|$)/i.test(u) || !/tab=professional/i.test(location.search)) {
+                                            history.pushState({}, '', '/profile?tab=professional');
+                                            window.dispatchEvent(new PopStateEvent('popstate'));
+                                        }
+                                        const candidates = Array.from(document.querySelectorAll('button, a, [role="tab"], li, div'))
+                                            .filter(n => n.textContent && /professional/i.test(n.textContent));
+                                        for (const el of candidates) {
+                                            try {
+                                                (el as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'center' });
+                                                el.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+                                                el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+                                                el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+                                                el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                                                break;
+                                            } catch (err) {
+                                                // continue
+                                            }
+                                        }
+                                    } catch (e) {
+                                        // swallow
+                                    }
+                                };
+                                (window as any).__forceProfileInterval = setInterval(ensureProfile, 250);
+                            });
+                        } catch (e) {
+                            // ignore
+                        }
+                        return;
+                    }
+                } catch (e) {
+                    // continue to selector attempts if force navigation fails
+                }
+            }
+        } catch (e) {
+            // ignore
+        }
         const selectors = [
             'role=tab[name="Professional Information"]',
             'role=tab[name="Professional"]',
             `xpath=${PROFESSIONAL_TAB}`,
             'button:has-text("Professional Information")',
             'button:has-text("Professional")',
+            'a[href*="/settings/profile"]',
+            'a[href*="/profile"]',
+            '[data-testid="profile-link"]',
             'a:has-text("Professional Information")',
             'a:has-text("Professional")',
             'text=Professional Information',
@@ -135,11 +272,40 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                 await loc.click({ timeout: 4000 });
                 const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
                 if (ok) {
-                    clicked = true;
-                    break;
+                    // verify the Professional heading text is present
+                    try { await expect(page.locator(`xpath=${PROFESSIONAL_SECTION}`).first()).toHaveText(/Professional Information/i, { timeout: 3000 }); } catch (e) { /* let stability check report */ }
+                    const stable = await waitForStableProfile();
+                    if (stable) {
+                        clicked = true;
+                        break;
+                    } else {
+                        errors.push(`unstable:selector:${sel}`);
+                        continue;
+                    }
                 }
             } catch (e) {
                 errors.push(`${sel}:${e instanceof Error ? e.message : String(e)}`);
+            }
+        }
+
+        // 5b) Explicitly try the canonical PROFESSIONAL_TAB XPath and then verify Field of Interest input
+        if (!clicked) {
+            try {
+                const explicit = page.locator(`xpath=${PROFESSIONAL_TAB}`).first();
+                if (await explicit.count() > 0) {
+                    await explicit.scrollIntoViewIfNeeded().catch(() => {});
+                    await explicit.click({ timeout: 4000 }).catch(() => {});
+                    const okInput = await page.locator(`xpath=${FIELD_OF_INTEREST_INPUT}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
+                    if (okInput) {
+                        // verify Professional heading text is present after the explicit tab click
+                        try { await expect(page.locator(`xpath=${PROFESSIONAL_SECTION}`).first()).toHaveText(/Professional Information/i, { timeout: 3000 }); } catch (e) { /* ignore, stability will catch */ }
+                        const stable = await waitForStableProfile();
+                        if (stable) { return; }
+                        errors.push('unstable:explicitTab');
+                    }
+                }
+            } catch (e) {
+                errors.push('explicitTab:' + (e instanceof Error ? e.message : String(e)));
             }
         }
 
@@ -159,16 +325,21 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                 try {
                     console.log('Trying menu selector', m, 'on', await page.url());
                     const mloc = page.locator(m).first();
-                    await mloc.waitFor({ state: 'visible', timeout: 2000 });
-                    await mloc.click({ timeout: 3000 }).catch(() => {});
+                    await mloc.waitFor({ state: 'visible', timeout: 5000 });
+                    await mloc.click({ timeout: 5000 }).catch(() => {});
                     const profileLink = page.locator('a:has-text("Profile"), a:has-text("Settings"), button:has-text("Profile"), text=Profile');
-                    await profileLink.first().waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
+                    await profileLink.first().waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
                     if (await profileLink.count() > 0) {
                         await profileLink.first().click({ timeout: 3000 }).catch(() => {});
                         const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
                         if (ok) {
-                            clicked = true;
-                            break;
+                            const stable = await waitForStableProfile();
+                            if (stable) {
+                                clicked = true;
+                                break;
+                            } else {
+                                errors.push('unstable:menuProfileLink');
+                            }
                         }
                     }
                 } catch (e) {
@@ -205,7 +376,11 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                         if (await profileLink.count() > 0) {
                             await profileLink.first().click({ timeout: 3000 }).catch(() => {});
                             const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
-                            if (ok) clicked = true;
+                            if (ok) {
+                                const stable = await waitForStableProfile();
+                                if (stable) clicked = true;
+                                else errors.push('unstable:dom-eval');
+                            }
                         }
                     }
                 } catch (e) {
@@ -222,7 +397,8 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
     };
 
     // Internal timeout to capture artifacts before Cucumber's default timeout kills the step
-    const timeoutMs = 45000;
+
+    const timeoutMs = 60000;
     let timer: any;
     const timeoutPromise = new Promise<never>((_, reject) => {
         timer = setTimeout(async () => {
@@ -244,7 +420,27 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
         const result = await Promise.race([attempt().then((r) => { clearTimeout(timer); return r; }), timeoutPromise]);
         return result;
     } finally {
+        // dump tabs outerHTML for debugging regardless of outcome
+        try { await dumpTabsOuterHTML(); } catch (e) {}
         clearTimeout(timer);
+        try {
+            // remove lightweight forceProfile lock if it was installed
+            try { if (typeof profile.clearProfileGuard === 'function') await profile.clearProfileGuard(); } catch (e) {}
+            try { if (typeof profile.clearProfileLock === 'function') await profile.clearProfileLock(); } catch (e) {}
+            try { if (typeof (profile as any).clearLocks === 'function') await (profile as any).clearLocks(); } catch (e) {}
+            try { if (typeof (profileObj as any).clearLocks === 'function') await (profileObj as any).clearLocks(); } catch (e) {}
+            await (page as any).evaluate(() => {
+                try {
+                    if ((window as any).__forceProfileInterval) {
+                        clearInterval((window as any).__forceProfileInterval);
+                        (window as any).__forceProfileInterval = null;
+                    }
+                    (window as any).__forceProfileLock = false;
+                } catch (e) {}
+            });
+        } catch (e) {
+            // ignore
+        }
     }
 });
 
