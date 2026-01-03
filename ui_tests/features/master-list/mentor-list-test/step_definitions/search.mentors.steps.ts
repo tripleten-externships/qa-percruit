@@ -3,7 +3,9 @@ import { LoginPage } from "../../../../src/pages/common/LoginPage";
 import { env } from "process";
 import { LogoutPage } from "../../../../src/pages/common/LogoutPage";
 import { MentorsPage } from "../../../../src/pages/admin/MentorsPage";
-import { expect } from "@playwright/test";
+import * as MentorListTestData from "../../../../src/test-data/MentorListTestData";
+
+
 
 setDefaultTimeout(120_000);
 
@@ -32,12 +34,13 @@ let mentorsPage: MentorsPage;
     
          When('the admin user searches for a mentor by full name', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await mentorsPage.SearchMentorsFullName();
+            /*await mentorsPage.SearchMentorsFullName();*/
+            await mentorsPage.SearchMentors(MentorListTestData.FULL_NAME);
          });
        
          Then('the mentors list should display only mentors whose names matches the search criteria', async function () {
            // Write code here that turns the phrase above into concrete actions
-          
+            await mentorsPage.allMentorNamesMatch(MentorListTestData.FULL_NAME);
          });
        
          Then('the total count should update to reflect the number of matching mentors', async function () {
@@ -48,7 +51,8 @@ let mentorsPage: MentorsPage;
             //Scenario 2
          When('the admin user searches using part of a mentor name', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await mentorsPage.SearchMentorsPartialName();
+            /*await mentorsPage.SearchMentorsPartialName();*/
+            await mentorsPage.SearchMentors(MentorListTestData.PARTIAL_NAME);
          });
        
          Then('the mentors list should show all mentors whose names contain the part of what was typed in', async function () {
@@ -64,7 +68,8 @@ let mentorsPage: MentorsPage;
          //scenario 3
          When('the admin user searches using a mentor email address', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await mentorsPage.SearchMentorsEmail();
+            /*await mentorsPage.SearchMentorsEmail();*/
+            mentorsPage.SearchMentors(MentorListTestData.MENTOR_EMAIL);
          });
         
          Then('only the mentor with that email address should appear in the list', async function () {
@@ -81,15 +86,18 @@ let mentorsPage: MentorsPage;
          //Scenario 4
          When('the admin user searches for a name or email that does not exist', async function () {
            // Write code here that turns the phrase above into concrete actions
-            await mentorsPage.SearchMentorNotInSystem();
+            /*await mentorsPage.SearchMentorNotInSystem();*/
+            await mentorsPage.SearchMentors(MentorListTestData.NON_EXISTENT_NAME);
+
          });
        
          Then('the mentors list should display a message saying {string}', async function (string) {
            // Write code here that turns the phrase above into concrete actions
-  
+             /*await mentorsPage.NoMentorsMessageIsVisible();*/
          });
        
          Then('the total count should reflect {int}', async function (int) {
          // Then('the total count should be {float}', function (float) {
            // Write code here that turns the phrase above into concrete actions
+             await mentorsPage.MentorsCountIsZero();
          });
