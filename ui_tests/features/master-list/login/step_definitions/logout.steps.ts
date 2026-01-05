@@ -8,7 +8,7 @@ import { LoginPage } from "../../../../src/pages/common/LoginPage";
 let logoutPage: LogoutPage;
 let loginPage: LoginPage;
 
-         Given('the admin is logged into the system', async function () {
+         Given('the admin is logged into the system to logout', async function () {
             //user logs in as an admin
             //user navigates to site 
             const loginPage = new LoginPage(this.page);
