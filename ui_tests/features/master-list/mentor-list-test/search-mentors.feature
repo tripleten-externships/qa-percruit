@@ -25,3 +25,4 @@ Feature:   As an admin User
     When the admin user searches for a name or email that does not exist
     Then the mentors list should display a message saying "No mentors found"
     And the total count should be 0
+    

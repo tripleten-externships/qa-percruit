@@ -57,7 +57,7 @@ let mentorsPage: MentorsPage;
        
          Then('the mentors list should show all mentors whose names contain the part of what was typed in', async function () {
            // Write code here that turns the phrase above into concrete actions
-   
+            await mentorsPage.allMentorNamesMatch(MentorListTestData.PARTIAL_NAME);
          });
        
          Then('the total count should reflect the number of matches', async function () {
@@ -69,12 +69,12 @@ let mentorsPage: MentorsPage;
          When('the admin user searches using a mentor email address', async function () {
            // Write code here that turns the phrase above into concrete actions
             /*await mentorsPage.SearchMentorsEmail();*/
-            mentorsPage.SearchMentors(MentorListTestData.MENTOR_EMAIL);
+            await mentorsPage.SearchMentors(MentorListTestData.MENTOR_EMAIL);
          });
         
          Then('only the mentor with that email address should appear in the list', async function () {
            // Write code here that turns the phrase above into concrete actions
-         
+            await mentorsPage.allMentorNamesMatch(MentorListTestData.MENTOR_EMAIL);
          });
        
          Then('the total count should be {int}', async function (int) {
@@ -94,6 +94,7 @@ let mentorsPage: MentorsPage;
          Then('the mentors list should display a message saying {string}', async function (string) {
            // Write code here that turns the phrase above into concrete actions
              /*await mentorsPage.NoMentorsMessageIsVisible();*/
+             await mentorsPage.allMentorNamesMatch(MentorListTestData.NON_EXISTENT_NAME);
          });
        
          Then('the total count should reflect {int}', async function (int) {

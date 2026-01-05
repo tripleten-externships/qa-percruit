@@ -38,29 +38,12 @@ constructor(page: Page) {
         await this.SEARCH_MENTORS_FIELD.fill(searchText);
     }
 
-    /*async SearchMentorsFullName() {
-        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.FULL_NAME)
-        ;
-    }
-
-    async SearchMentorsPartialName() {
-        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.PARTIAL_NAME);
-    }
-
-    async SearchMentorsEmail() {
-        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.MENTOR_EMAIL);
-    }
-
-    async SearchMentorNotInSystem() {
-        await this.SEARCH_MENTORS_FIELD.fill(MentorListTestData.NON_EXISTENT_NAME);
-    }*/
-
     async NoMentorsMessageIsVisible() {
         await expect(this.NO_MENTORS_FOUND_MESSAGE).toBeVisible();
     }
 
     async MentorsCountIsZero () {
-        await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(17);
+        await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(0);
     }
 
     async allMentorNamesMatch(searchText: string) {
@@ -75,9 +58,8 @@ constructor(page: Page) {
       expect(name.toLowerCase()).toContain(searchText.toLowerCase());
      }
     }
-
-    /*async mentorCountIs(expectedCount: number) {
-    await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(expectedCount);
+    /*async mentorCountIs(Count: number) {
+    await expect(this.MENTOR_NAME_HEADINGS).toHaveText(String(count));
 }*/
     }
 }
