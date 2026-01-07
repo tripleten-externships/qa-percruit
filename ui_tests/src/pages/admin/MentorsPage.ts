@@ -23,45 +23,39 @@ constructor(page: Page) {
    this.MENTOR_NAME_HEADINGS = page.getByRole('heading');
     }
 
-
+//Waits for the mentor page to fully load
     async waitForMentorsPageReady() {
         await this.page.waitForLoadState('domcontentloaded');
         await expect(this.SEARCH_MENTORS_FIELD).toBeVisible({ timeout: 100_000 });
     }
-    
+//Navigates to the mentor page
     async goToMentorsPage() {
         await this.MENTORS_TAB.click();
     }
-
+//Searches for a mentors name
     async SearchMentors(searchText: string) {
         await this.SEARCH_MENTORS_FIELD.fill('');
         await this.SEARCH_MENTORS_FIELD.fill(searchText);
     }
-
+//Confirms the 'No mentors found' message is visible
     async NoMentorsMessageIsVisible() {
         await expect(this.NO_MENTORS_FOUND_MESSAGE).toBeVisible();
     }
-
+//Confirms the mentor count shown is 0
     async MentorsCountIsZero () {
         await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(0);
     }
-
+//Confirms all mentor names displayed after searching match what was entered in search field
     async allMentorNamesMatch(searchText: string) {
-    const count = await this.MENTOR_NAME_HEADINGS.count();
-
-    // ✅ Handles "no mentors" case safely
-    if (count === 0) {
-      return;
+    const mentorNames = this.MENTOR_NAME_HEADINGS;
+    const count = await mentorNames.count();
 
     for (let i = 0; i < count; i++) {
       const name = await this.MENTOR_NAME_HEADINGS.nth(i).innerText();
       expect(name.toLowerCase()).toContain(searchText.toLowerCase());
      }
     }
-    /*async mentorCountIs(Count: number) {
-    await expect(this.MENTOR_NAME_HEADINGS).toHaveText(String(count));
-}*/
-    }
 }
+
 
 
