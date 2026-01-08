@@ -1,4 +1,4 @@
-@eric
+
 Feature:   As an admin User
   I want to expand my mentor entry to see their assigned students
   So that I can easily view which students belong to each mentor
