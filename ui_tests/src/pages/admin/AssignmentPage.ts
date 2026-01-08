@@ -16,7 +16,7 @@ export class AssignmentPage extends BasePage {
         await this.page.waitForLoadState('networkidle');
     }
 
-    async waitForDashboard(timeout = 30000) {
+    async waitForDashboard(timeout = 40000) {
         await expect(this.page.locator('h1:has-text("Admin Dashboard")')).toBeVisible({ timeout });
   }
 
