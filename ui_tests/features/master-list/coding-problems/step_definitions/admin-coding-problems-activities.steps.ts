@@ -99,10 +99,11 @@ declare const page: Page;
             await this.page.getByRole('button', { name: 'Create Problem' }).click();
             
         
-            Then('the added activity should be visible to the Admin on the Activities page', async function(){
-                await expect(this.page.getByRole('cell', { name: '1', exact: true })).toBeVisible();
-            })  
+          
         })
+        Then('the added activity should be visible to the Admin on the Activities page', async function(){
+                await expect(this.page.getByRole('cell', { name: '1', exact: true })).toBeVisible();
+            }) 
 
 //scenario updating an existing activity
         When('the Admin makes an edit to an existing activity with valid information', async function(){
@@ -170,15 +171,22 @@ declare const page: Page;
 //scenario no units present
         When('the Admin views the Activities tab', async function(){
 
+
             await this.page.getByRole('tab', { name: 'Activities' }).click();
         
         })
 
         When('there are no existing activities', async function(){
+             await this.page.getByRole('combobox').first().click();
+             await this.page.getByRole('option', { name: 'TypeScript' }).click();
+             await this.page.getByRole('combobox').nth(1).click();
+             await this.page.getByRole('option', { name: 'Sample Topic' }).click();
+             await this.page.getByRole('combobox').nth(2).click();
+             await this.page.getByRole('option', { name: 'unit' }).click();
 
             await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
 
         })
-        Then('the Admin should not see any activites displayed on the Activiites page', async function(){
-            
+        Then('the Admin should not see any activities displayed on the Activities page', async function(){
+            await expect(this.page.getByText('No activities yet. Click "Add')).toBeVisible();
         })

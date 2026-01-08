@@ -5,24 +5,24 @@ Feature: Categories in the Coding Problems page
   
   Background:
   Given the Admin is authenticated in the system
-@wip
+@indev
 Scenario: View existing categories
   When the Admin navigates to the Coding Problems page 
   Then the Admin should see all existing coding problems grouped by category
 
- @wip
+ @indev
 Scenario: Adding a new Category
   When the Admin adds a new category with valid information
   Then the new category should be visible along with the other Coding Problems categories
   And coding problems can be associated with the new category
 
-@wip
+@indev
 Scenario: Updating an existing Category
   When the Admin edits a category with valid information
   Then the details for the category will be changed successfully
   And the updated category should be correctly displayed on the Categories page
 
-@wip
+@indev
 Scenario: Deletion of an existing Category
    When the Admin deletes a specific category
    Then the Admin should receive a message asking if they are sure they want to delete the specific category 
