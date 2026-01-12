@@ -9,6 +9,12 @@ export class PrivacyAIPage {
   readonly optOutToggle: Locator;
   readonly descriptionText: Locator;
 
+  readonly avatarMenu: Locator;
+  readonly viewProfileButton: Locator;
+  readonly backdrop: Locator;
+
+  
+
   constructor(page: Page) {
     this.page = page;
 
@@ -22,6 +28,10 @@ export class PrivacyAIPage {
     this.optOutToggle = this.optOutLabel.locator('..').locator('button, input, span').first();
 
     this.descriptionText = page.getByText('When enabled, you will not have access to AI-powered features');
+
+    this.avatarMenu = page.locator('.MuiAvatar-root').first();
+    this.viewProfileButton = page.getByRole('menuitem', { name: 'View Profile' });
+    this.backdrop = page.locator('.MuiBackdrop-root.MuiBackdrop-invisible');
   }
 
   async openPrivacyAITab() {
