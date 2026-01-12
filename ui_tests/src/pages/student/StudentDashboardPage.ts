@@ -1,8 +1,5 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
-
-// <span class="ant-menu-title-content">Interview Study</span>
-// <span class="ant-menu-title-content">Job Board</span>
 
 export class StudentDashboardPage extends BasePage {
   readonly sideBar = {
@@ -25,16 +22,20 @@ export class StudentDashboardPage extends BasePage {
   }
 
   async isOnDashboardPage(): Promise<boolean> {
-    let isTrue = false;
-
-    // Check if required headings are visible to confirm we're on the dashboard
-    isTrue = await this.isHeadingVisible('Career Diary');
-    if (!isTrue) {
+    // Wait for the Career Diary heading to appear (gives page time to fully load)
+    try {
+      await this.page.waitForSelector('text=Career Diary', { timeout: 10000 });
+    } catch {
       return false;
     }
 
-    // Check if required Sidebar items are visible to confirm we're on the dashboard
-    return await this.areSpansVisible([
+    // Check if required headings are visible to confirm we're on the dashboard
+    const hasHeading = await this.isHeadingVisible('Career Diary');
+    if (!hasHeading) {
+      return false;
+    }
+
+    return await this.areMenuItemsVisible([
       this.sideBar.JOB_BOARD,
       this.sideBar.JOB_TRACKER,
       this.sideBar.RESUME_MANAGER,
@@ -44,5 +45,10 @@ export class StudentDashboardPage extends BasePage {
       this.sideBar.MESSAGES,
       this.sideBar.TASKS_GOALS,
     ]);
+  
   }
+
+  async verifyPage(){
+        await expect((this.isHeadingVisible));
+      }
 }

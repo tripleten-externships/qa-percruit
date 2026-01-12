@@ -1,12 +1,16 @@
+@wip
 Feature: Time Filters on Usage Metrics page
   As an Admin user
   Verify that the time filters update the counts correctly
   So that admin can view accurate metrics based on the selected time range
 
-@wip
+Background:
+    Given the Admin is authenticated in the system
+    And the Admin navigates to the Usage Metrics page
+
 Scenario Outline: Verify Time Filters update counts correctly
-  Given the user is on Admin Dashboard page
-  When the user click on the Usage Metrics tab
+  When I add the title "//nScenario: Verify Time Filters update counts correctly" to the log
+  And the user is on Real Time Activity tab
   And apply the "<timeFilter>" time filter
   Then user should see the usage counts updated for "<timeFilter>"
 
