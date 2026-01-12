@@ -6,7 +6,8 @@ export class AdminCodingProblemsTopicsPage {
   // Tabs & headings
   readonly topicsTab: Locator;
   readonly topicsHeading: Locator;
-
+  readonly contentManagementButton: Locator;
+  readonly codingCoursesButton: Locator;
   // Controls
   readonly selectCategoryDropdown: Locator;
   readonly addTopicButton: Locator;
@@ -22,9 +23,10 @@ export class AdminCodingProblemsTopicsPage {
     this.selectCategoryDropdown = page.getByRole('button', {
       name: 'Select Category',
     });
-    this.addTopicButton = page.getByRole('button', {
-      name: '+ Add Topic',
-    });
+    this.addTopicButton = page.locator("//button[normalize-space()='Add Topic']");
+    this.contentManagementButton = page.getByRole('button', { name: 'CONTENT MANAGEMENT' });
+    this.codingCoursesButton = page.getByRole('button', { name: 'Coding Courses' });
+
   }
 
   /* ---------- Page Actions ---------- */
