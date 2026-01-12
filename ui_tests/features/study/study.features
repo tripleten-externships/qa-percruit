@@ -1,0 +1,14 @@
+Feature: Study screen tests
+
+    
+Scenario: When user goes to the page, the page loads as expected.
+    Given the Student is authenticated in the system
+    When the user navigates to the Study page
+    Then the Study page is displayed
+
+Scenario
+    Given the Student is authenticated in the system
+    When the user navigates to the Study page
+    Then the Study page is displayed
+    Then the Search Questions box is clicked
+
