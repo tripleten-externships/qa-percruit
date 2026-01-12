@@ -28,6 +28,10 @@ let mentorsPage: MentorsPage;
             await this.page.goto(env.BASE_URL);
             await loginPage.loginAsUserType('Admin');
             await logoutPage.isOnHomePage();
+
+            await this.page.getByRole('button', { name: 'USER MANAGEMENT' }).click();
+            //await this.page.getByRole('button', { name: 'Mentors' }).click();
+            //await this.page.getByRole('textbox', { name: 'Search career coaches by name' }).click();
             await mentorsPage.goToMentorsPage();
             await mentorsPage.waitForMentorsPageReady();
          });

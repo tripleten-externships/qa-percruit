@@ -18,8 +18,8 @@ constructor(page: Page) {
    // Initialize locators
    this.MENTORS_TAB = this.page.getByRole('button', { name: 'Mentors' });
    this.MENTORS_HEADING = this.page.getByRole('heading', { name: 'Mentors' });
-   this.SEARCH_MENTORS_FIELD = this.page.getByPlaceholder('Search mentors by name, email');
-   this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No mentors found' })
+   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search career coaches by name' });
+   this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No career coaches found' })
    this.MENTOR_NAME_HEADINGS = page.getByRole('heading');
     }
 
