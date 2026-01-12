@@ -7,7 +7,7 @@ so that topics can be tracked or managed accurately
 Background:
   Given the Admin is authenticated in the system
   And the Admin is on the Topics tab in Coding Problems
-@indev
+  
 Scenario:  View Topics page elements
     When the Admin views the Topics tab
     Then the Topics heading should be visible
