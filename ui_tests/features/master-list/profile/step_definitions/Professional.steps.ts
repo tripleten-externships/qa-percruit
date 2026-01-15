@@ -55,14 +55,14 @@ function getProfilePage(this: CustomWorld) {
 And('the Admin is on the Professional tab in Profile Settings', async function (this: CustomWorld) {
     const page = (this as CustomWorld).page;
 
-    const profile = getProfilePage.call(this) as ProfilePage;
-    const profileObj = new ProfilePageObject(page);
+    let profile = getProfilePage.call(this) as any;
+    profile = new ProfilePageObject(page);
 
     const errors: string[] = [];
 
     // Prefer the ProfilePageObject deterministic opener before running fallback attempts
     try {
-        try { await profileObj.openProfessional(50000); } catch (e) { errors.push('profileObj.openProfessional:' + (e instanceof Error ? e.message : String(e))); }
+        try { await profile.openProfessionalTab(50000); } catch (e) { errors.push('profile.openProfessional:' + (e instanceof Error ? e.message : String(e))); }
         const ok = await page.locator(`xpath=${PROFESSIONAL_SECTION}`).first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
         if (ok) return;
     } catch (e) {
@@ -156,8 +156,8 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
                 await page.waitForLoadState('domcontentloaded', { timeout: 3000 }).catch(() => {});
             }
             // If the POM exposes a stronger ensure method, use it to guarantee the Professional tab
-            if (typeof profile.ensureOnProfessionalTab === 'function') {
-                await profile.ensureOnProfessionalTab().catch((e: any) => { errors.push('ensureOnProfessionalTab:' + (e instanceof Error ? e.message : String(e))); });
+            if (typeof (profile as any).ensureOnProfessionalTab === 'function') {
+                await (profile as any).ensureOnProfessionalTab().catch((e: any) => { errors.push('ensureOnProfessionalTab:' + (e instanceof Error ? e.message : String(e))); });
                 await page.waitForLoadState('domcontentloaded', { timeout: 2000 }).catch(() => {});
             }
         } catch (e) {
@@ -428,7 +428,7 @@ And('the Admin is on the Professional tab in Profile Settings', async function (
             try { if (typeof profile.clearProfileGuard === 'function') await profile.clearProfileGuard(); } catch (e) {}
             try { if (typeof profile.clearProfileLock === 'function') await profile.clearProfileLock(); } catch (e) {}
             try { if (typeof (profile as any).clearLocks === 'function') await (profile as any).clearLocks(); } catch (e) {}
-            try { if (typeof (profileObj as any).clearLocks === 'function') await (profileObj as any).clearLocks(); } catch (e) {}
+            try { if (typeof (profile as any).clearLocks === 'function') await (profile as any).clearLocks(); } catch (e) {}
             await (page as any).evaluate(() => {
                 try {
                     if ((window as any).__forceProfileInterval) {

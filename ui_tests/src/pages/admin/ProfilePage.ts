@@ -635,7 +635,7 @@ export class ProfilePage extends BasePage {
     }).catch(() => {});
   }
 
-  async openProfessionalTab(): Promise<boolean> {
+  async openProfessionalTab(p0?: number): Promise<boolean> {
     const stabilityCheck = async (tries = 3, delay = 400) => {
       for (let i = 0; i < tries; i++) {
         const ok = await this.waitForProfessionalSection(2000).catch(() => false);

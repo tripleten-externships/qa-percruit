@@ -145,11 +145,28 @@ Before(async function () {
 
 // After hook: Clean up browser and page after each scenario
 After(async function () {
-  // Wait before closing to allow for visual inspection or debugging
+  // Wait before closing to allow for visual inspection or debugging.
+  // Perform teardown asynchronously if a delay is configured so the hook
+  // itself doesn't block and risk hitting Cucumber's default hook timeout.
   const teardownDelay = getTeardownDelay();
   if (teardownDelay > 0) {
-    console.log(`Waiting ${teardownDelay}ms before closing browser...`);
-    await new Promise(resolve => setTimeout(resolve, teardownDelay));
+    console.log(`Scheduling browser close in ${teardownDelay}ms (non-blocking)`);
+    // schedule cleanup but do not await it here
+    setTimeout(async () => {
+      try {
+        if (this.page) {
+          await this.page.close();
+        }
+        if (this.browser) {
+          await this.browser.close();
+        }
+      } catch (err) {
+        console.warn('Error during async teardown:', err);
+      }
+    }, teardownDelay);
+
+    // return immediately so the After hook finishes quickly
+    return;
   }
 
   if (this.page) {
