@@ -1,4 +1,4 @@
-@wip
+
 Feature: Units in the Coding Problem page
 As an Admin
 The Admin wants to view and update units in the coding problems page
