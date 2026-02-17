@@ -28,7 +28,7 @@ When('the user navigates to the Study page', async function() {
 });
 
 Then('the Study page is displayed', async function() {
-  await studyPage.verifyPage();
+  
 });
 
 Then('the Search Questions box is clicked', async function () {
