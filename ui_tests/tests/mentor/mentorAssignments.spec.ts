@@ -10,6 +10,8 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 import { AssignmentPage } from '../../src/pages/admin/AssignmentPage';   
 import { AdminDashboardPage } from '../../src/pages/admin/AdminDashboardPage';
 
+let assignmentPage: AssignmentPage;
+
 
 test.describe('Mentor Assignments', () => {
   test.beforeEach(async ({ page }) => {
@@ -40,27 +42,27 @@ test.describe('Mentor Assignments', () => {
     assignmentPage = new AssignmentPage(page);
     await expect(page).toHaveURL(/mentor-assignments/);
     // Create a new mentor-student assignment
-    await this.assignmentPage.assignStudentToMentor(
+    await assignmentPage.assignStudentToMentor(
     'Eric Hibbard Student (eric.hibbard91+student@gmail.com)',
     'Eric Hibbard (eric.hibbard91+mentor@gmail.com)'); 
     // Verify that the assignment was created successfully
-    await this.assignmentPage.verifyAssignmentCreated();  
+    await assignmentPage.verifyAssignmentCreated();  
     // Verify that the new assignment appears in the assignments list
-    await this.assignmentPage.verifyDisplay();
+    await assignmentPage.verifyDisplay();
     // Remove assignment after each test to maintain test isolation
-    await this.assignmentPage.removeAssignment('Eric Hibbard Student');
+    await assignmentPage.removeAssignment('Eric Hibbard Student');
     // Check Assignment Issues Feature Steps
     await expect(page).toHaveURL(/mentor-assignments/);
      // Access incomplete info tool
-    this.assignmentResult = await this.assignmentPage.checkAssignmentIssues(
+    let assignmentResult = await assignmentPage.checkAssignmentIssues(
         'Eric Hibbard Student', 'Eric Hibbard'
     );
-    if (this.assignmentResult === 'all-complete') {
+    if (assignmentResult === 'all-complete') {
         // Skip verification because nothing was assigned
         return;
     }
-    await this.assignmentPage.verifyAssignmentIssue();
-    await this.assignmentPage.removeAssignment('Eric Hibbard Student');
+    await assignmentPage.verifyAssignmentIssue();
+    await assignmentPage.removeAssignment('Eric Hibbard Student');
   });
 
   test('Assignment Table Loads with the correct row of Mentor/Student/Status/Date', async ({ page }) => {
@@ -79,16 +81,16 @@ test.describe('Mentor Assignments', () => {
 
      await page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
     // Initiate AssignmentPage
-    this.assignmentPage = new AssignmentPage(page);
+    assignmentPage = new AssignmentPage(page);
     await expect(page).toHaveURL(/mentor-assignments/);
 
     // Wait for the table to load
     await page.waitForSelector('table');
     // Verify that table displays existing assignments
-    await this.assignmentPage.verifyTableDisplay();
+    await assignmentPage.verifyTableDisplay();
    
     // Verify that the table contains the correct columns
-    await this.assignmentPage.verifyColumnHeaders();
+    await assignmentPage.verifyColumnHeaders();
   });
 
 });
