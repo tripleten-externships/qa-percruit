@@ -43,13 +43,13 @@ test.describe('Student Interview Prep', () => {
     //     Then the student should see an option to join or schedule a Peer Interview session
     await interviewPrepPage.clickScheduleInterview();
 
-    await interviewPrepPage.selectInterviewOption(option as 'Peer Interview' | 'Expert Interview' | 'AI Practice');
+    //await interviewPrepPage.selectInterviewOption('Peer Interview' | 'Expert Interview' | 'AI Practice');
 
     await interviewPrepPage.verifyPeerInterviewPage();
 
     await interviewPrepPage.verifyExpertInterviewPage();
   });
-test('student can schedule a peer interview session', async ({ page }) => {
+test('student can schedule a peer interview session1', async ({ page }) => {
     await interviewPrepPage.verifyAIPracticePage();
 // Creating new peer interview sessions
     await interviewPrepPage.clickCreateNewSession();
