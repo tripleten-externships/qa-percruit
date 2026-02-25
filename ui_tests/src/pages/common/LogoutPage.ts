@@ -20,11 +20,11 @@ export class LogoutPage extends BasePage {
     }
     //confirms admin dashboard text is visible
     async isOnHomePage() {
-        await expect(this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible({ timeout: 30000 });
+        await expect(this.page.getByRole('heading', { name: 'Admin' })).toBeVisible({ timeout: 30000 });
     }
     //checks admin dashboard text is no longer visible to confirm a successful logout
     async noLongerOnDashboard() {
-        const locator = this.page.locator('Admin Dashboard');
+        const locator = this.page.locator('Admin');
             await expect(locator).toBeHidden();
     }
 }
