@@ -13,18 +13,17 @@ export class UsageMetricsPage extends BasePage {
   //readonly usagemetricsHeading = this.page.locator('//h3[contains(., "Admin Usage Metrics")]');
   readonly usagemetricsHeading = this.page.getByText('Admin Usage Metrics');
 
+
   // Methods to carry out actions on the Events page
   async clickButtonByText(buttonText: string): Promise<void> {
       await this.page.getByRole('button',{name:buttonText}).click();
   }
 
 
-  async isOnUsageMetricsPage(): Promise<boolean> {
+ async assertOnUsageMetricsPage() {
     // Wait for the heading to be visible to ensure the page has loaded
-    await this.page.waitForLoadState('networkidle');
-    await expect(this.usagemetricsHeading).toBeVisible();
-    // Return the visibility state (true) after waiting
-    return await this.usagemetricsHeading.isVisible();
-
-  }
+  await expect(this.page).toHaveURL(/usage-metrics/);
+  await expect(this.usagemetricsHeading).toBeVisible({ timeout: 10000 });
 }
+   
+  }

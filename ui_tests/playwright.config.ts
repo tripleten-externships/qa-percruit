@@ -45,9 +45,9 @@ export default defineConfig({
 
     testIdAttribute: "data-tt-tour",
 
-    video: "off",
+    video: "on",
 
-    screenshot: "on",
+    screenshot: "off",
   },
 
   /* Configure projects for major browsers */
