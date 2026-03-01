@@ -1,12 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { EventsPage } from '../../src/pages/mentor/EventsPage';
 import { getDateTimePlusMinutes } from '../../src/utils/dateUtils';
+import { LoginPage } from '../../src/pages/common/LoginPage';
+
+
 
 test.describe('Mentor - Events Management', () => {
   let eventsPage: EventsPage;
+  let loginPage: LoginPage;
+  
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    loginPage = new LoginPage(page);
     eventsPage = new EventsPage(page);
+
+    // Navigate to application
+    await page.goto(baseURL!);
+
+    // Login as Mentor
+    await loginPage.loginAsUserType('Mentor');
   });
 
   /* Scenario: Mentor successfully creates a new event
@@ -18,7 +30,7 @@ test.describe('Mentor - Events Management', () => {
 
   test('Mentor can create a new event successfully', async ({ page }) => {
     // Navigate to Events page
-    await eventsPage.clickByButtonRoleByText('Events');
+    await eventsPage.clickOnEvent();
     await page.waitForLoadState('networkidle', { timeout: 30000 });
 
     const isOnEventsPage = await eventsPage.isOnEventsManagementPage();
