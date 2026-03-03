@@ -31,7 +31,8 @@ test.describe('Mentor - Events Management', () => {
   test('Mentor can create a new event successfully', async ({ page }) => {
     // Navigate to Events page
     await eventsPage.clickOnEvent();
-    await page.waitForLoadState('networkidle', { timeout: 30000 });
+   // await page.waitForLoadState('networkidle', { timeout: 50000 });
+   // Not sure if line 34 should be left in or not. My test was able to pass without it.
 
     const isOnEventsPage = await eventsPage.isOnEventsManagementPage();
     expect(isOnEventsPage).toBeTruthy();
