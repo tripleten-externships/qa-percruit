@@ -8,6 +8,7 @@ export class MentorsPage extends BasePage {
  MENTORS_TAB: Locator;
  MENTORS_HEADING: Locator;
  SEARCH_MENTORS_FIELD: Locator;
+ SEARCH_MENTOR_EMAIL: Locator;
  NO_MENTORS_FOUND_MESSAGE: Locator;
  MENTOR_NAME_HEADINGS: Locator;
 
@@ -18,9 +19,10 @@ constructor(page: Page) {
    // Initialize locators
    this.MENTORS_TAB = this.page.getByRole('button', { name: 'Mentors' });
    this.MENTORS_HEADING = this.page.getByRole('heading', { name: 'Mentors' });
-   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search career coaches by name' });
+   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search coaches or students...' })
+   this.SEARCH_MENTOR_EMAIL = this.page.getByText('');
    this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No career coaches found' })
-   this.MENTOR_NAME_HEADINGS = page.getByRole('heading');
+   this.MENTOR_NAME_HEADINGS = this.page.getByRole('heading', { name: '', level: 6 }); 
     }
 
 //Waits for the mentor page to fully load
@@ -37,6 +39,11 @@ constructor(page: Page) {
         await this.SEARCH_MENTORS_FIELD.fill('');
         await this.SEARCH_MENTORS_FIELD.fill(searchText);
     }
+//Searches for a mentors email
+    async SearchMentorEmail(searchText: string) {
+        await this.SEARCH_MENTOR_EMAIL.fill('');
+        await this.SEARCH_MENTOR_EMAIL.fill(searchText);
+    }    
 //Confirms the 'No mentors found' message is visible
     async NoMentorsMessageIsVisible() {
         await expect(this.NO_MENTORS_FOUND_MESSAGE).toBeVisible();
@@ -45,7 +52,7 @@ constructor(page: Page) {
     async MentorsCountIsZero () {
         await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(0);
     }
-//Confirms all mentor names displayed after searching match what was entered in search field
+//Confirms all mentor names displayed after searching, match what was entered in search field
     async allMentorNamesMatch(searchText: string) {
     const mentorNames = this.MENTOR_NAME_HEADINGS;
     const count = await mentorNames.count();
