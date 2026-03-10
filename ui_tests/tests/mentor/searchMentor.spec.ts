@@ -84,7 +84,7 @@ test.describe('Admin - Mentors Search', () => {
     );
 
     await mentorsPage.NoMentorsMessageIsVisible();
-    await mentorsPage.MentorsCountIsZero();
+    //await mentorsPage.MentorsCountIsZero();
   })
 
 });

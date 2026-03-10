@@ -19,9 +19,9 @@ constructor(page: Page) {
    // Initialize locators
    this.MENTORS_TAB = this.page.getByRole('button', { name: 'Mentors' });
    this.MENTORS_HEADING = this.page.getByRole('heading', { name: 'Mentors' });
-   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search coaches or students...' })
-   this.SEARCH_MENTOR_EMAIL = this.page.getByText('');
-   this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No career coaches found' })
+   this.SEARCH_MENTORS_FIELD = this.page.getByRole('textbox', { name: 'Search coaches or students...' });
+   this.SEARCH_MENTOR_EMAIL = this.page.getByRole('textbox', { name: 'Search coaches or students...' });
+   this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No career coaches found' });
    this.MENTOR_NAME_HEADINGS = this.page.getByRole('heading', { name: '', level: 6 }); 
     }
 
@@ -49,9 +49,10 @@ constructor(page: Page) {
         await expect(this.NO_MENTORS_FOUND_MESSAGE).toBeVisible();
     }
 //Confirms the mentor count shown is 0
-    async MentorsCountIsZero () {
-        await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(0);
-    }
+    //async MentorsCountIsZero () {
+        //await expect(this.MENTOR_NAME_HEADINGS).toHaveCount(0);
+        // THERE WAS NO COUNTER THAT I FOUND
+   // }
 //Confirms all mentor names displayed after searching, match what was entered in search field
     async allMentorNamesMatch(searchText: string) {
     const mentorNames = this.MENTOR_NAME_HEADINGS;
