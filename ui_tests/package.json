@@ -21,7 +21,7 @@
     "@playwright/test": "^1.56.1",
     "@types/node": "^20.14.9",
     "cross-env": "^7.0.3",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.3.1",
     "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
