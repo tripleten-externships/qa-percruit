@@ -63,7 +63,7 @@ export class LoginPage extends BasePage {
   }
 
   async waitForDashboard(){
-    await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
+    await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeHidden();
     await expect(this.page).toHaveURL(/dashboard/);
 
   }
