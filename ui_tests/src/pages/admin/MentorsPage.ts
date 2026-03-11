@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
-
+import * as env from '../../config/world';
 
 export class MentorsPage extends BasePage {
 
@@ -11,6 +11,7 @@ export class MentorsPage extends BasePage {
  SEARCH_MENTOR_EMAIL: Locator;
  NO_MENTORS_FOUND_MESSAGE: Locator;
  MENTOR_NAME_HEADINGS: Locator;
+ RESULT_MENTOR_EMAIL: Locator;
 
 constructor(page: Page) {
     super(page);
@@ -23,6 +24,7 @@ constructor(page: Page) {
    this.SEARCH_MENTOR_EMAIL = this.page.getByRole('textbox', { name: 'Search coaches or students...' });
    this.NO_MENTORS_FOUND_MESSAGE = this.page.getByRole('heading', { name: 'No career coaches found' });
    this.MENTOR_NAME_HEADINGS = this.page.getByRole('heading', { name: '', level: 6 }); 
+   this.RESULT_MENTOR_EMAIL = this.page.getByText(env.getMentorEmail());
     }
 
 //Waits for the mentor page to fully load

@@ -3,6 +3,7 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 //import { LogoutPage } from '../../src/pages/common/LogoutPage';
 import { MentorsPage } from '../../src/pages/admin/MentorsPage';
 import * as MentorListTestData from '../../src/test-data/MentorListTestData';
+import * as env from '../../src/config/world';
 
 test.describe('Admin - Mentors Search', () => {
   let loginPage: LoginPage;
@@ -62,11 +63,11 @@ test.describe('Admin - Mentors Search', () => {
 
   test('Search mentors by email address', async () => {
     await mentorsPage.SearchMentorEmail(
-      MentorListTestData.MENTOR_EMAIL
+      env.getMentorEmail()
     );
-
+    await mentorsPage.RESULT_MENTOR_EMAIL.isVisible();
     await mentorsPage.allMentorNamesMatch(
-      MentorListTestData.MENTOR_EMAIL
+      env.getMentorName()
     );
 
     // Strong validation example:
