@@ -1,18 +1,22 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Page, Locator } from '@playwright/test';
 import * as env from '../../config/world';
 import { BasePage } from './BasePage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
   
+  INVALID_CREDENTIALS_ERROR_LOCATOR: Locator;
   readonly EMAIL_LOCATOR = '//input[@placeholder="user@example.com"]';
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
   readonly SIGNIN_LOCATOR = 'button:has-text("Sign In")';
   readonly FORGOT_PASSWORD_LOCATOR = 'button:has-text("Forgot password?")';
 
+
+  
   // Constructor to initialize the page object
   constructor(page: Page) {
     super(page);
+    this.INVALID_CREDENTIALS_ERROR_LOCATOR = this.page.getByText('Incorrect email or password. Please try again');
   }
   // Method to enter email into the email field
   async enterEmail(email: string) {
@@ -30,6 +34,10 @@ export class LoginPage extends BasePage {
   async clickForgotPassword() {
     await this.page.click(this.FORGOT_PASSWORD_LOCATOR);
   }
+ //confirms admin dashboard text is visible
+    async isOnHomePage() {
+         await expect(this.page).toHaveURL(/dashboard/);
+    }
 
   async login(email: string, password: string) {
     console.log("In POM login method, logging in as "+email);
