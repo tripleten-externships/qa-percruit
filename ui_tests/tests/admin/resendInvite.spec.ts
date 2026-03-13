@@ -42,3 +42,4 @@ await page.getByLabel('Email Address').fill(testEmail);
   ).toBeVisible();
 
 });
+
