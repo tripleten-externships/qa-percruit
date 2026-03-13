@@ -70,4 +70,3 @@ test('Should not be able to login with invalid email and invalid password', asyn
     await loginPage.clickSignIn();
     await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
 });
-});
