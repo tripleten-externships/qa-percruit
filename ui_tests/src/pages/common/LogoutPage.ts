@@ -2,6 +2,7 @@ import { Page, expect } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class LogoutPage extends BasePage {
+    //variables for locators
     PROFILE_MENU_LOCATOR = '.MuiAvatar-root'
     SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
 
