@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 
 export class PrivacyAIPage {
+  //variables for locators and page reference
   readonly page: Page;
 
   readonly privacyAITab: Locator;
