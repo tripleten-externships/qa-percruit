@@ -2,7 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import { MentorMeetingPage } from '../../src/pages/mentor/MentorMeetingPage';
 import { CookiesPolicyPage } from '../../src/pages/common/CookiesPolicyPage';
-import { getRandomStudent } from '../../src/test-data/MentorStudentsList';
+import { getRandomStudent } from '../../src/test-data/MentorMeetingsPageData';
 
 // Open one browser page in beforeAll
 // Log in once
