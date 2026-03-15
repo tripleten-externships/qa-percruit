@@ -20,7 +20,7 @@ export class JobBoardPage extends BasePage {
     // Navigation
     this.dashboardLink = page.getByRole('link', { name: 'Dashboard' });
     this.recommendedJobsLink = page.getByRole('link', { name: 'Recommended Jobs' });
-    this.recommendedJobsDropdown = page.getByRole('option', { name: 'Recommended Jobs' });
+    this.recommendedJobsDropdown = page.locator('p:has-text("Recommended Jobs")');
 
     // Job Board Elements
     //this.topSearchInput = page.locator('input[placeholder="Search"]');
@@ -37,9 +37,9 @@ export class JobBoardPage extends BasePage {
     await this.dashboardLink.click();
   }
 
-  async clickSidebarSearch() {
-    await this.topSearchInput.click();
-  }
+  // async clickSidebarSearch() {
+  //   await this.topSearchInput.click();
+  // }
 
   async selectRecommendedJobsFromDropdown() {
     await this.recommendedJobsDropdown.click();

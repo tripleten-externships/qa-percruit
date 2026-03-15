@@ -46,7 +46,7 @@ test.describe('Student Job Board Navigation', () => {
     await jobBoardPage.navigateToDashboard();
 
     // Step 5: Click sidebar search to display dropdown
-    await jobBoardPage.clickSidebarSearch();
+    //await jobBoardPage.clickSidebarSearch();
 
     // Step 6: Select Recommended Jobs from dropdown to navigate to Recommended Jobs page
     await jobBoardPage.selectRecommendedJobsFromDropdown();
