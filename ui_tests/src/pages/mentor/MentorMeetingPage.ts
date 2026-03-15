@@ -1,5 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
+import * as MentorMeetingPagTestData from '../../src/test-data/MentorMeetingPageTestData';
 import { assert } from 'console';
 
 export class MentorMeetingPage extends BasePage {
@@ -54,7 +55,7 @@ export class MentorMeetingPage extends BasePage {
         console.log('Schedule New Meeting popup is visible');
     }
 
-    async selectStudent(studentName: string) {
+    async selectStudent(studentName?: string) {
         // Student text box on Schedule New Meeting popup
         // readonly studentTextBox = this.page.getByPlaceholder('Student *');
         const studentTextBox = this.page.getByRole('combobox').first();
@@ -63,6 +64,10 @@ export class MentorMeetingPage extends BasePage {
 
         // Open dropdown
         await studentTextBox.click();
+
+        // If studentName is not provided, select a random student from test data
+        studentName = studentName?.trim() || MentorMeetingPagTestData.getRandomStudentName();
+        console.log(`Student chosen: ${studentName}`);
 
         // Select student dynamically
         await this.page.locator('[role="option"]').filter({ hasText: studentName }).first().click();
@@ -77,20 +82,21 @@ export class MentorMeetingPage extends BasePage {
         return studentName;
     }
 
-    async fillMeetingTitle() {
+    async fillMeetingTitle(meetingTitle?: string){
         const meetingTitleTextBox = this.page.getByRole('textbox', { name: 'Meeting Title' });
         await expect(meetingTitleTextBox).toBeVisible({ timeout: 5000 });
         console.log('Meeting Title text box is visible');
         // Focus the textbox
         await meetingTitleTextBox.click();
-        // Type the meeting title
-        console.log('Paused — please type the Meeting Title manually...');
-        await this.page.pause(); // User types manually in UI
+        // If the meetingTitle is not provided, allow the user to type in manually
+        meetingTitle = meetingTitle?.trim() || MentorMeetingPagTestData.getRandomMeetingTitle();
+        console.log(`Meeting Title chosen: ${meetingTitle}`);
+        // await this.page.pause(); // User types manually in UI
         // ⭐ Return the filled title for potential further validation
         return await meetingTitleTextBox.inputValue();
     }
 
-    async fillMeetingDescription() {
+    /* async fillMeetingDescription(meetingDescription: string) {
         const meetingDescriptionTextBox = this.page.getByRole('textbox', { name: 'Description' });
         await expect(meetingDescriptionTextBox).toBeVisible({ timeout: 5000 });
         console.log('Meeting Description text box is visible');
@@ -101,7 +107,7 @@ export class MentorMeetingPage extends BasePage {
         return await meetingDescriptionTextBox.inputValue();
     }
 
-    async selectMeetingType(optionText: string = 'Regular Check-in') {
+    async selectMeetingType(optionText?: string) {
 
         // 1. Verify Meeting Type label is visible to ensure the section is loaded before interacting with the dropdown
         const meetingTypeLabel  = this.page.locator('label', { hasText: 'Meeting Type' });
@@ -113,36 +119,31 @@ export class MentorMeetingPage extends BasePage {
         await expect(meetingTypeDropdown).toBeVisible();
         console.log('Meeting Type dropdown is visible');
 
-        // ⭐ 3. Verify the default value is "Regular Check-in"
-        const defaultValue = await meetingTypeDropdown.innerText();
+        // 3. Assert default value is "Regular Check-in"
         await expect(meetingTypeDropdown).toHaveText('Regular Check-in');
         console.log('Verified default Meeting Type: Regular Check-in');
-        
-        // ⭐ If the user wants the default, skip selection
-        if (optionText === 'Regular Check-in') {
-            console.log('User chose the default Meeting Type.');
-        } else {
-            // 4. Open dropdown
-            await meetingTypeDropdown.click();
-            console.log('Dropdown opened');
 
-            // 5. Select the user-chosen option
-            await this.page.locator('[role="option"]').filter({ hasText: optionText }).first().click();
+        // 4. Open dropdown so user can choose
+        await meetingTypeDropdown.click();
+        console.log('Dropdown opened');
 
-            // 6. Wait for dropdown to close
-            await expect(this.page.locator('[role="listbox"]')).toBeHidden();
-            console.log(`Selected Meeting Type: ${optionText}`);
-        }
+        // 5. Determine meeting type: user choice first, otherwise random
+        optionText = optionText?.trim() || MentorMeetingPagTestData.getRandomMeetingType();
+        console.log(`Meeting Type chosen: ${optionText}`);
 
-        // 7. Move to next field
+        // 6. Select the requested option
+        await this.page.locator('[role="option"]').filter({ hasText: optionText }).first().click();
+
+        // 7. Wait for dropdown to close
+        await expect(this.page.locator('[role="listbox"]')).toBeHidden();
+
+        // 8. Move to next field
         await this.page.keyboard.press('Tab');
-        console.log('Moved to next field');
 
         return optionText;
-
     }
 
-    async selectMeetingDuration() {
+    async selectMeetingDuration(meetingDuration?: number) {
         
         const durationLabel = this.page.locator('label', { hasText: 'Duration (minutes)' });
         const durationInput = durationLabel.locator('..').locator('input[type="number"]');
@@ -368,6 +369,6 @@ export class MentorMeetingPage extends BasePage {
             console.log('Confirmed the meeting appears in the upcoming meetings list with correct date & time');
         }
 
-    }   
+    }   */
 
 }

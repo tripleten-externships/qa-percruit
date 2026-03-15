@@ -2,7 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import { MentorMeetingPage } from '../../src/pages/mentor/MentorMeetingPage';
 import { CookiesPolicyPage } from '../../src/pages/common/CookiesPolicyPage';
-import { getRandomStudent } from '../../src/test-data/MentorMeetingsPageData';
+import * as MentorMeetingPageTestData from '../../src/test-data/MentormeetingsPageData';
+
 
 // Open one browser page in beforeAll
 // Log in once
@@ -49,10 +50,11 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
     await mentorMeetingPage.scheduleNewMeetingPopupIsVisible();
     // Verify that the Student text box is visible on Schedule New Meeting popup
     // Select student dynamically
-    const studentNameFromUser = getRandomStudent();
+    const studentNameFromUser = MentorMeetingsPageData.getRandomStudentName();
     const selectedStudent = await mentorMeetingPage.selectStudent(studentNameFromUser);
     console.log("Selected Student:", selectedStudent);
     // Fill in the meeting title manually
+    const meetingTitleData = MentorMeetingsPageData.getRandomMeetingTitle();
     const meetingTitle = await mentorMeetingPage.fillMeetingTitle();
     console.log("Meeting Title:", meetingTitle);
     // Fill in the meeting description manually if you want or can be skipped as it's not a mandatory field
