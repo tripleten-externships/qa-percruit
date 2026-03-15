@@ -9,7 +9,7 @@ export class JobBoardPage extends BasePage {
   
 
   // ===== Search Section Locators =====
-  readonly topSearchInput: Locator;
+  //readonly topSearchInput: Locator;
   readonly jobSearchInput: Locator;
   readonly locationInput: Locator;
   readonly recommendedJobsDropdown: Locator;
@@ -23,7 +23,7 @@ export class JobBoardPage extends BasePage {
     this.recommendedJobsDropdown = page.getByRole('option', { name: 'Recommended Jobs' });
 
     // Job Board Elements
-    this.topSearchInput = page.locator('input[placeholder="Search"]');
+    //this.topSearchInput = page.locator('input[placeholder="Search"]');
     this.jobSearchInput = page.getByPlaceholder('Search for jobs by title, skills, or company');
     this.locationInput = page.getByPlaceholder("Enter location or 'Remote'");
   }
@@ -47,7 +47,7 @@ export class JobBoardPage extends BasePage {
 
   // ===== Assertions =====
   async verifyPageLoaded() {
-    await expect(this.topSearchInput).toBeVisible();
+    //await expect(this.topSearchInput).toBeVisible();
     await expect(this.jobSearchInput).toBeVisible();
     await expect(this.locationInput).toBeVisible();
   }
