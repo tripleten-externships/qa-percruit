@@ -16,22 +16,42 @@ export class CookiesPolicyPage extends BasePage {
     readonly closeButton = this.page.getByRole('button', { name: '\u00D7' });
     // Accept Cookies button
     // readonly closeButton = this.page.getByRole('button', { name: 'Accept Cookies' });
+<<<<<<< Updated upstream
 
     async isCookieBannerVisible(): Promise<boolean> {
+=======
+    
+    async isCookieBannerVisible(): Promise<boolean> {
+        console.log('Checking if cookie banner is visible');
+>>>>>>> Stashed changes
         return await this.cookieBanner.isVisible();
     }
 
     async closeCookieBanner(): Promise<void> {
+<<<<<<< Updated upstream
+=======
+        console.log('Close cookie banner if it appears');
+>>>>>>> Stashed changes
         // Wait briefly for banner to appear (do not fail if it doesn't)
         await this.cookieBanner.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
 
         if (await this.cookieBanner.isVisible()) {
+<<<<<<< Updated upstream
             await this.closeButton.click();
+=======
+            console.log('Cookie banner is visible, attempting to close');
+            await this.closeButton.click();
+            console.log('Cookie banner closed');
+>>>>>>> Stashed changes
             await expect(this.cookieBanner).not.toBeVisible({ timeout: 5000 });
         }
     }
 
+<<<<<<< Updated upstream
 
+=======
+}
+>>>>>>> Stashed changes
 
     // // Method to check if the cookie banner is visible
     // async isCookieBannerVisible(): Promise<boolean> {
@@ -55,4 +75,7 @@ export class CookiesPolicyPage extends BasePage {
 
     // }
 
+<<<<<<< Updated upstream
 }
+=======
+>>>>>>> Stashed changes
