@@ -41,5 +41,6 @@ export function getRandomFutureDateTime() {
   const futureDate = new Date(now.getTime() + Math.random() * (30 * 24 * 60 * 60 * 1000)); // Random date within the next 30 days
   // Ensure the time falls within typical working hours (9 AM to 5 PM)
   futureDate.setHours(9 + Math.floor(Math.random() * 8), Math.floor(Math.random() * 60), 0, 0);
+  console.log(`Future Date generated randomly: ${futureDate}`)
   return futureDate;
 }

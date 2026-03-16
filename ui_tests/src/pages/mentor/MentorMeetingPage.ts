@@ -1,6 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 import * as MentorMeetingPagTestData from '../../test-data/MentorMeetingPageTestData';
+import * as ConvertUIDateTime from '../common/ConvertUIDateTime';
 import { assert } from 'console';
 
 export class MentorMeetingPage extends BasePage {
@@ -310,19 +311,20 @@ export class MentorMeetingPage extends BasePage {
 
         // Fill fallback value directly into the input
         await input.fill(fallbackValue);
-        console.log(`Fallback Meeting Date & Time applied: ${fallbackValue}`);
-
         // ⭐ CLICK OK BUTTON TO CLOSE CALENDAR POP-UP
         const okButton = this.page.getByRole('button', { name: 'OK' });
         await expect(okButton).toBeVisible({ timeout: 5000 });
         await okButton.click();
         console.log('Clicked OK button on calendar pop-up');
+        await this.page.waitForTimeout(2000);
+        const appliedDateTime = await input.inputValue();
+        console.log(`Fallback Meeting Date & Time applied: ${appliedDateTime}`);
 
         // Move to next field
         await this.page.keyboard.press('Tab');
         console.log('Moved to next field after fallback');
 
-        return fallbackValue;
+        return appliedDateTime;
     }
 
     async handleScheduleOrCancelFlow(): Promise<'scheduled' | 'cancelled'> {
@@ -374,95 +376,109 @@ export class MentorMeetingPage extends BasePage {
             else{return 'scheduled';}
             // If scheduled again → check conflict again
         }
-
     }
 
-    async confirmMeetingScheduled(studentName: string, meetingTitle: string, meetingDateTime: string) {
-        console.log('🔍 Verifying meeting appears in Upcoming Meetings list...');
-
-        // 1. Ensure we are on the meetings page
-        //write line to refresh the page and have the url
-        await this.page.reload({ waitUntil: 'domcontentloaded' });
+    async getUpcomingMeetings() {
+        console.log('📄 Fetching list of meetings from Upcoming tab...');
+        // Ensure we are on the meetings page
         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
 
-        // 2. Click the "Upcoming" tab
-        const upcomingTab = this.page.getByRole('tab', {name: /Upcoming.*\d*/ });
-        await expect(upcomingTab).toBeVisible();
+        // 1. Click the Upcoming tab (badge count varies, so use hasText)
+        const upcomingTab = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' });
+        await expect(upcomingTab).toBeVisible({ timeout: 5000 });
         await upcomingTab.click();
-        console.log('Opened Upcoming Meetings tab');
+        console.log('Opened Upcoming tab');
 
-        // 3. Get all upcoming meeting list items
-        const upcomingMeetings = this.page.getByRole('listitem');
-        const count = await upcomingMeetings.count();
+        // 2. Locate the table body
+        const tableBody = this.page.locator('tbody.MuiTableBody-root');
+        await expect(tableBody).toBeVisible({ timeout: 5000 });
 
-        console.log(`Found ${count} upcoming meeting(s). Checking for match...`);
+        // 3. Get all rows
+        const rows = tableBody.locator('tr');
+        const count = await rows.count();
 
-        // Normalize date for partial matching (UI may round minutes)
-        const dateOnly = meetingDateTime.split(',')[0]; // "MM/DD/YYYY"
+        console.log(`Found ${count} meeting row(s)`);
 
-        let matchFound = false;
+        const meetings = [];
 
         for (let i = 0; i < count; i++) {
-            const item = upcomingMeetings.nth(i);
-            const text = (await item.innerText()).trim();
+            const row = rows.nth(i);
+            let meetingDescription = '';
 
-            console.log(`\n📌 Checking meeting item #${i + 1}:`);
-            console.log(text);
-
-            // Check all fields
-            const hasStudent = text.includes(studentName);
-            const hasTitle = text.includes(meetingTitle);
-            const hasDate = text.includes(dateOnly); // partial match
-            
-            if (hasStudent && hasTitle && hasDate) {
-                console.log(`\n✅ MATCH FOUND — Meeting is correctly listed in Upcoming Meetings`);
-                console.log(`   Student: ${studentName}`);
-                console.log(`   Title: ${meetingTitle}`);
-                console.log(`   Date: ${meetingDateTime}`);
-                matchFound = true;
-                break;
+            // ⭐ Skip placeholder rows (no <h6> = no meeting)
+            const hasTitle = await row.locator('h6').count();
+            if (hasTitle === 0) {
+                console.log(`⏭ Skipping placeholder row ${i + 1}`);
+                continue;
             }
+            // Extract each cell
+            const titleCell = row.locator('td').nth(0);
+            const studentCell = row.locator('td').nth(1);
+            const typeCell = row.locator('td').nth(2);
+            const dateDurationCell = row.locator('td').nth(3);
+
+            // Extract title + description inside first cell
+            const meetingTitle = (await titleCell.locator('h6').innerText().catch(() => '')).trim();
+            const descLocator = titleCell.locator('span');
+            if (await descLocator.count() > 0) {
+                meetingDescription = (await descLocator.innerText()).trim();
+            }
+            const studentName = (await studentCell.innerText().catch(() => '')).trim();
+            const meetingType = (await typeCell.locator('span').innerText().catch(() => '')).trim();
+            const meetingDate = (await dateDurationCell.locator('p').innerText().catch(() => '')).trim();
+            const meetingDuration = (await dateDurationCell.locator('span').innerText().catch(() => '')).trim();
+
+            meetings.push({
+                meetingTitle,
+                meetingDescription,
+                studentName,
+                meetingType,
+                meetingDate,
+                meetingDuration
+            });
+
+            console.log(`📌 Row ${i + 1}:`, meetings[i]);
         }
 
-        if (!matchFound) {
-            console.log('\n❌ NO MATCH FOUND — Meeting is NOT listed in Upcoming Meetings');
-            console.log('Expected details:');
-            console.log(`   Student: ${studentName}`);
-            console.log(`   Title: ${meetingTitle}`);
-            console.log(`   Date: ${meetingDateTime}`);
+        return meetings;
+    }
+
+    async verifyScheduledMeeting(selectedStudent: string, meetingTitle: string, selectedDateTime: string) {
+        console.log("🔍 Verifying scheduled meeting in Upcoming tab...");
+
+        const upcomingMeetings = await this.getUpcomingMeetings();
+
+        if (upcomingMeetings.length === 0) {
+            throw new Error("❌ No meetings found in Upcoming tab.");
         }
 
-        return matchFound;
+        // Normalize expected date
+        const expectedFormatted = ConvertUIDateTime.formatUiDate(selectedDateTime);
+        const expectedDateOnly = ConvertUIDateTime.getDateOnly(expectedFormatted);
+
+        console.log("Expected Date:", expectedFormatted);
+
+        const match = upcomingMeetings.find(m => {
+            const uiFormatted = ConvertUIDateTime.formatUiDate(m.meetingDate);
+            const uiDateOnly = ConvertUIDateTime.getDateOnly(uiFormatted);
+            return (
+                m.studentName.toLowerCase().includes(selectedStudent.toLowerCase()) &&
+                m.meetingTitle.toLowerCase().includes(meetingTitle.toLowerCase()) &&
+                uiDateOnly === expectedDateOnly
+            );
+        });
+
+        if (match) {
+            console.log("✅ Scheduled meeting verified successfully!");
+            console.log("Matched Meeting:", match);
+            return true;
+        }
+
+        console.log("❌ Scheduled meeting NOT found in Upcoming tab.");
+        return false;
     }
 
 
-    // async confirmMeetingScheduled() {
-    //     // if handleScheduleOrCancelFlow returns final status as scheduled, we can add additional checks here to confirm the meeting 
-    //     // appears in the list of meetings with correct details (date/time/type/student)
-    //     // This can be done by locating the meeting in the list and verifying its details match what was selected during scheduling
-    //     if (await this.handleScheduleOrCancelFlow() === 'scheduled') {
-    //         // Add confirmation checks here
-
-    //         //get the selected date & time from selectMeetingDateTime function
-    //         const selectedDateTime = await this.selectMeetingDateTime();
-    //         //verify the page has the URL of /mentor-dashboard/meetings
-    //         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
-            
-    //         //verify the meeting appears in the upcoming meetings list with correct date & time that matches 
-    //         // partially the selectedDateTime (since the time might be adjusted to nearest 15 min interval by the system, 
-    //         // we can check for the date and hour to confirm it's the same meeting)
-
-    //         //upcoming meeting with role tab name 'Upcoming'
-    //         const upcomingMeeting = this.page.getByRole('tab', { name: 'Upcoming', exact: true });
-    //         await expect(upcomingMeeting).toBeVisible({ timeout: 5000 });
-    //         await upcomingMeeting.click();
-    //         //locate the meeting in the list with the selected date & time
-    //         const scheduledMeeting = this.page.getByRole('listitem').filter({ hasText: selectedDateTime });
-    //         await expect(scheduledMeeting).toBeVisible({ timeout: 5000 });
-
-    //         console.log('Confirmed the meeting appears in the upcoming meetings list with correct date & time', scheduledMeeting);
-    //     }
-    // }
 }
     
 

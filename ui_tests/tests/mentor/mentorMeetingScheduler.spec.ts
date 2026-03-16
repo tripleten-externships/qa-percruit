@@ -3,14 +3,13 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 import { MentorMeetingPage } from '../../src/pages/mentor/MentorMeetingPage';
 import { CookiesPolicyPage } from '../../src/pages/common/CookiesPolicyPage';
 
-
 // Open one browser page in beforeAll
 // Log in once
 // Reuse the same page for all tests inside the describe.serial
 
 test.describe.serial('Mentor Meeting Scheduler', () => {
 
-  // page will hold the shared Playwright page; usageMetricsPage must be created after the page exists
+  // page will hold the shared Playwright page
   let page: Page;
   let mentorMeetingPage: MentorMeetingPage;
   let cookiesPolicyPage: CookiesPolicyPage;
@@ -79,15 +78,16 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
   });
 
   // Scheduled Meeting Verification
-  // test('Verify if the given meeting exists in upcoming meetings', {tag: '@smoke'}, async() => {
-  //   // Fetch values of selectedStudent, meetingTitle and selectedDateTime from the above test
-  //   if(scheduleOrCancelResult == 'scheduled'){
-  //     await mentorMeetingPage.confirmMeetingScheduled(selectedStudent, meetingTitle, selectedDateTime); 
-  //   }
-  //   else {
-  //     console.log('Scheduling meeting was not successful');
-  //   }
-  // });
+  test('Verify if the given meeting exists in upcoming meetings', {tag: '@smoke'}, async() => {
+    // Fetch values of selectedStudent, meetingTitle and selectedDateTime from the above test
+    if(scheduleOrCancelResult == 'scheduled'){
+      await mentorMeetingPage.verifyScheduledMeeting(selectedStudent, meetingTitle, selectedDateTime);
+      //
+    }
+    else {
+      console.log('Scheduling meeting was not successful');
+    }
+  });
 
   // Close the page after all tests are finished
   test.afterAll(async () => {
