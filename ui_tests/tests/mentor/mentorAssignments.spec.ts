@@ -62,7 +62,7 @@ test.describe('Mentor Assignments', () => {
     await expect(page).toHaveURL(/mentor-assignments/);
      // Access incomplete info tool
     let assignmentResult = await assignmentPage.checkAssignmentIssues(
-        'Manjula StudentBulk1', 'Manjula Mentor1'
+        'manjula23.reddy+studentbulk1@gmail.com', 'Manjula Mentor1'
     );
     if (assignmentResult === 'all-complete') {
         // Skip verification because nothing was assigned

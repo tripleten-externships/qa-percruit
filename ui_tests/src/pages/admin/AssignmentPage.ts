@@ -155,7 +155,7 @@ async assignStudentToMentor(searchText: string, studentText: string, mentorText:
     }
 
 // Check Assignment Issues Feature
-    async checkAssignmentIssues(studentName: string, mentorName: string) {
+    async checkAssignmentIssues(studentEmail: string, mentorName: string) {
         // Checks for All Students have mentors assigned message. Msg disables check assignment issues button
         const allAssignedMessage = this.page.getByText(
             'All students have mentors assigned with complete information!'
@@ -180,7 +180,7 @@ async assignStudentToMentor(searchText: string, studentText: string, mentorText:
         await expect(noCoachMessage).toBeVisible({ timeout: 3000 });
 
         // Locate the student row using listitem filter
-        const studentRow = this.page.getByRole('listitem').filter({ hasText: studentName });
+        const studentRow = this.page.getByRole('listitem').filter({ hasText: studentEmail });
         await expect(studentRow).toBeVisible({ timeout: 5000 });
         await studentRow.scrollIntoViewIfNeeded();
 
