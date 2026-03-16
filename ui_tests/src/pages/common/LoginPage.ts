@@ -1,6 +1,7 @@
 import { expect, Page } from '@playwright/test';
 import * as env from '../../config/world';
 import { BasePage } from './BasePage';
+import { CookiesPolicyPage } from './CookiesPolicyPage';
 
 // Page Object Model (POM) class for the Login page
 export class LoginPage extends BasePage {
@@ -33,6 +34,8 @@ export class LoginPage extends BasePage {
 
   async login(email: string, password: string) {
     console.log("In POM login method, logging in as "+email);
+    const cookiesPolicyPage = new CookiesPolicyPage(this.page);
+    cookiesPolicyPage.closeCookieBanner();
     await this.enterEmail(email);
     //console.log("Entered this in email: "+ await this.page.locator(this.EMAIL_LOCATOR).allTextContents);
     await this.enterPassword(password);
@@ -63,6 +66,8 @@ export class LoginPage extends BasePage {
   }
 
   async waitForDashboard(){
+    // Wait for URL to change to dashboard first
+    await this.page.waitForURL(/dashboard/, { timeout: 15000 });
     await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
     await expect(this.page).toHaveURL(/dashboard/);
 
