@@ -2,7 +2,6 @@ import { test, expect, Page } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import { MentorMeetingPage } from '../../src/pages/mentor/MentorMeetingPage';
 import { CookiesPolicyPage } from '../../src/pages/common/CookiesPolicyPage';
-import * as MentorMeetingPageTestData from '../../src/test-data/MentormeetingsPageData';
 
 
 // Open one browser page in beforeAll
@@ -15,6 +14,12 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
   let page: Page;
   let mentorMeetingPage: MentorMeetingPage;
   let cookiesPolicyPage: CookiesPolicyPage;
+
+  // ⭐ Shared variables across tests
+  let selectedStudent: string;
+  let meetingTitle: string;
+  let selectedDateTime: string;
+  let scheduleOrCancelResult: string;
   
   // Receives the Playwright browser instance and configured baseURL
   test.beforeAll(async ({ browser, baseURL }) => {
@@ -50,20 +55,14 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
     await mentorMeetingPage.scheduleNewMeetingPopupIsVisible();
     // Verify that the Student text box is visible on Schedule New Meeting popup
     // Select student dynamically
-    const studentNameFromUser = MentorMeetingsPageData.getRandomStudentName();
-    const selectedStudent = await mentorMeetingPage.selectStudent(studentNameFromUser);
+    selectedStudent = await mentorMeetingPage.selectStudent();
     console.log("Selected Student:", selectedStudent);
     // Fill in the meeting title manually
-    const meetingTitleData = MentorMeetingsPageData.getRandomMeetingTitle();
-    const meetingTitle = await mentorMeetingPage.fillMeetingTitle();
+    meetingTitle = await mentorMeetingPage.fillMeetingTitle();
     console.log("Meeting Title:", meetingTitle);
     // Fill in the meeting description manually if you want or can be skipped as it's not a mandatory field
     const meetingDescription = await mentorMeetingPage.fillMeetingDescription();
-    if (meetingDescription?.trim()) {
-      console.log("Meeting Description:", meetingDescription.trim());
-    } else {
-      console.log("Meeting Description was left empty or null, which is acceptable as it's not mandatory.");
-    }
+    console.log("Meeting Description:", meetingDescription);
     // Select meeting type
     const selectedMeetingType = await mentorMeetingPage.selectMeetingType();
     console.log("Selected Meeting Type:", selectedMeetingType);
@@ -71,12 +70,24 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
     const selectedDuration = await mentorMeetingPage.selectMeetingDuration();
     console.log("Selected Duration:", selectedDuration);
     // Choose Meeting Date and Time
-    const selectedDateTime = await mentorMeetingPage.selectMeetingDateTime();
+    selectedDateTime = await mentorMeetingPage.selectMeetingDateTime();
     console.log("Selected Date and Time:", selectedDateTime);
     // Handle Schedule or Cancel Meeting based on the current state of the meeting (if already scheduled, it will cancel; if not scheduled, it will schedule)
-    const scheduleOrCancelResult = await mentorMeetingPage.handleScheduleOrCancelFlow();
+    scheduleOrCancelResult = await mentorMeetingPage.handleScheduleOrCancelFlow();
     console.log("Schedule or Cancel Result:", scheduleOrCancelResult);
+    // Verify the scheduled meeting is available in the list of upcoming meetings
   });
+
+  // Scheduled Meeting Verification
+  // test('Verify if the given meeting exists in upcoming meetings', {tag: '@smoke'}, async() => {
+  //   // Fetch values of selectedStudent, meetingTitle and selectedDateTime from the above test
+  //   if(scheduleOrCancelResult == 'scheduled'){
+  //     await mentorMeetingPage.confirmMeetingScheduled(selectedStudent, meetingTitle, selectedDateTime); 
+  //   }
+  //   else {
+  //     console.log('Scheduling meeting was not successful');
+  //   }
+  // });
 
   // Close the page after all tests are finished
   test.afterAll(async () => {

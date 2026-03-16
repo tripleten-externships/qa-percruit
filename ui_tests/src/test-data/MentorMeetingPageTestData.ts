@@ -1,4 +1,4 @@
-// Test data for Mentor Meeting Page tests
+// Test data for Mentor Meeting Page 
 
 //Test data for student names to be used in meeting scheduling tests. This can be expanded with more names as needed.
 export const studentNames = ['Bhargavi Bommu', 'Bhargavi2 Bommu2', 'Bhargavi3 Bommu3', 'Bhargavi4 Bommu4'];
@@ -33,4 +33,13 @@ export function getRandomMeetingType() {
 export const meetingDurations = [15, 30, 45, 60, 75, 90, 105, 120];
 export function getRandomMeetingDuration() {
   return meetingDurations[Math.trunc(Math.random() * meetingDurations.length)];
+}
+
+// Generate test data for meeting date and time selection. This function creates a random date and time for scheduling meetings, ensuring that the selected date is in the future and falls within typical working hours (9 AM to 5 PM).
+export function getRandomFutureDateTime() {
+  const now = new Date();
+  const futureDate = new Date(now.getTime() + Math.random() * (30 * 24 * 60 * 60 * 1000)); // Random date within the next 30 days
+  // Ensure the time falls within typical working hours (9 AM to 5 PM)
+  futureDate.setHours(9 + Math.floor(Math.random() * 8), Math.floor(Math.random() * 60), 0, 0);
+  return futureDate;
 }

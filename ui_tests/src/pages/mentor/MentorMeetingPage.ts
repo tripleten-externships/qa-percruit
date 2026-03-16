@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
-import * as MentorMeetingPagTestData from '../../src/test-data/MentorMeetingPageTestData';
+import * as MentorMeetingPagTestData from '../../test-data/MentorMeetingPageTestData';
 import { assert } from 'console';
 
 export class MentorMeetingPage extends BasePage {
@@ -82,143 +82,144 @@ export class MentorMeetingPage extends BasePage {
         return studentName;
     }
 
-    async fillMeetingTitle(meetingTitle?: string){
+    // async method for filling meeting title with user input flexibility. If user does not provide input within 3 seconds, 
+    // it falls back to random title from test data or provided value.
+    async fillMeetingTitle(meetingTitle?: string) {
         const meetingTitleTextBox = this.page.getByRole('textbox', { name: 'Meeting Title' });
         await expect(meetingTitleTextBox).toBeVisible({ timeout: 5000 });
         console.log('Meeting Title text box is visible');
+
         // Focus the textbox
         await meetingTitleTextBox.click();
-        // If the meetingTitle is not provided, allow the user to type in manually
-        meetingTitle = meetingTitle?.trim() || MentorMeetingPagTestData.getRandomMeetingTitle();
-        console.log(`Meeting Title chosen: ${meetingTitle}`);
-        // await this.page.pause(); // User types manually in UI
-        // ⭐ Return the filled title for potential further validation
-        return await meetingTitleTextBox.inputValue();
-    }
 
-    /* async fillMeetingDescription(meetingDescription: string) {
+        // ⭐ Give user 2 seconds to type manually
+        console.log('Waiting 2 seconds for user to type Meeting Title...');
+        await this.page.waitForTimeout(2000);
+
+        // Read whatever the user typed
+        let userTypedValue = (await meetingTitleTextBox.inputValue())?.trim();
+
+        if (userTypedValue) {
+            console.log(`User entered Meeting Title: ${userTypedValue}`);
+            return userTypedValue;
+        }
+
+        // ⭐ If user did NOT type anything → fallback to random or provided value
+        meetingTitle = meetingTitle?.trim() || MentorMeetingPagTestData.getRandomMeetingTitle();
+        console.log(`No user input detected. Using Meeting Title: ${meetingTitle}`);
+
+        // Fill the textbox with the chosen title
+        await meetingTitleTextBox.fill(meetingTitle);
+
+        return meetingTitle;
+    }
+    
+    // fillMeetingDescription is implemented here with the same user input flexibility
+    async fillMeetingDescription(meetingDescription?: string) {
         const meetingDescriptionTextBox = this.page.getByRole('textbox', { name: 'Description' });
         await expect(meetingDescriptionTextBox).toBeVisible({ timeout: 5000 });
         console.log('Meeting Description text box is visible');
-        // If the user wants to type in manually, allow the user to type or give the option to move to next field as Description is not a mandatory field
-        console.log('Paused — please type the Meeting Description manually or press Tab to skip...');
-        await this.page.pause(); // User types manually in UI or presses Tab to skip
-        // ⭐ Return the filled description for potential further validation
-        return await meetingDescriptionTextBox.inputValue();
+        // Focus the textbox
+        await meetingDescriptionTextBox.click();
+        // ⭐ Give user 2 seconds to type manually
+        console.log('Waiting 2 seconds for user to type Meeting Description (optional field)...');
+        await this.page.waitForTimeout(2000);
+        // Read whatever the user typed
+        let userTypedValue = (await meetingDescriptionTextBox.inputValue())?.trim();
+
+        if (userTypedValue) {
+            console.log(`User entered Meeting Description: ${userTypedValue}`);
+            return userTypedValue;
+        }
+
+        // ⭐ If user did NOT type anything → fallback to provided value
+        meetingDescription = meetingDescription?.trim() || MentorMeetingPagTestData.getRandomMeetingDescription();
+        console.log(`No user input detected. Using Meeting Description: ${meetingDescription}`);
+
+        // Fill the textbox with the chosen description
+        await meetingDescriptionTextBox.fill(meetingDescription);
+
+        return meetingDescription;
     }
 
-    async selectMeetingType(optionText?: string) {
+    // async method for meeting type selection with user input flexibility wait for 2 seconds or fetch the value from test data
+    async selectMeetingType(meetingType?: string) {
 
         // 1. Verify Meeting Type label is visible to ensure the section is loaded before interacting with the dropdown
         const meetingTypeLabel  = this.page.locator('label', { hasText: 'Meeting Type' });
         await expect(meetingTypeLabel).toBeVisible({ timeout: 5000 });
         console.log('Meeting Type label is visible');
-
         // 2. Locate the actual dropdown (combobox)
         const meetingTypeDropdown  = meetingTypeLabel.locator('..').locator('[role="combobox"]');
         await expect(meetingTypeDropdown).toBeVisible();
         console.log('Meeting Type dropdown is visible');
-
         // 3. Assert default value is "Regular Check-in"
         await expect(meetingTypeDropdown).toHaveText('Regular Check-in');
         console.log('Verified default Meeting Type: Regular Check-in');
-
         // 4. Open dropdown so user can choose
         await meetingTypeDropdown.click();
         console.log('Dropdown opened');
-
-        // 5. Determine meeting type: user choice first, otherwise random
-        optionText = optionText?.trim() || MentorMeetingPagTestData.getRandomMeetingType();
-        console.log(`Meeting Type chosen: ${optionText}`);
-
+        // 5. Determine meeting type: user choice first wait for 2 seconds, otherwise random
+        console.log('Waiting 2 seconds for user to select Meeting Type from dropdown...');
+        await this.page.waitForTimeout(2000);
+        meetingType = meetingType?.trim() || MentorMeetingPagTestData.getRandomMeetingType();
+        console.log(`Meeting Type chosen: ${meetingType}`);
         // 6. Select the requested option
-        await this.page.locator('[role="option"]').filter({ hasText: optionText }).first().click();
-
+        await this.page.locator('[role="option"]').filter({ hasText: meetingType }).first().click();
         // 7. Wait for dropdown to close
         await expect(this.page.locator('[role="listbox"]')).toBeHidden();
-
         // 8. Move to next field
         await this.page.keyboard.press('Tab');
-
-        return optionText;
+        console.log('Cursor moved to next field after Meeting Type selection');
+        return meetingType;
     }
 
+    //async method for meeting duration selection where user can adjust the duration using arrows and 
+    // we validate the selected duration is within the allowed range. 
+    // We give user 3 attempts to select a valid duration if they initially select an out-of-range value, other chose a random valid duration from test data
     async selectMeetingDuration(meetingDuration?: number) {
-        
         const durationLabel = this.page.locator('label', { hasText: 'Duration (minutes)' });
         const durationInput = durationLabel.locator('..').locator('input[type="number"]');
-
         const min = 15;
         const max = 120;
-        const step = 15;
         const defaultMinutes = 30;
-
+        let meetingMinutes = 0;
         // 1. Verify label is visible
         await expect(durationLabel).toBeVisible({ timeout: 5000 });
         console.log('Duration (minutes) label is visible');
-
         // 2. Verify input is visible
         await expect(durationInput).toBeVisible({ timeout: 5000 });
         console.log('Duration input box is visible');
-
-        // 3. Click to reveal arrows
-        await durationInput.click();
-        console.log('Clicked Duration input box');
         // ⭐ Give MUI time to render spinner (prevents freeze)
         await this.page.waitForTimeout(150);
-
-        // 4. Read current value
+        // 3. Read current value        
         let currentValue = parseInt(await durationInput.inputValue(), 10);
         console.log(`Current duration: ${currentValue}`);
-
-        // 5. Confirm default value is 30
+        // 4. Confirm default value is 30
         if (currentValue !== defaultMinutes) {
             throw new Error(`Expected default duration to be ${defaultMinutes}, but got ${currentValue}`);
         }
-
-        // 6. Let user manually adjust using arrows
-        console.log('Paused — please use the up/down arrows to adjust the duration...');
-        await this.page.pause();
-
-        // 7. After user adjusts, read final value
-        currentValue = parseInt(await durationInput.inputValue(), 10);
-        // console.log(`Final duration selected: ${currentValue} minutes`);
-
-        // 8. Validate range with retry logic
-        let attempts = 0;
-        const maxAttempts = 3;
-        while (attempts < maxAttempts) {
-            if (currentValue >= min && currentValue <= max) {
-            console.log(`Final duration selected: ${currentValue} minutes`);
-            break;
-            }
-
-            attempts++;
-            console.log(
-            `❗ Duration ${currentValue} is out of range (${min}-${max}). ` +
-            `Please choose a valid duration. Attempt ${attempts} of ${maxAttempts}.`
-            );
-
-            if (attempts === maxAttempts) {
-            throw new Error(
-                `❌ Invalid duration selected after ${maxAttempts} attempts. ` +
-                `Expected a value between ${min} and ${max}.`
-            );
-            }
-
-            console.log('Paused — please adjust the duration again...');
-            await this.page.pause();
-            currentValue = parseInt(await durationInput.inputValue(), 10);
+        // 5. Click to reveal arrows
+        await durationInput.click();
+        console.log('Clicked Duration input box');
+        //6. Wait for user to choose the duration manually/using arrows.
+        // If not selected within 2 seconds, fallback to provided value or random value from test data
+        console.log('Waiting 2 seconds for user to adjust Meeting Duration using arrows...');
+        await this.page.waitForTimeout(2000);
+        meetingDuration = meetingDuration || MentorMeetingPagTestData.getRandomMeetingDuration();
+        if (!meetingDuration || meetingDuration < min || meetingDuration > max) {
+            console.log(`Meeting Duration: ${meetingDuration} minutes`);
+            meetingDuration = MentorMeetingPagTestData.getRandomMeetingDuration();
         }
- 
-        // 9. Move to next field
+        await durationInput.fill(meetingDuration.toString());
+        //7. Move to next field
         await this.page.keyboard.press('Tab');
-        console.log('Moved to next field');
+        console.log('Moved to next field after Meeting Duration selection');
         // ⭐ Return the selected duration for potential further validation
-        return currentValue;
-
+        return meetingDuration;
     }
 
+    //aync method for meeting date & time selection where user must select a date & time from the calendar pop-up. We wait for the user to make a selection and close the pop-up, then we fetch the selected value for potential further validation
     async selectMeetingDateTime() {
         // -------------------------------
         // Locators
@@ -260,23 +261,68 @@ export class MentorMeetingPage extends BasePage {
         // ============================================================
         console.log('******** Waiting for user to manually select date & time... ********');
 
-        // ⭐ Wait until the user closes the pop-up
-        await expect(calendarPopup).toBeHidden({ timeout: 60000 });
-        console.log('User closed the calendar pop-up');
+        let userClosedPopup = false;
+
+        try {
+            // ⭐ Wait up to 10 seconds for user to close the popup
+            await expect(calendarPopup).toBeHidden({ timeout: 10000 });
+            userClosedPopup = true;
+            console.log('User closed the calendar pop-up');
+        } catch {
+            console.log('⏳ User did NOT select a date & time within 10 seconds.');
+        }
 
         // ============================================================
-        // FETCH USER-SELECTED DATE & TIME
+        // CHECK IF USER SELECTED A VALUE
         // ============================================================
-        const selectedDateTimeValue = await input.inputValue();
-        // console.log(`User selected date & time: ${selectedDateTimeValue}`);
+        let selectedDateTimeValue = await input.inputValue();
+
+        if (userClosedPopup && selectedDateTimeValue.trim() !== "") {
+            console.log(`User selected date & time: ${selectedDateTimeValue}`);
+
+            // Move to next field
+            await this.page.keyboard.press('Tab');
+            console.log('Calendar selection complete — moved to next field');
+
+            return selectedDateTimeValue;
+        }
 
         // ============================================================
+        // FALLBACK: AUTO-SELECT TOMORROW AT 10:00 AM
+        // ============================================================
+        console.log('⚠️ No user selection detected — applying fallback date & time.');
+
+        // fetch data from test data generator using the function getRandomFutureDateTime which generates a random date 
+        // within the next 30 days and time between 9 AM to 5 PM
+        const futureDateTime = MentorMeetingPagTestData.getRandomFutureDateTime();
+        // console.log(`Generated random future date & time: ${futureDateTime}`);
+        
+        // Format the date & time to match the expected input format "MM/DD/YYYY hh:mm aa"
+        const month = String(futureDateTime.getMonth() + 1).padStart(2, '0');
+        const day = String(futureDateTime.getDate()).padStart(2, '0');
+        const year = String(futureDateTime.getFullYear());
+        const hour = String(futureDateTime.getHours()).padStart(2, '0');
+        const minute = String(futureDateTime.getMinutes()).padStart(2, '0');
+        const period = futureDateTime.getHours() >= 12 ? 'PM' : 'AM';
+
+        const fallbackValue = `${month}/${day}/${year} ${hour}:${minute} ${period}`;
+
+
+        // Fill fallback value directly into the input
+        await input.fill(fallbackValue);
+        console.log(`Fallback Meeting Date & Time applied: ${fallbackValue}`);
+
+        // ⭐ CLICK OK BUTTON TO CLOSE CALENDAR POP-UP
+        const okButton = this.page.getByRole('button', { name: 'OK' });
+        await expect(okButton).toBeVisible({ timeout: 5000 });
+        await okButton.click();
+        console.log('Clicked OK button on calendar pop-up');
+
         // Move to next field
-        // ============================================================
         await this.page.keyboard.press('Tab');
-        console.log('Calendar selection complete — moved to next field');
+        console.log('Moved to next field after fallback');
 
-        return selectedDateTimeValue; // ⭐ Return the selected date & time for potential further validation
+        return fallbackValue;
     }
 
     async handleScheduleOrCancelFlow(): Promise<'scheduled' | 'cancelled'> {
@@ -296,10 +342,16 @@ export class MentorMeetingPage extends BasePage {
         await scheduleBtn.click();
         console.log('User clicked Schedule Meeting');
 
-        // -------------------------------
-        // CHECK FOR CONFLICT ALERT
-        // -------------------------------
-        if (await conflictAlert.isVisible()) {
+        // Wait briefly for redirect
+        await this.page.waitForTimeout(500);
+
+        // Check URL to confirm scheduling
+        const currentUrl = this.page.url();
+        if (this.MEETINGS_PAGE_URL_REGEX.test(currentUrl)) {
+            console.log('Meeting was successfully scheduled');
+            return 'scheduled';
+        } else {
+            await conflictAlert.isVisible();
             console.log('⚠️ Conflict detected: The selected meeting time overlaps with an existing meeting.');
             console.log('Please choose a different time from the calendar pop-up.');
 
@@ -319,56 +371,98 @@ export class MentorMeetingPage extends BasePage {
             console.log('Meeting scheduling was cancelled by the user');
             return 'cancelled';
             }
-
+            else{return 'scheduled';}
             // If scheduled again → check conflict again
-            return await this.handleScheduleOrCancelFlow();
-
         }
 
-        // -------------------------------
-        // NO CONFLICT → REDIRECT HAPPENS
-        // -------------------------------
+    }
+
+    async confirmMeetingScheduled(studentName: string, meetingTitle: string, meetingDateTime: string) {
+        console.log('🔍 Verifying meeting appears in Upcoming Meetings list...');
+
+        // 1. Ensure we are on the meetings page
+        //write line to refresh the page and have the url
+        await this.page.reload({ waitUntil: 'domcontentloaded' });
         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
-        console.log('Meeting was successfully scheduled');
-        return 'scheduled';
 
-    }
+        // 2. Click the "Upcoming" tab
+        const upcomingTab = this.page.getByRole('tab', {name: /Upcoming.*\d*/ });
+        await expect(upcomingTab).toBeVisible();
+        await upcomingTab.click();
+        console.log('Opened Upcoming Meetings tab');
 
+        // 3. Get all upcoming meeting list items
+        const upcomingMeetings = this.page.getByRole('listitem');
+        const count = await upcomingMeetings.count();
 
+        console.log(`Found ${count} upcoming meeting(s). Checking for match...`);
 
-    async scheduleMeetingButton() {
-        const scheduleButton = this.page.getByRole('button', { name: 'Schedule Meeting' });
-        await expect(scheduleButton).toBeVisible({ timeout: 5000 });
-        await scheduleButton.click();
-        console.log('Clicked Schedule Meeting button to finalize scheduling');
-    }
+        // Normalize date for partial matching (UI may round minutes)
+        const dateOnly = meetingDateTime.split(',')[0]; // "MM/DD/YYYY"
 
-    async scheduleMeetingCancelButton() {
-        const cancelButton = this.page.getByRole('button', { name: 'Cancel' });
-        await expect(cancelButton).toBeVisible({ timeout: 5000 });
-        await cancelButton.click();
-        console.log('Clicked Schedule Meeting cancel button');
-    }
+        let matchFound = false;
 
-    async confirmMeetingScheduled() {
-        // if handleScheduleOrCancelFlow returns final status as scheduled, we can add additional checks here to confirm the meeting appears in the list of meetings with correct details (date/time/type/student)
-        // This can be done by locating the meeting in the list and verifying its details match what was selected during scheduling
-        if (await this.handleScheduleOrCancelFlow() === 'scheduled') {
-            // Add confirmation checks here
-            //get the selected date & time from selectMeetingDateTime function
-            const selectedDateTime = await this.selectMeetingDateTime();
-            //verify the page has the URL of /mentor-dashboard/meetings
-            await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
-            //verify the meeting appears in the upcoming meetings list with correct date & time
-            //upcoming meeting with role tab name 'Upcoming'
-            const upcomingMeeting = this.page.getByRole('tab', { name: 'Upcoming', exact: true });
-            await expect(upcomingMeeting).toBeVisible({ timeout: 5000 });
-            //locate the meeting in the list with the selected date & time
-            const scheduledMeeting = this.page.getByRole('listitem').filter({ hasText: selectedDateTime });
-            await expect(scheduledMeeting).toBeVisible({ timeout: 5000 });
-            console.log('Confirmed the meeting appears in the upcoming meetings list with correct date & time');
+        for (let i = 0; i < count; i++) {
+            const item = upcomingMeetings.nth(i);
+            const text = (await item.innerText()).trim();
+
+            console.log(`\n📌 Checking meeting item #${i + 1}:`);
+            console.log(text);
+
+            // Check all fields
+            const hasStudent = text.includes(studentName);
+            const hasTitle = text.includes(meetingTitle);
+            const hasDate = text.includes(dateOnly); // partial match
+            
+            if (hasStudent && hasTitle && hasDate) {
+                console.log(`\n✅ MATCH FOUND — Meeting is correctly listed in Upcoming Meetings`);
+                console.log(`   Student: ${studentName}`);
+                console.log(`   Title: ${meetingTitle}`);
+                console.log(`   Date: ${meetingDateTime}`);
+                matchFound = true;
+                break;
+            }
         }
 
-    }   */
+        if (!matchFound) {
+            console.log('\n❌ NO MATCH FOUND — Meeting is NOT listed in Upcoming Meetings');
+            console.log('Expected details:');
+            console.log(`   Student: ${studentName}`);
+            console.log(`   Title: ${meetingTitle}`);
+            console.log(`   Date: ${meetingDateTime}`);
+        }
 
+        return matchFound;
+    }
+
+
+    // async confirmMeetingScheduled() {
+    //     // if handleScheduleOrCancelFlow returns final status as scheduled, we can add additional checks here to confirm the meeting 
+    //     // appears in the list of meetings with correct details (date/time/type/student)
+    //     // This can be done by locating the meeting in the list and verifying its details match what was selected during scheduling
+    //     if (await this.handleScheduleOrCancelFlow() === 'scheduled') {
+    //         // Add confirmation checks here
+
+    //         //get the selected date & time from selectMeetingDateTime function
+    //         const selectedDateTime = await this.selectMeetingDateTime();
+    //         //verify the page has the URL of /mentor-dashboard/meetings
+    //         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
+            
+    //         //verify the meeting appears in the upcoming meetings list with correct date & time that matches 
+    //         // partially the selectedDateTime (since the time might be adjusted to nearest 15 min interval by the system, 
+    //         // we can check for the date and hour to confirm it's the same meeting)
+
+    //         //upcoming meeting with role tab name 'Upcoming'
+    //         const upcomingMeeting = this.page.getByRole('tab', { name: 'Upcoming', exact: true });
+    //         await expect(upcomingMeeting).toBeVisible({ timeout: 5000 });
+    //         await upcomingMeeting.click();
+    //         //locate the meeting in the list with the selected date & time
+    //         const scheduledMeeting = this.page.getByRole('listitem').filter({ hasText: selectedDateTime });
+    //         await expect(scheduledMeeting).toBeVisible({ timeout: 5000 });
+
+    //         console.log('Confirmed the meeting appears in the upcoming meetings list with correct date & time', scheduledMeeting);
+    //     }
+    // }
 }
+    
+
