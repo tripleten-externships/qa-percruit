@@ -22,7 +22,7 @@ test.describe('Mentor - Task Management', () => {
 
   });
 
-  test('Mentor can create Resume Review task(AutoApprove)', async ({ page }) => {
+  test('Mentor can create Resume Review task(AutoApprove)', {tag: '@Smoke'}, async ({ page }) => {
 
     await page.getByRole('button', { name: 'Create Task' }).click();
     await page.getByRole('button', { name: 'Open' }).click();
