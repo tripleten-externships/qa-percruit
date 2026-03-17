@@ -2,7 +2,13 @@
 import { test, chromium, Browser, Page, expect } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 
+// Import environment configuration and Page Object Models
+import * as env from '../../src/config/world';
+import { StudentDashboardPage } from '../../src/pages/student/StudentDashboardPage';
+
+// Declare variables to hold browser, page, and page objects instances
 let loginPage: LoginPage;
+let studentDashboardPage: StudentDashboardPage;
 
 test.describe('Student Add Contact', () => {
   test.beforeEach(async ({ page }) => {
