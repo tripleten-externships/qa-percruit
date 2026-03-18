@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import * as env from '../../src/config/world';
 
-test('Admin can resend a pending invitation', async ({ page }) => {
+test('Admin can resend a pending invitation',{tag: '@smoke', }, async ({ page }) => {
 
   const loginPage = new LoginPage(page);
 
