@@ -96,7 +96,7 @@ test('student is able to send thank you message',{tag: '@smoke'}, async ({ page 
   await page.getByRole('button', { name: 'Yes, I sent it' }).click();
 }); // This closes the test (started at line 75)
 
-//student is able to send networking message
+//Student is able to send networking message
 test('student is able to send networking message', {tag: '@smoke'},  async ({page}) => {
  await page.goto('https://stage.tripleten.percruit.com/');
   await page.getByRole('textbox', { name: 'user@example.com' }).click();
