@@ -44,29 +44,42 @@ test.describe('Student Login Flow', () => {
 });
 
 test.describe('Invalid Login Tests', () => {
-  test('Should not be able to login with valid email and invalid password', async ({ page }) => {
-    const loginPage = new LoginPage(page);
+
+  test.beforeEach(async ({ page }) => {
     await page.goto(env.getBaseUrl());
+  });
+
+  test('Should not login with valid email and invalid password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
     await loginPage.enterEmail(env.getAdminEmail());
-    await loginPage.enterPassword('invalidPassword');
-    await loginPage.clickSignIn();
-    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
-});
+    await loginPage.enterPassword('wrongpassword');
 
-test('Should not be able to login with invalid email and valid password', async ({ page }) => {
+    await loginPage.clickSignIn();
+
+    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
+  test('Should not login with invalid email and valid password', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto(env.getBaseUrl());
-    await loginPage.enterEmail('invalid@example.com');
+
+    await loginPage.enterEmail('fakeuser@example.com');
     await loginPage.enterPassword(env.getAdminPassword());
-    await loginPage.clickSignIn();
-    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
-});
 
-test('Should not be able to login with invalid email and invalid password', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await page.goto(env.getBaseUrl());
-    await loginPage.enterEmail('invalid@example.com');
-    await loginPage.enterPassword('invalidPassword');
     await loginPage.clickSignIn();
+
     await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
+  test('Should not login with invalid email and invalid password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.enterEmail('fakeuser@example.com');
+    await loginPage.enterPassword('wrongpassword');
+
+    await loginPage.clickSignIn();
+
+    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
 });
