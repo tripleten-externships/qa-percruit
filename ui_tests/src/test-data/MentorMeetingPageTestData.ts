@@ -43,4 +43,6 @@ export function getRandomFutureDateTime() {
   futureDate.setHours(9 + Math.floor(Math.random() * 8), Math.floor(Math.random() * 60), 0, 0);
   console.log(`Future Date generated randomly: ${futureDate}`)
   return futureDate;
+  // const futureDate = 'Tue Mar 24 2026 12:17:00 GMT-0500 (Central Daylight Time)' //Example to manually change the value for debugging
+  return futureDate 
 }

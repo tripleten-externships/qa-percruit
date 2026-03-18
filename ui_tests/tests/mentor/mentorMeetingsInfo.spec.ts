@@ -12,7 +12,9 @@ interface MeetingInfo {
   meetingDuration: string;
 }
 
-test.describe('Mentor Meetings Information', () => {
+// ⭐ RUN TESTS IN SERIAL (IMPORTANT) as the login user type and the basepage is the same, 
+// it causes errors while executing tests in parallel
+test.describe.serial('Mentor Meetings Information', () => {
   // page will hold the shared Playwright page; usageMetricsPage must be created after the page exists
   let page: Page;
   let mentorMeetingPage: MentorMeetingPage;
@@ -47,7 +49,30 @@ test.describe('Mentor Meetings Information', () => {
     // Verify that the URL is correct after clicking the link  
     await mentorMeetingPage.clickOnscheduleAndManageMeetingsLink();
     meetingsList = await mentorMeetingPage.getUpcomingMeetings();
-    // console.log("Final meetings list:", meetingsList);
+  });
+
+  // Get count of upcoming meetings
+  test('Upcoming Meetings Count', {tag: '@smoke'}, async () => {
+    console.log('Starting test: Get count of upcoming meetings');
+    // page is created in beforeEach
+    // Locate Meetings & Communications Heading to ensure the page has loaded
+    await expect(mentorMeetingPage.meetingsAndCommunication).toBeVisible({ timeout: 5000 });
+    // Click on Schedule and Manage Meetings link in the sidebar
+    // Verify that the URL is correct after clicking the link  
+    await mentorMeetingPage.clickOnscheduleAndManageMeetingsLink();
+    await mentorMeetingPage.getUpcomingMeetingsCount();
+  });
+
+  // Get count of past meetings
+  test('Past Meetings Count', {tag: '@smoke'}, async () => {
+    console.log('Starting test: Get count of past meetings');
+    // page is created in beforeEach
+    // Locate Meetings & Communications Heading to ensure the page has loaded
+    await expect(mentorMeetingPage.meetingsAndCommunication).toBeVisible({ timeout: 5000 });
+    // Click on Schedule and Manage Meetings link in the sidebar
+    // Verify that the URL is correct after clicking the link  
+    await mentorMeetingPage.clickOnscheduleAndManageMeetingsLink();
+    await mentorMeetingPage.getPastMeetingsCount();
   });
 
   test.afterEach(async () => {
@@ -56,3 +81,8 @@ test.describe('Mentor Meetings Information', () => {
   });
 
 });
+
+//   // test name
+//   test('', {tag: '@smoke'}, async () => {
+   
+//   });

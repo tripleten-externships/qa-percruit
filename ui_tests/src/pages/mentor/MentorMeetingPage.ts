@@ -10,6 +10,9 @@ export class MentorMeetingPage extends BasePage {
     readonly scheduleMeeting: Locator;
     readonly scheduleNewMeetingPopup: Locator;
     readonly MEETINGS_PAGE_URL_REGEX: RegExp;
+    readonly modal: Locator;
+    readonly meetingScheduleBtn:Locator;
+    readonly meetingCancelBtn: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -28,6 +31,13 @@ export class MentorMeetingPage extends BasePage {
 
         // Define the URL regex for the Schedule and Manage Meetings page
         this.MEETINGS_PAGE_URL_REGEX = /\/mentor-dashboard\/meetings$/;
+
+        // Define Schedule Meeting popup modal, to handle schedule meeting conflict
+        this.modal = this.page.locator('div[role="dialog"]').filter({ hasText: 'Schedule New Meeting' });
+
+        // Schedule and Cancel buttons are visible only in Schedule New Meeting window
+        this.meetingScheduleBtn = this.page.getByRole('button', { name: 'Schedule Meeting' });
+        this.meetingCancelBtn = this.page.getByRole('button', { name: 'Cancel' });
     }
 
     async meetingsAndCommunicationIsVisible() {
@@ -220,21 +230,16 @@ export class MentorMeetingPage extends BasePage {
         return meetingDuration;
     }
 
-    //aync method for meeting date & time selection where user must select a date & time from the calendar pop-up. We wait for the user to make a selection and close the pop-up, then we fetch the selected value for potential further validation
+    //aync method for meeting date & time selection where user must select a date & time from the calendar pop-up. 
+    // We wait for the user to make a selection and close the pop-up, then we fetch the selected value for potential further validation
     async selectMeetingDateTime() {
         // -------------------------------
         // Locators
         // -------------------------------
         const label = this.page.locator('label', { hasText: 'Meeting Date & Time' });
-
-        const input = label
-            .locator('..')
-            .locator('input[placeholder="MM/DD/YYYY hh:mm aa"]');
-
-        const openCalendarButton = label
-            .locator('..')
-            .locator('button[aria-label*="Choose date"]');  // Always opens unified calendar pop-up
-
+        const input = label.locator('..').locator('input[placeholder="MM/DD/YYYY hh:mm aa"]');
+        const openCalendarButton = label.locator('..').locator('button[aria-label*="Choose date"]');  // Always opens unified calendar pop-up
+        
         // -------------------------------
         // Ensure field is visible
         // -------------------------------
@@ -250,10 +255,7 @@ export class MentorMeetingPage extends BasePage {
         console.log('Opened calendar pop-up');
 
         // ⭐ Unified calendar pop-up (date + time)
-        const calendarPopup = this.page
-            .locator('div[role="dialog"]')
-            .filter({ has: this.page.locator('button[role="gridcell"]') });
-
+        const calendarPopup = this.page.locator('div[role="dialog"]').filter({ has: this.page.locator('button[role="gridcell"]') });
         await expect(calendarPopup).toBeVisible({ timeout: 5000 });
         console.log('Calendar pop-up is visible');
 
@@ -265,18 +267,21 @@ export class MentorMeetingPage extends BasePage {
         let userClosedPopup = false;
 
         try {
-            // ⭐ Wait up to 10 seconds for user to close the popup
-            await expect(calendarPopup).toBeHidden({ timeout: 10000 });
+            // ⭐ Wait up to 5 seconds for user to close the popup
+            await expect(calendarPopup).toBeHidden({ timeout: 5000 });
             userClosedPopup = true;
+            // Ensure modal is visible
+            await expect(this.modal).toBeVisible({ timeout: 5000 });
             console.log('User closed the calendar pop-up');
+            
         } catch {
-            console.log('⏳ User did NOT select a date & time within 10 seconds.');
+            console.log('⏳ User did NOT select a date & time within 5 seconds.');
         }
 
         // ============================================================
         // CHECK IF USER SELECTED A VALUE
         // ============================================================
-        let selectedDateTimeValue = await input.inputValue();
+        let selectedDateTimeValue = await input.inputValue();  
 
         if (userClosedPopup && selectedDateTimeValue.trim() !== "") {
             console.log(`User selected date & time: ${selectedDateTimeValue}`);
@@ -284,19 +289,18 @@ export class MentorMeetingPage extends BasePage {
             // Move to next field
             await this.page.keyboard.press('Tab');
             console.log('Calendar selection complete — moved to next field');
-
             return selectedDateTimeValue;
         }
 
         // ============================================================
-        // FALLBACK: AUTO-SELECT TOMORROW AT 10:00 AM
+        // FALLBACK: AUTO-SELECT RANDOM Date & time [9 AM - 5PM]
         // ============================================================
         console.log('⚠️ No user selection detected — applying fallback date & time.');
 
         // fetch data from test data generator using the function getRandomFutureDateTime which generates a random date 
         // within the next 30 days and time between 9 AM to 5 PM
         const futureDateTime = MentorMeetingPagTestData.getRandomFutureDateTime();
-        // console.log(`Generated random future date & time: ${futureDateTime}`);
+        console.log(`Generated random future date & time: ${futureDateTime}`);
         
         // Format the date & time to match the expected input format "MM/DD/YYYY hh:mm aa"
         const month = String(futureDateTime.getMonth() + 1).padStart(2, '0');
@@ -307,7 +311,7 @@ export class MentorMeetingPage extends BasePage {
         const period = futureDateTime.getHours() >= 12 ? 'PM' : 'AM';
 
         const fallbackValue = `${month}/${day}/${year} ${hour}:${minute} ${period}`;
-
+        // const fallbackValue = '3/24/2026 12:17 PM' //fallbackValue example to use literal value 
 
         // Fill fallback value directly into the input
         await input.fill(fallbackValue);
@@ -316,10 +320,12 @@ export class MentorMeetingPage extends BasePage {
         await expect(okButton).toBeVisible({ timeout: 5000 });
         await okButton.click();
         console.log('Clicked OK button on calendar pop-up');
-        await this.page.waitForTimeout(2000);
+        // Ensure modal is visible
+        await expect(this.modal).toBeVisible({ timeout: 5000 });
         const appliedDateTime = await input.inputValue();
+        await this.page.waitForTimeout(3000);
         console.log(`Fallback Meeting Date & Time applied: ${appliedDateTime}`);
-
+        await this.page.waitForTimeout(3000);
         // Move to next field
         await this.page.keyboard.press('Tab');
         console.log('Moved to next field after fallback');
@@ -328,56 +334,109 @@ export class MentorMeetingPage extends BasePage {
     }
 
     async handleScheduleOrCancelFlow(): Promise<'scheduled' | 'cancelled'> {
-        const modal = this.page.locator('div[role="dialog"]').filter({ hasText: 'Schedule New Meeting' });
-
-        const scheduleBtn = this.page.getByRole('button', { name: 'Schedule Meeting' });
-        const cancelBtn = this.page.getByRole('button', { name: 'Cancel' });
-        const conflictAlert = this.page.getByRole('alert'); // conflict banner
-
         // Ensure modal is visible
-        await expect(modal).toBeVisible({ timeout: 5000 });
+        await expect(this.modal).toBeVisible({ timeout: 5000 });
         console.log('Schedule New Meeting pop-up is visible');
 
-        // -------------------------------
-        // USER CLICKS SCHEDULE MEETING
-        // -------------------------------
-        await scheduleBtn.click();
-        console.log('User clicked Schedule Meeting');
-
-        // Wait briefly for redirect
-        await this.page.waitForTimeout(500);
-
-        // Check URL to confirm scheduling
-        const currentUrl = this.page.url();
-        if (this.MEETINGS_PAGE_URL_REGEX.test(currentUrl)) {
-            console.log('Meeting was successfully scheduled');
-            return 'scheduled';
-        } else {
-            await conflictAlert.isVisible();
-            console.log('⚠️ Conflict detected: The selected meeting time overlaps with an existing meeting.');
-            console.log('Please choose a different time from the calendar pop-up.');
-
-            // ⭐ ONLY retry date & time selection
-            await this.selectMeetingDateTime();
-
-            console.log('User selected a new date & time. Waiting for user to choose Schedule or Cancel again.');
-
-            // ⭐ Wait for whichever button disappears first
-            const userChoice = await Promise.race([
-            scheduleBtn.waitFor({ state: 'detached' }).then(() => 'scheduled' as const),
-            cancelBtn.waitFor({ state: 'detached' }).then(() => 'cancelled' as const)
+        // ⭐ Wait up to 3 seconds for user to choose Schedule or Cancel
+        let userChoice: 'scheduled' | 'cancelled';
+        try {
+            userChoice = await Promise.race([
+                this.meetingScheduleBtn.waitFor({ state: 'detached' }).then(() => 'scheduled' as const),
+                this.meetingCancelBtn.waitFor({ state: 'detached' }).then(() => 'cancelled' as const),
+                this.page.waitForTimeout(3000).then(() => 'scheduled' as const) // ⭐ default after 3 seconds
             ]);
+        } catch (err) {
+            console.log("Error while waiting for user choice:", err);
+            userChoice = 'scheduled'; // fallback
+            this.meetingScheduleBtn.click();
+        }
 
-            if (userChoice === 'cancelled') {
-            await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
-            console.log('Meeting scheduling was cancelled by the user');
-            return 'cancelled';
+        // ⭐ If user clicked Cancel
+        if (userChoice === 'cancelled') {
+            if (!(await this.modal.isVisible())) {
+                console.log('Meeting scheduling was cancelled by the user');
+                console.log(`User choice detected: ${userChoice}`);
             }
-            else{return 'scheduled';}
-            // If scheduled again → check conflict again
+            return 'cancelled';
+        }
+        else {
+            console.log(`User choice detected: ${userChoice}`);
+            // ⭐ If user clicked Schedule OR timeout defaulted to Schedule
+            let meetingConflictHandle = await this.meetingConflictSchedule();
+            console.log(`meetingConflictHandle value: ${meetingConflictHandle}`);
+            if (meetingConflictHandle === 'resolved') {
+                await this.meetingScheduleBtn.click();
+                await this.page.waitForTimeout(3000);
+                console.log('User clicked Schedule Meeting after the meeting date/time conflict is resolved');
+
+                const currentUrl = this.page.url();
+                if (this.MEETINGS_PAGE_URL_REGEX.test(currentUrl)) {
+                    console.log('Meeting was successfully scheduled');
+                }
+                return 'scheduled';
+            }
+            else {return 'cancelled';}
         }
     }
 
+    async meetingConflictSchedule(): Promise<'resolved' | 'cancelled'> {
+        console.log('User clicked Schedule Meeting');
+        // Click schedule
+        await this.meetingScheduleBtn.click();
+        // ⭐ WAIT for backend validation to show conflict banner
+        await this.page.waitForTimeout(3000);
+        // Ensure modal is visible
+        await expect(this.modal).toBeVisible({ timeout: 5000 });
+        // console.log('Schedule New Meeting pop-up is visible');
+        // Now check conflict
+        return await this.handleMeetingConflict();;
+    
+    }
+
+    async handleMeetingConflict(): Promise<'resolved' | 'cancelled'> {
+        const conflictAlert = this.page.getByRole('alert'); // conflict banner
+        let attempts = 0;
+        const maxAttempts = 3;
+        
+        // ⭐ Wait for conflict banner to appear (if it will)
+        await conflictAlert.waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
+
+        // Check & Repeat only while conflict banner is visible
+        while (attempts < maxAttempts && await conflictAlert.isVisible()) {
+            console.log('⚠️ Conflict detected: The selected meeting time overlaps with an existing meeting.');
+            console.log('Please choose a different time from the calendar pop-up.');
+            // ⭐ Retry date & time selection
+            await this.selectMeetingDateTime();
+            console.log('User selected a new date & time. Waiting for user to choose Schedule or Cancel again.');
+            // Click schedule again
+            await this.meetingScheduleBtn.click();
+            // ⭐ WAIT for backend to validate again
+            await this.page.waitForTimeout(3000);
+            console.log(`Attempts to clear schedule conflict: ${attempts+1}`);
+            attempts++;
+
+        }
+        // If we exit the loop because attempts exceeded maxAttempts
+        if (attempts === maxAttempts && await conflictAlert.isVisible()) {
+            console.log('❌ Meeting conflict still exists after maximum retries.');
+            console.log('Aborting the meeting schedule workflow or please re-run the scheduling process.');
+            await this.meetingCancelBtn.click();
+            return 'cancelled';
+        }
+
+        if (attempts === 0){
+            console.log('attempts value is still 0');
+            return 'cancelled';
+        }
+        else {
+            console.log('✅ Conflict resolved or no conflict detected.');
+            return 'resolved';
+        }
+        
+    }
+
+    //Method to get the details of all the upcoming meetings
     async getUpcomingMeetings() {
         console.log('📄 Fetching list of meetings from Upcoming tab...');
         // Ensure we are on the meetings page
@@ -437,12 +496,13 @@ export class MentorMeetingPage extends BasePage {
                 meetingDuration
             });
 
-            console.log(`📌 Row ${i + 1}:`, meetings[i]);
+            // console.log(`📌 Row ${i + 1}:`, meetings[i]);
         }
 
         return meetings;
     }
 
+    //Method to verify the successfully scheduled meeting
     async verifyScheduledMeeting(selectedStudent: string, meetingTitle: string, selectedDateTime: string) {
         console.log("🔍 Verifying scheduled meeting in Upcoming tab...");
 
@@ -478,6 +538,91 @@ export class MentorMeetingPage extends BasePage {
         return false;
     }
 
+    //Method to get the count of upcoming meetings
+    async getUpcomingMeetingsCount() {
+        // Ensure we are on the meetings page
+        await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
+
+        // 1. Click the Upcoming tab (badge count varies, so use hasText)
+        const upcomingTab = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' });
+        await expect(upcomingTab).toBeVisible({ timeout: 5000 });
+        await upcomingTab.click();
+        console.log('Opened Upcoming tab');
+        // 2. Locate the table body
+        const tableBody = this.page.locator('tbody.MuiTableBody-root');
+        await expect(tableBody).toBeVisible({ timeout: 5000 });
+        // 3. Get all rows
+        const rows = tableBody.locator('tr');
+        const rowsCount = await rows.count();
+        const badge = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' }).locator('.MuiBadge-badge');
+        await expect(badge).toBeVisible({ timeout: 5000 });
+        const count = parseInt(await badge.innerText(), 10);
+        if(count == rowsCount){
+            console.log("Upcoming Meetings count:", count);
+        }        
+        return count;
+    }
+
+    //Method to get the count of past meetings
+    async getPastMeetingsCount() {
+        console.log("📄 Fetching Past meetings count...");
+
+        // Ensure we are on the meetings page
+        await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
+
+        // 1. Click the Past tab
+        const pastTab = this.page.locator('button[role="tab"]', { hasText: 'Past' });
+        await expect(pastTab).toBeVisible({ timeout: 5000 });
+        await pastTab.click();
+        console.log("Opened Past tab");
+
+        // ⭐ Wait for the tab to become selected
+        await expect(pastTab).toHaveAttribute("aria-selected", "true");
+
+        // ⭐ Wait for the Past tabpanel to be active
+        const pastPanel = this.page.locator('div[role="tabpanel"]').filter({ hasText: 'Past' });
+        await expect(pastPanel).toBeVisible({ timeout: 5000 });
+
+        // ⭐ Wait for table body to re-render after tab switch
+        const tableBody = this.page.locator('tbody.MuiTableBody-root');
+        await expect(tableBody).toBeVisible({ timeout: 5000 });
+
+        // ⭐ Wait for at least 1 row OR stable empty state
+        await this.page.waitForTimeout(300); // MUI hydration delay
+
+        const rows = tableBody.locator('tr');
+        const totalRows = await rows.count();
+
+        // 2. Fetch badge count
+        const badge = pastTab.locator('.MuiBadge-badge');
+        await expect(badge).toBeVisible({ timeout: 5000 });
+
+        const badgeCount = parseInt(await badge.innerText(), 10);
+        console.log("🔢 Past Meetings Badge Count:", badgeCount);
+
+        // 3. Count only REAL rows (skip placeholder rows)
+        let validRows = 0;
+
+        for (let i = 0; i < totalRows; i++) {
+            const row = rows.nth(i);
+
+            const hasTitle = await row.locator('h6').count();
+            if (hasTitle > 0) {
+                validRows++;
+            }
+        }
+
+        console.log("📘 Past Meetings Table Count:", validRows);
+
+        // 4. Verification
+        if (badgeCount === validRows) {
+            console.log(`✅ Past meetings count matches table rows (${validRows})`);
+        } else {
+            console.log(`❌ Count mismatch → Badge: ${badgeCount}, Table: ${validRows}`);
+        }
+
+        return { badgeCount, tableCount: validRows };
+    }
 
 }
     
