@@ -4,7 +4,7 @@ import * as env from '../../src/config/world';
 
 
 
-test.describe('Admin Login Flow', () => {
+test.describe('Admin Login Flow',{tag: '@smoke'}, () => {
   test.beforeEach(async ({ page, baseURL }) => {
     const loginPage = new LoginPage(page);
     await page.goto(baseURL!);
@@ -17,7 +17,7 @@ test.describe('Admin Login Flow', () => {
   });
 });
 
-test.describe('Mentor Login Flow', () => {
+test.describe('Mentor Login Flow',{tag: '@smoke'}, () => {
   test.beforeEach(async ({ page, baseURL }) => {
     const loginPage = new LoginPage(page);
     await page.goto(baseURL!);
@@ -30,7 +30,7 @@ test.describe('Mentor Login Flow', () => {
   });
 });
 
-test.describe('Student Login Flow', () => {
+test.describe('Student Login Flow',{tag: '@smoke'}, () => {
   test.beforeEach(async ({ page, baseURL }) => {
     const loginPage = new LoginPage(page);
     await page.goto(baseURL!);
