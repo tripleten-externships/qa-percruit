@@ -89,13 +89,12 @@ test.describe('Student Resume Manager', () => {
     } catch (error) {
       console.log(`Cleanup failed for ${name}`);
     }
-
   }
 
   resumesToDelete = [];
 });
 
-  test('Student creates resume from scratch @smoke', async ({ page }) => {
+  test('Student creates resume from scratch',{tag: '@smoke'}, async ({ page }) => {
   /**
    * Smoke Test
    *
@@ -145,7 +144,7 @@ test.describe('Student Resume Manager', () => {
   });
 
 
-  test('Student creates a resume with Get Started Help @smoke', async ({ page }) => {
+  test('Student creates a resume with Get Started Help',{tag: '@smoke'}, async ({ page }) => {
   /**
    * Smoke Test
    *
@@ -186,7 +185,7 @@ test.describe('Student Resume Manager', () => {
 });
 
 
-test('Student creates a resume using upload PDF file option @smoke', async ({ page }) => {
+test('Student creates a resume using upload PDF file option',{tag: '@smoke'}, async ({ page }) => {
 /*
 Scenario 3 — Upload PDF resume
 Given the student is logged in
@@ -218,7 +217,7 @@ And appear in the Resume Manager list
 });
 
 
-test('Student duplicates a resume @smoke', async ({ page }) => {
+test('Student duplicates a resume',{tag: '@smoke'}, async ({ page }) => {
 /* Scenario: Student duplicates an existing resume
 
     Given the student is logged into the system
@@ -272,7 +271,7 @@ test('Student duplicates a resume @smoke', async ({ page }) => {
 });
 
 
-test('Student downloads resume PDF @smoke', async ({ page }) => {
+test('Student downloads resume PDF',{tag: '@smoke'}, async ({ page }) => {
 /*
 // Scenario: Student downloads a resume as PDF
 //
@@ -322,7 +321,7 @@ test('Student downloads resume PDF @smoke', async ({ page }) => {
 });
 
 
-test('Student deletes a resume @smoke', async ({ page }) => {
+test('Student deletes a resume',{tag: '@smoke'}, async ({ page }) => {
 /*
 // Scenario: Student deletes an existing resume
 //

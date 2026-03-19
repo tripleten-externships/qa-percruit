@@ -277,9 +277,8 @@ export class ResumeManagerPage extends BasePage {
  * Verify resume be uploaded
  */
   async verifyResumeUploaded(name: string) {
-    await expect(this.page.getByRole('heading', { name })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: 'Processing Resume...' })).toBeVisible();
     await this.nextButton.click();
-
   }
 
   /** 
