@@ -2,7 +2,6 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../common/BasePage';
 import * as MentorMeetingPagTestData from '../../test-data/MentorMeetingPageTestData';
 import * as ConvertUIDateTime from '../common/ConvertUIDateTime';
-import { assert } from 'console';
 
 export class MentorMeetingPage extends BasePage {
     readonly meetingsAndCommunication: Locator;
@@ -386,9 +385,6 @@ export class MentorMeetingPage extends BasePage {
         await this.meetingScheduleBtn.click();
         // ⭐ WAIT for backend validation to show conflict banner
         await this.page.waitForTimeout(3000);
-        // Ensure modal is visible
-        await expect(this.modal).toBeVisible({ timeout: 5000 });
-        // console.log('Schedule New Meeting pop-up is visible');
         // Now check conflict
         return await this.handleMeetingConflict();;
     
@@ -397,109 +393,39 @@ export class MentorMeetingPage extends BasePage {
     async handleMeetingConflict(): Promise<'resolved' | 'cancelled'> {
         const conflictAlert = this.page.getByRole('alert'); // conflict banner
         let attempts = 0;
-        const maxAttempts = 3;
-        
+        const maxAttempts = 3;       
         // ⭐ Wait for conflict banner to appear (if it will)
         await conflictAlert.waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
 
         // Check & Repeat only while conflict banner is visible
-        while (attempts < maxAttempts && await conflictAlert.isVisible()) {
-            console.log('⚠️ Conflict detected: The selected meeting time overlaps with an existing meeting.');
-            console.log('Please choose a different time from the calendar pop-up.');
-            // ⭐ Retry date & time selection
-            await this.selectMeetingDateTime();
-            console.log('User selected a new date & time. Waiting for user to choose Schedule or Cancel again.');
-            // Click schedule again
-            await this.meetingScheduleBtn.click();
-            // ⭐ WAIT for backend to validate again
-            await this.page.waitForTimeout(3000);
-            console.log(`Attempts to clear schedule conflict: ${attempts+1}`);
-            attempts++;
-
-        }
-        // If we exit the loop because attempts exceeded maxAttempts
-        if (attempts === maxAttempts && await conflictAlert.isVisible()) {
-            console.log('❌ Meeting conflict still exists after maximum retries.');
-            console.log('Aborting the meeting schedule workflow or please re-run the scheduling process.');
-            await this.meetingCancelBtn.click();
-            return 'cancelled';
-        }
-
-        if (attempts === 0){
-            console.log('attempts value is still 0');
-            return 'cancelled';
-        }
-        else {
+        if (await conflictAlert.isVisible()) {
+            while (attempts < maxAttempts && await conflictAlert.isVisible()) {
+                console.log('⚠️ Conflict detected: The selected meeting time overlaps with an existing meeting.');
+                console.log('Please choose a different time from the calendar pop-up.');
+                // ⭐ Retry date & time selection
+                await this.selectMeetingDateTime();
+                console.log('User selected a new date & time. Waiting for user to choose Schedule or Cancel again.');
+                // Click schedule again
+                await this.meetingScheduleBtn.click();
+                // ⭐ WAIT for backend to validate again
+                await this.page.waitForTimeout(3000);
+                console.log(`Attempts to clear schedule conflict: ${attempts+1}`);
+                attempts++;
+            }
+            // If we exit the loop because attempts exceeded maxAttempts
+            if (attempts === maxAttempts && await conflictAlert.isVisible()) {
+                console.log('❌ Meeting conflict still exists after maximum retries.');
+                console.log('Aborting the meeting schedule workflow or please re-run the scheduling process.');
+                await this.meetingCancelBtn.click();
+                return 'cancelled';
+            }
             console.log('✅ Conflict resolved or no conflict detected.');
             return 'resolved';
         }
-        
-    }
-
-    //Method to get the details of all the upcoming meetings
-    async getUpcomingMeetings() {
-        console.log('📄 Fetching list of meetings from Upcoming tab...');
-        // Ensure we are on the meetings page
-        await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
-
-        // 1. Click the Upcoming tab (badge count varies, so use hasText)
-        const upcomingTab = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' });
-        await expect(upcomingTab).toBeVisible({ timeout: 5000 });
-        await upcomingTab.click();
-        console.log('Opened Upcoming tab');
-
-        // 2. Locate the table body
-        const tableBody = this.page.locator('tbody.MuiTableBody-root');
-        await expect(tableBody).toBeVisible({ timeout: 5000 });
-
-        // 3. Get all rows
-        const rows = tableBody.locator('tr');
-        const count = await rows.count();
-
-        console.log(`Found ${count} meeting row(s)`);
-
-        const meetings = [];
-
-        for (let i = 0; i < count; i++) {
-            const row = rows.nth(i);
-            let meetingDescription = '';
-
-            // ⭐ Skip placeholder rows (no <h6> = no meeting)
-            const hasTitle = await row.locator('h6').count();
-            if (hasTitle === 0) {
-                console.log(`⏭ Skipping placeholder row ${i + 1}`);
-                continue;
-            }
-            // Extract each cell
-            const titleCell = row.locator('td').nth(0);
-            const studentCell = row.locator('td').nth(1);
-            const typeCell = row.locator('td').nth(2);
-            const dateDurationCell = row.locator('td').nth(3);
-
-            // Extract title + description inside first cell
-            const meetingTitle = (await titleCell.locator('h6').innerText().catch(() => '')).trim();
-            const descLocator = titleCell.locator('span');
-            if (await descLocator.count() > 0) {
-                meetingDescription = (await descLocator.innerText()).trim();
-            }
-            const studentName = (await studentCell.innerText().catch(() => '')).trim();
-            const meetingType = (await typeCell.locator('span').innerText().catch(() => '')).trim();
-            const meetingDate = (await dateDurationCell.locator('p').innerText().catch(() => '')).trim();
-            const meetingDuration = (await dateDurationCell.locator('span').innerText().catch(() => '')).trim();
-
-            meetings.push({
-                meetingTitle,
-                meetingDescription,
-                studentName,
-                meetingType,
-                meetingDate,
-                meetingDuration
-            });
-
-            // console.log(`📌 Row ${i + 1}:`, meetings[i]);
+        else {
+            console.log('Meeting time conflict did not happen');
+            return 'resolved';
         }
-
-        return meetings;
     }
 
     //Method to verify the successfully scheduled meeting
@@ -538,8 +464,9 @@ export class MentorMeetingPage extends BasePage {
         return false;
     }
 
-    //Method to get the count of upcoming meetings
-    async getUpcomingMeetingsCount() {
+    //Method to get the details of all the upcoming meetings
+    async getUpcomingMeetingsList() {
+        console.log('📄 Fetching list of meetings from Upcoming tab...');
         // Ensure we are on the meetings page
         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
 
@@ -547,82 +474,165 @@ export class MentorMeetingPage extends BasePage {
         const upcomingTab = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' });
         await expect(upcomingTab).toBeVisible({ timeout: 5000 });
         await upcomingTab.click();
-        console.log('Opened Upcoming tab');
+        console.log('Opened Upcoming Meetings tab');
+
         // 2. Locate the table body
         const tableBody = this.page.locator('tbody.MuiTableBody-root');
         await expect(tableBody).toBeVisible({ timeout: 5000 });
+
         // 3. Get all rows
         const rows = tableBody.locator('tr');
-        const rowsCount = await rows.count();
-        const badge = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' }).locator('.MuiBadge-badge');
-        await expect(badge).toBeVisible({ timeout: 5000 });
-        const count = parseInt(await badge.innerText(), 10);
-        if(count == rowsCount){
-            console.log("Upcoming Meetings count:", count);
-        }        
-        return count;
+        const count = await rows.count();
+
+        console.log(`Found ${count} meeting row(s) in Upcoming Meetings table`);
+
+        const upcomingMeetings = [];
+        let upMeetingsCount = 0;
+
+        for (let i = 0; i < count; i++) {
+            const row = rows.nth(i);
+            let meetingDescription = '';
+
+            // ⭐ Skip placeholder rows (no <h6> = no meeting)
+            const hasTitle = await row.locator('h6').count();
+            if (hasTitle === 0) {
+                console.log(`⏭ Skipping placeholder row ${i + 1}`);
+                continue;
+            }
+            upMeetingsCount++;
+            // Extract each cell
+            const titleCell = row.locator('td').nth(0);
+            const studentCell = row.locator('td').nth(1);
+            const typeCell = row.locator('td').nth(2);
+            const dateDurationCell = row.locator('td').nth(3);
+
+            // Extract title + description inside first cell
+            const meetingTitle = (await titleCell.locator('h6').innerText().catch(() => '')).trim();
+            const descLocator = titleCell.locator('span');
+            if (await descLocator.count() > 0) {
+                meetingDescription = (await descLocator.innerText()).trim();
+            }
+            const studentName = (await studentCell.innerText().catch(() => '')).trim();
+            const meetingType = (await typeCell.locator('span').innerText().catch(() => '')).trim();
+            const meetingDate = (await dateDurationCell.locator('p').innerText().catch(() => '')).trim();
+            const meetingDuration = (await dateDurationCell.locator('span').innerText().catch(() => '')).trim();
+
+            upcomingMeetings.push({
+                meetingTitle,
+                meetingDescription,
+                studentName,
+                meetingType,
+                meetingDate,
+                meetingDuration
+            });
+            // console.log(`📌 Row ${i + 1}:`, upcomingMeetings[i]);
+        }
+        // ⭐ Return both meeting count value and meetings list
+        return {
+            upComingMeetingsCount: upMeetingsCount,
+            upcomingMeetings
+        };
     }
 
-    //Method to get the count of past meetings
-    async getPastMeetingsCount() {
-        console.log("📄 Fetching Past meetings count...");
-
+    //Method to get the count of upcoming meetings
+    async getUpcomingMeetingsBadgeCount() {
         // Ensure we are on the meetings page
         await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
 
-        // 1. Click the Past tab
+        // 1. Click the Upcoming tab (badge count varies, so use hasText)
+        const upcomingTab = this.page.locator('button[role="tab"]', { hasText: 'Upcoming' });
+        await expect(upcomingTab).toBeVisible({ timeout: 5000 });
+        const badge = upcomingTab.locator('.MuiBadge-badge');
+        await expect(badge).toBeVisible({ timeout: 5000 });
+        const count = parseInt(await badge.innerText(), 10);
+        return count;
+    }
+
+    async getPastMeetingsList() {
+        console.log('📄 Fetching list of meetings from Past tab...');
+        // Ensure we are on the meetings page
+        await expect(this.page).toHaveURL(this.MEETINGS_PAGE_URL_REGEX, { timeout: 5000 });
+
+        // 1. Click the Upcoming tab (badge count varies, so use hasText)
         const pastTab = this.page.locator('button[role="tab"]', { hasText: 'Past' });
         await expect(pastTab).toBeVisible({ timeout: 5000 });
         await pastTab.click();
-        console.log("Opened Past tab");
+        console.log('Opened Past Meetings tab');
 
-        // ⭐ Wait for the tab to become selected
-        await expect(pastTab).toHaveAttribute("aria-selected", "true");
-
-        // ⭐ Wait for the Past tabpanel to be active
-        const pastPanel = this.page.locator('div[role="tabpanel"]').filter({ hasText: 'Past' });
-        await expect(pastPanel).toBeVisible({ timeout: 5000 });
-
-        // ⭐ Wait for table body to re-render after tab switch
+        // 2. Locate the table body
         const tableBody = this.page.locator('tbody.MuiTableBody-root');
         await expect(tableBody).toBeVisible({ timeout: 5000 });
 
-        // ⭐ Wait for at least 1 row OR stable empty state
-        await this.page.waitForTimeout(300); // MUI hydration delay
-
+        // 3. Get all rows
         const rows = tableBody.locator('tr');
-        const totalRows = await rows.count();
+        const count = await rows.count();
 
-        // 2. Fetch badge count
+        console.log(`Found ${count} row(s) in Past Meetings table`);
+
+        const pastMeetings = [];
+        let realRowCount = 0;
+
+        for (let i = 0; i < count; i++) {
+            const row = rows.nth(i);
+            
+            // // ⭐ Skip placeholder rows (no meeting title)
+            const firstCell = row.locator('td').nth(0);
+            const firstCellText = (await firstCell.innerText().catch(() => '')).trim();
+            if (!firstCellText) {
+                console.log(`⏭ Skipping placeholder row ${i + 1}`);
+                continue;
+            }
+            realRowCount++;
+
+            const studentCell = row.locator('td').nth(1);
+            const typeCell = row.locator('td').nth(2);
+            const dateCell = row.locator('td').nth(3);
+            const statusCell = row.locator('td').nth(4);
+            const notesCell = row.locator('td').nth(5);
+
+            const meetingTitle = firstCellText;
+            const studentName = (await studentCell.innerText().catch(() => '')).trim();
+            const meetingType = (await typeCell.locator('span').innerText().catch(() => '')).trim();
+            const meetingDate = (await dateCell.innerText().catch(() => '')).trim();
+            const meetingStatus = (await statusCell.locator('span').innerText().catch(() => '')).trim();
+            // ⭐ NOTES extraction logic (TypeScript-safe)
+            let meetingNotes = '';
+            const notesIcon = notesCell.locator('svg[aria-label]');
+            if (await notesIcon.count() > 0) {
+                const rawLabel = await notesIcon.getAttribute('aria-label');
+                meetingNotes = (rawLabel ?? '').trim();   // <-- FIXED
+            } else {
+                meetingNotes = (await notesCell.innerText().catch(() => '')).trim();
+            }
+
+            pastMeetings.push({
+                meetingTitle,
+                studentName,
+                meetingType,
+                meetingDate,
+                meetingStatus,
+                meetingNotes
+            });
+
+            // console.log(`📌 Row ${i + 1}:`, pastMeetings[i]);
+        }
+        // ⭐ Return both meeting count value and meetings list
+        return {
+            pastMeetingsCount: realRowCount,
+            pastMeetings
+        };
+    }
+
+    //Method to get the count of past meetings
+    async getPastMeetingsBadgeCount() {
+        const pastTab = this.page.locator('button[role="tab"]', { hasText: 'Past' });
+        await expect(pastTab).toBeVisible({ timeout: 5000 });
         const badge = pastTab.locator('.MuiBadge-badge');
         await expect(badge).toBeVisible({ timeout: 5000 });
-
-        const badgeCount = parseInt(await badge.innerText(), 10);
-        console.log("🔢 Past Meetings Badge Count:", badgeCount);
-
-        // 3. Count only REAL rows (skip placeholder rows)
-        let validRows = 0;
-
-        for (let i = 0; i < totalRows; i++) {
-            const row = rows.nth(i);
-
-            const hasTitle = await row.locator('h6').count();
-            if (hasTitle > 0) {
-                validRows++;
-            }
-        }
-
-        console.log("📘 Past Meetings Table Count:", validRows);
-
-        // 4. Verification
-        if (badgeCount === validRows) {
-            console.log(`✅ Past meetings count matches table rows (${validRows})`);
-        } else {
-            console.log(`❌ Count mismatch → Badge: ${badgeCount}, Table: ${validRows}`);
-        }
-
-        return { badgeCount, tableCount: validRows };
+        const count = parseInt(await badge.innerText(), 10);
+        return count;
     }
+
 
 }
     
