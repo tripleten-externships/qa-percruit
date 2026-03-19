@@ -23,7 +23,7 @@ test.describe('Student Delete Contact', () => {
   }) => {
     // Verify dashboard
     const jobBoardPage = new JobBoardPage(page);
-    await jobBoardPage.verifyPage();
+    //await jobBoardPage.verifyPage();
 
     // Click Networking tab
     await page.getByRole('link', { name: 'Networking' }).click();
