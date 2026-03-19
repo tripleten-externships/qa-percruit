@@ -55,6 +55,7 @@ test.describe('Student - Job Tracker Dashboard', () => {
       await studentTrackerDashboardPage.navigateToJobTracker();
       await studentTrackerDashboardPage.verifyPageLoaded();
       await studentTrackerDashboardPage.addJobWithAIMagicFill("Multi Media, LLC is seeking a QA Engineer to perform manual testing for its large-scale live streaming platform. The role involves writing and executing test cases, reviewing code changes, troubleshooting issues, and ensuring quality across features such as video streaming, live chat, and payment systems across web, mobile, and other devices. Experience with white-box testing is required, and knowledge of Python or JavaScript is a plus. More details about the company and the role can be found at https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4369842099");
+      await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
       
   });
 
