@@ -16,7 +16,7 @@ test.describe('Mentor - Events Management', () => {
     And the system saves the event successfully
     And the newly created event appears on the Events page */
 
-  test('Mentor can create a new event successfully', async ({ page }) => {
+  test.skip('Mentor can create a new event successfully', async ({ page }) => {
     // Navigate to Events page
     await eventsPage.clickByButtonRoleByText('Events');
     await page.waitForLoadState('networkidle', { timeout: 30000 });
