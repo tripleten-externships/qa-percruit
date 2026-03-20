@@ -74,20 +74,21 @@ test.describe.serial('Mentor Meeting Scheduler', () => {
     // Handle Schedule or Cancel Meeting based on the current state of the meeting (if already scheduled, it will cancel; if not scheduled, it will schedule)
     scheduleOrCancelResult = await mentorMeetingPage.handleScheduleOrCancelFlow();
     console.log("Schedule or Cancel Result:", scheduleOrCancelResult);
-    // Verify the scheduled meeting is available in the list of upcoming meetings
+    // ⭐ Modal closes ONLY after redirect → wait for it
+    // await mentorMeetingPage.waitForModalToCloseAfterAction();    
   });
 
-  // Scheduled Meeting Verification
-  // test('Verify if the given meeting exists in upcoming meetings', {tag: '@smoke'}, async() => {
-  //   // Fetch values of selectedStudent, meetingTitle and selectedDateTime from the above test
-  //   if(scheduleOrCancelResult == 'scheduled'){
-  //     await mentorMeetingPage.verifyScheduledMeeting(selectedStudent, meetingTitle, selectedDateTime);
-  //     //
-  //   }
-  //   else {
-  //     console.log('Scheduling meeting was not successful');
-  //   }
-  // });
+  // Verify the scheduled meeting is available in the list of upcoming meetings
+  test('Verify if the given meeting exists in upcoming meetings', {tag: '@smoke'}, async() => {
+    // Fetch values of selectedStudent, meetingTitle and selectedDateTime from the above test
+    if(scheduleOrCancelResult == 'scheduled'){
+      await mentorMeetingPage.verifyScheduledMeeting(selectedStudent, meetingTitle, selectedDateTime);
+      //
+    }
+    else {
+      console.log('Scheduling meeting was not successful');
+    }
+  });
 
   // Close the page after all tests are finished
   test.afterAll(async () => {
