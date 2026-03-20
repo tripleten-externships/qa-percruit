@@ -22,9 +22,12 @@ test.describe('Mentor Assignments', () => {
     // Wait for the dashboard header to appear
     const dashboardPage = new AdminDashboardPage(page);
     await dashboardPage.waitForDashboard();
-    // Navigate to the Mentor Assignments section
-    await page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
+    
+    // Navigate to the Mentor Assignments section    
     // Initiate AssignmentPage
+    assignmentPage = new AssignmentPage(page);
+    await assignmentPage.goToAssignments();
+    await expect(page).toHaveURL(/mentor-assignments/);
    
   });
 
@@ -41,28 +44,33 @@ test.describe('Mentor Assignments', () => {
     // Assertions use the expect API.
     assignmentPage = new AssignmentPage(page);
     await expect(page).toHaveURL(/mentor-assignments/);
+   
     // Create a new mentor-student assignment
     await assignmentPage.assignStudentToMentor(
-    'Eric Hibbard Student (eric.hibbard91+student@gmail.com)',
-    'Eric Hibbard (eric.hibbard91+mentor@gmail.com)'); 
+    'manjula23.reddy+student11',
+    'Manjula Student11 (manjula23.reddy+student11@gmail.com)',
+    'Manjula Mentor1 (manjula23.reddy+mentor1@gmail.com)'); 
     // Verify that the assignment was created successfully
     await assignmentPage.verifyAssignmentCreated();  
     // Verify that the new assignment appears in the assignments list
-    await assignmentPage.verifyDisplay();
+    const today = new Date();
+    const prefix = `${today.getMonth()+1}/${today.getDate()}/`; // "M/D/"
+    await assignmentPage.verifyDisplay('Manjula Student11', 'Manjula Mentor1', 'manjula23.reddy+mentor1@gmail.com', prefix, 'Active');
     // Remove assignment after each test to maintain test isolation
-    await assignmentPage.removeAssignment('Eric Hibbard Student');
+    await assignmentPage.removeAssignment('Manjula Student11');
     // Check Assignment Issues Feature Steps
     await expect(page).toHaveURL(/mentor-assignments/);
      // Access incomplete info tool
     let assignmentResult = await assignmentPage.checkAssignmentIssues(
-        'Eric Hibbard Student', 'Eric Hibbard'
+        'manjula23.reddy+studentbulk1@gmail.com', 'Manjula Mentor1'
     );
     if (assignmentResult === 'all-complete') {
         // Skip verification because nothing was assigned
         return;
     }
     await assignmentPage.verifyAssignmentIssue();
-    await assignmentPage.removeAssignment('Eric Hibbard Student');
+    // Remove assignment after each test to maintain test isolation
+    await assignmentPage.removeAssignment('Manjula StudentBulk1');
   });
 
   test('Assignment Table Loads with the correct row of Mentor/Student/Status/Date', async ({ page }) => {
@@ -71,15 +79,9 @@ test.describe('Mentor Assignments', () => {
     // And the admin navigates to the Assignments page
     // When the assignment table loads
     // Then the system displays all existing mentor-student assignments
-    // And each row includes the mentor name, student name, status, and date assigned
-    const loginPage = new LoginPage(page);
-    await page.goto(env.getBaseUrl());
-    await loginPage.loginAsUserType('Admin');
-    // Wait for the dashboard header to appear
-    const dashboardPage = new AdminDashboardPage(page);
-    await dashboardPage.waitForDashboard();
+    // And each row includes the student name, mentor name, Email, status, date assigned and Remove button   
 
-     await page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
+  
     // Initiate AssignmentPage
     assignmentPage = new AssignmentPage(page);
     await expect(page).toHaveURL(/mentor-assignments/);
