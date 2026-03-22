@@ -31,11 +31,15 @@ export class NetworkingPage extends BasePage {
         this.industryFilter = page.locator('[data-testid="industry-filter"]');
     }
 
+    //navigate to networking page
     async navigateToNetworkingPage() {
         await this.networkingSidbarLink.click();
     }
+
     //velify navigate to networking page and loading the page correctly
     async verifyNetworkingPageLoaded() {
         await expect(this.page.getByRole('heading', { name: 'Networking' })).toBeVisible();
+        await expect(this.addContactButton).toBeVisible();
+        await expect(this.searchInput).toBeVisible();
     }
 }
