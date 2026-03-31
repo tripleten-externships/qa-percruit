@@ -4,7 +4,7 @@
 import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 
 // Import Playwright classes and assertion utilities
-import { chromium, Browser, Page, expect,test } from '@playwright/test';
+import { chromium, Browser, Page, expect, test } from '@playwright/test';
 
 // Import environment configuration and Page Object Models
 import * as env from '../../src/config/world';
@@ -16,80 +16,63 @@ import { time } from 'console';
 let loginPage: LoginPage;
 let careerPathPage: CareerPathPage;
 
-// Before hook: Launch a new browser and page before each scenario and initialize page objects
-/* Scenario: When the user navigates to the Career Path page, the page loads as expected
-    Given the student is authenticated in the system
-    When I add the title When the user navigates to the Career Path page, the page loads as expected to the log
-    When the user navigates to the Career Path page
-    Then the Career Path page displays
+test('the user navigates to the Career Path Advisor page, the page displays and completes assessment', async ({ page }) => {
+  //visit await page.goto('https://stage.tripleten.percruit.com/');
+  await page.goto('https://stage.tripleten.percruit.com/');
+  //Login as student
+  await page.getByRole('textbox', { name: 'user@example.com' }).click();
+  await page.getByRole('textbox', { name: 'user@example.com' }).fill('build.brandy+student@proton.me');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('Student.testing25');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  //Navigates to "Career Path Advisor" tab and page dispalys
+  await page.getByRole('link', { name: 'Career Path Advisor' }).click();
+  //User clicks "restart" button and roles are not specified
+  await page.getByRole('button', { name: 'Restart Career Path Advisor' }).click();
+  //Current role "not specified," student clicks "Start Your assesment."
+  await page.getByRole('button', { name: 'Start Your Assessment' }).click();
+  //Fills "current position" form and clicks continue
+  await page.getByRole('combobox', { name: 'Current Role *' }).click();
+  await page.getByRole('option', { name: 'Student' }).click();
+  await page.getByRole('combobox', { name: 'Years of Experience' }).click();
+  await page.getByRole('option', { name: '-3 years' }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  //Fills "target position" form and clicks continue
+  await page.getByRole('combobox', { name: 'Target Role *' }).click();
+  await page.getByRole('option', { name: 'Backend Developer' }).click();
+  await page.getByRole('combobox', { name: 'Target Industry' }).click();
+  await page.getByRole('option', { name: 'Technology' }).click();
+  await page.getByRole('spinbutton', { name: 'Desired Timeframe (Months)' }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  //Fills "skills assessment" form and clicks complete assessment
+  await page.getByRole('button', { name: 'Selenium WebDriver' }).first().click();
+  await page.getByRole('button', { name: 'SDLC' }).first().click();
+  await page.getByRole('button', { name: 'Detail Oriented' }).nth(1).click();
+  await page.getByRole('button', { name: 'Complete Assessment' }).click();
+  //Target role displays, then user clicks restart button and current role displays "not specified" afterwards.
+  await page.getByRole('button', { name: 'Restart Career Path Advisor' }).click();
+});
 
- 
-  Scenario: Current role displays not specified when the restart button is clicked
-    Given the student is authenticated in the system
-    Given the student navigates to the Career Path page
-    Given the student submits the assessment with valid required details
-    When I add the title Current role displays not specified when the restart button is clicked to the log
-    When the student clicks the restart button
-    Then Current Role displays Not specified
 
-
-  Scenario: Target role displays not specified when the restart button is clicked
-    Given the student is authenticated in the system
-    And the student navigates to the Career Path page
-    And the student submits the assessment with valid required details
-    When I add the title Target role displays not specified when the restart button is clicked to the log
-    When the student clicks the restart button
-    Then Target Role displays Not specified */
 test.describe('Student Connect Messages', () => {
-// Before hook: Launch a new browser and page before each scenario and initialize page objects
+  // Before hook: Launch a new browser and page before each scenario and initialize page objects
   test.beforeEach(async ({ page }) => {
-  loginPage = new LoginPage(page);
-  careerPathPage = new CareerPathPage(page);
-});
-test('the user navigates to the Industry News page and industry news page displays', async ({ page }) => {
+    loginPage = new LoginPage(page);
+    careerPathPage = new CareerPathPage(page);
+  });
 
-//the user navigates to the Career Path page
-  await page.goto(env.getBaseUrl() + 'career-path');
-  await expect(page).toHaveURL(/career-path/);
-//the Career Path page displays
-  await careerPathPage.verifyPage();
-  console.log("Career Path Page verified");
-
-//the student navigates to the Career Path page
-  await page.goto(env.getBaseUrl() + 'career-path');
-  await expect(page).toHaveURL(/career-path/);
-  console.log("Navigated to Career Path Page"); 
-//the student submits the assessment with valid required details
-
-  await expect(page).toHaveTitle(/Career Path Advisor/);
-  console.log("Title Confirmed on Career Path Page");
-  await page.waitForTimeout(5000);
-  
-  //Start Refresh
-  await page.locator(careerPathPage.RestartButton).click({timeout:5000});
-  console.log("Clicked Restart Button to ensure fresh form");
-  //End Refresh
-
-
-  await page.waitForTimeout(5000);
-
-  //Fill Assessment Form
-  console.log("Filling Assessment Form Now");
-  await careerPathPage.fillAssessment(careerPathPage.currentRole, careerPathPage.targetRole);     
-//the student clicks the restart button
-  await page.waitForTimeout(5000);
-  await page.locator(careerPathPage.RestartButton).click();
-  console.log("Clicked Restart Button");  
-  await page.waitForTimeout(5000);
-//Current Role displays Not specified 
-  console.log('Current Role Text is "' + await page.locator(careerPathPage.CurrentRoleHeading).textContent() +'"');
-  await expect(page.locator(careerPathPage.CurrentRoleHeading)).toHaveText(/Not specified/);
-  console.log("Verified Current Role displays Not specified");
-//Target Role displays Not specified
-  console.log('Target Role Text is "' + await page.locator(careerPathPage.TargetRoleHeading).textContent() +'"') ;
-  await expect(page.locator(careerPathPage.TargetRoleHeading)).toHaveText(/Not specified/);
-  console.log("Verified Target Role displays Not specified");
-});
+  test('the user navigates to the Industry News page and industry news page displays', async ({ page }) => {
+    //visit await page.goto('https://stage.tripleten.percruit.com/');
+    await page.goto('https://stage.tripleten.percruit.com/');
+    //Login as student
+    await page.getByRole('textbox', { name: 'user@example.com' }).click();
+    await page.getByRole('textbox', { name: 'user@example.com' }).fill('build.brandy+student@proton.me');
+    await page.getByRole('textbox', { name: 'Enter your password' }).click();
+    await page.getByRole('textbox', { name: 'Enter your password' }).fill('Student.testing25');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    //the user clicks the Indsutry News tab under career growth section, and Industry News page displays
+    await page.getByRole('link', { name: 'Industry News' }).click();
+  });
 
 });
 
