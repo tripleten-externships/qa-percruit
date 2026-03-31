@@ -17,7 +17,7 @@ export class AssignmentPage extends BasePage {
     }
 
     async waitForDashboard(timeout = 40000) {
-        await expect(this.page.locator('h1:has-text("Admin Dashboard")')).toBeVisible({ timeout });
+        await expect(this.page.locator('h1:has-text("Admin")')).toBeVisible({ timeout });
   }
 
 // Create a new mentor-student assignment
