@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { InterviewQuestionsPage } from '../../src/pages/admin/InterviewQuestionsPage';
+import { LoginPage } from '../../src/pages/common/LoginPage';
+
 
 test.describe('Admin - Interview Questions Management', () => {
   let iqPage: InterviewQuestionsPage;
-
+  let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
-    iqPage = new InterviewQuestionsPage(page);
-
+    await page.goto('/');
+    loginPage = new LoginPage(page);
+     await loginPage.loginAsUserType('Admin');
+     iqPage = new InterviewQuestionsPage(page);
     // Navigate to Interview Questions page
     await iqPage.clickByRole('Interview Questions');
     await iqPage.verifyHeading('Interview Questions Manager');
@@ -69,14 +73,22 @@ test.describe('Admin - Interview Questions Management', () => {
     await iqPage.verifyHeading('Add New Question');
 
     // Replace DataTable with array equivalent
+    // const expectedFields = [
+    //   'Question Title',
+    //   'Question Text',
+    //   'Solution',
+    //   'Job Title',
+    //   'Difficulty',
+    //   'Tags'
+    // ];
     const expectedFields = [
-      'Question Title',
-      'Question Text',
-      'Solution',
-      'Job Title',
-      'Difficulty',
-      'Tags'
-    ];
+  { 'Field Name': 'Title', Type: 'Text Field' as const },
+  { 'Field Name': 'Question', Type: 'Text Area' as const },
+  { 'Field Name': 'Solution', Type: 'Text Area' as const },
+  { 'Field Name': 'Job Titles', Type: 'Dropdown' as const },
+  { 'Field Name': 'Difficulty', Type: 'Dropdown' as const },
+  { 'Field Name': 'Tags', Type: 'Text Field' as const }
+];
 
     await iqPage.verifyFormFields(expectedFields);
 
