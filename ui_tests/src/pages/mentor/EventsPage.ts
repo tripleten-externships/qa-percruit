@@ -61,4 +61,7 @@ export class EventsPage extends BasePage {
     await expect(eventLocator).toBeVisible();
     return await eventLocator.isVisible();
   }
+  async clickOnEvent(){
+    await this.page.getByRole('link', { name: 'Manage career coach events' }).click();
+  }
 }
