@@ -59,18 +59,18 @@ export default defineConfig({
       },
     },
 
-    {
-      name: 'firefox',
+   {
+     name: "firefox",
       use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: "webkit",
-       use: {
-        ...devices["Desktop Safari"]
-      }
+       ...devices["Desktop Firefox"]
      }
+   },
+
+   {
+     name: "webkit",
+      use: {
+       ...devices["Desktop Safari"]
+     }
+   },
   ],
 });

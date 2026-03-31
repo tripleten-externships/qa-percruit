@@ -37,7 +37,6 @@ console.log('Headings on page:', headings);
       console.log('✅ Cookie popup closed successfully.');
     }
   }
-
  //Add feedback to task
   async clickAddFeedback(taskName: string) {
   await this.page
