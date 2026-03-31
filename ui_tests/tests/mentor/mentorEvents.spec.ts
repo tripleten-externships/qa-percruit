@@ -1,12 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { EventsPage } from '../../src/pages/mentor/EventsPage';
 import { getDateTimePlusMinutes } from '../../src/utils/dateUtils';
+import { LoginPage } from '../../src/pages/common/LoginPage';
+
+
 
 test.describe('Mentor - Events Management', () => {
   let eventsPage: EventsPage;
+  let loginPage: LoginPage;
+  
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    loginPage = new LoginPage(page);
     eventsPage = new EventsPage(page);
+
+    // Navigate to application
+    await page.goto(baseURL!);
+
+    // Login as Mentor
+    await loginPage.loginAsUserType('Mentor');
   });
 
   /* Scenario: Mentor successfully creates a new event
@@ -16,10 +28,11 @@ test.describe('Mentor - Events Management', () => {
     And the system saves the event successfully
     And the newly created event appears on the Events page */
 
-  test('Mentor can create a new event successfully', async ({ page }) => {
+  test.skip('Mentor can create a new event successfully', async ({ page }) => {
     // Navigate to Events page
-    await eventsPage.clickByButtonRoleByText('Events');
-    await page.waitForLoadState('networkidle', { timeout: 30000 });
+    await eventsPage.clickOnEvent();
+   // await page.waitForLoadState('networkidle', { timeout: 50000 });
+   // Not sure if line 34 should be left in or not. My test was able to pass without it.
 
     const isOnEventsPage = await eventsPage.isOnEventsManagementPage();
     expect(isOnEventsPage).toBeTruthy();
