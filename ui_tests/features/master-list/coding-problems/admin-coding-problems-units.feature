@@ -1,4 +1,4 @@
-@wip
+
 Feature: Units in the Coding Problem page
 As an Admin
 The Admin wants to view and update units in the coding problems page
@@ -8,7 +8,6 @@ Background:
   Given The Admin is logged in using valid credentials
   And the Admin is on the Units tab in Coding Problems
 
-@smoke
 Scenario: View existing units
   When the Admin views the Units tab in Coding Problems
   Then the Admin should see all existing units

@@ -4,8 +4,11 @@
   "description": "UI tests using Playwright, TypeScript, and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test": "cucumber-js --tags \"not @wip\"",
+    "test:indev": "cucumber-js --require-module dotenv/config --tags \"@indev\"",
+    "test:eric": "cucumber-js --require-module dotenv/config --tags \"@eric\"",
     "test:debug": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"not @wip\"",
+    "test:debugindev": "cross-env PWDEBUG=1 BROWSER=chromium cucumber-js --require-module dotenv/config --tags \"@indev\"",
     "format": "prettier --write .",
     "prepare": "husky",
     "postinstall": "npx playwright install"
@@ -15,14 +18,14 @@
   "license": "ISC",
   "devDependencies": {
     "@cucumber/cucumber": "^12.2.0",
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^20.14.9",
     "cross-env": "^7.0.3",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.3.1",
     "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "playwright": "^1.56.1"

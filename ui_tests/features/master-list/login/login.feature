@@ -7,7 +7,7 @@ Feature: Percruit Website Login
     
     @smoke
     Scenario: Admin successfully logs in to the Percruit website
-       Given the admin is logged into the system
+    Given the admin is logged into the system
     When the admin initiates a logout
     Then the admin should be signed out successfully
     And the login page should be displayed
