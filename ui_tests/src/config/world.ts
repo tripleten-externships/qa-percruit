@@ -40,7 +40,10 @@ export function getStudentPassword(): string {
   }
   return password;
 }
-
+// Get the mentor name
+export function getMentorName(): string {
+  return process.env.MENTOR_NAME || '';
+}
 // Get the mentor email from environment variables (returns empty string if not set)
 export function getMentorEmail(): string {
   return process.env.MENTOR_EMAIL || '';
