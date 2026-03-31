@@ -1,136 +1,161 @@
-import { test, expect } from '@playwright/test';
+import { test, expect,Page } from '@playwright/test';
+import * as env from '../../src/config/world';
+import { LoginPage } from '../../src/pages/common/LoginPage';
+import { TrackerDashboardPage } from '../../src/pages/student/TrackerDashboardPage';
+
+function generateJobTitle(prefix: string) {
+  return `${prefix} ${Date.now()}`;
+}
 
 test.describe('Student - Job Tracker Dashboard', () => {
+  test.describe.configure({ mode: 'serial' });
+  let loginPage: LoginPage;
+  let studentTrackerDashboardPage: TrackerDashboardPage;
+  // Define or import baseURL from the environment configuration
+  const baseURL = env.getBaseUrl();
 
-  /* Scenario: Successful login to dashboard without issue
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    studentTrackerDashboardPage = new TrackerDashboardPage(page);
+    // Navigate to application
+    await page.goto(baseURL);
+    // Handle cookie consent if it appears
+    const cookieButton = page.locator('button:has-text("Accept all cookies")');
+    if (await cookieButton.isVisible()) {
+      await cookieButton.click();
+    }
+    // Login as Student
+    await loginPage.loginAsUserType('Student');
+
+  });
+
+  test('Student can acces Job Tracker dashboard', async ({ page }) => {
+    /*
+    Scenario: Student can access the Job Tracker dashboard
     Given the student navigates to the Job Tracker page
-    Then the dashboard loads correctly
-    And the student should be able to access their application tracker without issues */
-
-  test('Dashboard loads correctly', async ({ page }) => {
-    // Navigate to dashboard (adjust route if needed)
-    // await page.goto('/job-tracker');
-
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    const jobsTable = page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-
-    await expect(dashboard).toBeVisible();
-    await expect(page.locator('main h4', { hasText: 'Job Tracker' })).toBeVisible();
-    await expect(page.locator("//div[contains(@class,'MuiTextField-root')]//input[@type='text']")).toBeVisible();
-
-    await expect(page.locator("//button[contains(.,'Bookmarked')]")).toBeVisible();
-    await expect(page.locator("//button[contains(.,'Applied')]")).toBeVisible();
-    await expect(page.locator("//button[contains(.,'Interviewing')]")).toBeVisible();
-    await expect(page.locator("//button[contains(.,'Negotiating')]")).toBeVisible();
-    await expect(page.locator("//button[contains(.,'Offer Received')]")).toBeVisible();
-
-    await expect(jobsTable).toBeVisible();
+    Then the Job Tracker dashboard loads successfully
+    And the student should see the job tracking interface
+    */
+    // Navigate to dashboard
+    await studentTrackerDashboardPage.navigateToJobTracker();
+    // Verify dashboard components are visible
+    await studentTrackerDashboardPage.verifyPageLoaded();
   });
 
-  /* Scenario: Dashboard fails to load after login
-    Given the student navigates to the Job Tracker page
-    When the dashboard should not load successfully
-    Then an error message should be displayed to the student
-    And the application tracker should not be accessible*/
-
-  test('Dashboard should not load successfully', async ({ page }) => {
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    await expect(dashboard).not.toBeVisible({ timeout: 10000 });
+  test('Student adds a job using AI Magic Fill', async ({ page }) => {
+    /*
+      Scenario: Student adds a job using AI Magic Fill
+      Given the student is on the Job Tracker dashboard
+      When the student clicks the "Add Job" button
+      And the student selects the AI Magic Fill option
+      And the student enters the job posting URL
+      Then the job details should be automatically populated
+      And the student should be able to save the job entry
+    */
+      await studentTrackerDashboardPage.navigateToJobTracker();
+      await studentTrackerDashboardPage.verifyPageLoaded();
+      await studentTrackerDashboardPage.addJobWithAIMagicFill("Multi Media, LLC is seeking a QA Engineer to perform manual testing for its large-scale live streaming platform. The role involves writing and executing test cases, reviewing code changes, troubleshooting issues, and ensuring quality across features such as video streaming, live chat, and payment systems across web, mobile, and other devices. Experience with white-box testing is required, and knowledge of Python or JavaScript is a plus. More details about the company and the role can be found at https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4369842099");
+      await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
+      
   });
 
-  test('Error message displayed when dashboard fails', async ({ page }) => {
-    const errorMessage = page.locator('#job-tracker-error-message');
+  test('Student adds a job manually', async ({ page }) => {
+  /*
+  Scenario: Student adds a job manually
+    Given the student is on the Job Tracker dashboard
+    When the student clicks the "Add Job" button
+    And the student manually enters the job details
+    And the student submits the job form
+    Then the new job should be added to the job tracker list
+    */
+    const jobTitle = generateJobTitle("QA Engineer I");
 
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toHaveText(
-      'Unable to load Job Tracker data. Please try again later.'
+    await studentTrackerDashboardPage.navigateToJobTracker();
+    await studentTrackerDashboardPage.verifyPageLoaded();
+    await studentTrackerDashboardPage.addJobManually(jobTitle, "Test Company", "Remote", "https://www.example.com", "Test description for the job.");
+    await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
+    await studentTrackerDashboardPage.verifyJobAdded(jobTitle);
+  });
+
+  test('Student can view jobs in the Job Tracker', async ({ page }) => {  
+  /*
+  Scenario: Student can view jobs in the Job Tracker
+    Given the student has previously added job entries
+    When the student navigates to the Job Tracker dashboard
+    Then the student should see the list of saved job applications
+    And each job entry should display relevant job information
+    */
+      const jobTitle = generateJobTitle("QA Engineer Search");
+
+      await studentTrackerDashboardPage.navigateToJobTracker();
+      await studentTrackerDashboardPage.verifyPageLoaded();
+      await studentTrackerDashboardPage.addJobManually(
+        jobTitle,
+        "Test Company",
+        "Remote",
+        "https://example.com",
+        "Search test job description"
+      );
+      await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
+      
+      await studentTrackerDashboardPage.verifyJobAdded(jobTitle);
+  });
+
+  test('Student searches for a job in the tracker', async ({ page }) => {
+    /*
+  Scenario: Student searches for a job in the tracker
+    Given the student is on the Job Tracker dashboard
+    And the student has multiple job entries saved
+    When the student enters a keyword in the search field
+    Then the job tracker should filter and display matching job entries
+    */
+    const jobTitle = generateJobTitle("QA Engineer Search");
+
+    await studentTrackerDashboardPage.navigateToJobTracker();
+
+    await studentTrackerDashboardPage.addJobManually(
+      jobTitle,
+      "Test Company",
+      "Remote",
+      "https://example.com",
+      "Search test job description"
     );
-  });
 
-  test('Application tracker should not be accessible', async ({ page }) => {
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    await expect(dashboard).not.toBeVisible();
-  });
+    await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
 
-  /* Scenario: Dashboard loads partially with missing components
-    Given the student navigates to the Job Tracker page
-    When the dashboard should load partially
-    Then required UI components (such as status tiles or application list) should be missing
-    And a warning or fallback message should be displayed
-    And the student should not be able to fully access their application tracker */
+    await studentTrackerDashboardPage.searchJob(jobTitle);
 
-  test('Dashboard loads partially', async ({ page }) => {
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    const jobsTable = page.locator("//div[contains(@class,'MuiPaper-root')]//table");
+    await studentTrackerDashboardPage.verifyJobAdded(jobTitle);
 
-    await expect(dashboard).toBeVisible();
-    await expect(jobsTable).not.toBeVisible();
-  });
+    });
 
-  test('Required UI components should be missing', async ({ page }) => {
-    await expect(page.locator("//button[contains(.,'Bookmarked')]")).not.toBeVisible();
-    await expect(page.locator("//button[contains(.,'Applied')]")).not.toBeVisible();
-    await expect(page.locator("//button[contains(.,'Interviewing')]")).not.toBeVisible();
-    await expect(page.locator("//button[contains(.,'Negotiating')]")).not.toBeVisible();
-    await expect(page.locator("//button[contains(.,'Offer Received')]")).not.toBeVisible();
-  });
+  test('Student deletes a job from the tracker', async ({ page }) => {
+    /*
+    Scenario: Student deletes a job from the tracker
+    Given the student is on the Job Tracker dashboard
+    And the student has an existing job entry
+    When the student clicks the delete option for that job
+    Then the job should be removed from the job tracker list
+    */
+    const jobTitle = generateJobTitle("QA Engineer Delete");
 
-  test('Warning or fallback message should be displayed', async ({ page }) => {
-    const warningMessage = page.locator('#job-tracker-warning-message');
+    await studentTrackerDashboardPage.navigateToJobTracker();
 
-    await expect(warningMessage).toBeVisible();
-    await expect(warningMessage).toHaveText(
-      'Some features of the Job Tracker are currently unavailable. Please try again later.'
+    await studentTrackerDashboardPage.addJobManually(
+      jobTitle,
+      "Test Company",
+      "Remote",
+      "https://example.com",
+      "Delete test job description"
     );
-  });
 
-  test('Student cannot fully access tracker during partial load', async ({ page }) => {
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    const jobsTable = page.locator("//div[contains(@class,'MuiPaper-root')]//table");
+    await studentTrackerDashboardPage.acceptJobAddedSuccessfully();
 
-    await expect(dashboard).toBeVisible();
-    await expect(jobsTable).not.toBeVisible();
-  });
+    await studentTrackerDashboardPage.deleteJob(jobTitle);
 
-  /* Scenario: Dashboard loads but application tracker data fails
-    Given the student navigates to the Job Tracker page
-    When the dashboard should load correctly
-    But the application tracker data should fail to load
-    Then an error message should be shown indicating data retrieval failed
-    And the student should not be able to see their list of applications */
+    await studentTrackerDashboardPage.verifyJobDeleted(jobTitle);
 
-  test('Application tracker data fails to load', async ({ page }) => {
-    const jobsTable = page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    await expect(jobsTable).not.toBeVisible();
-
-    const errorMessage = page.locator('#job-tracker-error-message');
-
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toHaveText(
-      'Failed to retrieve Job Tracker data. Please try again later.'
-    );
-    await expect(jobsTable).not.toBeVisible();
-  });
-
-  /* Scenario: Job Tracker feature unavailable
-    Given the student navigates to the Job Tracker page
-    But the feature cannot be selected
-    Then a message should appear indicating the Job Tracker service is currently unavailable
-    And the dashboard should not load
-    And no application tracker information should be displayed*/
-
-  test('Service unavailable message should appear', async ({ page }) => {
-    const serviceUnavailableMessage = page.locator(
-      '#job-tracker-service-unavailable-message'
-    );
-    await expect(serviceUnavailableMessage).toBeVisible();
-    await expect(serviceUnavailableMessage).toHaveText(
-      'The Job Tracker service is currently unavailable. Please try again later.'
-    );
-    const dashboard = page.locator("//*[@id='root']//main//div[contains(@class,'MuiBox-root')]");
-    await expect(dashboard).not.toBeVisible();
-    const jobsTable = page.locator("//div[contains(@class,'MuiPaper-root')]//table");
-    await expect(jobsTable).not.toBeVisible();
-  });
+    });
 
 });
+  
