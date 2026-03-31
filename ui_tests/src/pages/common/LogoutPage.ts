@@ -1,9 +1,9 @@
-import { Page, expect } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { Page, expect } from '@playwright/test';
+import { BasePage } from './BasePage';
 
 export class LogoutPage extends BasePage {
-    PROFILE_MENU_LOCATOR = '.MuiAvatar-root'
-    SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
+  PROFILE_MENU_LOCATOR = '.MuiAvatar-root';
+  SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
 
     constructor(page: Page) {
         super(page);
