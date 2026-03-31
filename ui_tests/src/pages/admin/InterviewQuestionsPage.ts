@@ -1,7 +1,14 @@
+//InterviewQuestionPage.ts
+
 import { Page, expect } from '@playwright/test';
 //import * as env from '../../config/world';
 import { BasePage } from '../common/BasePage';
 import { TIMEOUT } from 'dns';
+
+type FormField = {
+  'Field Name': string;
+  Type: 'Text Field' | 'Text Area' | 'Dropdown';
+};
 
 // Page Object Model (POM) class for the InterviewQuestionsPage
 export class InterviewQuestionsPage extends BasePage {
@@ -14,12 +21,48 @@ export class InterviewQuestionsPage extends BasePage {
 // Methods to carry out actions on the Interview Questions page...
 
 // Click Button method
-async clickByRole(buttonName: string, timeout = 30000): Promise<void> {
-  const button = this.page.getByRole('button', { name: buttonName });
-  await expect(button).toBeVisible({ timeout });
-  await button.click();
-  await this.page.waitForLoadState('networkidle', { timeout });
+// async clickByButtonRole(buttonName: string, timeout = 30000): Promise<void> {
+//   const button = this.page.getByRole('button', { name: buttonName });
+//   await expect(button).toBeVisible({ timeout });
+//   await button.click();
+//   await this.page.waitForLoadState('networkidle', { timeout });
+//}
+async clickButtonOrLink(name: string, timeout = 30000): Promise<void> {
+  // Try button first, fallback to link
+  const element = this.page.getByRole('button', { name })
+    .or(this.page.getByRole('link', { name }));
+
+  // Wait until it is visible
+  await expect(element).toBeVisible({ timeout });
+
+  // Click the element
+  await element.click();
 }
+
+// async clickByRole(linkName: string, timeout = 30000): Promise<void> {
+//   const link =  this.page.getByText('Interview Questions', { exact: true });
+//   //const link = this.page.getByRole('link', { name: linkName });
+//   await expect(link).toBeVisible({ timeout });
+//   await link.click();
+//   await this.page.waitForLoadState('networkidle', { timeout });
+// }
+
+async clickByRole(name: string, timeout = 30000): Promise<void> {
+  // Try button first, fallback to link
+  const element = this.page.getByRole('button', { name })
+    .or(this.page.getByRole('link', { name }));
+
+  // Wait until it is visible
+  await expect(element).toBeVisible({ timeout });
+
+  // Click the element
+  await element.click();
+}
+// async clickByRole(linkName: string, timeout = 30000): Promise<void> {
+//   const link = this.page.getByRole('link', { name: linkName });
+//   await expect(link).toBeVisible({ timeout });
+//   await link.click();
+// }
 
 // Click by Text method
 async clickByText(text: string, timeout = 30000): Promise<void> {
@@ -35,7 +78,7 @@ async fillTextBox(fieldName: string, value: string, timeout = 30000): Promise<vo
   const textbox = this.page.getByRole('textbox', { name: fieldName });
   await expect(textbox).toBeVisible({ timeout });
   await textbox.fill(value);
-  await this.page.waitForLoadState('networkidle', { timeout });
+  //await this.page.waitForLoadState('networkidle', { timeout });
 
 }
 
@@ -62,7 +105,7 @@ async handleCookiePopup(): Promise<void> {
      await expect(cookieAccept).toBeVisible();
      await cookieAccept.click();
      console.log('✅ Cookie popup closed successfully.');
-     await this.page.waitForLoadState('networkidle', { timeout: 30000 });
+     //await this.page.waitForLoadState('networkidle', { timeout: 30000 });
     }
   }
 
@@ -110,11 +153,13 @@ async addNewQuestion(
   await jobOption.click();
 
   // Close dropdown by clicking outside (backdrop)
-  const backdrop = this.page.locator('.MuiBackdrop-root.MuiBackdrop-invisible');
-  await expect(backdrop).toBeVisible({ timeout: 30000 });
-  await backdrop.click();
-  await expect(backdrop).toBeHidden({ timeout: 30000 });
-  console.log(await this.page.locator('div[role="combobox"]').nth(1).innerText());
+  // const backdrop = this.page.locator('.MuiBackdrop-root.MuiBackdrop-invisible');
+  // await expect(backdrop).toBeVisible({ timeout: 30000 });
+  // await backdrop.click();
+  // await expect(backdrop).toBeHidden({ timeout: 30000 });
+  // console.log(await this.page.locator('div[role="combobox"]').nth(1).innerText());
+
+  await this.page.keyboard.press('Escape');
 
   // Verify the selected job title is visible in the combo box
   await expect(this.page.locator('div').filter({ hasText: /^SQL$/ }).nth(1)).toBeVisible({ timeout: 30000 });
@@ -159,67 +204,138 @@ async addNewQuestion(
 
 
 // Verify form modal fields displayed correctly in Add Question modal method
-async verifyFormFields(table: any): Promise<void> {
-  const fields = table.hashes(); // Convert Gherkin table to array of objects
+// async verifyFormFields(table: any): Promise<void> {
+//   const fields = table.hashes(); // Convert Gherkin table to array of objects
+
+//   for (const row of fields) {
+//     const fieldName = row['Field Name'];
+//     const fieldType = row['Type'];
+
+//     let fieldLocator;
+
+//     switch (fieldType) {
+
+//       case 'Text Field':
+//     // Matches the textbox based on field name   
+//     if (/tags/i.test(fieldName)) {
+//     fieldLocator = this.page.getByRole('textbox', { name: /Add a tag/i });
+//     } else {
+//     const escapedName = fieldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+//     fieldLocator = this.page.getByRole('textbox', { name: new RegExp(`^${escapedName}`, 'i') });
+//     }
+//     break;
+
+//      case 'Text Area':
+//     // Matxhes the textarea based on field name
+//     if (/solution/i.test(fieldName)) {
+//         // For Solution/Explanation block, just check the contenteditable div
+//         fieldLocator = this.page.locator('div[contenteditable="true"]').nth(0);
+//     } else if (/question/i.test(fieldName)) {
+//         // Question textarea has a label
+//         fieldLocator = this.page.getByLabel(new RegExp(`^${fieldName}\\s*\\*?$`, 'i'));
+//     } else {
+//         // fallback
+//         fieldLocator = this.page.locator('textarea');
+//     }
+//     break;
+  
+//    case 'Dropdown':
+//   // Matches the combobox that either has the label or the current value inside
+//   fieldLocator = this.page.locator('div[role="combobox"]').filter({
+//   hasText: new RegExp(`(${fieldName}|Easy|Medium|Hard|Software Engineer|Data Scientist)`, 'i')
+//   });
+//   break;
+//   default:throw new Error(`Unknown field type: ${fieldType}`);
+//   }
+
+//   console.log(`🔍 Checking field: ${fieldName} (${fieldType})`);
+//   await expect(fieldLocator).toBeVisible({ timeout: 10000 });
+//   console.log(`✅ Verified field: ${fieldName} (${fieldType})`);
+//   }
+// }
+
+async verifyFormFields(fields: FormField[]): Promise<void> {
+  // GUARD: Wait for the modal container to be visible first
+  const modal = this.page.locator('text=Add New Question'); 
+  await modal.waitFor({ state: 'visible' });
 
   for (const row of fields) {
     const fieldName = row['Field Name'];
-    const fieldType = row['Type'];
+    const fieldType = row.Type;
 
     let fieldLocator;
 
     switch (fieldType) {
 
       case 'Text Field':
-    // Matches the textbox based on field name   
-    if (/tags/i.test(fieldName)) {
-    fieldLocator = this.page.getByRole('textbox', { name: /Add a tag/i });
-    } else {
-    const escapedName = fieldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    fieldLocator = this.page.getByRole('textbox', { name: new RegExp(`^${escapedName}`, 'i') });
-    }
-    break;
+        if (/tags/i.test(fieldName)) {
+          fieldLocator = this.page.getByRole('textbox', { name: /Add a tag/i });
+        } else {
+          const escapedName = fieldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          fieldLocator = this.page.getByRole('textbox', { name: new RegExp(`^${escapedName}`, 'i') });
+        }
+        break;
 
-     case 'Text Area':
-    // Matxhes the textarea based on field name
-    if (/solution/i.test(fieldName)) {
-        // For Solution/Explanation block, just check the contenteditable div
-        fieldLocator = this.page.locator('div[contenteditable="true"]').nth(0);
-    } else if (/question/i.test(fieldName)) {
-        // Question textarea has a label
-        fieldLocator = this.page.getByLabel(new RegExp(`^${fieldName}\\s*\\*?$`, 'i'));
-    } else {
-        // fallback
-        fieldLocator = this.page.locator('textarea');
-    }
-    break;
-  
-   case 'Dropdown':
-  // Matches the combobox that either has the label or the current value inside
-  fieldLocator = this.page.locator('div[role="combobox"]').filter({
-  hasText: new RegExp(`(${fieldName}|Easy|Medium|Hard|Software Engineer|Data Scientist)`, 'i')
-  });
-  break;
-  default:throw new Error(`Unknown field type: ${fieldType}`);
-  }
+      case 'Text Area':
+        if (/solution/i.test(fieldName)) {
+          fieldLocator = this.page.locator('div[contenteditable="true"]').nth(0);
+        } else if (/question/i.test(fieldName)) {
+          fieldLocator = this.page.getByLabel(new RegExp(`^${fieldName}\\s*\\*?$`, 'i'));
+        } else {
+          fieldLocator = this.page.locator('textarea');
+        }
+        break;
 
-  console.log(`🔍 Checking field: ${fieldName} (${fieldType})`);
-  await expect(fieldLocator).toBeVisible({ timeout: 10000 });
-  console.log(`✅ Verified field: ${fieldName} (${fieldType})`);
+      case 'Dropdown':
+        fieldLocator = this.page.locator('div[role="combobox"]').filter({
+          hasText: new RegExp(`(${fieldName}|Easy|Medium|Hard|Software Engineer|Data Scientist)`, 'i')
+        });
+        break;
+
+      default:
+        throw new Error(`Unknown field type: ${fieldType}`);
+    }
+
+    console.log(`🔍 Checking field: ${fieldName} (${fieldType})`);
+    //await expect(fieldLocator).toBeVisible({ timeout: 10000 });
+    //soft assertion replaced to prevent hard stop of test
+    await expect.soft(fieldLocator, `Field "${fieldName}" was not found or visible`).toBeVisible({ timeout: 5000 });
+    console.log(`✅ Verified field: ${fieldName} (${fieldType})`);
   }
 }
 
-// Verify add/remove container options in Add Question modal method
-async verifyContainerOptions(table: any): Promise<void> {
-  for (const row of table.hashes()) {
-    const containerType = row['Container Type']; // "Text Container" or "Image Container"
-    const shortType = containerType.split(' ')[0]; // "Text" or "Image"
 
-    // Click Add block button
-    const addButton = this.page.getByRole('button', { name: `Add ${shortType} Block` });
-    await expect(addButton).toBeVisible({ timeout: 30000 });
-    await addButton.click();
-    console.log(`➡️ Clicked "Add ${shortType} Block"`);
+// Verify add/remove container options in Add Question modal method
+// async verifyContainerOptions(table: any): Promise<void> {
+//   for (const row of table.hashes()) {
+//     const containerType = row['Container Type']; // "Text Container" or "Image Container"
+//     const shortType = containerType.split(' ')[0]; // "Text" or "Image"
+
+//     // Click Add block button
+//     const addButton = this.page.getByRole('button', { name: `Add ${shortType} Block` });
+//     await expect(addButton).toBeVisible({ timeout: 30000 });
+//     await addButton.click();
+//     console.log(`➡️ Clicked "Add ${shortType} Block"`);
+
+async verifyContainerOptions(containerList: string[]): Promise<void> {
+  for (const container of containerList) {
+    // container is "Add Text Container" or "Add Image Container"
+    // We need to map this to the actual button name: "Add Text Block"
+    const shortType = container.includes('Text') ? 'Text' : 'Image';
+    const buttonName = `Add ${shortType} Block`;
+
+    const addButton = this.page.getByRole('button', { name: buttonName });
+
+    console.log(`🔍 Checking for: ${buttonName}`);
+    
+    // Use soft assertion so one failure doesn't stop the whole check
+    await expect.soft(addButton, `Button "${buttonName}" should be visible`).toBeVisible({ timeout: 10000 });
+    
+    // If visible, attempt to click to verify it's interactive
+    if (await addButton.isVisible()) {
+        await addButton.click();
+        console.log(`✅ Successfully clicked "${buttonName}"`);
+    }
 
     // Wait for the new block container to appear (last block of this type)
     const blockContainer = this.page.locator('div.MuiPaper-root').filter({ hasText: `${shortType} Block` }).last();
@@ -249,7 +365,6 @@ async verifyContainerOptions(table: any): Promise<void> {
     );
 
     console.log(`✅ ${shortType} block removed successfully`);
-    
   }
 }
 

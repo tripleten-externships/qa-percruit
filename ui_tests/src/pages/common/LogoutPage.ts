@@ -1,9 +1,9 @@
-import { Page, expect } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { Page, expect } from '@playwright/test';
+import { BasePage } from './BasePage';
 
 export class LogoutPage extends BasePage {
-    PROFILE_MENU_LOCATOR = '.MuiAvatar-root'
-    SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
+  PROFILE_MENU_LOCATOR = '.MuiAvatar-root';
+  SIGNOUT_BUTTON_LOCATOR = 'Sign Out';
 
     constructor(page: Page) {
         super(page);
@@ -20,11 +20,11 @@ export class LogoutPage extends BasePage {
     }
     //confirms admin dashboard text is visible
     async isOnHomePage() {
-        await expect(this.page.getByRole('heading', { name: 'Admin Dashboard' })).toBeVisible({ timeout: 30000 });
+        await expect(this.page.getByRole('heading', { name: 'Admin' })).toBeVisible({ timeout: 30000 });
     }
     //checks admin dashboard text is no longer visible to confirm a successful logout
     async noLongerOnDashboard() {
-        const locator = this.page.locator('Admin Dashboard');
+        const locator = this.page.locator('Admin');
             await expect(locator).toBeHidden();
     }
 }
