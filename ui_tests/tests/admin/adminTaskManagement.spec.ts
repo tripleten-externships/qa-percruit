@@ -1,4 +1,4 @@
-import { chromium, Browser, Page, test, expect } from '@playwright/test';
+import { Page, test, expect } from '@playwright/test';
 import * as env from '../../src/config/world';
 import { AdminTaskManagementPage } from '../../src/pages/admin/AdminTaskManagementPage';
 import { LoginPage } from '../../src/pages/common/LoginPage';
