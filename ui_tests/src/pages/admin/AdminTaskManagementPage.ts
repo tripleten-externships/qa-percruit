@@ -2,7 +2,6 @@ import { Page, expect, } from '@playwright/test';
 import { Locator } from '@playwright/test';
 import * as env from '../../config/world';
 import { BasePage } from '../common/BasePage';
-import { table } from 'console';
 
 const student = 'manjula23.reddy+studentbulk11@gmail.com';
 const originalTitle = 'Create Cover Letter Template';
