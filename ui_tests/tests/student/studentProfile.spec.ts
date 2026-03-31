@@ -19,13 +19,15 @@ test.describe('Student Profile', () => {
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     profilePage = new ProfilePage(page);
-   
+    await page.goto(env.getBaseUrl());
+    await loginPage.loginAsUserType('Student');
   });
 
   test('When the student goes to the profile page, the page loads as expected.', async ({ page }) => {
-    await page.goto(env.getBaseUrl() + 'profile');
+    await profilePage.clickAvatar();
+    await profilePage.clickViewProfile();
     await expect(page).toHaveURL(/profile/);
-    await profilePage.verifyPage();
+    await profilePage.isProfessionalTabVisible();
   });
 });
 
