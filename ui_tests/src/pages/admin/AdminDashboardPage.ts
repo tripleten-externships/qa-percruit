@@ -1,5 +1,4 @@
 import { Page, expect } from '@playwright/test';
-import * as env from '../../config/world';
 
 export class AdminDashboardPage {
   readonly page: Page;
@@ -10,7 +9,7 @@ export class AdminDashboardPage {
   }
 
   async waitForDashboard(timeout = 40000) {
-    await expect(this.page.locator('h1:has-text("Admin")')).toBeVisible({ timeout });
+    await expect(this.page.getByRole('heading', { level: 1, name: /,\s*Admin$/ })).toBeVisible({ timeout });
   }
 }
 
