@@ -41,7 +41,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-all-retries',
 
-    headless: true,
+    headless: false,
 
     testIdAttribute: 'data-tt-tour',
 

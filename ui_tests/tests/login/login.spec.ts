@@ -1,0 +1,85 @@
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../src/pages/common/LoginPage';
+import * as env from '../../src/config/world';
+
+
+
+test.describe('Admin Login Flow',{tag: '@smoke'}, () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    const loginPage = new LoginPage(page);
+    await page.goto(baseURL!);
+    await loginPage.loginAsUserType('Admin');
+    await loginPage.isOnHomePage();
+  });
+
+  test('Admin should land on dashboard', async ({ page }) => {
+    await expect(page).toHaveURL(/dashboard/);
+  });
+});
+
+test.describe('Mentor Login Flow',{tag: '@smoke'}, () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    const loginPage = new LoginPage(page);
+    await page.goto(baseURL!);
+    await loginPage.loginAsUserType('Mentor');
+    await loginPage.isOnHomePage();
+  });
+
+  test('Mentor should land on dashboard', async ({ page }) => {
+    await expect(page).toHaveURL(/dashboard/);
+  });
+});
+
+test.describe('Student Login Flow',{tag: '@smoke'}, () => {
+  test.beforeEach(async ({ page, baseURL }) => {
+    const loginPage = new LoginPage(page);
+    await page.goto(baseURL!);
+    await loginPage.loginAsUserType('Student');
+    await loginPage.isOnHomePage();
+  });
+
+  test('Student should land on dashboard', async ({ page }) => {
+    await expect(page).toHaveURL(/dashboard/);
+  });
+});
+
+test.describe('Invalid Login Tests', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(env.getBaseUrl());
+  });
+
+  test('Should not login with valid email and invalid password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.enterEmail(env.getAdminEmail());
+    await loginPage.enterPassword('wrongpassword');
+
+    await loginPage.clickSignIn();
+
+    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
+  test('Should not login with invalid email and valid password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.enterEmail('fakeuser@example.com');
+    await loginPage.enterPassword(env.getAdminPassword());
+
+    await loginPage.clickSignIn();
+
+    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
+  test('Should not login with invalid email and invalid password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.enterEmail('fakeuser@example.com');
+    await loginPage.enterPassword('wrongpassword');
+
+    await loginPage.clickSignIn();
+
+    await expect(loginPage.INVALID_CREDENTIALS_ERROR_LOCATOR).toBeVisible();
+  });
+
+});
