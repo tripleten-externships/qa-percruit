@@ -35,7 +35,7 @@ export class LoginPage extends BasePage {
   async login(email: string, password: string) {
     console.log("In POM login method, logging in as "+email);
     const cookiesPolicyPage = new CookiesPolicyPage(this.page);
-    cookiesPolicyPage.closeCookieBanner();
+    await cookiesPolicyPage.closeCookieBanner();
     await this.enterEmail(email);
     //console.log("Entered this in email: "+ await this.page.locator(this.EMAIL_LOCATOR).allTextContents);
     await this.enterPassword(password);

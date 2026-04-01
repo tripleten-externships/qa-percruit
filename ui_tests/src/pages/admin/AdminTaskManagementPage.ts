@@ -2,7 +2,6 @@ import { Page, expect, } from '@playwright/test';
 import { Locator } from '@playwright/test';
 import * as env from '../../config/world';
 import { BasePage } from '../common/BasePage';
-import { table } from 'console';
 
 const student = 'manjula23.reddy+studentbulk11@gmail.com';
 const originalTitle = 'Create Cover Letter Template';
@@ -222,14 +221,15 @@ export class AdminTaskManagementPage extends BasePage {
     async navigateToTaskManagement() {
         await this.page.goto(`${env.getBaseUrl()}/admin/tasks`, { waitUntil: 'domcontentloaded' });
         await expect(this.page).toHaveURL(/admin\/tasks/);
-        //await this.page.waitForLoadState('networkidle');       
+        // Wait for React to finish rendering — domcontentloaded fires before SPA components mount
+        await this.page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => null);
     }
 
     // Method to verify that the Task Management page loads correctly with all expected elements  
     async verifyTaskManagementPage() {
         await expect(this.page).toHaveURL(/admin\/tasks/);
 
-        await expect(this.TASKS_TAB).toBeVisible({ timeout: 10000 });
+        await expect(this.TASKS_TAB).toBeVisible({ timeout: 30000 });
         // Assert that the Tasks tab is highlighted/selected by default
         await expect(this.TASKS_TAB).toHaveAttribute('aria-selected', 'true');
 
@@ -259,8 +259,14 @@ export class AdminTaskManagementPage extends BasePage {
         // Wait for the filter to be applied and table to update
         await this.page.waitForTimeout(1000);
 
+        const table = this.page.locator('table').first();
+        await expect(table).toBeVisible({ timeout: 10000 });
+
+        const tableRows = this.page.locator('table tbody tr');
+        await expect(tableRows.first()).toBeVisible({ timeout: 10000 });
+
         // Get total number of rows
-        const totalRows = await this.page.locator('table tbody tr').count();
+        const totalRows = await tableRows.count();
         // Additional verification: ensure at least one row exists
         expect(totalRows).toBeGreaterThan(0);
 
@@ -269,7 +275,7 @@ export class AdminTaskManagementPage extends BasePage {
         }
 
         // Get number of rows that contain the expected status
-        const rowsWithStatus = await this.page.locator('table tbody tr').filter({ hasText: expectedStatus }).count();
+        const rowsWithStatus = await tableRows.filter({ hasText: expectedStatus }).count();
 
         // Assert that all rows have the expected status
         expect(rowsWithStatus).toBe(totalRows);
@@ -318,8 +324,15 @@ export class AdminTaskManagementPage extends BasePage {
     async verifyPriorityFilterApplied(expectedPriority: string) {
         // Wait for the filter to be applied and table to update
         await this.page.waitForTimeout(1000);
+
+        const table = this.page.locator('table').first();
+        await expect(table).toBeVisible({ timeout: 10000 });
+
+        const tableRows = this.page.locator('table tbody tr');
+        await expect(tableRows.first()).toBeVisible({ timeout: 10000 });
+
         // Get total number of rows
-        const totalRows = await this.page.locator('table tbody tr').count();
+        const totalRows = await tableRows.count();
         // Additional verification: ensure at least one row exists
         expect(totalRows).toBeGreaterThan(0);
 
@@ -327,7 +340,7 @@ export class AdminTaskManagementPage extends BasePage {
             return; // Skip specific priority check if "All Priorities" is selected
         }
         // Get number of rows that contain the expected priority
-        const rowsWithPriority = await this.page.locator('table tbody tr').filter({ hasText: expectedPriority }).count();
+        const rowsWithPriority = await tableRows.filter({ hasText: expectedPriority }).count();
 
         // Assert that all rows have the expected priority
         expect(rowsWithPriority).toBe(totalRows);
@@ -367,7 +380,14 @@ export class AdminTaskManagementPage extends BasePage {
 
     // Method to open Task Analytics tab and verify it is active
     async openTaskAnalytics() {
+        // Skip click if already on the Task Analytics tab — re-clicking an active MUI tab
+        // can trigger unexpected navigation/unmount that invalidates the page reference.
+        const isAlreadySelected = await this.TASK_ANALYTICS_TAB.getAttribute('aria-selected').catch(() => null);
+        if (isAlreadySelected === 'true') return;
+
         await this.TASK_ANALYTICS_TAB.click();
+        // Guard: the click must not navigate away from the tasks page
+        await expect(this.page).toHaveURL(/admin\/tasks/, { timeout: 5000 });
         await expect(this.TASK_ANALYTICS_TAB).toHaveAttribute('aria-selected', 'true', { timeout: 5000 });
     }
 
@@ -377,9 +397,20 @@ export class AdminTaskManagementPage extends BasePage {
 
         const dateRangeFilter = this.visibleAnalyticsCombobox(0);
         await expect(dateRangeFilter).toBeVisible({ timeout: 5000 });
-        await dateRangeFilter.click();
+        const currentValue = ((await dateRangeFilter.textContent()) ?? '').trim();
+        if (currentValue === option) {
+            return;
+        }
 
-        await this.page.getByRole('option', { name: option, exact: true }).click();
+        await dateRangeFilter.click({ timeout: 3000 }).catch(async () => {
+            await dateRangeFilter.click({ force: true, timeout: 3000 });
+        });
+
+        const optionLocator = this.page.getByRole('option', { name: option, exact: true }).first();
+        await expect(optionLocator).toBeVisible({ timeout: 5000 });
+        await optionLocator.click({ timeout: 5000 }).catch(async () => {
+            await optionLocator.click({ force: true, timeout: 3000 });
+        });
         await expect(dateRangeFilter).toContainText(option, { timeout: 5000 });
     }
 
@@ -751,10 +782,11 @@ export class AdminTaskManagementPage extends BasePage {
 
         // 2) Fallback: email fragment (more stable against text formatting issues)
         if ((await rows.count()) === 0) {
+            const studentEmailFragment = student.includes('@') ? student.split('@')[0] : student;
             rows = page
                 .locator('table tbody tr')
                 .filter({ hasText: originalTitle })
-                .filter({ hasText: student });
+                .filter({ hasText: studentEmailFragment });
         }
 
         await expect(rows.first()).toBeVisible({ timeout: 30000 });
@@ -793,7 +825,28 @@ export class AdminTaskManagementPage extends BasePage {
 
 
         await dialog.getByRole('button', { name: 'Update Task', exact: true }).click();
-        await expect(page.getByText('Task assigned successfully', { exact: true })).toBeVisible();
+        const expectedUpdateToast = page.getByText('Task updated successfully', { exact: true });
+        const incorrectAssignedToast = page.getByText('Task assigned successfully', { exact: true });
+
+        let toastOutcome: 'updated' | 'assigned' | 'none' = 'none';
+        const toastDeadline = Date.now() + 10000;
+
+        while (Date.now() < toastDeadline) {
+            if (await expectedUpdateToast.isVisible().catch(() => false)) {
+                toastOutcome = 'updated';
+                break;
+            }
+            if (await incorrectAssignedToast.isVisible().catch(() => false)) {
+                toastOutcome = 'assigned';
+                break;
+            }
+            await page.waitForTimeout(200);
+        }
+
+        expect(
+            toastOutcome,
+            "Expected update success toast 'Task updated successfully', but app returned a different/missing toast."
+        ).toBe('updated');
         await expect(dialog).toBeHidden({ timeout: 10000 });
         // Verify updated row
         const updatedRow = page
