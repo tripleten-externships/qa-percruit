@@ -1,0 +1,37 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://stage.tripleten.percruit.com/');
+  await page.getByRole('textbox', { name: 'user@example.com' }).click();
+  await page.getByRole('textbox', { name: 'user@example.com' }).fill('joshuabennett353+student@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('AuDY6wz9X9eiHdt');
+  await page.locator('.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.Mui-focused').click();
+  await page.getByRole('button', { name: 'toggle password visibility' }).click();
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.getByRole('link', { name: 'Content Builder' }).click();
+  await page.getByRole('spinbutton', { name: 'Max Character Count (optional)' }).click();
+  await page.getByRole('spinbutton', { name: 'Max Character Count (optional)' }).fill('44444444444444');
+  await page.getByRole('textbox', { name: 'Additional Instructions (' }).click();
+  await page.getByRole('textbox', { name: 'Additional Instructions (' }).fill('###$$$@@!!!!');
+  await page.getByRole('button').filter({ hasText: /^$/ }).nth(2).click();
+  await page.getByRole('button', { name: '✏️ Manual Entry' }).click();
+  await page.getByRole('textbox', { name: 'Company Name' }).click();
+  await page.getByRole('textbox', { name: 'Company Name' }).fill('####@@@$$$$^^^&&&***');
+  await page.getByRole('textbox', { name: 'Job Title' }).click();
+  await page.getByRole('textbox', { name: 'Job Title' }).fill('****&&&@@@!!!^^^');
+  await page.getByRole('textbox', { name: 'Recruiter Name (Optional)' }).click();
+  await page.getByRole('textbox', { name: 'Recruiter Name (Optional)' }).fill('#######******@&@^!!%');
+  await page.getByRole('button', { name: 'New Contact' }).click();
+  await page.getByRole('textbox', { name: 'Name*' }).click();
+  await page.getByRole('textbox', { name: 'Name*' }).fill('#####((**&^^^!%@');
+  await page.getByPlaceholder('e.g., Senior Recruiter').click();
+  await page.getByPlaceholder('e.g., Senior Recruiter').fill('@@@@@##');
+  await page.getByRole('textbox', { name: 'Company', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Company', exact: true }).fill('$$$$%%');
+  await page.getByRole('textbox', { name: 'Notes' }).click();
+  await page.getByRole('textbox', { name: 'Notes' }).fill('****&&^^%$$!');
+  await page.getByRole('textbox', { name: 'Additional Instructions (' }).click();
+  await page.getByRole('textbox', { name: 'Additional Instructions (' }).fill('###$$$@@!!!!####@@@!!');
+  await page.getByRole('spinbutton', { name: 'Max Character Count (optional)' }).click();
+});
