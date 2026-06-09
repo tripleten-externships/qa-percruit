@@ -115,42 +115,42 @@ class PlaywrightWorld extends World implements CustomWorld {
   }
 }
 
-setWorldConstructor(PlaywrightWorld);
+// setWorldConstructor(PlaywrightWorld);
 
-// Set Cucumber default timeout to match Playwright timeouts
-setDefaultTimeout(ENV.defaultTimeout);
+// // Set Cucumber default timeout to match Playwright timeouts
+// setDefaultTimeout(ENV.defaultTimeout);
 
-// ============================================================================
-// CUCUMBER HOOKS
-// ============================================================================
+// // ============================================================================
+// // CUCUMBER HOOKS
+// // ============================================================================
 
-// Before hook: Initialize browser and page before each scenario
-Before(async function () {
-  // If page is not initialized, create it (for direct use or fallback)
-  if (!this.page) {
-    this.browser = await chromium.launch({
-      headless: isHeadless,
-      slowMo: slowMo
-    });
-    this.page = await this.browser.newPage();
-    await this.page.setDefaultTimeout(ENV.defaultTimeout);
-    await this.page.setDefaultNavigationTimeout(ENV.navigationTimeout);
-  }
-});
+// // Before hook: Initialize browser and page before each scenario
+// Before(async function () {
+//   // If page is not initialized, create it (for direct use or fallback)
+//   if (!this.page) {
+//     this.browser = await chromium.launch({
+//       headless: isHeadless,
+//       slowMo: slowMo
+//     });
+//     this.page = await this.browser.newPage();
+//     await this.page.setDefaultTimeout(ENV.defaultTimeout);
+//     await this.page.setDefaultNavigationTimeout(ENV.navigationTimeout);
+//   }
+// });
 
-// After hook: Clean up browser and page after each scenario
-After(async function () {
-  // Wait before closing to allow for visual inspection or debugging
-  const teardownDelay = getTeardownDelay();
-  if (teardownDelay > 0) {
-    console.log(`Waiting ${teardownDelay}ms before closing browser...`);
-    await new Promise(resolve => setTimeout(resolve, teardownDelay));
-  }
+// // After hook: Clean up browser and page after each scenario
+// After(async function () {
+//   // Wait before closing to allow for visual inspection or debugging
+//   const teardownDelay = getTeardownDelay();
+//   if (teardownDelay > 0) {
+//     console.log(`Waiting ${teardownDelay}ms before closing browser...`);
+//     await new Promise(resolve => setTimeout(resolve, teardownDelay));
+//   }
 
-  if (this.page) {
-    await this.page.close();
-  }
-  if (this.browser) {
-    await this.browser.close();
-  }
-});
+//   if (this.page) {
+//     await this.page.close();
+//   }
+//   if (this.browser) {
+//     await this.browser.close();
+//   }
+// });
