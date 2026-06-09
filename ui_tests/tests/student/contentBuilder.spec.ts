@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { ContentBuilderPage } from '../../src/pages/student/ContentBuilderPage';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import * as env from '../../src/config/world';
-import { evaluateEmailQualityLocal } from '../../src/utils/aiJudge';
+//import { evaluateEmailQualityLocal } from '../../src/utils/aiJudge';
 
 test.describe('Student Content Builder Feature', () => {
     let loginPage: LoginPage;
