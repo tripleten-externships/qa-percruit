@@ -58,6 +58,7 @@ export class AssignmentPage extends BasePage {
         await studentOption.scrollIntoViewIfNeeded();
         await studentOption.click();
     }
+    
 // Verify that no assignment was created
     async verifyNoAssignments() {
         // Verify button is disabled
