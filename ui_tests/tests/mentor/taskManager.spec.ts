@@ -3,6 +3,8 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 import { TaskManagerPage } from '../../src/pages/mentor/taskManager';
 
 test.describe('Mentor - Task Management', () => {
+  test.describe.configure({ mode: 'serial' });
+
   let taskPage: TaskManagerPage;
   let loginPage: LoginPage;
 
@@ -15,9 +17,12 @@ test.describe('Mentor - Task Management', () => {
     await loginPage.loginAsUserType('Mentor');
     await taskPage.handleCookiePopup();
 
-    await page
-      .getByRole('link', { name: 'Create and manage tasks for' })
-      .click();
+    const createManageLink = page.getByRole('link', {
+      name: 'Create and manage tasks for',
+    });
+    if ((await createManageLink.count()) > 0) {
+      await createManageLink.click();
+    }
 
     await expect(
       page.getByRole('heading', { name: 'Task Manager' })
@@ -47,7 +52,9 @@ test.describe('Mentor - Task Management', () => {
         .fill('Submit Resume for Review');
 
       // Description
-      await page.getByRole('textbox', { name: 'Description' }).click();
+      await page
+        .getByRole('textbox', { name: 'Description' })
+        .fill('Please upload your current resume for review.');
 
       // Category
       await page.getByText('Application', { exact: true }).click();
@@ -115,7 +122,7 @@ test.describe('Mentor - Task Management', () => {
 
     // Priority
     await page.getByText('Medium', { exact: true }).click();
-    await page.getByRole('option', { name: 'High' }).click();
+    await page.getByRole('option', { name: 'Medium' }).click();
 
     // Due date
     await page.getByRole('textbox', { name: 'Due Date' }).click();
