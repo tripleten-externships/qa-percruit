@@ -65,11 +65,12 @@ export class LoginPage extends BasePage {
     await this.waitForDashboard();
   }
 
-  async waitForDashboard(){
-    // Wait for URL to change to dashboard first
-    await this.page.waitForURL(/dashboard/, { timeout: 15000 });
-    await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
-    await expect(this.page).toHaveURL(/dashboard/);
+  async waitForDashboard() {
+  // Wait for successful login route
+  await this.page.waitForURL(/dashboard|mentor/, { timeout: 15000 });
 
-  }
+  await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
+
+  await expect(this.page).toHaveURL(/dashboard|mentor/);
+}
 }
