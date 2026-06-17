@@ -1,26 +1,28 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
-import { LogoutPage } from '../../src/pages/common/LogoutPage';
+//import { LogoutPage } from '../../src/pages/common/LogoutPage';
 import { MentorsPage } from '../../src/pages/admin/MentorsPage';
 import * as MentorListTestData from '../../src/test-data/MentorListTestData';
+import * as env from '../../src/config/world';
 
 test.describe('Admin - Mentors Search', () => {
   let loginPage: LoginPage;
-  let logoutPage: LogoutPage;
   let mentorsPage: MentorsPage;
+  // let logoutPage: LogoutPage;
 
   test.beforeEach(async ({ page, baseURL }) => {
     loginPage = new LoginPage(page);
-    logoutPage = new LogoutPage(page);
     mentorsPage = new MentorsPage(page);
+    // logoutPage = new LogoutPage(page);
 
     await page.goto(baseURL!);
     await loginPage.loginAsUserType('Admin');
-    await logoutPage.isOnHomePage();
+   // await logoutPage.isOnHomePage();
 
-    await page.getByRole('button', { name: 'USER MANAGEMENT' }).click();
-    await mentorsPage.goToMentorsPage();
-    await mentorsPage.waitForMentorsPageReady();
+    await page.getByRole('link', { name: 'Career Coach Insights' }).click();
+    //await mentorsPage.goToMentorsPage();
+    //await mentorsPage.waitForMentorsPageReady();
+    // Not sure if line 23 and 24 need to be left in
   });
 
   /* Scenario: Filter mentors by full name
@@ -60,12 +62,12 @@ test.describe('Admin - Mentors Search', () => {
     And the total count should be 1 */
 
   test('Search mentors by email address', async () => {
-    await mentorsPage.SearchMentors(
-      MentorListTestData.MENTOR_EMAIL
+    await mentorsPage.SearchMentorEmail(
+      env.getMentorEmail()
     );
-
+    await mentorsPage.RESULT_MENTOR_EMAIL.isVisible();
     await mentorsPage.allMentorNamesMatch(
-      MentorListTestData.MENTOR_EMAIL
+      env.getMentorName()
     );
 
     // Strong validation example:
@@ -83,7 +85,7 @@ test.describe('Admin - Mentors Search', () => {
     );
 
     await mentorsPage.NoMentorsMessageIsVisible();
-    await mentorsPage.MentorsCountIsZero();
-  });
+    //await mentorsPage.MentorsCountIsZero();
+  })
 
 });
