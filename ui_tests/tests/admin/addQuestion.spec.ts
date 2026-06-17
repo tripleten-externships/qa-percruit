@@ -116,4 +116,52 @@ test.describe('Admin - Interview Questions Management', () => {
     await iqPage.verifyHeading('Interview Questions Manager');
   });
 
+
+  test('Editing a question', { tag: '@smoke', }, async ({ page }) => {
+    //visit await page.goto('https://stage.tripleten.percruit.com/');
+    await page.goto('https://stage.tripleten.percruit.com/');
+    //Login as admin
+    await page.getByRole('textbox', { name: 'user@example.com' }).click();
+    await page.getByRole('textbox', { name: 'user@example.com' }).fill('build.brandy+admin@proton.me');
+    await page.getByRole('textbox', { name: 'Enter your password' }).click();
+    await page.getByRole('textbox', { name: 'Enter your password' }).fill('Admin.testing25');
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    //Navigate to "Interview Questions" and page displays
+    await page.getByRole('link', { name: 'Interview Questions' }).click();
+    //Select a question and click edit button
+    await page.locator('tr:nth-child(33) > .MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter > .MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary').click();
+    await page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorError.MuiIconButton-sizeSmall.css-1iqjz52[tabindex="0"]').click();
+    //Make changes to an existing question
+    await page.getByRole('textbox', { name: 'Title' }).click();
+    await page.getByRole('textbox', { name: 'Title' }).fill('Brandy Testing for playwright file editing testing');
+    await page.getByRole('textbox', { name: 'Question' }).click();
+    await page.getByRole('textbox', { name: 'Question' }).fill('Testing Testing, editing testing');
+    await page.getByRole('combobox').filter({ hasText: 'QA Analyst' }).click();
+    await page.getByRole('option', { name: 'Software Engineer Coding,' }).getByRole('paragraph').click();
+    await page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
+    await page.locator('.MuiBox-root.css-yi3mkw').click();
+    await page.getByRole('option', { name: 'QA Analyst Testing strategies' }).getByRole('paragraph').click();
+    await page.getByRole('paragraph').filter({ hasText: 'Cybersecurity' }).click();
+    await page.locator('.MuiBackdrop-root.MuiBackdrop-invisible').click();
+    //Click "update" button
+    await page.getByRole('button', { name: 'Update' }).click();
+  });
+
+  test('Deleting a question', { tag: '@smoke' }, async ({ page }) => {
+    // The beforeEach hook already handles navigation and setup
+    const deleteButton = page.locator('tr:nth-child(1) > .MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter > .MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorError');
+    
+    const [dialog] = await Promise.all([
+      page.waitForEvent('dialog'),
+      deleteButton.click()
+    ]);
+
+    await dialog.accept();
+  });
+
+  
 });
+
+
+
+
