@@ -10,6 +10,7 @@ export class LoginPage extends BasePage {
   readonly PASSWORD_LOCATOR = 'input[type="password"]';
   readonly SIGNIN_LOCATOR = 'button:has-text("Sign In")';
   readonly FORGOT_PASSWORD_LOCATOR = 'button:has-text("Forgot password?")';
+  
 
   // Constructor to initialize the page object
   constructor(page: Page) {

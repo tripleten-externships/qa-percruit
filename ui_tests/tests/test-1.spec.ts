@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://stage.tripleten.percruit.com/');
+  await page.getByRole('textbox', { name: 'user@example.com' }).click();
+  await page.getByRole('textbox', { name: 'user@example.com' }).click();
+  await page.getByRole('textbox', { name: 'user@example.com' }).fill('josh');
+  await page.getByRole('textbox', { name: 'user@example.com' }).dblclick();
+  await page.getByRole('textbox', { name: 'user@example.com' }).fill('joshuabennett353+student@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennett353+student@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennett353+student@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennett353+student@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennett353+student@gmail.co');
+  await page.getByRole('button', { name: 'toggle password visibility' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennett353+@gmail.co');
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennettgmail.co');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).dblclick();
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('joshuabennettgmai.co');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('.co');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('AuDY6wz9X9eiHdt');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await page.locator('div').filter({ hasText: /^Sunday, March 1, 2026$/ }).first().click();
+});
