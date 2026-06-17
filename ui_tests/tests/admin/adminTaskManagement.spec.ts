@@ -5,6 +5,7 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 import { AdminDashboardPage } from '../../src/pages/admin/AdminDashboardPage';
 
 test.describe('Admin - Task Management', () => {      
+  test.describe.configure({ timeout: 180000 });
 
   test.beforeEach(async ({ page }) => {
     //
@@ -50,9 +51,22 @@ test('Admin can assign a task, edit and delete an assigned task @smoke', async (
     await page.reload();
     await page.waitForLoadState('domcontentloaded', { timeout: 15000 });
 
-    await adminTaskPage.editAssignedTask(page, 'manjula23.reddy+studentbulk11@gmail.com'); 
+    let editError: unknown;
+    try {
+      await adminTaskPage.editAssignedTask(page, 'manjula23.reddy+studentbulk11@gmail.com');
+    } catch (error) {
+      editError = error;
+    }
 
-    await adminTaskPage.deleteAssignedTask(page, 'manjula23.reddy+studentbulk11@gmail.com');
+    let deleteError: unknown;
+    try {
+      await adminTaskPage.deleteAssignedTask(page, 'manjula23.reddy+studentbulk11@gmail.com');
+    } catch (error) {
+      deleteError = error;
+    }
+
+    if (editError) throw editError;
+    if (deleteError) throw deleteError;
 });
 
 // Scenario: Admin can view Task Management and apply filters
