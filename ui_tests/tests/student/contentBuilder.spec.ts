@@ -34,6 +34,7 @@ test.describe('Student Content Builder Feature', () => {
         await contentBuilderPage.createFollowUpEmailContent();
         await contentBuilderPage.sellectToneOption("Professional");
         await contentBuilderPage.clickGenerateContentWithAI();
+        await page.waitForTimeout(10000);
         const generatedText = await contentBuilderPage.getGeneratedText();
         expect(generatedText).not.toBe('');
         console.log('Generated Follow-Up Email Content:', generatedText);
