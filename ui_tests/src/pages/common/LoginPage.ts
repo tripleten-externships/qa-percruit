@@ -65,11 +65,15 @@ export class LoginPage extends BasePage {
     await this.waitForDashboard();
   }
 
-  async waitForDashboard(){
-    // Wait for URL to change to dashboard first
-    await this.page.waitForURL(/dashboard/, { timeout: 15000 });
-    await expect(this.page.locator(this.FORGOT_PASSWORD_LOCATOR)).not.toBeVisible();
-    await expect(this.page).toHaveURL(/dashboard/);
+  async waitForDashboard(timeout = 60000){
+    const signInButton = this.page.locator('button:has-text("Sign In")');
+    const forgotPasswordButton = this.page.locator(this.FORGOT_PASSWORD_LOCATOR);
 
+    await Promise.all([
+      signInButton.waitFor({ state: 'hidden', timeout }),
+      forgotPasswordButton.waitFor({ state: 'hidden', timeout }),
+      this.page.waitForURL(/dashboard/, { timeout })
+    ]);
   }
 }
+

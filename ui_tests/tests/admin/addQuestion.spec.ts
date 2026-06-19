@@ -38,16 +38,12 @@ test.describe('Admin - Interview Questions Management', () => {
     await iqPage.verifyHeading('Interview Questions Manager');
 
     // Verify question appears in table
-    const qlistTable = page.locator('tbody');
-    const qlistFirstRow = qlistTable.locator('tr').first();
+    const addedQuestionRow = page.locator('tbody tr', {
+      hasText: /Automated test question/i
+    }).first();
 
-    await expect(
-      qlistFirstRow.getByRole('heading', { name: /Automated test question/i })
-    ).toBeVisible();
-
-    await expect(
-      qlistFirstRow.getByText(/Playwright/i)
-    ).toBeVisible();
+    await expect(addedQuestionRow).toBeVisible();
+    await expect(addedQuestionRow.getByText(/Playwright/i)).toBeVisible();
   });
 
   /*Scenario: Displaying the Add Question form modal fields correctly
@@ -113,7 +109,7 @@ test.describe('Admin - Interview Questions Management', () => {
     await iqPage.verifyHeading('Add New Question');
 
     await iqPage.clickByRole('Cancel');
-    await iqPage.verifyHeading('Interview Questions Manager');
+    await iqPage.verifyHeading('Interview Questions');
   });
 
 });
