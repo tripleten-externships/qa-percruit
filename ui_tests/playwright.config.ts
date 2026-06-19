@@ -59,18 +59,14 @@ export default defineConfig({
       },
     },
 
-  {
-    name: "firefox",
-      use: {
-       ...devices["Desktop Firefox"]
-     }
-   },
-
-   {
-     name: "webkit",
-      use: {
-       ...devices["Desktop Safari"]
-     }
-   },
+    // Additional browsers can be enabled if needed
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
   ],
 });
