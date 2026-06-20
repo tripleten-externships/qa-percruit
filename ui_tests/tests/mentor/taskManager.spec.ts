@@ -3,8 +3,6 @@ import { LoginPage } from '../../src/pages/common/LoginPage';
 import { TaskManagerPage } from '../../src/pages/mentor/taskManager';
 
 test.describe('Mentor - Task Management', () => {
-  test.describe.configure({ mode: 'serial' });
-
   let taskPage: TaskManagerPage;
   let loginPage: LoginPage;
 
