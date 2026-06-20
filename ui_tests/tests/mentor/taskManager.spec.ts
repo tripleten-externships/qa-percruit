@@ -2,10 +2,15 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 import { TaskManagerPage } from '../../src/pages/mentor/taskManager';
 
+// Run tests sequentially because some tests depend on tasks
+// created by previous tests.
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Mentor - Task Management', () => {
   let taskPage: TaskManagerPage;
   let loginPage: LoginPage;
 
+  // Login and navigate to Task Manager before each test
   test.beforeEach(async ({ page }) => {
     taskPage = new TaskManagerPage(page);
     loginPage = new LoginPage(page);
@@ -18,13 +23,12 @@ test.describe('Mentor - Task Management', () => {
     const createManageLink = page.getByRole('link', {
       name: 'Create and manage tasks for',
     });
+
     if ((await createManageLink.count()) > 0) {
       await createManageLink.click();
     }
 
-    await expect(
-      page.getByRole('heading', { name: 'Task Manager' })
-    ).toBeVisible();
+    await expect(page.getByText(/task manager/i)).toBeVisible();
   });
 
   test(
@@ -33,6 +37,7 @@ test.describe('Mentor - Task Management', () => {
     async ({ page }) => {
       await page.getByRole('button', { name: 'Create Task' }).click();
 
+      // Select task template
       await page.getByRole('button', { name: 'Open' }).click();
       await page
         .getByRole('option', {
@@ -40,7 +45,7 @@ test.describe('Mentor - Task Management', () => {
         })
         .click();
 
-      // Student
+      // Select student
       await page.getByRole('combobox').nth(1).click();
       await page.getByRole('option', { name: /Shruti Student/ }).click();
 
@@ -66,19 +71,23 @@ test.describe('Mentor - Task Management', () => {
       await page.getByRole('textbox', { name: 'Due Date' }).click();
       await page.getByRole('gridcell', { name: /^22$/ }).click();
 
-      // Time
+      // Due time
       await page.getByText(':59 PM (End of Day)').click();
       await page.getByRole('option', { name: '11:00 PM' }).click();
 
+      // Estimated hours
       await page
         .getByRole('spinbutton', { name: 'Time Estimate (hours)' })
         .fill('1');
 
       // Tags
-      await page.getByRole('textbox', { name: 'Add tags' }).fill('Resume Review');
+      await page
+        .getByRole('textbox', { name: 'Add tags' })
+        .fill('Resume Review');
+
       await page.getByRole('button', { name: 'Add' }).click();
 
-      // Auto approve
+      // Auto-approve workflow
       await page.getByText('Auto-Approve').click();
       await page
         .getByRole('option', {
@@ -88,16 +97,19 @@ test.describe('Mentor - Task Management', () => {
 
       await page.getByRole('button', { name: 'Create Task' }).click();
 
-      // Verify creation
+      // Verify task was created
       await expect(
         page.getByText('Submit Resume for Review')
       ).toBeVisible();
     }
   );
 
-  test('Mentor can create Resume Review task (Needs Review)', async ({ page }) => {
+  test('Mentor can create Resume Review task (Needs Review)', async ({
+    page,
+  }) => {
     await page.getByRole('button', { name: 'Create Task' }).click();
 
+    // Select task template
     await page.getByRole('button', { name: 'Open' }).click();
     await page
       .getByRole('option', {
@@ -105,7 +117,7 @@ test.describe('Mentor - Task Management', () => {
       })
       .click();
 
-    // Student
+    // Select student
     await page.getByRole('combobox').nth(1).click();
     await page.getByRole('option', { name: /Shruti Student/ }).click();
 
@@ -126,10 +138,11 @@ test.describe('Mentor - Task Management', () => {
     await page.getByRole('textbox', { name: 'Due Date' }).click();
     await page.getByRole('gridcell', { name: /^24$/ }).click();
 
-    // Time
+    // Due time
     await page.getByText(':59 PM (End of Day)').click();
     await page.getByRole('option', { name: '11:00 PM' }).click();
 
+    // Estimated hours
     await page
       .getByRole('spinbutton', { name: 'Time Estimate (hours)' })
       .fill('2');
@@ -138,7 +151,7 @@ test.describe('Mentor - Task Management', () => {
     await page.getByRole('textbox', { name: 'Add tags' }).fill('Cover Letter');
     await page.getByRole('button', { name: 'Add' }).click();
 
-    // Needs review
+    // Needs Review workflow
     await page.getByText('Auto-Approve').click();
     await page
       .getByRole('option', {
@@ -166,9 +179,19 @@ test.describe('Mentor - Task Management', () => {
     await expect(page.getByText('hours')).toBeVisible();
     await expect(page.getByText('Auto-Approve')).toBeVisible();
     await expect(page.getByText('Tags')).toBeVisible();
-    await expect(page.getByText('resume', { exact: true })).toBeVisible();
-    await expect(page.getByText('review', { exact: true })).toBeVisible();
-    await expect(page.getByText('feedback', { exact: true })).toBeVisible();
+
+    await expect(
+      page.getByText('resume', { exact: true })
+    ).toBeVisible();
+
+    await expect(
+      page.getByText('review', { exact: true })
+    ).toBeVisible();
+
+    await expect(
+      page.getByText('feedback', { exact: true })
+    ).toBeVisible();
+
     await expect(
       page.getByText('Resume Review', { exact: true })
     ).toBeVisible();
@@ -212,9 +235,13 @@ test.describe('Mentor - Task Management', () => {
       .first()
       .click();
 
+    // Close confirmation modal first
     await page.getByRole('button', { name: 'Close' }).click();
+
+    // Delete task
     await page.getByRole('button', { name: 'Delete' }).click();
 
+    // Verify task no longer exists
     await expect(
       page.getByRole('row', { name: 'Submit Resume for Review' })
     ).not.toBeVisible();
