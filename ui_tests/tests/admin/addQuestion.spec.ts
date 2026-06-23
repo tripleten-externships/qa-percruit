@@ -109,7 +109,7 @@ test.describe('Admin - Interview Questions Management', () => {
     await iqPage.verifyHeading('Add New Question');
 
     await iqPage.clickByRole('Cancel');
-    await iqPage.verifyHeading('Interview Questions');
+    await iqPage.verifyHeading('Interview Questions Manager');
   });
 
 });
