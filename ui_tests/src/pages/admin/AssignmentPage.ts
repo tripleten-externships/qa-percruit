@@ -19,6 +19,8 @@ export class AssignmentPage extends BasePage {
     async assignStudentToMentor(studentText: string, mentorText: string) {
         // Select student
         const studentInput = this.page.getByRole('combobox', { name: /select students/i });
+
+        await expect(studentInput).toBeVisible({ timeout: 10000 });
         await studentInput.click();
         await studentInput.fill(studentText);
 
@@ -26,11 +28,13 @@ export class AssignmentPage extends BasePage {
             hasText: studentText,
         });
 
-        await expect(studentOption).toBeVisible({ timeout: 10000 });
-        await studentOption.click();
+        await expect(studentOption.first()).toBeVisible({ timeout: 10000 });
+        await studentOption.first().click();
 
         // Select mentor / career coach
         const mentorInput = this.page.getByRole('combobox', { name: /career coach/i });
+
+        await expect(mentorInput).toBeVisible({ timeout: 10000 });
         await mentorInput.click();
         await mentorInput.fill(mentorText);
 
@@ -38,11 +42,59 @@ export class AssignmentPage extends BasePage {
             hasText: mentorText,
         });
 
-        await expect(mentorOption).toBeVisible({ timeout: 10000 });
-        await mentorOption.click();
+        await expect(mentorOption.first()).toBeVisible({ timeout: 10000 });
+        await mentorOption.first().click();
 
         // Click create
-        await this.page.getByRole('button', { name: 'Create Assignment' }).click();
+        const createButton = this.page.getByRole('button', { name: 'Create Assignment' });
+
+        await expect(createButton).toBeVisible({ timeout: 10000 });
+        await expect(createButton).toBeEnabled({ timeout: 10000 });
+        await createButton.click();
+    }
+
+    async assignFirstAvailableStudentToMentor(mentorText: string) {
+        // Select first available student instead of hardcoding one name
+        const studentInput = this.page.getByRole('combobox', { name: /select students/i });
+
+        await expect(studentInput).toBeVisible({ timeout: 10000 });
+        await studentInput.click();
+
+        const studentOptions = this.page.locator('li[role="option"]');
+        await expect(studentOptions.first()).toBeVisible({ timeout: 10000 });
+
+        const selectedStudentOptionText = await studentOptions.first().innerText();
+
+        const selectedStudent = selectedStudentOptionText
+            .split('\n')
+            .map((text) => text.trim())
+            .filter(Boolean)
+            .pop()!;
+
+        await studentOptions.first().click();
+
+        // Select mentor / career coach
+        const mentorInput = this.page.getByRole('combobox', { name: /career coach/i });
+
+        await expect(mentorInput).toBeVisible({ timeout: 10000 });
+        await mentorInput.click();
+        await mentorInput.fill(mentorText);
+
+        const mentorOption = this.page.locator('li[role="option"]').filter({
+            hasText: mentorText,
+        });
+
+        await expect(mentorOption.first()).toBeVisible({ timeout: 10000 });
+        await mentorOption.first().click();
+
+        // Click create
+        const createButton = this.page.getByRole('button', { name: 'Create Assignment' });
+
+        await expect(createButton).toBeVisible({ timeout: 10000 });
+        await expect(createButton).toBeEnabled({ timeout: 10000 });
+        await createButton.click();
+
+        return selectedStudent;
     }
 
     async verifyAssignmentCreated() {
@@ -52,12 +104,21 @@ export class AssignmentPage extends BasePage {
     }
 
     async verifyDisplay(studentText: string) {
-        await expect(this.page.getByText(studentText)).toBeVisible();
+        const row = this.page.locator('table tbody tr').filter({
+            hasText: studentText,
+        });
+
+        await expect(row.first()).toBeVisible({ timeout: 10000 });
     }
 
     async removeAssignment(studentName: string) {
-        const row = this.page.locator(`tr:has-text("${studentName}")`);
-        await row.locator('button:has-text("Remove")').click();
+        const row = this.page.locator('table tbody tr').filter({
+            hasText: studentName,
+        });
+
+        await expect(row.first()).toBeVisible({ timeout: 10000 });
+
+        await row.first().locator('button:has-text("Remove")').click();
 
         const confirmButton = this.page.getByRole('button', { name: /confirm|remove|yes/i });
 
@@ -67,7 +128,10 @@ export class AssignmentPage extends BasePage {
     }
 
     async removeAssignmentIfExists(studentName: string) {
-        const row = this.page.locator(`tr:has-text("${studentName}")`);
+        const row = this.page.locator('table tbody tr').filter({
+            hasText: studentName,
+        });
+
         const rowCount = await row.count();
 
         if (rowCount > 0) {
@@ -85,6 +149,8 @@ export class AssignmentPage extends BasePage {
 
     async assignmentMissingMentor(studentText: string) {
         const studentInput = this.page.getByRole('combobox', { name: /select students/i });
+
+        await expect(studentInput).toBeVisible({ timeout: 10000 });
         await studentInput.click();
         await studentInput.fill(studentText);
 
@@ -92,16 +158,19 @@ export class AssignmentPage extends BasePage {
             hasText: studentText,
         });
 
-        await expect(studentOption).toBeVisible({ timeout: 10000 });
-        await studentOption.click();
+        await expect(studentOption.first()).toBeVisible({ timeout: 10000 });
+        await studentOption.first().click();
     }
 
     async verifyNoAssignments(studentName: string) {
         const createButton = this.page.getByRole('button', { name: 'Create Assignment' });
         await expect(createButton).toBeDisabled();
 
-        const row = await this.page.locator(`tr:has-text("${studentName}")`).count();
-        expect(row).toBe(0);
+        const row = this.page.locator('table tbody tr').filter({
+            hasText: studentName,
+        });
+
+        await expect(row).toHaveCount(0);
     }
 
     async checkAssignmentIssues(studentName: string, mentorName: string) {
@@ -111,24 +180,32 @@ export class AssignmentPage extends BasePage {
 
         await satisfiedMessage.first().waitFor({ timeout: 3000 }).catch(() => {});
 
-        if (await satisfiedMessage.isVisible()) {
+        if (await satisfiedMessage.isVisible().catch(() => false)) {
             return 'all-complete';
         }
 
         await this.page.getByRole('button', { name: 'Check Assignment Issues' }).click();
 
-        const studentRow = this.page.locator(`li:has(span:text("${studentName}"))`);
-        await studentRow.scrollIntoViewIfNeeded();
+        const studentRow = this.page.locator('li').filter({
+            has: this.page.locator('span', { hasText: studentName }),
+        });
 
-        const dropdown = studentRow.locator('div[role="combobox"]');
+        await expect(studentRow.first()).toBeVisible({ timeout: 10000 });
+        await studentRow.first().scrollIntoViewIfNeeded();
+
+        const dropdown = studentRow.first().locator('div[role="combobox"]');
         await dropdown.click();
 
-        const mentorOption = this.page.locator(`li[role="option"]:has-text("${mentorName}")`);
-        await mentorOption.scrollIntoViewIfNeeded();
-        await mentorOption.click();
+        const mentorOption = this.page.locator('li[role="option"]').filter({
+            hasText: mentorName,
+        });
 
-        const assignMentorButton = studentRow.getByRole('button', { name: 'Assign Mentor' });
-        await expect(assignMentorButton).toBeEnabled();
+        await expect(mentorOption.first()).toBeVisible({ timeout: 10000 });
+        await mentorOption.first().scrollIntoViewIfNeeded();
+        await mentorOption.first().click();
+
+        const assignMentorButton = studentRow.first().getByRole('button', { name: 'Assign Mentor' });
+        await expect(assignMentorButton).toBeEnabled({ timeout: 10000 });
         await assignMentorButton.click();
 
         return 'assigned';
@@ -140,10 +217,10 @@ export class AssignmentPage extends BasePage {
             'All students have mentors assigned with complete information!'
         );
 
-        if (await allAssignedMessage.isVisible()) {
+        if (await allAssignedMessage.isVisible().catch(() => false)) {
             await expect(allAssignedMessage).toBeVisible();
         } else {
-            await expect(createdMessage).toBeVisible();
+            await expect(createdMessage).toBeVisible({ timeout: 10000 });
         }
     }
 

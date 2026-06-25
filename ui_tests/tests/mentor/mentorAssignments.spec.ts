@@ -6,11 +6,9 @@ import { AssignmentPage } from '../../src/pages/admin/AssignmentPage';
 import { AdminDashboardPage } from '../../src/pages/admin/AdminDashboardPage';
 
 let assignmentPage: AssignmentPage;
+let createdStudentName = '';
 
 // Test data
-const studentText = 'Ashlynn Marie';
-const studentName = 'Ashlynn Marie';
-
 const mentorText = 'ashl3yy.mari3+mentor01@gmail.com';
 
 test.describe('Mentor Assignments', () => {
@@ -37,21 +35,28 @@ test.describe('Mentor Assignments', () => {
             return;
         }
 
+        // Only try to remove if the test actually created an assignment.
+        if (!createdStudentName) {
+            return;
+        }
+
         assignmentPage = new AssignmentPage(page);
 
         await page.goto(`${env.getBaseUrl()}/admin/mentor-assignments`);
 
-        await assignmentPage.removeAssignmentIfExists(studentName);
+        await assignmentPage.removeAssignmentIfExists(createdStudentName);
+
+        createdStudentName = '';
     });
 
     test('Mentor-Student Assignments - the system should allow administrators to link students with mentors to ensure proper mentorship assignments.', async ({ page, browserName }) => {
         test.skip(browserName !== 'chromium', 'Create assignment test uses shared student data, so run only in Chromium.');
 
-        await assignmentPage.assignStudentToMentor(studentText, mentorText);
+        createdStudentName = await assignmentPage.assignFirstAvailableStudentToMentor(mentorText);
 
         await assignmentPage.verifyAssignmentCreated();
 
-        await assignmentPage.verifyDisplay(studentName);
+        await assignmentPage.verifyDisplay(createdStudentName);
 
         await expect(page).toHaveURL(/mentor-assignments/);
     });
