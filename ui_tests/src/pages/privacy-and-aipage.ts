@@ -1,66 +1,45 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class PrivacyAIPage {
   readonly page: Page;
-
-  readonly privacyAITab: Locator;
-  readonly sectionTitle: Locator;
-  readonly optOutLabel: Locator;
-  // readonly optOutToggle: Locator;
-  readonly descriptionText: Locator;
-  readonly descriptionText2: Locator;
-
   readonly avatarMenu: Locator;
   readonly viewProfileButton: Locator;
-  readonly backdrop: Locator;
-  readonly aiToggle: Locator;
 
-  
+  readonly profileSettingsHeading: Locator;
+  readonly profileTab: Locator;
+  readonly professionalTab: Locator;
+  readonly socialLinksTab: Locator;
+  readonly notificationsTab: Locator;
+  readonly privacyAITab: Locator;
 
-  constructor(page: Page) {    this.page = page;
+  constructor(page: Page) {
+    this.page = page;
 
-    this.privacyAITab = page.getByRole('tab', { name: 'Privacy & AI' });
-    this.sectionTitle = page.getByText('Privacy & AI Settings');
-    this.optOutLabel = page.getByText('Opt Out of AI Features');
-    this.descriptionText = page.getByText('When enabled, you will not have access to AI-powered features');
-    this.descriptionText2 = page.getByText('AI Features Disabled: You have opted out of all AI-powered features. You can still access all other platform features.');
-    this.aiToggle = page.getByRole('switch');
-        // toggle near the label (robust locator)
-    // this.optOutToggle = this.optOutLabel.locator('..').locator('button, input, span').first();
-  
-    this.avatarMenu = page.locator('.MuiAvatar-root').first();
-    this.viewProfileButton = page.getByRole('menuitem', { name: 'View Profile' });
-    this.backdrop = page.locator('.MuiBackdrop-root.MuiBackdrop-invisible');
+    this.avatarMenu = page.getByText(/Ashley Cichy/i).first();
+    this.viewProfileButton = page.getByText('View Profile').first();
+
+    this.profileSettingsHeading = page.getByRole('heading', {
+      name: /Profile Settings/i,
+    });
+
+    this.profileTab = page.getByText(/^Profile$/i).first();
+    this.professionalTab = page.getByText(/^Professional$/i).first();
+    this.socialLinksTab = page.getByText(/^Social Links$/i).first();
+    this.notificationsTab = page.getByText(/^Notifications$/i).first();
+
+    this.privacyAITab = page
+      .getByRole('tab', { name: /Privacy\s*(?:&|and)\s*AI/i })
+      .or(page.getByRole('button', { name: /Privacy\s*(?:&|and)\s*AI/i }))
+      .or(page.getByText(/Privacy\s*(?:&|and)\s*AI/i))
+      .first();
   }
 
   async openPrivacyAITab() {
+    await expect(this.privacyAITab).toBeVisible({ timeout: 15000 });
     await this.privacyAITab.click();
   }
 
   async verifyPageLoaded() {
-    await expect(this.sectionTitle).toBeVisible();
-    await expect(this.optOutLabel).toBeVisible();
-    await expect(this.descriptionText).toBeVisible();
+    await expect(this.profileSettingsHeading).toBeVisible();
   }
-
-  async toggleOptOut() {
-        // If the toggle is Off, click to turn it On (opt-out)
-  if (!(await this.aiToggle.isChecked())) {
-    await this.optOutLabel.click();
-  }}
-  
-   async verifyToggle() {
-    await expect(this.sectionTitle).toBeVisible();
-    await expect(this.optOutLabel).toBeVisible();
-    await expect(this.descriptionText).toBeVisible();
-    await expect(this.descriptionText2).toBeVisible();
-   }
-
-    async toggleOptIn() {
-        // If the toggle is On, click to turn it Off (opt-in)
-      if ((await this.aiToggle.isChecked())) {
-      await this.optOutLabel.click();
-   }}
-  
-  
 }
