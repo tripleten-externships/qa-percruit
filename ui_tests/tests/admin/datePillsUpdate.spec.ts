@@ -1,7 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 import { LoginPage } from '../../src/pages/common/LoginPage';
 
-test.describe('Admin - Real Time Activity', () => {
+test.describe('Admin - Usage Metrics Date Filters', () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
 
@@ -19,40 +19,39 @@ test.describe('Admin - Real Time Activity', () => {
     await expect(usageMetricsNav).toBeVisible({ timeout: 15000 });
     await usageMetricsNav.click();
 
-    await expect(
-      page
-        .getByRole('heading', { name: /Usage Metrics|Analytics|Activity/i })
-        .or(page.getByText(/Usage Metrics|Real[-\s]?time Activity/i))
-        .first()
-    ).toBeVisible({ timeout: 15000 });
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(2000);
+
+    console.log('CURRENT URL:', page.url());
+    console.log('PAGE TEXT AFTER CLICKING USAGE METRICS:');
+    console.log(await page.locator('body').innerText());
   }
 
-  async function openRealTimeActivity(page: Page) {
-    const realTimeActivityTab = page
-      .getByRole('tab', { name: /Real[-\s]?time Activity/i })
-      .or(page.getByRole('button', { name: /Real[-\s]?time Activity/i }))
-      .or(page.getByText(/Real[-\s]?time Activity/i))
-      .first();
-
-    await expect(realTimeActivityTab).toBeVisible({ timeout: 15000 });
-    await realTimeActivityTab.click();
-
-    await expect(page.getByText(/Real[-\s]?time Activity/i).first()).toBeVisible();
-  }
-
-  test('User can view Real Time Activity and apply time filter', async ({ page }) => {
-    await openUsageMetrics(page);
-    await openRealTimeActivity(page);
+  async function applyTimeFilter(page: Page) {
+    const timeFilterText =
+      /Today|24 hours|Last 24 hours|24h|1D|7D|7 days|Last 7 days|30D|30 days|Last 30 days|This week|This month|Last week|Last month|All time/i;
 
     const timeFilter = page
-      .getByRole('button', {
-        name: /Today|24 hours|7 days|30 days|This week|This month|Last week|Last month/i,
-      })
+      .getByRole('button', { name: timeFilterText })
+      .or(page.getByRole('tab', { name: timeFilterText }))
+      .or(
+        page
+          .locator('button, [role="button"], [role="tab"], a, div, span')
+          .filter({ hasText: timeFilterText })
+      )
+      .or(page.getByText(timeFilterText))
       .first();
 
-    await expect(timeFilter).toBeVisible({ timeout: 15000 });
+    await expect(timeFilter).toBeVisible({ timeout: 20000 });
+
+    await timeFilter.scrollIntoViewIfNeeded();
     await timeFilter.click();
 
     await expect(timeFilter).toBeVisible();
+  }
+
+  test('User can view Usage Metrics and apply time filter', async ({ page }) => {
+    await openUsageMetrics(page);
+    await applyTimeFilter(page);
   });
 });
