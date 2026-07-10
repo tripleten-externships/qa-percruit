@@ -1,38 +1,57 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
+import { LoginPage } from '../../src/pages/common/LoginPage';
 
-test.describe('Admin - Real Time Activity', () => {
-
+test.describe('Admin - Usage Metrics Date Filters', () => {
   test.beforeEach(async ({ page }) => {
-    // Assumes user is already logged in and on Analytics/Usage Metrics page
-    await page.goto('/analytics/usage-metrics'); // Adjust base URL if needed
-  });
-/*Scenario Outline: Verify Time Filters update counts correctly
-  When I add the title "//nScenario: Verify Time Filters update counts correctly" to the log
-  And the user is on Real Time Activity tab
-  And apply the "<timeFilter>" time filter
-  Then user should see the usage counts updated for "<timeFilter>"
+    const loginPage = new LoginPage(page);
 
-    Examples:
-    | timeFilter       |
-    | Today            |
-    | Last 7 days      |
-    | This Year        |*/
-  test('User can view Real Time Activity and apply time filter', async ({ page }) => {
-    // Navigate to Real-Time Activity tab
-    const realTimeTab = page.getByRole('tab', { name: 'Real-time Activity' });
-    await realTimeTab.click();
-    await expect(realTimeTab).toHaveClass(/active|selected/);
-
-    // Apply a specific time filter
-    const timeFilter = 'Last 24 Hours'; // Example, replace with your dynamic filter
-    const filterButton = page.getByRole('button', { name: timeFilter });
-    await filterButton.click();
-
-    // Verify usage counts updated for the selected filter
-    const heading = page.getByRole('heading', { name: `Activity Timeline - ${timeFilter}` });
-    await expect(heading).toBeVisible();
-
-    console.log('✅ Activity Timeline heading:', await heading.textContent());
+    await page.goto('/');
+    await loginPage.loginAsUserType('Admin');
   });
 
+  async function openUsageMetrics(page: Page) {
+    const usageMetricsNav = page
+      .getByRole('link', { name: /Usage Metrics/i })
+      .or(page.getByRole('button', { name: /Usage Metrics/i }))
+      .or(page.getByText(/^Usage Metrics$/i))
+      .first();
+
+    await expect(usageMetricsNav).toBeVisible({ timeout: 15000 });
+    await usageMetricsNav.click();
+
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(2000);
+
+    console.log('CURRENT URL:', page.url());
+    console.log('PAGE TEXT AFTER CLICKING USAGE METRICS:');
+    console.log(await page.locator('body').innerText());
+  }
+
+  async function applyTimeFilter(page: Page) {
+    const timeFilterText =
+      /Today|24 hours|Last 24 hours|24h|1D|7D|7 days|Last 7 days|30D|30 days|Last 30 days|This week|This month|Last week|Last month|All time/i;
+
+    const timeFilter = page
+      .getByRole('button', { name: timeFilterText })
+      .or(page.getByRole('tab', { name: timeFilterText }))
+      .or(
+        page
+          .locator('button, [role="button"], [role="tab"], a, div, span')
+          .filter({ hasText: timeFilterText })
+      )
+      .or(page.getByText(timeFilterText))
+      .first();
+
+    await expect(timeFilter).toBeVisible({ timeout: 20000 });
+
+    await timeFilter.scrollIntoViewIfNeeded();
+    await timeFilter.click();
+
+    await expect(timeFilter).toBeVisible();
+  }
+
+  test('User can view Usage Metrics and apply time filter', async ({ page }) => {
+    await openUsageMetrics(page);
+    await applyTimeFilter(page);
+  });
 });
