@@ -1,11 +1,10 @@
-@admin @mentor @smoke @wip
+@indev
 Feature:   As an admin User
   I want to filter mentors by name or email
   So that I can easily find the mentor I am looking for
 
   Background:
-    Given the admin user is logged into the Percruit website
-    And the mentors list is available
+    Given the admin is logged in and viewing the mentors list
 
   Scenario: Filter mentors by full name
     When the admin user searches for a mentor by full name
@@ -26,3 +25,4 @@ Feature:   As an admin User
     When the admin user searches for a name or email that does not exist
     Then the mentors list should display a message saying "No mentors found"
     And the total count should be 0
+    
