@@ -161,8 +161,17 @@ async addNewQuestion(
 
   await this.page.keyboard.press('Escape');
 
-  // Verify the selected job title is visible in the combo box
-  await expect(this.page.locator('div').filter({ hasText: /^SQL$/ }).nth(1)).toBeVisible({ timeout: 30000 });
+  // Verify the selected job title is visible in the combo box.
+  // Prefer locating a paragraph element inside the combobox that contains the
+  // visible label (easily recognizable element locator for webkit rendering).
+  const paraLocator = jobTitleDropDown.getByRole('paragraph').filter({ hasText: jobTitle });
+  if (await paraLocator.count() > 0) {
+    await expect(paraLocator.first(), `Selected job title paragraph for "${jobTitle}"`).toBeVisible({ timeout: 30000 });
+  } else {
+    // Fallback: check the combobox contains the text anywhere (literal match).
+    const comboTextLocator = jobTitleDropDown.filter({ hasText: jobTitle });
+    await expect(comboTextLocator.first(), `Combobox contains "${jobTitle}" (fallback)`).toBeVisible({ timeout: 30000 });
+  }
   
 
   // Open Difficulty dropdown

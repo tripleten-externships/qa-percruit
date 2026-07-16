@@ -74,3 +74,4 @@ export class LoginPage extends BasePage {
   await expect(this.page).toHaveURL(/dashboard|mentor/);
 }
 }
+
