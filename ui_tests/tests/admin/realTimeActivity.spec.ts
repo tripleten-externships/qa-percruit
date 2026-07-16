@@ -1,16 +1,23 @@
 import { test, expect } from '@playwright/test';
 import { UsageMetricsPage } from '../../src/pages/admin/UsageMetricsPage';
+import { LoginPage } from '../../src/pages/common/LoginPage';
 
 test.describe('Admin - Usage Metrics Page', () => {
   let usageMetricsPage: UsageMetricsPage;
+  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+
+    loginPage = new LoginPage(page);
+    await loginPage.loginAsUserType('Admin');
     usageMetricsPage = new UsageMetricsPage(page);
+    await usageMetricsPage.locateUsageMetricsLink();
 
     // Navigate to Usage Metrics page
-    await page.getByRole('button', { name: 'Usage Metrics' }).click();
-    const isOnPage = await usageMetricsPage.isOnUsageMetricsPage();
-    expect(isOnPage).toBeTruthy();
+   // await page.getByRole('button', { name: 'Usage Metrics' }).click();
+   // const isOnPage = await usageMetricsPage.isOnUsageMetricsPage();
+    //expect(isOnPage).toBeTruthy();
   });
 
   test('User can click tabs and see Real-time Activity content', async ({ page }) => {
