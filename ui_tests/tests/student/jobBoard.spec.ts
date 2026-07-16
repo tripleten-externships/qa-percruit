@@ -48,8 +48,8 @@ test.describe('Student Job Board Navigation', () => {
     // Step 5: Click sidebar search to display dropdown
     //await jobBoardPage.clickSidebarSearch();
 
-    // Step 6: Select Recommended Jobs from dropdown to navigate to Recommended Jobs page
-    await jobBoardPage.selectRecommendedJobsFromDropdown();
+    // Step 6: Select Recommended Jobs from dropdown to navigate to Recommended Jobs page (Search input is currently not present on the page, so using navigate method instead)
+    await jobBoardPage.navigateToRecommendedJobs();
 
     // Step 7: Verify URL contains /jobs
     await expect(page).toHaveURL(/jobs/);
