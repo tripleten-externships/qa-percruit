@@ -12,7 +12,7 @@
 // // Evaluate the following generated email based on:
 // // - Professional tone
 // // - Clarity
-// // - Relevance for a follow-up email
+
 
 // // Answer ONLY with "PASS" or "FAIL".
 
